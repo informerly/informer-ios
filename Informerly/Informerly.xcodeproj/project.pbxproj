@@ -488,7 +488,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/apple/Projects/informer/Informerly/Informerly/Bridging-header/bridging-header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Debug;
 		};
@@ -500,7 +500,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/apple/Projects/informer/Informerly/Informerly/Bridging-header/bridging-header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Release;
 		};
@@ -557,6 +557,7 @@
 				1845B9AD1A7F8A5F00172610 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1845B9AE1A7F8A5F00172610 /* Build configuration list for PBXNativeTarget "InformerlyTests" */ = {
 			isa = XCConfigurationList;
@@ -565,6 +566,7 @@
 				1845B9B01A7F8A5F00172610 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
