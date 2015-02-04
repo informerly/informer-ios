@@ -16,6 +16,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
+            var storyboard = self.window?.rootViewController?.storyboard
+            var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
+            var navigationVC = self.window?.rootViewController as UINavigationController
+            navigationVC.viewControllers = [rootVC]
+            self.window?.rootViewController = navigationVC
+            
+//            UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
+//            navigationController.viewControllers = @[rootViewController];
+//            self.window.rootViewController = navigationController;
+        }
         return true
     }
 

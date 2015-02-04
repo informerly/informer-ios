@@ -8,4 +8,10 @@
 
 import Foundation
 
-let LOGIN_URL = "sign_in"
+// User Default Constants
+let IS_USER_LOGGED_IN = "isUserLoggedIn"
+let AUTH_TOKEN = "auth_token"
+
+// Network Constants
+let LOGIN_URL = "users/sign_in"
+let FEED_URL  = "feeds"

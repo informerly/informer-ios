@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1845B9921A7F8A5F00172610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9911A7F8A5F00172610 /* AppDelegate.swift */; };
-		1845B9941A7F8A5F00172610 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9931A7F8A5F00172610 /* ViewController.swift */; };
 		1845B9971A7F8A5F00172610 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9951A7F8A5F00172610 /* Main.storyboard */; };
 		1845B9991A7F8A5F00172610 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9981A7F8A5F00172610 /* Images.xcassets */; };
 		1845B99C1A7F8A5F00172610 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1845B99A1A7F8A5F00172610 /* LaunchScreen.xib */; };
@@ -24,8 +23,12 @@
 		1845B9D71A7F8DB700172610 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9CD1A7F8DB700172610 /* AFURLResponseSerialization.m */; };
 		1845B9D81A7F8DB700172610 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9CF1A7F8DB700172610 /* AFURLSessionManager.m */; };
 		1845B9E01A7F8F9D00172610 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9DF1A7F8F9D00172610 /* NetworkManager.m */; };
-		1845B9E51A7F905600172610 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E41A7F905600172610 /* NetworkConstants.swift */; };
+		1845B9E51A7F905600172610 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E41A7F905600172610 /* Constants.swift */; };
 		1845B9E71A7FB00700172610 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E61A7FB00700172610 /* User.swift */; };
+		18D75DC71A8224CB00BFEF6E /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DC61A8224CB00BFEF6E /* FeedViewController.swift */; };
+		18D75DCA1A823FC600BFEF6E /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */; };
+		18D75DCC1A82621300BFEF6E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DCB1A82621300BFEF6E /* Utilities.swift */; };
+		18F71CA11A821A8600F74910 /* Feeds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F71CA01A821A8600F74910 /* Feeds.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +45,6 @@
 		1845B98C1A7F8A5F00172610 /* Informerly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Informerly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1845B9901A7F8A5F00172610 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1845B9911A7F8A5F00172610 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1845B9931A7F8A5F00172610 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1845B9961A7F8A5F00172610 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1845B9981A7F8A5F00172610 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1845B99B1A7F8A5F00172610 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -72,8 +74,12 @@
 		1845B9DC1A7F8EE400172610 /* bridging-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "bridging-header.h"; sourceTree = "<group>"; };
 		1845B9DE1A7F8F9D00172610 /* NetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		1845B9DF1A7F8F9D00172610 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
-		1845B9E41A7F905600172610 /* NetworkConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
+		1845B9E41A7F905600172610 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1845B9E61A7FB00700172610 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		18D75DC61A8224CB00BFEF6E /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
+		18D75DCB1A82621300BFEF6E /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = SOURCE_ROOT; };
+		18F71CA01A821A8600F74910 /* Feeds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feeds.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,7 +129,6 @@
 				1845B9B41A7F8C4600172610 /* Utilities */,
 				1845B9B51A7F8C4600172610 /* ViewControllers */,
 				1845B9911A7F8A5F00172610 /* AppDelegate.swift */,
-				1845B9931A7F8A5F00172610 /* ViewController.swift */,
 				1845B9951A7F8A5F00172610 /* Main.storyboard */,
 				1845B9981A7F8A5F00172610 /* Images.xcassets */,
 				1845B99A1A7F8A5F00172610 /* LaunchScreen.xib */,
@@ -160,7 +165,7 @@
 		1845B9B11A7F8C4600172610 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				1845B9E41A7F905600172610 /* NetworkConstants.swift */,
+				1845B9E41A7F905600172610 /* Constants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -169,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				1845B9E61A7FB00700172610 /* User.swift */,
+				18F71CA01A821A8600F74910 /* Feeds.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -184,6 +190,7 @@
 		1845B9B41A7F8C4600172610 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				18D75DCB1A82621300BFEF6E /* Utilities.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -191,6 +198,8 @@
 		1845B9B51A7F8C4600172610 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				18D75DC81A823FB700BFEF6E /* ArticleViewController */,
+				18D75DC51A8224B900BFEF6E /* FeedViewController */,
 				1845B9B91A7F8CFE00172610 /* LoginViewController */,
 			);
 			path = ViewControllers;
@@ -245,6 +254,22 @@
 				1845B9DF1A7F8F9D00172610 /* NetworkManager.m */,
 			);
 			path = "Network Manager";
+			sourceTree = "<group>";
+		};
+		18D75DC51A8224B900BFEF6E /* FeedViewController */ = {
+			isa = PBXGroup;
+			children = (
+				18D75DC61A8224CB00BFEF6E /* FeedViewController.swift */,
+			);
+			path = FeedViewController;
+			sourceTree = "<group>";
+		};
+		18D75DC81A823FB700BFEF6E /* ArticleViewController */ = {
+			isa = PBXGroup;
+			children = (
+				18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */,
+			);
+			path = ArticleViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,20 +372,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1845B9E51A7F905600172610 /* NetworkConstants.swift in Sources */,
+				1845B9E51A7F905600172610 /* Constants.swift in Sources */,
 				1845B9D01A7F8DB700172610 /* AFHTTPRequestOperation.m in Sources */,
 				1845B9BB1A7F8CFE00172610 /* LoginViewController.swift in Sources */,
 				1845B9E01A7F8F9D00172610 /* NetworkManager.m in Sources */,
 				1845B9D11A7F8DB700172610 /* AFHTTPRequestOperationManager.m in Sources */,
 				1845B9D31A7F8DB700172610 /* AFNetworkReachabilityManager.m in Sources */,
+				18D75DCC1A82621300BFEF6E /* Utilities.swift in Sources */,
 				1845B9D71A7F8DB700172610 /* AFURLResponseSerialization.m in Sources */,
 				1845B9D51A7F8DB700172610 /* AFURLConnectionOperation.m in Sources */,
 				1845B9E71A7FB00700172610 /* User.swift in Sources */,
+				18D75DC71A8224CB00BFEF6E /* FeedViewController.swift in Sources */,
 				1845B9D41A7F8DB700172610 /* AFSecurityPolicy.m in Sources */,
+				18D75DCA1A823FC600BFEF6E /* ArticleViewController.swift in Sources */,
 				1845B9D21A7F8DB700172610 /* AFHTTPSessionManager.m in Sources */,
 				1845B9D61A7F8DB700172610 /* AFURLRequestSerialization.m in Sources */,
 				1845B9D81A7F8DB700172610 /* AFURLSessionManager.m in Sources */,
-				1845B9941A7F8A5F00172610 /* ViewController.swift in Sources */,
+				18F71CA11A821A8600F74910 /* Feeds.swift in Sources */,
 				1845B9921A7F8A5F00172610 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

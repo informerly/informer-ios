@@ -70,11 +70,10 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                 var data : [String:AnyObject] = processedData as Dictionary
                 if (data["success"] as Bool == true) {
                     User.sharedInstance.populateUser(processedData as Dictionary)
+                    Utilities.sharedInstance.setBoolForKey(true, key: IS_USER_LOGGED_IN)
+                    Utilities.sharedInstance.setStringForKey(User.sharedInstance.auth_token, key: AUTH_TOKEN)
+                    self.performSegueWithIdentifier("FeedVC", sender: self)
                 }
-                
-                var alert = UIAlertController(title: "Success!", message: "You are logged in ...", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
                 
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 
@@ -88,9 +87,12 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     }
     
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 }
