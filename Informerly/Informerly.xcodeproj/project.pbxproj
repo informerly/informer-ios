@@ -10,7 +10,6 @@
 		1845B9921A7F8A5F00172610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9911A7F8A5F00172610 /* AppDelegate.swift */; };
 		1845B9971A7F8A5F00172610 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9951A7F8A5F00172610 /* Main.storyboard */; };
 		1845B9991A7F8A5F00172610 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9981A7F8A5F00172610 /* Images.xcassets */; };
-		1845B99C1A7F8A5F00172610 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1845B99A1A7F8A5F00172610 /* LaunchScreen.xib */; };
 		1845B9A81A7F8A5F00172610 /* InformerlyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9A71A7F8A5F00172610 /* InformerlyTests.swift */; };
 		1845B9BB1A7F8CFE00172610 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9BA1A7F8CFE00172610 /* LoginViewController.swift */; };
 		1845B9D01A7F8DB700172610 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9BE1A7F8DB700172610 /* AFHTTPRequestOperation.m */; };
@@ -25,9 +24,21 @@
 		1845B9E01A7F8F9D00172610 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9DF1A7F8F9D00172610 /* NetworkManager.m */; };
 		1845B9E51A7F905600172610 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E41A7F905600172610 /* Constants.swift */; };
 		1845B9E71A7FB00700172610 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E61A7FB00700172610 /* User.swift */; };
+		18C65E221A83568700BBA510 /* Apache License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E171A83568700BBA510 /* Apache License.txt */; };
+		18C65E231A83568700BBA510 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */; };
+		18C65E241A83568700BBA510 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E191A83568700BBA510 /* OpenSans-BoldItalic.ttf */; };
+		18C65E251A83568700BBA510 /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E1A1A83568700BBA510 /* OpenSans-ExtraBold.ttf */; };
+		18C65E261A83568700BBA510 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E1B1A83568700BBA510 /* OpenSans-ExtraBoldItalic.ttf */; };
+		18C65E271A83568700BBA510 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E1C1A83568700BBA510 /* OpenSans-Italic.ttf */; };
+		18C65E281A83568700BBA510 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E1D1A83568700BBA510 /* OpenSans-Light.ttf */; };
+		18C65E291A83568700BBA510 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E1E1A83568700BBA510 /* OpenSans-LightItalic.ttf */; };
+		18C65E2A1A83568700BBA510 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E1F1A83568700BBA510 /* OpenSans-Regular.ttf */; };
+		18C65E2B1A83568700BBA510 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E201A83568700BBA510 /* OpenSans-Semibold.ttf */; };
+		18C65E2C1A83568700BBA510 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E211A83568700BBA510 /* OpenSans-SemiboldItalic.ttf */; };
 		18D75DC71A8224CB00BFEF6E /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DC61A8224CB00BFEF6E /* FeedViewController.swift */; };
 		18D75DCA1A823FC600BFEF6E /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */; };
-		18D75DCC1A82621300BFEF6E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DCB1A82621300BFEF6E /* Utilities.swift */; };
+		18D75DCF1A834C0200BFEF6E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DCE1A834C0200BFEF6E /* Utilities.swift */; };
+		18D75DD21A834EB200BFEF6E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DD11A834EB200BFEF6E /* UIColorExtension.swift */; };
 		18F71CA11A821A8600F74910 /* Feeds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F71CA01A821A8600F74910 /* Feeds.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +58,6 @@
 		1845B9911A7F8A5F00172610 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1845B9961A7F8A5F00172610 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1845B9981A7F8A5F00172610 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		1845B99B1A7F8A5F00172610 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		1845B9A11A7F8A5F00172610 /* InformerlyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InformerlyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1845B9A61A7F8A5F00172610 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1845B9A71A7F8A5F00172610 /* InformerlyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformerlyTests.swift; sourceTree = "<group>"; };
@@ -76,9 +86,21 @@
 		1845B9DF1A7F8F9D00172610 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		1845B9E41A7F905600172610 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1845B9E61A7FB00700172610 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		18C65E171A83568700BBA510 /* Apache License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Apache License.txt"; sourceTree = "<group>"; };
+		18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		18C65E191A83568700BBA510 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
+		18C65E1A1A83568700BBA510 /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
+		18C65E1B1A83568700BBA510 /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		18C65E1C1A83568700BBA510 /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Italic.ttf"; sourceTree = "<group>"; };
+		18C65E1D1A83568700BBA510 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		18C65E1E1A83568700BBA510 /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		18C65E1F1A83568700BBA510 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		18C65E201A83568700BBA510 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		18C65E211A83568700BBA510 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		18D75DC61A8224CB00BFEF6E /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
-		18D75DCB1A82621300BFEF6E /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = SOURCE_ROOT; };
+		18D75DCE1A834C0200BFEF6E /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		18D75DD11A834EB200BFEF6E /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		18F71CA01A821A8600F74910 /* Feeds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feeds.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,17 +143,18 @@
 		1845B98E1A7F8A5F00172610 /* Informerly */ = {
 			isa = PBXGroup;
 			children = (
+				18C65E151A83567A00BBA510 /* Fonts */,
+				18D75DD01A834DAD00BFEF6E /* Extensions */,
+				18D75DCD1A834C0200BFEF6E /* Utitlities */,
 				1845B9DD1A7F8F9D00172610 /* Network Manager */,
 				1845B9D91A7F8DEB00172610 /* Bridging-header */,
 				1845B9B11A7F8C4600172610 /* Constants */,
 				1845B9B21A7F8C4600172610 /* Models */,
 				1845B9B31A7F8C4600172610 /* Third Party Libs */,
-				1845B9B41A7F8C4600172610 /* Utilities */,
 				1845B9B51A7F8C4600172610 /* ViewControllers */,
 				1845B9911A7F8A5F00172610 /* AppDelegate.swift */,
 				1845B9951A7F8A5F00172610 /* Main.storyboard */,
 				1845B9981A7F8A5F00172610 /* Images.xcassets */,
-				1845B99A1A7F8A5F00172610 /* LaunchScreen.xib */,
 				1845B98F1A7F8A5F00172610 /* Supporting Files */,
 			);
 			path = Informerly;
@@ -185,14 +208,6 @@
 				1845B9BC1A7F8DB700172610 /* AFNetworking */,
 			);
 			path = "Third Party Libs";
-			sourceTree = "<group>";
-		};
-		1845B9B41A7F8C4600172610 /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				18D75DCB1A82621300BFEF6E /* Utilities.swift */,
-			);
-			path = Utilities;
 			sourceTree = "<group>";
 		};
 		1845B9B51A7F8C4600172610 /* ViewControllers */ = {
@@ -256,6 +271,32 @@
 			path = "Network Manager";
 			sourceTree = "<group>";
 		};
+		18C65E151A83567A00BBA510 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				18C65E161A83568700BBA510 /* open-sans */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		18C65E161A83568700BBA510 /* open-sans */ = {
+			isa = PBXGroup;
+			children = (
+				18C65E171A83568700BBA510 /* Apache License.txt */,
+				18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */,
+				18C65E191A83568700BBA510 /* OpenSans-BoldItalic.ttf */,
+				18C65E1A1A83568700BBA510 /* OpenSans-ExtraBold.ttf */,
+				18C65E1B1A83568700BBA510 /* OpenSans-ExtraBoldItalic.ttf */,
+				18C65E1C1A83568700BBA510 /* OpenSans-Italic.ttf */,
+				18C65E1D1A83568700BBA510 /* OpenSans-Light.ttf */,
+				18C65E1E1A83568700BBA510 /* OpenSans-LightItalic.ttf */,
+				18C65E1F1A83568700BBA510 /* OpenSans-Regular.ttf */,
+				18C65E201A83568700BBA510 /* OpenSans-Semibold.ttf */,
+				18C65E211A83568700BBA510 /* OpenSans-SemiboldItalic.ttf */,
+			);
+			path = "open-sans";
+			sourceTree = "<group>";
+		};
 		18D75DC51A8224B900BFEF6E /* FeedViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +311,22 @@
 				18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */,
 			);
 			path = ArticleViewController;
+			sourceTree = "<group>";
+		};
+		18D75DCD1A834C0200BFEF6E /* Utitlities */ = {
+			isa = PBXGroup;
+			children = (
+				18D75DCE1A834C0200BFEF6E /* Utilities.swift */,
+			);
+			path = Utitlities;
+			sourceTree = "<group>";
+		};
+		18D75DD01A834DAD00BFEF6E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				18D75DD11A834EB200BFEF6E /* UIColorExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -352,9 +409,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18C65E271A83568700BBA510 /* OpenSans-Italic.ttf in Resources */,
+				18C65E241A83568700BBA510 /* OpenSans-BoldItalic.ttf in Resources */,
 				1845B9971A7F8A5F00172610 /* Main.storyboard in Resources */,
-				1845B99C1A7F8A5F00172610 /* LaunchScreen.xib in Resources */,
+				18C65E2B1A83568700BBA510 /* OpenSans-Semibold.ttf in Resources */,
+				18C65E251A83568700BBA510 /* OpenSans-ExtraBold.ttf in Resources */,
+				18C65E221A83568700BBA510 /* Apache License.txt in Resources */,
+				18C65E291A83568700BBA510 /* OpenSans-LightItalic.ttf in Resources */,
+				18C65E231A83568700BBA510 /* OpenSans-Bold.ttf in Resources */,
 				1845B9991A7F8A5F00172610 /* Images.xcassets in Resources */,
+				18C65E2C1A83568700BBA510 /* OpenSans-SemiboldItalic.ttf in Resources */,
+				18C65E281A83568700BBA510 /* OpenSans-Light.ttf in Resources */,
+				18C65E2A1A83568700BBA510 /* OpenSans-Regular.ttf in Resources */,
+				18C65E261A83568700BBA510 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,9 +443,10 @@
 				1845B9D01A7F8DB700172610 /* AFHTTPRequestOperation.m in Sources */,
 				1845B9BB1A7F8CFE00172610 /* LoginViewController.swift in Sources */,
 				1845B9E01A7F8F9D00172610 /* NetworkManager.m in Sources */,
+				18D75DD21A834EB200BFEF6E /* UIColorExtension.swift in Sources */,
 				1845B9D11A7F8DB700172610 /* AFHTTPRequestOperationManager.m in Sources */,
 				1845B9D31A7F8DB700172610 /* AFNetworkReachabilityManager.m in Sources */,
-				18D75DCC1A82621300BFEF6E /* Utilities.swift in Sources */,
+				18D75DCF1A834C0200BFEF6E /* Utilities.swift in Sources */,
 				1845B9D71A7F8DB700172610 /* AFURLResponseSerialization.m in Sources */,
 				1845B9D51A7F8DB700172610 /* AFURLConnectionOperation.m in Sources */,
 				1845B9E71A7FB00700172610 /* User.swift in Sources */,
@@ -418,14 +486,6 @@
 				1845B9961A7F8A5F00172610 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		1845B99A1A7F8A5F00172610 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1845B99B1A7F8A5F00172610 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -512,6 +572,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = Informerly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -524,6 +585,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = Informerly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

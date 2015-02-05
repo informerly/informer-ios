@@ -15,3 +15,11 @@ let AUTH_TOKEN = "auth_token"
 // Network Constants
 let LOGIN_URL = "users/sign_in"
 let FEED_URL  = "feeds"
+
+// Gradient Colors
+let LIGHT_BLUE_COLOR = "#499EFF"
+let DARK_BLUE_COLOR = "#002B5C"
+
+
+// View border color
+let BORDER_COLOR = "#64ACFF"
