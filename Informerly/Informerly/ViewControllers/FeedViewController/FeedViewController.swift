@@ -13,12 +13,18 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var feedsData : [Feeds.InformerlyFeed] = []
     private var rowID : Int!
     private var actInd : UIActivityIndicatorView!
+    private var width : CGFloat!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.hidden = false
         self.createNavTitle()
+        
+        var menu : UIBarButtonItem = UIBarButtonItem(title: "menu", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onMenuPressed"))
+        
+        self.navigationItem.leftBarButtonItem = menu
+        
         actInd = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2, 50, 50)) as UIActivityIndicatorView
         actInd.center = self.view.center
         actInd.hidesWhenStopped = true
@@ -26,6 +32,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         view.addSubview(actInd)
         self.actInd.startAnimating()
         self.downloadData()
+        
+        width = UIScreen.mainScreen().bounds.width - 87
     }
     
     func createNavTitle() {
@@ -72,16 +80,20 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        var title = UILabel(frame: CGRectMake(20, 40, 280, 9999))
-        title.numberOfLines = 0
-        title.tag = 2
-        title.lineBreakMode = NSLineBreakMode.ByWordWrapping
-        title.font = UIFont(name: "Open Sans-Bold", size: 18.0)
-        title.text = feedsData[indexPath.row].title
-        title.sizeToFit()
+        return  self.getTextHeight(feedsData[indexPath.row].title!, width: width) + CGFloat(97)
         
-        return title.frame.height + CGFloat(81)
+    }
+    
+    func getTextHeight(pString: String, width: CGFloat) -> CGFloat {
+        var fontSize: CGFloat = 14;
+        var constrainedSize: CGSize = CGSizeMake(width, 9999);
         
+        var attributesDictionary = NSDictionary(objectsAndKeys: UIFont.systemFontOfSize(fontSize), NSFontAttributeName)
+        
+        var string = NSMutableAttributedString(string: pString, attributes: attributesDictionary)
+        
+        var requiredHeight: CGRect = string.boundingRectWithSize(constrainedSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        return requiredHeight.size.height
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -90,20 +102,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var source = cell.viewWithTag(1) as UILabel
         source.text = feedsData[indexPath.row].source
         
-        var title:UILabel!
-        if (cell.viewWithTag(2) == nil) {
-            title = UILabel(frame: CGRectMake(20, 40, 280, 9999))
-            title.numberOfLines = 0
-            title.tag = 2
-            title.lineBreakMode = NSLineBreakMode.ByWordWrapping
-            title.font = UIFont(name: "Open Sans-Bold", size: 18.0)
-            title.text = feedsData[indexPath.row].title
-            title.sizeToFit()
-            cell.addSubview(title)
-        } else {
-            title = cell.viewWithTag(2) as UILabel
-            title.text = feedsData[indexPath.row].title
-        }
+        var title = cell.viewWithTag(2) as UILabel
+        title.text = feedsData[indexPath.row].title
         
         var readingTime = cell.viewWithTag(3) as UILabel
         readingTime.text = "\(String(feedsData[indexPath.row].readingTime!)) min read"
@@ -121,6 +121,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             var articleVC : ArticleViewController = segue.destinationViewController as ArticleViewController
             articleVC.articleData = feedsData[rowID]
         }
+    }
+    
+    func onMenuPressed() {
+        var menuVC = self.storyboard?.instantiateViewControllerWithIdentifier("menuVC") as UIViewController
+        self.presentViewController(menuVC, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
