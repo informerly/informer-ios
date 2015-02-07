@@ -18,6 +18,8 @@ class ArticleViewController : UIViewController {
         
         super.viewDidLoad()
         self.navigationController?.navigationBar.translucent = false
+        self.navigationItem.hidesBackButton = true
+        self.createNavBarButtons()
         self.createSegmentedControl()
         
         articalWebView = UIWebView()
@@ -35,6 +37,13 @@ class ArticleViewController : UIViewController {
         articalWebView.loadRequest(NSURLRequest(URL: NSURL(string: articleData.URL!)!))
         articalZenView.loadHTMLString(articleData.content, baseURL: nil)
         
+    }
+    
+    func createNavBarButtons() {
+        var back_btn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onBackPressed"))
+        
+        back_btn.tintColor = UIColor.grayColor()
+        self.navigationItem.leftBarButtonItem = back_btn
     }
     
     func createSegmentedControl() {
@@ -55,6 +64,10 @@ class ArticleViewController : UIViewController {
             self.articalWebView.hidden = true
             self.articalZenView.hidden = false
         }
+    }
+    
+    func onBackPressed() {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     override func didReceiveMemoryWarning() {

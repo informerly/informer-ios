@@ -86,5 +86,28 @@
     [self.requestOperationManager POST:path parameters:param success:success failure:failure];
 }
 
+- (void)processDeleteRequestWithPath:(NSString *)path parameter:(id)parameter
+                             success: (NetworkClientSuccessBlock) successBlock
+                             failure:(NetworkClientFailureBlock) failureBlock {
+    
+    AFHTTPClientSuccessBlock success = ^ (AFHTTPRequestOperation *operation, id responseObject) {
+        if (successBlock) {
+            successBlock((int)operation.response.statusCode, responseObject, nil);
+        }
+    };
+    
+    AFHTTPClientFailureBlock failure = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (failureBlock){
+            failureBlock((int)operation.response.statusCode, error, operation.responseObject);
+        }
+    };
+    
+    
+    path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSMutableDictionary *param = parameter==nil? [NSMutableDictionary dictionary] : [NSMutableDictionary dictionaryWithDictionary:parameter];
+    
+    [self.requestOperationManager DELETE:path parameters:param success:success failure:failure];
+}
+
 
 @end

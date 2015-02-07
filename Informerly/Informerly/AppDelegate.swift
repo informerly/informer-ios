@@ -17,16 +17,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        application.applicationIconBadgeNumber = 0
+        var setting : UIUserNotificationSettings = UIUserNotificationSettings(forTypes:
+            UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound,
+            categories: nil)
+        
+        UIApplication.sharedApplication().registerUserNotificationSettings(setting);
+        UIApplication.sharedApplication().registerForRemoteNotifications();
+        
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             var storyboard = self.window?.rootViewController?.storyboard
             var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
             var navigationVC = self.window?.rootViewController as UINavigationController
             navigationVC.viewControllers = [rootVC]
             self.window?.rootViewController = navigationVC
-            
-//            UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-//            navigationController.viewControllers = @[rootViewController];
-//            self.window.rootViewController = navigationController;
         }
         return true
     }
@@ -52,7 +56,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        application.registerForRemoteNotifications()
+    }
 
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        
+        var token : String = deviceToken.description.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>"))
+        token = token.stringByReplacingOccurrencesOfString(" ", withString: "")
+        println(token)
+        Utilities.sharedInstance.setStringForKey(token, key: "deviceToken")
+        
+    }
 
 }
 

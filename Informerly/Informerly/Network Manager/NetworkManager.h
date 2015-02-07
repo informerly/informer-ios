@@ -33,4 +33,8 @@ typedef void (^NetworkClientFailureBlock) (int requestStatus, NSError *error, id
                            success: (NetworkClientSuccessBlock) successBlock
                            failure:(NetworkClientFailureBlock) failureBlock;
 
+- (void)processDeleteRequestWithPath:(NSString *)path parameter:(id)parameter
+                             success: (NetworkClientSuccessBlock) successBlock
+                             failure:(NetworkClientFailureBlock) failureBlock;
+
 @end

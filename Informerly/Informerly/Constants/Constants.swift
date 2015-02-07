@@ -15,6 +15,7 @@ let AUTH_TOKEN = "auth_token"
 // Network Constants
 let LOGIN_URL = "users/sign_in"
 let FEED_URL  = "feeds"
+let LOGOUT_URL = "users/sign_out"
 
 // Gradient Colors
 let LIGHT_BLUE_COLOR = "#499EFF"

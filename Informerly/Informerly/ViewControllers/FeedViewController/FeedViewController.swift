@@ -19,6 +19,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.hidden = false
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         self.createNavTitle()
         
         var menu : UIBarButtonItem = UIBarButtonItem(title: "menu", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onMenuPressed"))
