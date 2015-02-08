@@ -27,6 +27,7 @@ class ArticleViewController : UIViewController {
         var navBarHeight = self.navigationController?.navigationBar.frame.height
         var resultantHeight = statusBarHeight + navBarHeight!
         articalWebView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
+        articalWebView.scalesPageToFit = true
         self.view.addSubview(articalWebView)
         
         articalZenView = UIWebView()
@@ -44,6 +45,10 @@ class ArticleViewController : UIViewController {
         
         back_btn.tintColor = UIColor.grayColor()
         self.navigationItem.leftBarButtonItem = back_btn
+        
+        var shareBarBtnItem : UIBarButtonItem = UIBarButtonItem(title: "Share", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onSharePressed"))
+        shareBarBtnItem.tintColor = UIColor.grayColor()
+        self.navigationItem.rightBarButtonItem = shareBarBtnItem
     }
     
     func createSegmentedControl() {
@@ -68,6 +73,15 @@ class ArticleViewController : UIViewController {
     
     func onBackPressed() {
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func onSharePressed() {
+        var sharingItems = [AnyObject]()
+        sharingItems.append(articleData.title!)
+        sharingItems.append(articleData.URL!)
+        
+        let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: nil)
+        self.presentViewController(activityVC, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {

@@ -132,5 +132,4 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
 }
