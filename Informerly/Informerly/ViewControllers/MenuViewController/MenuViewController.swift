@@ -13,6 +13,7 @@ class MenuViewController:UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        UIApplication.sharedApplication().statusBarHidden = true
         self.applyGradient()
         
         actInd = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2, 50, 50)) as UIActivityIndicatorView
@@ -38,6 +39,7 @@ class MenuViewController:UIViewController {
     
     @IBAction func onCrossPressed(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
+//        self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func onLogoutPressed(sender: AnyObject) {

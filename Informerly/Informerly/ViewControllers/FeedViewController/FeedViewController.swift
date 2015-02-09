@@ -22,7 +22,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         self.createNavTitle()
         
-        var menu : UIBarButtonItem = UIBarButtonItem(title: "menu", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onMenuPressed"))
+        var menu : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onMenuPressed"))
+        menu.tintColor = UIColor.grayColor()
         
         self.navigationItem.leftBarButtonItem = menu
         
@@ -34,7 +35,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.actInd.startAnimating()
         self.downloadData()
         
-        width = UIScreen.mainScreen().bounds.width - 87
+        width = UIScreen.mainScreen().bounds.width - 50
     }
     
     func createNavTitle() {
@@ -81,12 +82,13 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        return  self.getTextHeight(feedsData[indexPath.row].title!, width: width) + CGFloat(97)
+        return  self.getTextHeight(feedsData[indexPath.row].title!, width: width) + CGFloat(90)
         
     }
     
     func getTextHeight(pString: String, width: CGFloat) -> CGFloat {
-        var fontSize: CGFloat = 14;
+        var fontSize: CGFloat = 18;
+        
         var constrainedSize: CGSize = CGSizeMake(width, 9999);
         
         var attributesDictionary = NSDictionary(objectsAndKeys: UIFont.systemFontOfSize(fontSize), NSFontAttributeName)
@@ -102,6 +104,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         var source = cell.viewWithTag(1) as UILabel
         source.text = feedsData[indexPath.row].source
+        source.textColor = UIColor(rgba: feedsData[indexPath.row].sourceColor!)
         
         var title = cell.viewWithTag(2) as UILabel
         title.text = feedsData[indexPath.row].title

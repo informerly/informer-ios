@@ -46,14 +46,14 @@ class ArticleViewController : UIViewController {
         back_btn.tintColor = UIColor.grayColor()
         self.navigationItem.leftBarButtonItem = back_btn
         
-        var shareBarBtnItem : UIBarButtonItem = UIBarButtonItem(title: "Share", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onSharePressed"))
+        var shareBarBtnItem : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "share_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onSharePressed"))
         shareBarBtnItem.tintColor = UIColor.grayColor()
         self.navigationItem.rightBarButtonItem = shareBarBtnItem
     }
     
     func createSegmentedControl() {
         var customSegmentedControl = UISegmentedControl (items: ["Web","Zen"])
-        customSegmentedControl.frame = CGRectMake(0, 0,150, 30)
+        customSegmentedControl.frame = CGRectMake(0, 0,130, 30)
         customSegmentedControl.selectedSegmentIndex = 0
         customSegmentedControl.addTarget(self, action: "segmentedValueChanged:", forControlEvents: .ValueChanged)
         
@@ -65,9 +65,32 @@ class ArticleViewController : UIViewController {
         if sender.selectedSegmentIndex == 0 {
             self.articalZenView.hidden = true
             self.articalWebView.hidden = false
+            
+            self.articalWebView.frame = CGRectMake(-self.articalWebView.frame.width*2,
+                self.articalWebView.frame.origin.y,
+                self.articalWebView.frame.size.width, self.articalWebView.frame.size.height)
+            
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.articalWebView.frame = CGRectMake(0,
+                    self.articalWebView.frame.origin.y,
+                    self.articalWebView.frame.size.width, self.articalWebView.frame.size.height)
+            })
+            
+            
         } else if sender.selectedSegmentIndex == 1 {
+            
             self.articalWebView.hidden = true
             self.articalZenView.hidden = false
+            
+            self.articalZenView.frame = CGRectMake(self.articalZenView.frame.width*2,
+                self.articalZenView.frame.origin.y,
+                self.articalZenView.frame.size.width, self.articalZenView.frame.size.height)
+            
+            UIView.animateWithDuration(0.40, animations: { () -> Void in
+                self.articalZenView.frame = CGRectMake(0,
+                    self.articalZenView.frame.origin.y,
+                    self.articalZenView.frame.size.width, self.articalZenView.frame.size.height)
+            })
         }
     }
     

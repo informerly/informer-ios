@@ -18,6 +18,7 @@ class Feeds  {
         var content : String?
         var readingTime : Int?
         var source : String?
+        var sourceColor : String?
         var publishedAt : String?
         var originalDate : String?
         var shortLink : String?
@@ -35,6 +36,7 @@ class Feeds  {
             self.content = feed["content"] as? String
             self.readingTime = feed["reading_time"] as? Int
             self.source = feed["source"] as? String
+            self.sourceColor = feed["source_color"] as? String
             self.publishedAt = feed["published_at"] as? String
             self.originalDate = feed["original_date"] as? String
             self.shortLink = feed["shortLink"] as? String

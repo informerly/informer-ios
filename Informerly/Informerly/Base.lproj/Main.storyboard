@@ -16,6 +16,7 @@
             <string>OpenSans-Bold</string>
             <string>OpenSans-Bold</string>
             <string>OpenSans-Bold</string>
+            <string>OpenSans-Bold</string>
         </mutableArray>
         <mutableArray key="OpenSans-Regular.ttf">
             <string>OpenSans</string>
@@ -147,7 +148,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="104" id="ZhE-8Y-Xph">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="90" id="ZhE-8Y-Xph">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZhE-8Y-Xph" id="iP3-ei-UBV">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -158,30 +159,35 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JRG-xz-hLa">
-                                            <rect key="frame" x="20" y="73" width="560" height="14"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JRG-xz-hLa">
+                                            <rect key="frame" x="46" y="63" width="534" height="14"/>
                                             <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="10"/>
                                             <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gau-fA-eGu">
-                                            <rect key="frame" x="20" y="39" width="560" height="22"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gau-fA-eGu">
+                                            <rect key="frame" x="20" y="29" width="560" height="22"/>
+                                            <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock_icon" translatesAutoresizingMaskIntoConstraints="NO" id="zvV-dE-liN">
+                                            <rect key="frame" x="22" y="62" width="16" height="16"/>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottomMargin" secondItem="JRG-xz-hLa" secondAttribute="bottom" constant="8" id="1S4-KQ-XNC"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="JRG-xz-hLa" secondAttribute="trailing" constant="12" id="2nt-Pr-c7R"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="JRG-xz-hLa" secondAttribute="bottom" constant="4" id="2GS-qD-DQp"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="JRG-xz-hLa" secondAttribute="trailing" constant="12" id="41d-4T-N1R"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="Gau-fA-eGu" secondAttribute="trailing" constant="12" id="6Vw-fN-TXy"/>
                                         <constraint firstItem="Pjy-ey-IHh" firstAttribute="leading" secondItem="iP3-ei-UBV" secondAttribute="leadingMargin" constant="12" id="7NI-HE-7av"/>
-                                        <constraint firstItem="JRG-xz-hLa" firstAttribute="leading" secondItem="iP3-ei-UBV" secondAttribute="leadingMargin" constant="12" id="Alr-ID-OoM"/>
+                                        <constraint firstItem="zvV-dE-liN" firstAttribute="leading" secondItem="iP3-ei-UBV" secondAttribute="leadingMargin" constant="14" id="AGb-qN-vC7"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="Pjy-ey-IHh" secondAttribute="trailing" constant="12" id="Df3-nR-0jJ"/>
-                                        <constraint firstItem="JRG-xz-hLa" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="12" id="PWa-tM-eXV"/>
+                                        <constraint firstItem="zvV-dE-liN" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="11" id="Oyw-Dt-NKr"/>
+                                        <constraint firstItem="JRG-xz-hLa" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="12" id="W1Y-7W-12H"/>
                                         <constraint firstItem="Pjy-ey-IHh" firstAttribute="top" secondItem="iP3-ei-UBV" secondAttribute="topMargin" constant="9" id="YN7-X3-EQz"/>
-                                        <constraint firstItem="Gau-fA-eGu" firstAttribute="top" secondItem="Pjy-ey-IHh" secondAttribute="bottom" constant="8" id="ae2-4n-XlI"/>
+                                        <constraint firstItem="Gau-fA-eGu" firstAttribute="top" secondItem="Pjy-ey-IHh" secondAttribute="bottom" constant="-2" id="ae2-4n-XlI"/>
                                         <constraint firstItem="Gau-fA-eGu" firstAttribute="leading" secondItem="iP3-ei-UBV" secondAttribute="leadingMargin" constant="12" id="wmh-fO-o9c"/>
+                                        <constraint firstItem="JRG-xz-hLa" firstAttribute="leading" secondItem="zvV-dE-liN" secondAttribute="trailing" constant="8" id="xAb-Zy-9kg"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -199,7 +205,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pvv-ul-QnB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1985" y="-393"/>
+            <point key="canvasLocation" x="1985" y="-396"/>
         </scene>
         <!--Article View Controller-->
         <scene sceneID="6O6-jo-P3P">
@@ -277,7 +283,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="T3n-Yr-a9b">
-                                <rect key="frame" x="240" y="39" width="120" height="12"/>
+                                <rect key="frame" x="240" y="40" width="120" height="12"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="igc-Sx-x5J"/>
                                     <constraint firstAttribute="height" constant="12" id="sKI-2i-KPj"/>
@@ -286,7 +292,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="T3n-Yr-a9b" firstAttribute="top" secondItem="wZ8-d8-SVn" secondAttribute="bottom" constant="19" id="squ-lE-XMa"/>
+                            <constraint firstItem="T3n-Yr-a9b" firstAttribute="top" secondItem="wZ8-d8-SVn" secondAttribute="bottom" constant="20" id="squ-lE-XMa"/>
                             <constraint firstAttribute="centerX" secondItem="T3n-Yr-a9b" secondAttribute="centerX" id="ub4-AS-qPH"/>
                         </constraints>
                     </view>
@@ -316,5 +322,6 @@
     </scenes>
     <resources>
         <image name="Logo" width="160" height="16"/>
+        <image name="clock_icon" width="16" height="16"/>
     </resources>
 </document>
