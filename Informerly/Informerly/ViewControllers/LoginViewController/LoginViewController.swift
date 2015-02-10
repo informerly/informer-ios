@@ -22,9 +22,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Setting Nav bar
         UIApplication.sharedApplication().statusBarHidden = false
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         self.navigationController?.navigationBar.hidden = true
+        
         self.applyGradient()
         self.setCornerRadius()
         self.setTextFieldPlaceholder()
@@ -33,12 +35,13 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         self.emailTextField.delegate = self
         self.passwordTextField.delegate = self
         
-        
+        // Keyboard notifications
         if self.view.frame.height == 480 {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow"), name: UIKeyboardDidShowNotification, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide"), name: UIKeyboardDidHideNotification, object: nil)
         }
         
+        // Activity indicator
         actInd = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2, 50, 50)) as UIActivityIndicatorView
         actInd.center = self.view.center
         actInd.hidesWhenStopped = true
@@ -149,8 +152,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     @IBAction func onSignInBtnPress(sender: UIButton) {
         
+        self.view.endEditing(true)
         self.actInd.startAnimating()
-        var parameters = ["login":emailTextField.text, "password":passwordTextField.text]
+        var parameters = ["login":emailTextField.text,
+                          "password":passwordTextField.text,
+                          "device_token":Utilities.sharedInstance.getStringForKey(DEVICE_TOKEN)]
         
         NetworkManager.sharedNetworkClient().processPostRequestWithPath(LOGIN_URL,
             parameter: parameters,
@@ -167,10 +173,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 
                 self.actInd.stopAnimating()
+                
                 var error : [String:AnyObject] = extraInfo as Dictionary
                 var message : String = error["message"] as String
                 
-                var alert = UIAlertController(title: "Error!", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
             }
@@ -181,6 +188,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
+    @IBAction func onForgotPasswordPressed(sender: AnyObject) {
+        
+        UIApplication.sharedApplication().openURL(NSURL(string: "http://informerly.com/users/password/new")!)
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

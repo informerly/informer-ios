@@ -115,6 +115,9 @@
                                     <color key="titleColor" red="0.20784313725490197" green="0.5725490196078431" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="onForgotPasswordPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="zOD-nI-Gjb"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

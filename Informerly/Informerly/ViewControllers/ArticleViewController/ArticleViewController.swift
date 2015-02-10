@@ -8,37 +8,144 @@
 
 import Foundation
 
-class ArticleViewController : UIViewController {
+class ArticleViewController : UIViewController,UIWebViewDelegate {
     
-    var articalWebView : UIWebView!
-    var articalZenView : UIWebView!
-    var articleData : Feeds.InformerlyFeed!
+    var articleWebView : UIWebView!
+    var articleZenView : UIWebView!
+    var feeds : [Feeds.InformerlyFeed]!
+    var articleIndex : Int!
+    var actInd : UIActivityIndicatorView!
+    var isSwiped : Bool!
+    var swipeDirection : String!
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        // Setting up Nav bar
         self.navigationController?.navigationBar.translucent = false
         self.navigationItem.hidesBackButton = true
         self.createNavBarButtons()
         self.createSegmentedControl()
         
-        articalWebView = UIWebView()
         var statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
         var navBarHeight = self.navigationController?.navigationBar.frame.height
         var resultantHeight = statusBarHeight + navBarHeight!
-        articalWebView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
-        articalWebView.scalesPageToFit = true
-        self.view.addSubview(articalWebView)
         
-        articalZenView = UIWebView()
-        articalZenView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
-        articalZenView.hidden = true
-        self.view.addSubview(articalZenView)
+        // Creates Artical web view
+        articleWebView = UIWebView()
+        articleWebView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
+        articleWebView.scalesPageToFit = true
+        articleWebView.delegate = self
+        self.view.addSubview(articleWebView)
         
-        articalWebView.loadRequest(NSURLRequest(URL: NSURL(string: articleData.URL!)!))
-        articalZenView.loadHTMLString(articleData.content, baseURL: nil)
+        //Creates Zen mode Web view
+        articleZenView = UIWebView()
+        articleZenView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
+        articleZenView.hidden = true
+        articleZenView.delegate = self
+        self.view.addSubview(articleZenView)
         
+        self.feeds = Feeds.sharedInstance.getFeeds()
+        
+        articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+        articleZenView.loadHTMLString(feeds[articleIndex].content, baseURL: nil)
+        
+        //Article Web View Gestures 
+        var swipeRight = UISwipeGestureRecognizer(target: self, action: "onWebViewSwipe:")
+        swipeRight.direction = UISwipeGestureRecognizerDirection.Right
+        self.view.addGestureRecognizer(swipeRight)
+        
+        var swipeLeft = UISwipeGestureRecognizer(target: self, action: "onWebViewSwipe:")
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
+        self.view.addGestureRecognizer(swipeLeft)
+        
+        
+//        // Activity indicator
+//        actInd = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2, 50, 50)) as UIActivityIndicatorView
+//        actInd.center = self.view.center
+//        actInd.hidesWhenStopped = true
+//        actInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+//        view.addSubview(actInd)
+//        actInd.startAnimating()
+//        isSwiped = false
+
     }
+    
+    
+    func onWebViewSwipe(gesture:UIGestureRecognizer){
+        
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            
+            NSURLCache.sharedURLCache().removeAllCachedResponses()
+            
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.Right:
+                println("Swiped right")
+                self.swipeDirection = "Right"
+                if articleIndex - Int(1) >= 0 {
+                    
+                    articleIndex = articleIndex - Int(1)
+                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+                    articleZenView.loadHTMLString(feeds[articleIndex].content, baseURL: nil)
+                    
+                    self.articleWebView.frame = CGRectMake(-self.articleWebView.frame.width*2,
+                        self.articleWebView.frame.origin.y,
+                        self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
+                    
+                    UIView.animateWithDuration(0.40, animations: { () -> Void in
+                        self.articleWebView.frame = CGRectMake(0,
+                            self.articleWebView.frame.origin.y,
+                            self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
+                    })
+                    
+                    self.articleZenView.frame = CGRectMake(-self.articleZenView.frame.width*2,
+                        self.articleZenView.frame.origin.y,
+                        self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
+                    
+                    UIView.animateWithDuration(0.40, animations: { () -> Void in
+                        self.articleZenView.frame = CGRectMake(0,
+                            self.articleZenView.frame.origin.y,
+                            self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
+                    })
+                    
+                }
+            case UISwipeGestureRecognizerDirection.Left:
+                println("Swiped left")
+                self.swipeDirection = "Left"
+                if articleIndex + Int(1) < feeds.count {
+
+                    articleIndex = articleIndex + Int(1)
+                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+                    articleZenView.loadHTMLString(feeds[articleIndex].content, baseURL: nil)
+                    
+                    self.articleZenView.frame = CGRectMake(self.articleZenView.frame.width*2,
+                        self.articleZenView.frame.origin.y,
+                        self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
+                    
+                    UIView.animateWithDuration(0.40, animations: { () -> Void in
+                        self.articleZenView.frame = CGRectMake(0,
+                            self.articleZenView.frame.origin.y,
+                            self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
+                    })
+                    
+                    self.articleWebView.frame = CGRectMake(self.articleWebView.frame.width*2,
+                        self.articleWebView.frame.origin.y,
+                        self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
+                    
+                    UIView.animateWithDuration(0.40, animations: { () -> Void in
+                        self.articleWebView.frame = CGRectMake(0,
+                            self.articleWebView.frame.origin.y,
+                            self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
+                    })
+                }
+            default:
+                break
+            }
+        }
+    }
+
+    
     
     func createNavBarButtons() {
         var back_btn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onBackPressed"))
@@ -63,33 +170,33 @@ class ArticleViewController : UIViewController {
     func segmentedValueChanged(sender:UISegmentedControl!)
     {
         if sender.selectedSegmentIndex == 0 {
-            self.articalZenView.hidden = true
-            self.articalWebView.hidden = false
+            self.articleZenView.hidden = true
+            self.articleWebView.hidden = false
             
-            self.articalWebView.frame = CGRectMake(-self.articalWebView.frame.width*2,
-                self.articalWebView.frame.origin.y,
-                self.articalWebView.frame.size.width, self.articalWebView.frame.size.height)
+            self.articleWebView.frame = CGRectMake(-self.articleWebView.frame.width*2,
+                self.articleWebView.frame.origin.y,
+                self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
             
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.articalWebView.frame = CGRectMake(0,
-                    self.articalWebView.frame.origin.y,
-                    self.articalWebView.frame.size.width, self.articalWebView.frame.size.height)
+            UIView.animateWithDuration(0.40, animations: { () -> Void in
+                self.articleWebView.frame = CGRectMake(0,
+                    self.articleWebView.frame.origin.y,
+                    self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
             })
             
             
         } else if sender.selectedSegmentIndex == 1 {
             
-            self.articalWebView.hidden = true
-            self.articalZenView.hidden = false
+            self.articleWebView.hidden = true
+            self.articleZenView.hidden = false
             
-            self.articalZenView.frame = CGRectMake(self.articalZenView.frame.width*2,
-                self.articalZenView.frame.origin.y,
-                self.articalZenView.frame.size.width, self.articalZenView.frame.size.height)
+            self.articleZenView.frame = CGRectMake(self.articleZenView.frame.width*2,
+                self.articleZenView.frame.origin.y,
+                self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
             
             UIView.animateWithDuration(0.40, animations: { () -> Void in
-                self.articalZenView.frame = CGRectMake(0,
-                    self.articalZenView.frame.origin.y,
-                    self.articalZenView.frame.size.width, self.articalZenView.frame.size.height)
+                self.articleZenView.frame = CGRectMake(0,
+                    self.articleZenView.frame.origin.y,
+                    self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
             })
         }
     }
@@ -100,8 +207,8 @@ class ArticleViewController : UIViewController {
     
     func onSharePressed() {
         var sharingItems = [AnyObject]()
-        sharingItems.append(articleData.title!)
-        sharingItems.append(articleData.URL!)
+        sharingItems.append(feeds[articleIndex].title!)
+        sharingItems.append(feeds[articleIndex].URL!)
         
         let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: nil)
         self.presentViewController(activityVC, animated: true, completion: nil)
@@ -110,4 +217,24 @@ class ArticleViewController : UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    func webViewDidStartLoad(webView: UIWebView) {
+        println("start")
+    }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        println("finish")
+        //self.actInd.stopAnimating()
+        
+//        if isSwiped == true {
+//            if swipeDirection == "Right" {
+//            
+//            }
+//            
+//            if swipeDirection == "Left" {
+//                
+//            }
+//        }
+    }
+    
 }

@@ -24,3 +24,6 @@ let DARK_BLUE_COLOR = "#002B5C"
 
 // View border color
 let BORDER_COLOR = "#64ACFF"
+
+// Others
+let DEVICE_TOKEN = "deviceToken"

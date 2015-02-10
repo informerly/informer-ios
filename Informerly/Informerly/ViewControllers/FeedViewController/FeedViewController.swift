@@ -14,28 +14,40 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var rowID : Int!
     private var actInd : UIActivityIndicatorView!
     private var width : CGFloat!
+    var refreshCntrl : UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Setting Nav bar.
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.hidden = false
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         self.createNavTitle()
         
+        // Adds menu icon on nav bar.
         var menu : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onMenuPressed"))
         menu.tintColor = UIColor.grayColor()
-        
         self.navigationItem.leftBarButtonItem = menu
         
+        // Setting up activity indicator
         actInd = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2, 50, 50)) as UIActivityIndicatorView
         actInd.center = self.view.center
         actInd.hidesWhenStopped = true
         actInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(actInd)
         self.actInd.startAnimating()
+        
+        // Download feeds.
         self.downloadData()
         
+        // Getting screen width.
         width = UIScreen.mainScreen().bounds.width - 50
+        
+        // Pull to Refresh
+        self.refreshCntrl = UIRefreshControl()
+        self.refreshCntrl.addTarget(self, action: Selector("onPullToRefresh:"), forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(self.refreshCntrl)
     }
     
     func createNavTitle() {
@@ -56,18 +68,19 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                 
-                self.actInd.stopAnimating()
                 if requestStatus == 200 {
+                    self.actInd.stopAnimating()
+                    self.refreshCntrl.endRefreshing()
                     Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
                     self.feedsData = Feeds.sharedInstance.getFeeds()
                     self.tableView.reloadData()
                 }
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 self.actInd.stopAnimating()
-                println("Error : " + error.localizedDescription)
+                self.refreshCntrl.endRefreshing()
                 
 //                var error : [String:AnyObject] = extraInfo as Dictionary
-//                var message : String = error["message"] as String
+//                var message : String = extraInfo as String
 //                
 //                var alert = UIAlertController(title: "Error!", message: message, preferredStyle: UIAlertControllerStyle.Alert)
 //                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
@@ -84,19 +97,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         return  self.getTextHeight(feedsData[indexPath.row].title!, width: width) + CGFloat(90)
         
-    }
-    
-    func getTextHeight(pString: String, width: CGFloat) -> CGFloat {
-        var fontSize: CGFloat = 18;
-        
-        var constrainedSize: CGSize = CGSizeMake(width, 9999);
-        
-        var attributesDictionary = NSDictionary(objectsAndKeys: UIFont.systemFontOfSize(fontSize), NSFontAttributeName)
-        
-        var string = NSMutableAttributedString(string: pString, attributes: attributesDictionary)
-        
-        var requiredHeight: CGRect = string.boundingRectWithSize(constrainedSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
-        return requiredHeight.size.height
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -119,17 +119,31 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.performSegueWithIdentifier("ArticleVC", sender: self)
     }
     
+    func getTextHeight(pString: String, width: CGFloat) -> CGFloat {
+        var fontSize: CGFloat = 18;
+        var constrainedSize: CGSize = CGSizeMake(width, 9999);
+        var attributesDictionary = NSDictionary(objectsAndKeys: UIFont.systemFontOfSize(fontSize), NSFontAttributeName)
+        var string = NSMutableAttributedString(string: pString, attributes: attributesDictionary)
+        var requiredHeight: CGRect = string.boundingRectWithSize(constrainedSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        return requiredHeight.size.height
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "ArticleVC" {
             var articleVC : ArticleViewController = segue.destinationViewController as ArticleViewController
-            articleVC.articleData = feedsData[rowID]
+//            articleVC.articleData = feedsData[rowID]
+            articleVC.articleIndex = rowID
         }
     }
     
     func onMenuPressed() {
         var menuVC = self.storyboard?.instantiateViewControllerWithIdentifier("menuVC") as UIViewController
         self.presentViewController(menuVC, animated: true, completion: nil)
+    }
+    
+    func onPullToRefresh(sender:AnyObject) {
+        self.downloadData()
     }
     
     override func didReceiveMemoryWarning() {

@@ -17,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        
+        Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
+        
         application.applicationIconBadgeNumber = 0
         var setting : UIUserNotificationSettings = UIUserNotificationSettings(forTypes:
             UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound,
@@ -66,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var token : String = deviceToken.description.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>"))
         token = token.stringByReplacingOccurrencesOfString(" ", withString: "")
         println(token)
-        Utilities.sharedInstance.setStringForKey(token, key: "deviceToken")
+        Utilities.sharedInstance.setStringForKey(token, key: DEVICE_TOKEN)
         
     }
 

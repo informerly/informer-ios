@@ -39,7 +39,6 @@ class MenuViewController:UIViewController {
     
     @IBAction func onCrossPressed(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
-//        self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func onLogoutPressed(sender: AnyObject) {
