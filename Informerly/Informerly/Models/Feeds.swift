@@ -59,6 +59,7 @@ class Feeds  {
     }
     
     func populateFeeds(feeds : [AnyObject]) {
+        self.feeds.removeAll(keepCapacity: false)
         for feedData in feeds {
             var feed : InformerlyFeed = InformerlyFeed()
             feed.populateFeed(feedData as [String: AnyObject])

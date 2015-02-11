@@ -42,7 +42,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.downloadData()
         
         // Getting screen width.
-        width = UIScreen.mainScreen().bounds.width - 50
+        width = UIScreen.mainScreen().bounds.width - 35
         
         // Pull to Refresh
         self.refreshCntrl = UIRefreshControl()
@@ -72,6 +72,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     self.actInd.stopAnimating()
                     self.refreshCntrl.endRefreshing()
                     Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
+                    self.feedsData.removeAll(keepCapacity: false)
                     self.feedsData = Feeds.sharedInstance.getFeeds()
                     self.tableView.reloadData()
                 }
@@ -95,7 +96,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        return  self.getTextHeight(feedsData[indexPath.row].title!, width: width) + CGFloat(90)
+        return  self.getTextHeight(feedsData[indexPath.row].title!, width: width) + CGFloat(68)
         
     }
     
@@ -103,26 +104,50 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell
         
         var source = cell.viewWithTag(1) as UILabel
+        var title = cell.viewWithTag(2) as UILabel
+        var readingTime = cell.viewWithTag(3) as UILabel
+        var tick = cell.viewWithTag(4) as UIImageView
+        
         source.text = feedsData[indexPath.row].source
         source.textColor = UIColor(rgba: feedsData[indexPath.row].sourceColor!)
         
-        var title = cell.viewWithTag(2) as UILabel
         title.text = feedsData[indexPath.row].title
         
-        var readingTime = cell.viewWithTag(3) as UILabel
-        readingTime.text = "\(String(feedsData[indexPath.row].readingTime!)) min read"
+        if feedsData[indexPath.row].read != true {
+            title.textColor = UIColor.blackColor()
+            readingTime.text = "\(String(feedsData[indexPath.row].readingTime!)) min read"
+            tick.image = UIImage(named: "clock_icon")
+        } else {
+            title.textColor = UIColor(rgba: "#9B9B9B")
+            readingTime.text = "Read"
+            
+            tick.image = UIImage(named: "icon_tick")
+        }
+        
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.rowID = indexPath.row
+        let cell : UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
+        
+        var title = cell.viewWithTag(2) as UILabel
+        title.textColor = UIColor(rgba: "#9B9B9B")
+        
+        var read = cell.viewWithTag(3) as UILabel
+        read.text = "Read"
+        
+        var tick = cell.viewWithTag(4) as UIImageView
+        tick.image = UIImage(named: "icon_tick")
+        
         self.performSegueWithIdentifier("ArticleVC", sender: self)
     }
     
     func getTextHeight(pString: String, width: CGFloat) -> CGFloat {
         var fontSize: CGFloat = 18;
+        var font : UIFont = UIFont(name: "OpenSans-Bold", size: 18)!
         var constrainedSize: CGSize = CGSizeMake(width, 9999);
-        var attributesDictionary = NSDictionary(objectsAndKeys: UIFont.systemFontOfSize(fontSize), NSFontAttributeName)
+        var attributesDictionary = NSDictionary(objectsAndKeys: font, NSFontAttributeName)
         var string = NSMutableAttributedString(string: pString, attributes: attributesDictionary)
         var requiredHeight: CGRect = string.boundingRectWithSize(constrainedSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         return requiredHeight.size.height
@@ -132,7 +157,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         if segue.identifier == "ArticleVC" {
             var articleVC : ArticleViewController = segue.destinationViewController as ArticleViewController
-//            articleVC.articleData = feedsData[rowID]
             articleVC.articleIndex = rowID
         }
     }

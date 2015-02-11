@@ -157,7 +157,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pjy-ey-IHh">
-                                            <rect key="frame" x="20" y="17" width="560" height="14"/>
+                                            <rect key="frame" x="20" y="16" width="560" height="14"/>
                                             <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="10"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
@@ -174,8 +174,8 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock_icon" translatesAutoresizingMaskIntoConstraints="NO" id="zvV-dE-liN">
-                                            <rect key="frame" x="22" y="62" width="16" height="16"/>
+                                        <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock_icon" translatesAutoresizingMaskIntoConstraints="NO" id="zvV-dE-liN">
+                                            <rect key="frame" x="22" y="63" width="16" height="16"/>
                                         </imageView>
                                     </subviews>
                                     <constraints>
@@ -185,10 +185,10 @@
                                         <constraint firstItem="Pjy-ey-IHh" firstAttribute="leading" secondItem="iP3-ei-UBV" secondAttribute="leadingMargin" constant="12" id="7NI-HE-7av"/>
                                         <constraint firstItem="zvV-dE-liN" firstAttribute="leading" secondItem="iP3-ei-UBV" secondAttribute="leadingMargin" constant="14" id="AGb-qN-vC7"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="Pjy-ey-IHh" secondAttribute="trailing" constant="12" id="Df3-nR-0jJ"/>
-                                        <constraint firstItem="zvV-dE-liN" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="11" id="Oyw-Dt-NKr"/>
+                                        <constraint firstItem="zvV-dE-liN" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="12" id="Oyw-Dt-NKr"/>
                                         <constraint firstItem="JRG-xz-hLa" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="12" id="W1Y-7W-12H"/>
-                                        <constraint firstItem="Pjy-ey-IHh" firstAttribute="top" secondItem="iP3-ei-UBV" secondAttribute="topMargin" constant="9" id="YN7-X3-EQz"/>
-                                        <constraint firstItem="Gau-fA-eGu" firstAttribute="top" secondItem="Pjy-ey-IHh" secondAttribute="bottom" constant="-2" id="ae2-4n-XlI"/>
+                                        <constraint firstItem="Pjy-ey-IHh" firstAttribute="top" secondItem="iP3-ei-UBV" secondAttribute="topMargin" constant="8" id="YN7-X3-EQz"/>
+                                        <constraint firstItem="Gau-fA-eGu" firstAttribute="top" secondItem="Pjy-ey-IHh" secondAttribute="bottom" constant="-1" id="ae2-4n-XlI"/>
                                         <constraint firstItem="Gau-fA-eGu" firstAttribute="leading" secondItem="iP3-ei-UBV" secondAttribute="leadingMargin" constant="12" id="wmh-fO-o9c"/>
                                         <constraint firstItem="JRG-xz-hLa" firstAttribute="leading" secondItem="zvV-dE-liN" secondAttribute="trailing" constant="8" id="xAb-Zy-9kg"/>
                                     </constraints>
