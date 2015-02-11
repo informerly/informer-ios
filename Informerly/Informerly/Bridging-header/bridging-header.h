@@ -11,5 +11,7 @@
 
 #import "NetworkManager.h"
 //#import "AFNetworking.h"
+#import <Parse/Parse.h>
+#import <ParseCrashReporting/ParseCrashReporting.h>
 
 #endif
