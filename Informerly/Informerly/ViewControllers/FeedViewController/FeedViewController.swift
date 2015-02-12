@@ -30,6 +30,18 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         menu.tintColor = UIColor.grayColor()
         self.navigationItem.leftBarButtonItem = menu
         
+        
+        // Getting screen width.
+        width = UIScreen.mainScreen().bounds.width - 35
+        
+        // Pull to Refresh
+        self.refreshCntrl = UIRefreshControl()
+        self.refreshCntrl.addTarget(self, action: Selector("onPullToRefresh:"), forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(self.refreshCntrl)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         // Setting up activity indicator
         actInd = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2, 50, 50)) as UIActivityIndicatorView
         actInd.center = self.view.center
@@ -40,14 +52,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         // Download feeds.
         self.downloadData()
-        
-        // Getting screen width.
-        width = UIScreen.mainScreen().bounds.width - 35
-        
-        // Pull to Refresh
-        self.refreshCntrl = UIRefreshControl()
-        self.refreshCntrl.addTarget(self, action: Selector("onPullToRefresh:"), forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(self.refreshCntrl)
     }
     
     func createNavTitle() {
