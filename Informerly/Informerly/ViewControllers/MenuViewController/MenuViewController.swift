@@ -13,7 +13,6 @@ class MenuViewController:UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        UIApplication.sharedApplication().statusBarHidden = true
         self.applyGradient()
         
         actInd = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2, 50, 50)) as UIActivityIndicatorView
@@ -22,6 +21,12 @@ class MenuViewController:UIViewController {
         actInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(actInd)
         actInd.hidden = true
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.sharedApplication().statusBarHidden = true
     }
     
     func applyGradient() {

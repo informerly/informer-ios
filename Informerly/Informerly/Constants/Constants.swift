@@ -11,6 +11,9 @@ import Foundation
 // User Default Constants
 let IS_USER_LOGGED_IN = "isUserLoggedIn"
 let AUTH_TOKEN = "auth_token"
+let USER_ID = "id"
+let EMAIL = "email"
+let LINK_ID = "link_id"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"

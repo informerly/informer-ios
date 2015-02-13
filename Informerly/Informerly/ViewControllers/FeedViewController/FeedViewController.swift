@@ -30,9 +30,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         menu.tintColor = UIColor.grayColor()
         self.navigationItem.leftBarButtonItem = menu
         
-        
         // Getting screen width.
-        width = UIScreen.mainScreen().bounds.width - 35
+        width = UIScreen.mainScreen().bounds.width - 40
         
         // Pull to Refresh
         self.refreshCntrl = UIRefreshControl()
@@ -42,6 +41,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        UIApplication.sharedApplication().statusBarHidden = false
         // Setting up activity indicator
         actInd = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2, 50, 50)) as UIActivityIndicatorView
         actInd.center = self.view.center

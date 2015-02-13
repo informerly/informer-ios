@@ -24,6 +24,8 @@
 		1845B9E01A7F8F9D00172610 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9DF1A7F8F9D00172610 /* NetworkManager.m */; };
 		1845B9E51A7F905600172610 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E41A7F905600172610 /* Constants.swift */; };
 		1845B9E71A7FB00700172610 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E61A7FB00700172610 /* User.swift */; };
+		187EAA551A8DD6A6000ED503 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187EAA541A8DD6A6000ED503 /* FeedbackViewController.swift */; };
+		187EAA581A8DFF8A000ED503 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187EAA571A8DFF8A000ED503 /* HelpViewController.swift */; };
 		18C65E221A83568700BBA510 /* Apache License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E171A83568700BBA510 /* Apache License.txt */; };
 		18C65E231A83568700BBA510 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */; };
 		18C65E241A83568700BBA510 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E191A83568700BBA510 /* OpenSans-BoldItalic.ttf */; };
@@ -102,6 +104,8 @@
 		1845B9DF1A7F8F9D00172610 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		1845B9E41A7F905600172610 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1845B9E61A7FB00700172610 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		187EAA541A8DD6A6000ED503 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
+		187EAA571A8DFF8A000ED503 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		18C65E171A83568700BBA510 /* Apache License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Apache License.txt"; sourceTree = "<group>"; };
 		18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		18C65E191A83568700BBA510 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -261,6 +265,8 @@
 		1845B9B51A7F8C4600172610 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				187EAA561A8DFF42000ED503 /* HelpViewController */,
+				187EAA531A8DD686000ED503 /* FeedbackViewController */,
 				18E609BC1A85376A0082DC6C /* MenuViewController */,
 				18D75DC81A823FB700BFEF6E /* ArticleViewController */,
 				18D75DC51A8224B900BFEF6E /* FeedViewController */,
@@ -318,6 +324,22 @@
 				1845B9DF1A7F8F9D00172610 /* NetworkManager.m */,
 			);
 			path = "Network Manager";
+			sourceTree = "<group>";
+		};
+		187EAA531A8DD686000ED503 /* FeedbackViewController */ = {
+			isa = PBXGroup;
+			children = (
+				187EAA541A8DD6A6000ED503 /* FeedbackViewController.swift */,
+			);
+			path = FeedbackViewController;
+			sourceTree = "<group>";
+		};
+		187EAA561A8DFF42000ED503 /* HelpViewController */ = {
+			isa = PBXGroup;
+			children = (
+				187EAA571A8DFF8A000ED503 /* HelpViewController.swift */,
+			);
+			path = HelpViewController;
 			sourceTree = "<group>";
 		};
 		18C65E151A83567A00BBA510 /* Fonts */ = {
@@ -529,6 +551,8 @@
 				18D75DCF1A834C0200BFEF6E /* Utilities.swift in Sources */,
 				1845B9D71A7F8DB700172610 /* AFURLResponseSerialization.m in Sources */,
 				1845B9D51A7F8DB700172610 /* AFURLConnectionOperation.m in Sources */,
+				187EAA551A8DD6A6000ED503 /* FeedbackViewController.swift in Sources */,
+				187EAA581A8DFF8A000ED503 /* HelpViewController.swift in Sources */,
 				1845B9E71A7FB00700172610 /* User.swift in Sources */,
 				18E609BE1A85377F0082DC6C /* MenuViewController.swift in Sources */,
 				18D75DC71A8224CB00BFEF6E /* FeedViewController.swift in Sources */,
@@ -654,17 +678,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Emily Moss (62J6VEGGRT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-
 				INFOPLIST_FILE = Informerly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "eb9d7318-84bd-494c-a5e2-9c67a0faeca6";
+				PROVISIONING_PROFILE = "668ab649-af38-4ea8-88b7-63c95d54e4cb";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Debug;
@@ -674,8 +697,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Emily Moss (62J6VEGGRT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -684,7 +707,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "eb9d7318-84bd-494c-a5e2-9c67a0faeca6";
+				PROVISIONING_PROFILE = "668ab649-af38-4ea8-88b7-63c95d54e4cb";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Release;

@@ -22,6 +22,12 @@
             <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -140,7 +146,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1238" y="-390"/>
+            <point key="canvasLocation" x="1236" y="-396"/>
         </scene>
         <!--Feed View Controller-->
         <scene sceneID="3Fi-UQ-Th3">
@@ -242,7 +248,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kLV-m8-eYp">
-                                <rect key="frame" x="16" y="35" width="30" height="19"/>
+                                <rect key="frame" x="16" y="31" width="40" height="30"/>
                                 <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="22"/>
                                 <state key="normal" title="x">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -261,6 +267,7 @@
                                 </state>
                                 <connections>
                                     <action selector="onHelpPressed:" destination="TBP-BJ-AuH" eventType="touchUpInside" id="IbC-XZ-UHA"/>
+                                    <segue destination="E2L-wB-N30" kind="show" identifier="HelpVC" id="Ynv-s1-WxB"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mm6-ef-8Pb">
@@ -272,6 +279,7 @@
                                 </state>
                                 <connections>
                                     <action selector="onFeedbackPressed:" destination="TBP-BJ-AuH" eventType="touchUpInside" id="Hr8-8N-KmQ"/>
+                                    <segue destination="lUi-8K-xRk" kind="show" identifier="FeedbackVC" id="Gf4-Cw-sSY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNr-qK-cnU">
@@ -288,21 +296,181 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="T3n-Yr-a9b">
                                 <rect key="frame" x="240" y="40" width="120" height="12"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="igc-Sx-x5J"/>
-                                    <constraint firstAttribute="height" constant="12" id="sKI-2i-KPj"/>
+                                    <constraint firstAttribute="width" constant="120" id="GtM-fO-jO9"/>
+                                    <constraint firstAttribute="height" constant="12" id="Hzv-BJ-jDn"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="T3n-Yr-a9b" firstAttribute="top" secondItem="wZ8-d8-SVn" secondAttribute="bottom" constant="20" id="squ-lE-XMa"/>
-                            <constraint firstAttribute="centerX" secondItem="T3n-Yr-a9b" secondAttribute="centerX" id="ub4-AS-qPH"/>
+                            <constraint firstAttribute="centerX" secondItem="T3n-Yr-a9b" secondAttribute="centerX" id="2jU-No-t1c"/>
+                            <constraint firstItem="T3n-Yr-a9b" firstAttribute="top" secondItem="wZ8-d8-SVn" secondAttribute="bottom" constant="40" id="h6w-6l-Odq"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YRQ-2h-9oV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3330" y="-396"/>
+        </scene>
+        <!--Feedback View Contoller-->
+        <scene sceneID="rep-F0-dA1">
+            <objects>
+                <viewController id="lUi-8K-xRk" customClass="FeedbackViewContoller" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3rk-7q-q9O"/>
+                        <viewControllerLayoutGuide type="bottom" id="pD3-3s-9l1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2cU-ZS-ywz">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sAc-dT-ehT">
+                                <rect key="frame" x="263" y="32" width="75" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="HkL-gB-JY7"/>
+                                    <constraint firstAttribute="height" constant="21" id="jjq-34-eh3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HkD-zS-VV8">
+                                <rect key="frame" x="16" y="33" width="31" height="22"/>
+                                <state key="normal" image="icon_back_white">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBackBtnPress:" destination="lUi-8K-xRk" eventType="touchUpInside" id="27c-nV-C2m"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BnY-8E-UBs">
+                                <rect key="frame" x="160" y="69" width="280" height="195"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Bugs, comments or feature ideas?" translatesAutoresizingMaskIntoConstraints="NO" id="fLj-We-cBV">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="133"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XwR-GA-mtF">
+                                        <rect key="frame" x="180" y="144" width="100" height="44"/>
+                                        <color key="backgroundColor" red="0.20784313725490197" green="0.5725490196078431" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
+                                        <state key="normal" title="Send">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onSendBtnPress:" destination="lUi-8K-xRk" eventType="touchUpInside" id="KtG-Lm-XXA"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="Uex-AV-hvz"/>
+                                    <constraint firstAttribute="height" constant="195" id="cpu-KF-1kK"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="sAc-dT-ehT" firstAttribute="top" secondItem="3rk-7q-q9O" secondAttribute="bottom" constant="32" id="2zj-xh-HMh"/>
+                            <constraint firstAttribute="centerX" secondItem="BnY-8E-UBs" secondAttribute="centerX" id="84B-2V-1pu"/>
+                            <constraint firstItem="BnY-8E-UBs" firstAttribute="top" secondItem="sAc-dT-ehT" secondAttribute="bottom" constant="16" id="Rq7-Sh-zoX"/>
+                            <constraint firstAttribute="centerX" secondItem="sAc-dT-ehT" secondAttribute="centerX" id="c49-7K-Wl6"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="backBtn" destination="HkD-zS-VV8" id="4k7-dq-F2h"/>
+                        <outlet property="feedbackLabel" destination="sAc-dT-ehT" id="FAh-qc-UMG"/>
+                        <outlet property="feedbackTextView" destination="fLj-We-cBV" id="tuH-A7-kWf"/>
+                        <outlet property="feedbackView" destination="BnY-8E-UBs" id="5gw-jx-Tht"/>
+                        <outlet property="sendbtn" destination="XwR-GA-mtF" id="17D-AV-ry9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IF1-mS-qde" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4028" y="119"/>
+        </scene>
+        <!--Help View Controller-->
+        <scene sceneID="ull-cn-Irw">
+            <objects>
+                <viewController id="E2L-wB-N30" customClass="HelpViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BaG-Y4-fyP"/>
+                        <viewControllerLayoutGuide type="bottom" id="NZd-bb-C05"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Tqt-f4-RGi">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yHn-Cy-Z10">
+                                <rect key="frame" x="16" y="33" width="40" height="30"/>
+                                <state key="normal" image="icon_back_white">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onBackBtnPress:" destination="lUi-8K-xRk" eventType="touchUpInside" id="rfu-r2-xfv"/>
+                                    <action selector="onBackPress:" destination="E2L-wB-N30" eventType="touchUpInside" id="o34-Yj-KgR"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Help" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qnO-zs-mhR">
+                                <rect key="frame" x="282" y="32" width="36" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="VZ9-pl-Neh"/>
+                                    <constraint firstAttribute="height" constant="21" id="dER-bg-BuW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPe-lG-UKu">
+                                <rect key="frame" x="160" y="69" width="280" height="148"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Need Help? Please contact our support team." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xbj-Im-7Ph">
+                                        <rect key="frame" x="11" y="21" width="258" height="53"/>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="18"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I8Z-Nf-GBH">
+                                        <rect key="frame" x="11" y="89" width="258" height="30"/>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="18"/>
+                                        <state key="normal" title="support@informerly.com">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onSupportBtnPress:" destination="E2L-wB-N30" eventType="touchUpInside" id="wJU-tT-UxW"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="5LL-Aa-cNr"/>
+                                    <constraint firstAttribute="height" constant="148" id="8Ml-fC-toj"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="lPe-lG-UKu" secondAttribute="centerX" id="1WE-Xg-tDS"/>
+                            <constraint firstAttribute="centerX" secondItem="qnO-zs-mhR" secondAttribute="centerX" id="Mcb-9c-5qo"/>
+                            <constraint firstItem="qnO-zs-mhR" firstAttribute="top" secondItem="BaG-Y4-fyP" secondAttribute="bottom" constant="32" id="R8g-bB-FRV"/>
+                            <constraint firstItem="lPe-lG-UKu" firstAttribute="top" secondItem="qnO-zs-mhR" secondAttribute="bottom" constant="16" id="dXW-Jy-ZS9"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="helpView" destination="lPe-lG-UKu" id="3k4-Nj-V90"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8v1-oC-iVM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4028" y="-690"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="GfO-Ia-fiN">
@@ -326,5 +494,6 @@
     <resources>
         <image name="Logo" width="160" height="16"/>
         <image name="clock_icon" width="16" height="16"/>
+        <image name="icon_back_white" width="16" height="16"/>
     </resources>
 </document>
