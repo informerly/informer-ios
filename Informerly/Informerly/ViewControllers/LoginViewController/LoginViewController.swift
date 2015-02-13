@@ -33,6 +33,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         
         self.signInBtn.enabled = false
         self.emailTextField.delegate = self
+        self.emailTextField.keyboardType = UIKeyboardType.EmailAddress
         self.passwordTextField.delegate = self
         
         // Keyboard notifications

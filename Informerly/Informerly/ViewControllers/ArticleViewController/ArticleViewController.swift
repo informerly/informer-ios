@@ -12,7 +12,7 @@ import WebKit
 class ArticleViewController : UIViewController,WKNavigationDelegate {
     
     var articleWebView : WKWebView!
-    var articleZenView : WKWebView!
+    var articleZenView : UIWebView!
     var feeds : [Feeds.InformerlyFeed]!
     var articleIndex : Int!
     var webIndicator : UIActivityIndicatorView!
@@ -42,7 +42,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         self.view.addSubview(articleWebView)
         
         // Creates Zen mode Web view
-        articleZenView = WKWebView(frame: frame, configuration: WKWebViewConfiguration())
+        articleZenView = UIWebView()
+        articleZenView.frame = frame
         articleZenView.hidden = true
         self.view.addSubview(articleZenView)
 
@@ -196,7 +197,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
                     if feeds[articleIndex].content != nil {
                         var content: String = feeds[articleIndex].content!
                         articleZenView.loadHTMLString(content, baseURL: nil)
-                        self.animateRight(articleZenView)
+                        self.animateRightZenMode(articleZenView)
                         self.zenIndicator.stopAnimating()
                     }
                     self.markRead()
@@ -217,7 +218,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
                     if feeds[articleIndex].content != nil {
                         var content: String = feeds[articleIndex].content!
                         articleZenView.loadHTMLString(content, baseURL: nil)
-                        self.animateLeft(articleZenView)
+                        self.animateLeftZenMode(articleZenView)
                         self.zenIndicator.stopAnimating()
                     }
                     self.markRead()
@@ -264,8 +265,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
             view.frame = CGRectMake(0,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
             }, completion: {
                 (value:Bool) in
-//                self.webIndicator.stopAnimating()
-//                self.zenIndicator.stopAnimating()
             })
     }
     
@@ -276,11 +275,37 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
             view.frame = CGRectMake(0,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
             }, completion: { (value:Bool) in
                 
-//                self.webIndicator.stopAnimating()
-//                self.zenIndicator.stopAnimating()
             })
         
     }
+    
+    // Methods to Animate WebView
+    func animateRightZenMode(view : UIWebView) {
+        view.frame = CGRectMake(-self.view.frame.width*2,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
+        
+        UIView.animateWithDuration(0.50, delay: 0.2, options: nil, animations: { () -> Void in
+            view.frame = CGRectMake(0,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
+            }, completion: {
+                (value:Bool) in
+        })
+    }
+    
+    func animateLeftZenMode(view : UIWebView) {
+        view.frame = CGRectMake(self.view.frame.width*2,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
+        
+        UIView.animateWithDuration(0.50, delay: 0.2, options: nil, animations: { () -> Void in
+            view.frame = CGRectMake(0,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
+            }, completion: { (value:Bool) in
+                
+        })
+        
+    }
+    
+//    func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
+//        var JS : String = "var meta = document.createElement('meta');meta.setAttribute('name', 'viewport');meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');document.getElementsByTagName('head')[0].appendChild(meta);"
+//        
+//        webView.evaluateJavaScript(JS, completionHandler: nil)
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
