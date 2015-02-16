@@ -14,6 +14,8 @@ let AUTH_TOKEN = "auth_token"
 let USER_ID = "id"
 let EMAIL = "email"
 let LINK_ID = "link_id"
+let DEVICE_TOKEN = "deviceToken"
+let FROM_MENU_VC = "fromMenuVC"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"
@@ -27,6 +29,3 @@ let DARK_BLUE_COLOR = "#002B5C"
 
 // View border color
 let BORDER_COLOR = "#64ACFF"
-
-// Others
-let DEVICE_TOKEN = "deviceToken"

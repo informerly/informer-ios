@@ -49,7 +49,7 @@
     AFHTTPClientFailureBlock failure = ^(AFHTTPRequestOperation *operation, NSError *error) {
         if (failureBlock){
             
-            failureBlock((int)operation.response.statusCode, error, operation.responseString);
+            failureBlock((int)operation.response.statusCode, error, operation.responseObject);
         }
     };
     

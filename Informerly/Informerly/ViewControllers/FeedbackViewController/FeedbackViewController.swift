@@ -16,6 +16,7 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet weak var feedbackLabel: UILabel!
     @IBOutlet weak var feedbackView: UIView!
+    private var indicator : UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +30,12 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
         self.backBtn.tintColor = UIColor.whiteColor()
         self.feedbackTextView.tintColor = UIColor.whiteColor()
         self.feedbackTextView.delegate = self
+        
+        // Activity indicator
+        indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
+        indicator.hidesWhenStopped = true
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        view.addSubview(indicator)
     }
     
     func applyGradient() {
@@ -57,37 +64,42 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
     @IBAction func onSendBtnPress(sender: AnyObject) {
         self.view.endEditing(true)
         
-        if (self.feedbackTextView.text != "Bugs, comments or feature ideas?" &&
-            self.feedbackTextView.text != "")
-        {
-            var feedback : PFObject = PFObject(className: "Feedback")
-            feedback["feedback"] = self.feedbackTextView.text
-            feedback["email"] = Utilities.sharedInstance.getStringForKey(EMAIL)
-            feedback["userID"] = Utilities.sharedInstance.getStringForKey(USER_ID)
-            feedback.saveInBackgroundWithBlock { (success:Bool, error:NSError!) -> Void in
-                if (success) {
-                    
-                    self.backBtn.hidden = true
-                    self.feedbackLabel.hidden = true
-                    self.feedbackView.hidden = true
-                    
-                    var rect : CGRect = CGRectMake(self.view.frame.size.width/3, self.view.frame.size.height/3, 110, 40)
-                    var thanksLabel : UILabel = UILabel(frame:rect)
-                    thanksLabel.font = UIFont(name: "OpenSans-Bold", size: 28)
-                    thanksLabel.text = "Thanks!"
-                    thanksLabel.textColor = UIColor.whiteColor()
-                    self.view.addSubview(thanksLabel)
-                    
-                    var timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("animateView"), userInfo: nil, repeats: false)
-
-                } else {
-                    self.showAlert("Error !", msg: "Unable to save feedback. Please try again")
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            indicator.startAnimating()
+            if (self.feedbackTextView.text != "Bugs, comments or feature ideas?" &&
+                self.feedbackTextView.text != "")
+            {
+                var feedback : PFObject = PFObject(className: "Feedback")
+                feedback["feedback"] = self.feedbackTextView.text
+                feedback["email"] = Utilities.sharedInstance.getStringForKey(EMAIL)
+                feedback["userID"] = Utilities.sharedInstance.getStringForKey(USER_ID)
+                feedback.saveInBackgroundWithBlock { (success:Bool, error:NSError!) -> Void in
+                    if (success) {
+                        self.indicator.stopAnimating()
+                        self.backBtn.hidden = true
+                        self.feedbackLabel.hidden = true
+                        self.feedbackView.hidden = true
+                        
+                        var rect : CGRect = CGRectMake(self.view.frame.size.width/3, self.view.frame.size.height/3, 110, 40)
+                        var thanksLabel : UILabel = UILabel(frame:rect)
+                        thanksLabel.font = UIFont(name: "OpenSans-Bold", size: 28)
+                        thanksLabel.text = "Thanks!"
+                        thanksLabel.textColor = UIColor.whiteColor()
+                        self.view.addSubview(thanksLabel)
+                        
+                        var timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("animateView"), userInfo: nil, repeats: false)
+                        
+                    } else {
+                        self.indicator.stopAnimating()
+                        self.showAlert("Error !", msg: "Unable to save feedback. Please try again")
+                    }
                 }
+            } else {
+                self.showAlert("No Feedback !", msg: "Please add some feedback.")
             }
         } else {
-            self.showAlert("No Feedback !", msg: "Please add some feedback.")
+            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
         }
-        
     }
     
     @IBAction func onBackBtnPress(sender: AnyObject) {

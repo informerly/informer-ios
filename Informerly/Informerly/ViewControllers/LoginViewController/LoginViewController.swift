@@ -17,7 +17,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var passwordView: UIView!
-    private var actInd : UIActivityIndicatorView!
+    private var indicator : UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,11 +43,10 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         }
         
         // Activity indicator
-        actInd = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2, 50, 50)) as UIActivityIndicatorView
-        actInd.center = self.view.center
-        actInd.hidesWhenStopped = true
-        actInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-        view.addSubview(actInd)
+        indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
+        indicator.hidesWhenStopped = true
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
+        view.addSubview(indicator)
     }
     
     func applyGradient() {
@@ -154,36 +153,38 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     @IBAction func onSignInBtnPress(sender: UIButton) {
         
         self.view.endEditing(true)
-        self.actInd.startAnimating()
-        var parameters = ["login":emailTextField.text,
-                          "password":passwordTextField.text,
-                          "device_token":Utilities.sharedInstance.getStringForKey(DEVICE_TOKEN)]
         
-        NetworkManager.sharedNetworkClient().processPostRequestWithPath(LOGIN_URL,
-            parameter: parameters,
-            success: { (requestStatus: Int32, processedData: AnyObject!, extraInfo:AnyObject!) -> Void in
-                self.actInd.stopAnimating()
-                var data : [String:AnyObject] = processedData as Dictionary
-                if (data["success"] as Bool == true) {
-                    User.sharedInstance.populateUser(processedData as Dictionary)
-                    Utilities.sharedInstance.setBoolForKey(true, key: IS_USER_LOGGED_IN)
-                    Utilities.sharedInstance.setStringForKey(User.sharedInstance.auth_token, key: AUTH_TOKEN)
-                    Utilities.sharedInstance.setStringForKey(String(User.sharedInstance.id), key: USER_ID)
-                    Utilities.sharedInstance.setStringForKey(self.emailTextField.text, key: EMAIL)
-                    self.performSegueWithIdentifier("FeedVC", sender: self)
-                }
-                
-            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                
-                self.actInd.stopAnimating()
-                
-                var error : [String:AnyObject] = extraInfo as Dictionary
-                var message : String = error["message"] as String
-                
-                var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            self.indicator.startAnimating()
+            var parameters = ["login":emailTextField.text,
+                "password":passwordTextField.text,
+                "device_token":Utilities.sharedInstance.getStringForKey(DEVICE_TOKEN)]
+            
+            NetworkManager.sharedNetworkClient().processPostRequestWithPath(LOGIN_URL,
+                parameter: parameters,
+                success: { (requestStatus: Int32, processedData: AnyObject!, extraInfo:AnyObject!) -> Void in
+                    self.indicator.stopAnimating()
+                    var data : [String:AnyObject] = processedData as Dictionary
+                    if (data["success"] as Bool == true) {
+                        User.sharedInstance.populateUser(processedData as Dictionary)
+                        Utilities.sharedInstance.setBoolForKey(true, key: IS_USER_LOGGED_IN)
+                        Utilities.sharedInstance.setStringForKey(User.sharedInstance.auth_token, key: AUTH_TOKEN)
+                        Utilities.sharedInstance.setStringForKey(String(User.sharedInstance.id), key: USER_ID)
+                        Utilities.sharedInstance.setStringForKey(self.emailTextField.text, key: EMAIL)
+                        self.performSegueWithIdentifier("FeedVC", sender: self)
+                    }
+                    
+                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    
+                    self.indicator.stopAnimating()
+                    
+                    var error : [String:AnyObject] = extraInfo as Dictionary
+                    var message : String = error["message"] as String
+                    self.showAlert("Error !", msg: message)
             }
+        } else {
+            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+        }
     
     }
     
@@ -198,6 +199,12 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func showAlert(title:String, msg:String) {
+        var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
 }

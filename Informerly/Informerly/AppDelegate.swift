@@ -17,10 +17,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch
         
-//        if let options = launchOptions {
-//            var notification: AnyObject? = options[UIApplicationLaunchOptionsRemoteNotificationKey]
-//            println("app recieved notification from remote \(notification)");
-//        }
+        if let options = launchOptions {
+            var notification: AnyObject? = options[UIApplicationLaunchOptionsRemoteNotificationKey]
+            var userInfo : [NSObject:AnyObject] = notification as Dictionary
+
+            var linkID : String =  String(userInfo["link_id"] as Int)
+            Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+        } else {
+            Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
+        }
+        
+//        Utilities.sharedInstance.setStringForKey("0", key: LINK_ID)
         
         // Emily adding Parse details - for Junaid's review.
         
@@ -115,19 +122,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFPush.handlePush(userInfo)
         
 //        var notification: AnyObject? = userInfo[UIApplicationLaunchOptionsRemoteNotificationKey]
-//        println("app recieved notification from remote \(userInfo)");
-//        
-//        if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
-//            
-//            var linkID : String = userInfo["link_id"] as String
-//            Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
-//            
-//            var storyboard = self.window?.rootViewController?.storyboard
-//            var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
-//            var navigationVC = self.window?.rootViewController as UINavigationController
-//            navigationVC.viewControllers = [rootVC]
-//            self.window?.rootViewController = navigationVC
-//        }
+        println("app recieved notification from remote \(userInfo)");
+        
+        if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
+            
+            var linkID : String = String(userInfo["link_id"] as Int)
+            Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            
+            var storyboard = self.window?.rootViewController?.storyboard
+            var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
+            var navigationVC = self.window?.rootViewController as UINavigationController
+            navigationVC.viewControllers = [rootVC]
+            self.window?.rootViewController = navigationVC
+        }
         
 
         if application.applicationState == UIApplicationState.Inactive {

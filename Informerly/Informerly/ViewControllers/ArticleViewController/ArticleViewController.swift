@@ -71,16 +71,14 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         self.view.addGestureRecognizer(swipeLeft)
         
         // Activity indicator
-        webIndicator = UIActivityIndicatorView() as UIActivityIndicatorView
-        webIndicator.center = self.view.center
+        webIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
         webIndicator.hidesWhenStopped = true
         webIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(webIndicator)
         webIndicator.startAnimating()
         
         // Activity indicator
-        zenIndicator = UIActivityIndicatorView() as UIActivityIndicatorView
-        zenIndicator.center = self.view.center
+        zenIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
         zenIndicator.hidesWhenStopped = true
         zenIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(zenIndicator)

@@ -12,7 +12,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
    
     private var feedsData : [Feeds.InformerlyFeed] = []
     private var rowID : Int!
-    private var actInd : UIActivityIndicatorView!
+    private var indicator : UIActivityIndicatorView!
     private var width : CGFloat!
     var refreshCntrl : UIRefreshControl!
     
@@ -43,55 +43,83 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         super.viewWillAppear(animated)
         
         UIApplication.sharedApplication().statusBarHidden = false
-        // Setting up activity indicator
-        actInd = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2, 50, 50)) as UIActivityIndicatorView
-        actInd.center = self.view.center
-        actInd.hidesWhenStopped = true
-        actInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-        view.addSubview(actInd)
-        self.actInd.startAnimating()
         
-        // Download feeds.
-        self.downloadData()
+        if Utilities.sharedInstance.getBoolForKey(FROM_MENU_VC) == false {
+            
+            // Setting up activity indicator
+            indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 100, 50, 50)) as UIActivityIndicatorView
+            indicator.hidesWhenStopped = true
+            indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+            view.addSubview(indicator)
+            self.indicator.startAnimating()
+            
+            // Download feeds.
+            self.downloadData()
+        } else {
+            Utilities.sharedInstance.setBoolForKey(false, key: FROM_MENU_VC)
+        }
     }
     
     func createNavTitle() {
         var title : UILabel = UILabel(frame: CGRectMake(0, 0, 65, 30))
         title.text = "Your Feed"
-        title.font = UIFont(name: "Open Sans", size: 14.0)
+        title.font = UIFont(name: "OpenSans-Reguler", size: 14.0)
         self.navigationItem.titleView = title
     }
     
     func downloadData() {
         
-        var auth_token = Utilities.sharedInstance.getStringForKey(AUTH_TOKEN)
-        var parameters = ["auth_token":auth_token,
-                          "client_id":"dev-ios-informer",
-                          "content":"true"]
-        
-        NetworkManager.sharedNetworkClient().processGetRequestWithPath(FEED_URL,
-            parameter: parameters,
-            success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
-                
-                if requestStatus == 200 {
-                    self.actInd.stopAnimating()
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            var auth_token = Utilities.sharedInstance.getStringForKey(AUTH_TOKEN)
+            var parameters = ["auth_token":auth_token,
+                "client_id":"dev-ios-informer",
+                "content":"true"]
+            
+            NetworkManager.sharedNetworkClient().processGetRequestWithPath(FEED_URL,
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    
+                    if requestStatus == 200 {
+                        self.indicator.stopAnimating()
+                        self.refreshCntrl.endRefreshing()
+                        Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
+                        self.feedsData.removeAll(keepCapacity: false)
+                        self.feedsData = Feeds.sharedInstance.getFeeds()
+                        
+                        var link_id : String! = Utilities.sharedInstance.getStringForKey(LINK_ID)
+                        println(link_id)
+                        var row = -1
+                        if link_id != "-1" {
+                            var feed : Feeds.InformerlyFeed!
+                            if  link_id != nil {
+                                for feed in self.feedsData {
+                                    row = row + 1
+                                    var id : Int = link_id.toInt()!
+                                    if feed.id == id {
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                        
+                        self.tableView.reloadData()
+                        self.tableView.layoutIfNeeded()
+                        var indexPath : NSIndexPath = NSIndexPath(forRow: row, inSection: 0)
+                        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                    }
+                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    self.indicator.stopAnimating()
                     self.refreshCntrl.endRefreshing()
-                    Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
-                    self.feedsData.removeAll(keepCapacity: false)
-                    self.feedsData = Feeds.sharedInstance.getFeeds()
-                    self.tableView.reloadData()
-                }
-            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                self.actInd.stopAnimating()
-                self.refreshCntrl.endRefreshing()
-                
-//                var error : [String:AnyObject] = extraInfo as Dictionary
-//                var message : String = extraInfo as String
-//                
-//                var alert = UIAlertController(title: "Error!", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-//                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-//                self.presentViewController(alert, animated: true, completion: nil)
+                    println(error)
+                    var error : [String:AnyObject] = extraInfo as Dictionary
+                    var message : String = error["error"] as String
+                    
+                    self.showAlert("Error !", msg: message)
             }
+        } else {
+            indicator.stopAnimating()
+            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+        }
     }
     
     // TableView delegates and Data source methods
@@ -100,9 +128,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
         return  self.getTextHeight(feedsData[indexPath.row].title!, width: width) + CGFloat(68)
-        
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -177,5 +203,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func showAlert(title:String, msg:String){
+        var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 }
