@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Informerly/ViewControllers/FeedViewController/FeedViewController.swift"
-            timestampString = "445790291.016242"
+            filePath = "Informerly/ViewControllers/ArticleViewController/ArticleViewController.swift"
+            timestampString = "445869458.136013"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "downloadData()"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
+            landmarkName = "webView(_:didFinishNavigation:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

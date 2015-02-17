@@ -17,7 +17,7 @@ class MenuViewController:UIViewController {
         
         indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
         indicator.hidesWhenStopped = true
-        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
         view.addSubview(indicator)
         indicator.hidden = true
     }
@@ -26,6 +26,7 @@ class MenuViewController:UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.sharedApplication().statusBarHidden = true
+        self.navigationController?.navigationBar.hidden = true
     }
     
     func applyGradient() {
@@ -43,7 +44,7 @@ class MenuViewController:UIViewController {
     
     @IBAction func onCrossPressed(sender: AnyObject) {
         Utilities.sharedInstance.setBoolForKey(true, key: FROM_MENU_VC)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func onLogoutPressed(sender: AnyObject) {

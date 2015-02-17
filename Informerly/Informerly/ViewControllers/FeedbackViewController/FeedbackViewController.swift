@@ -65,10 +65,10 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
         self.view.endEditing(true)
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            indicator.startAnimating()
             if (self.feedbackTextView.text != "Bugs, comments or feature ideas?" &&
                 self.feedbackTextView.text != "")
             {
+                indicator.startAnimating()
                 var feedback : PFObject = PFObject(className: "Feedback")
                 feedback["feedback"] = self.feedbackTextView.text
                 feedback["email"] = Utilities.sharedInstance.getStringForKey(EMAIL)
@@ -103,7 +103,7 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
     }
     
     @IBAction func onBackBtnPress(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     
@@ -134,14 +134,7 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
     }
     
     func animateView() {
-//        var menuVC = self.storyboard?.instantiateViewControllerWithIdentifier("menuVC") as MenuViewController
-//        UIView.transitionFromView(self.view,
-//            toView: menuVC.view,
-//            duration: 0.50,
-//            options: .CurveEaseInOut | .TransitionFlipFromRight,
-//            completion: nil)
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     

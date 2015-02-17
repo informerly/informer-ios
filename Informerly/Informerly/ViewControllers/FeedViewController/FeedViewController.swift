@@ -43,11 +43,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         super.viewWillAppear(animated)
         
         UIApplication.sharedApplication().statusBarHidden = false
-        
+        self.navigationController?.navigationBar.hidden = false
         if Utilities.sharedInstance.getBoolForKey(FROM_MENU_VC) == false {
             
             // Setting up activity indicator
-            indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 100, 50, 50)) as UIActivityIndicatorView
+            indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
             indicator.hidesWhenStopped = true
             indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
             view.addSubview(indicator)
@@ -104,8 +104,14 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         
                         self.tableView.reloadData()
                         self.tableView.layoutIfNeeded()
-                        var indexPath : NSIndexPath = NSIndexPath(forRow: row, inSection: 0)
-                        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                        
+//                        var indexPath : NSIndexPath = NSIndexPath(forRow: row, inSection: 0)
+//                        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
+                        if link_id != "-1" {
+                            Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
+                            self.rowID = row
+                            self.performSegueWithIdentifier("ArticleVC", sender: self)
+                        }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     self.indicator.stopAnimating()
@@ -194,7 +200,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func onMenuPressed() {
         var menuVC = self.storyboard?.instantiateViewControllerWithIdentifier("menuVC") as UIViewController
-        self.presentViewController(menuVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(menuVC, animated: true)
     }
     
     func onPullToRefresh(sender:AnyObject) {
