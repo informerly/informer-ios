@@ -19,6 +19,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
     var zenIndicator : UIActivityIndicatorView!
     var swipeDirection : String!
     var isZenMode : Bool!
+    var isStarted : Bool!
     
     override func viewDidLoad() {
         
@@ -39,6 +40,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         var frame : CGRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
         articleWebView = WKWebView(frame: frame, configuration: WKWebViewConfiguration())
         articleWebView.navigationDelegate = self
+        articleWebView.hidden = true
         self.view.addSubview(articleWebView)
         
         // Creates Zen mode Web view
@@ -71,14 +73,14 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         self.view.addGestureRecognizer(swipeLeft)
         
         // Activity indicator
-        webIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
+        webIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 50, 50, 50)) as UIActivityIndicatorView
         webIndicator.hidesWhenStopped = true
         webIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(webIndicator)
         webIndicator.startAnimating()
         
         // Activity indicator
-        zenIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
+        zenIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 50,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
         zenIndicator.hidesWhenStopped = true
         zenIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(zenIndicator)
@@ -126,14 +128,18 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
                 self.webIndicator.startAnimating()
             }
             
-            self.articleWebView.frame = CGRectMake(-self.articleWebView.frame.width*2,
-                self.articleWebView.frame.origin.y,
-                self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
+//            self.articleWebView.frame = CGRectMake(-self.articleWebView.frame.width*2,
+//                self.articleWebView.frame.origin.y,
+//                self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
+//            
+//            UIView.animateWithDuration(0.50, animations: { () -> Void in
+//                self.articleWebView.frame = CGRectMake(0,
+//                    self.articleWebView.frame.origin.y,
+//                    self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
+//            })
             
-            UIView.animateWithDuration(0.50, animations: { () -> Void in
-                self.articleWebView.frame = CGRectMake(0,
-                    self.articleWebView.frame.origin.y,
-                    self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
+            UIView.transitionFromView(self.articleZenView, toView: self.articleWebView, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromLeft, completion: { (finished:Bool) -> Void in
+                
             })
             
             
@@ -144,14 +150,21 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
             self.webIndicator.hidden = true
             self.articleZenView.hidden = false
             
-            self.articleZenView.frame = CGRectMake(self.articleZenView.frame.width*2,
-                self.articleZenView.frame.origin.y,
-                self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
+//            self.articleZenView.frame = CGRectMake(self.articleZenView.frame.width*2,
+//                self.articleZenView.frame.origin.y,
+//                self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
+//            
+//            UIView.animateWithDuration(0.50, animations: { () -> Void in
+//                self.articleZenView.frame = CGRectMake(0,
+//                    self.articleZenView.frame.origin.y,
+//                    self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
+//            })
             
-            UIView.animateWithDuration(0.50, animations: { () -> Void in
-                self.articleZenView.frame = CGRectMake(0,
-                    self.articleZenView.frame.origin.y,
-                    self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
+            UIView.transitionFromView(self.articleWebView, toView: self.articleZenView, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight,
+                completion: { (finished : Bool) -> Void in
+//                    self.articleWebView.hidden = true
+//                    self.webIndicator.hidden = true
+//                    self.articleZenView.hidden = false
             })
         }
     }
@@ -240,13 +253,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         self.presentViewController(activityVC, animated: true, completion: nil)
     }
     
-    
     // Web view delegate
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         println("finish")
         webIndicator.stopAnimating()
-        
         articleWebView.hidden = false
+        
         if self.swipeDirection == "Right" {
             self.animateRight(articleWebView)
         } else if self.swipeDirection == "Left" {
@@ -299,11 +311,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         
     }
     
-//    func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
-//        var JS : String = "var meta = document.createElement('meta');meta.setAttribute('name', 'viewport');meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');document.getElementsByTagName('head')[0].appendChild(meta);"
-//        
-//        webView.evaluateJavaScript(JS, completionHandler: nil)
-//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
