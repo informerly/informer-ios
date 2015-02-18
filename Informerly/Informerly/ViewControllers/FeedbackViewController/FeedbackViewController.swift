@@ -63,6 +63,7 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
     
     @IBAction func onSendBtnPress(sender: AnyObject) {
         self.view.endEditing(true)
+        self.sendbtn.enabled = false
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             if (self.feedbackTextView.text != "Bugs, comments or feature ideas?" &&

@@ -226,7 +226,7 @@
                         <viewControllerLayoutGuide type="bottom" id="2k0-RF-Ewo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bj6-EX-SLL">
-                        <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

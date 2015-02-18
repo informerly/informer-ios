@@ -43,7 +43,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         }
         
         // Activity indicator
-        indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
+        indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 25, 0, 0)) as UIActivityIndicatorView
         indicator.hidesWhenStopped = true
         indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.White
         view.addSubview(indicator)

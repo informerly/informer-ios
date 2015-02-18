@@ -21,6 +21,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
     var isZenMode : Bool!
     var isStarted : Bool!
     
+    let ANIMATION_DURATION = 1.0
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -40,13 +42,13 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         var frame : CGRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
         articleWebView = WKWebView(frame: frame, configuration: WKWebViewConfiguration())
         articleWebView.navigationDelegate = self
-        articleWebView.hidden = true
+        articleWebView.alpha = 0.0
         self.view.addSubview(articleWebView)
         
         // Creates Zen mode Web view
         articleZenView = UIWebView()
         articleZenView.frame = frame
-        articleZenView.hidden = true
+        articleZenView.alpha = 0.0
         self.view.addSubview(articleZenView)
 
         // Getting feeds from model
@@ -73,14 +75,14 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         self.view.addGestureRecognizer(swipeLeft)
         
         // Activity indicator
-        webIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 50, 50, 50)) as UIActivityIndicatorView
+        webIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
         webIndicator.hidesWhenStopped = true
         webIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(webIndicator)
         webIndicator.startAnimating()
         
         // Activity indicator
-        zenIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 50,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
+        zenIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
         zenIndicator.hidesWhenStopped = true
         zenIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(zenIndicator)
@@ -117,10 +119,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
     {
         if sender.selectedSegmentIndex == 0 {
             isZenMode = false
-            self.articleZenView.hidden = true
+            self.articleZenView.alpha = 0.0
             
             if articleWebView.loading == false {
-                self.articleWebView.hidden = false
+                UIView.animateWithDuration(ANIMATION_DURATION, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                    self.articleWebView.alpha = 1.0
+                    }, completion: nil)
                 self.webIndicator.stopAnimating()
                 self.webIndicator.hidesWhenStopped = true
             } else {
@@ -128,44 +132,18 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
                 self.webIndicator.startAnimating()
             }
             
-//            self.articleWebView.frame = CGRectMake(-self.articleWebView.frame.width*2,
-//                self.articleWebView.frame.origin.y,
-//                self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
-//            
-//            UIView.animateWithDuration(0.50, animations: { () -> Void in
-//                self.articleWebView.frame = CGRectMake(0,
-//                    self.articleWebView.frame.origin.y,
-//                    self.articleWebView.frame.size.width, self.articleWebView.frame.size.height)
-//            })
             
-            UIView.transitionFromView(self.articleZenView, toView: self.articleWebView, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromLeft, completion: { (finished:Bool) -> Void in
-                
-            })
             
             
         } else if sender.selectedSegmentIndex == 1 {
             
             isZenMode = true
-            self.articleWebView.hidden = true
+            self.articleWebView.alpha = 0.0
             self.webIndicator.hidden = true
-            self.articleZenView.hidden = false
             
-//            self.articleZenView.frame = CGRectMake(self.articleZenView.frame.width*2,
-//                self.articleZenView.frame.origin.y,
-//                self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
-//            
-//            UIView.animateWithDuration(0.50, animations: { () -> Void in
-//                self.articleZenView.frame = CGRectMake(0,
-//                    self.articleZenView.frame.origin.y,
-//                    self.articleZenView.frame.size.width, self.articleZenView.frame.size.height)
-//            })
-            
-            UIView.transitionFromView(self.articleWebView, toView: self.articleZenView, duration: 0.5, options: UIViewAnimationOptions.TransitionFlipFromRight,
-                completion: { (finished : Bool) -> Void in
-//                    self.articleWebView.hidden = true
-//                    self.webIndicator.hidden = true
-//                    self.articleZenView.hidden = false
-            })
+            UIView.animateWithDuration(ANIMATION_DURATION, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                self.articleZenView.alpha = 1.0
+            }, completion: nil)
         }
     }
     
@@ -180,8 +158,21 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                 println("Successfully marked as read.")
+                self.feeds[self.articleIndex].read = true
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 println("Failure marking article as read")
+                
+                var error : [String:AnyObject] = extraInfo as Dictionary
+                var message : String = error["error"] as String
+                
+                if message == "Invalid authentication token." {
+                    var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                        var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                        self.showViewController(loginVC, sender: self)
+                    }))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
             }
     }
     
@@ -203,7 +194,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
                     self.swipeDirection = "Right"
                     articleIndex = articleIndex - Int(1)
                     articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
-                    articleWebView.hidden = true
+                    articleWebView.alpha = 0.0
                     
                     if feeds[articleIndex].content != nil {
                         var content: String = feeds[articleIndex].content!
@@ -222,7 +213,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
                         self.zenIndicator.startAnimating()
                     }
                     self.swipeDirection = "Left"
-                    articleWebView.hidden = true
+                    articleWebView.alpha = 0.0
                     articleIndex = articleIndex + Int(1)
                     articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
                     
@@ -257,7 +248,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         println("finish")
         webIndicator.stopAnimating()
-        articleWebView.hidden = false
+//        articleWebView.hidden = false
+        articleWebView.alpha = 1.0
         
         if self.swipeDirection == "Right" {
             self.animateRight(articleWebView)

@@ -65,7 +65,6 @@ class MenuViewController:UIViewController {
                     var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
                     self.showViewController(loginVC, sender: self)
                     
-                    
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     self.indicator.stopAnimating()
                     println(error.localizedDescription)

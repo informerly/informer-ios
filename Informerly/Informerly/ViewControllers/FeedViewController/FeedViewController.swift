@@ -37,6 +37,16 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.refreshCntrl = UIRefreshControl()
         self.refreshCntrl.addTarget(self, action: Selector("onPullToRefresh:"), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(self.refreshCntrl)
+        
+        // Setting up activity indicator
+        indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
+        indicator.hidesWhenStopped = true
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        view.addSubview(indicator)
+        self.indicator.startAnimating()
+        
+        // Download feeds.
+        self.downloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -45,16 +55,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         UIApplication.sharedApplication().statusBarHidden = false
         self.navigationController?.navigationBar.hidden = false
         if Utilities.sharedInstance.getBoolForKey(FROM_MENU_VC) == false {
-            
-            // Setting up activity indicator
-            indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
-            indicator.hidesWhenStopped = true
-            indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-            view.addSubview(indicator)
-            self.indicator.startAnimating()
-            
-            // Download feeds.
-            self.downloadData()
+            self.tableView.reloadData()
         } else {
             Utilities.sharedInstance.setBoolForKey(false, key: FROM_MENU_VC)
         }
@@ -71,6 +72,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             var auth_token = Utilities.sharedInstance.getStringForKey(AUTH_TOKEN)
+            println(auth_token)
             var parameters = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "content":"true"]
@@ -80,6 +82,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
+                        
                         self.indicator.stopAnimating()
                         self.refreshCntrl.endRefreshing()
                         Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
@@ -119,6 +122,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     println(error)
                     var error : [String:AnyObject] = extraInfo as Dictionary
                     var message : String = error["error"] as String
+                    
+                    if message == "Invalid authentication token." {
+                        var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                            var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                            self.showViewController(loginVC, sender: self)
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
                     
                     self.showAlert("Error !", msg: message)
             }
