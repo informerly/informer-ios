@@ -168,7 +168,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                     if (data["success"] as Bool == true) {
                         User.sharedInstance.populateUser(processedData as Dictionary)
                         Utilities.sharedInstance.setBoolForKey(true, key: IS_USER_LOGGED_IN)
-                        Utilities.sharedInstance.setStringForKey(User.sharedInstance.auth_token, key: AUTH_TOKEN)
+//                        Utilities.sharedInstance.setStringForKey(User.sharedInstance.auth_token, key: AUTH_TOKEN)
+                        Utilities.sharedInstance.setAuthToken(User.sharedInstance.auth_token, key: AUTH_TOKEN)
                         Utilities.sharedInstance.setStringForKey(String(User.sharedInstance.id), key: USER_ID)
                         Utilities.sharedInstance.setStringForKey(self.emailTextField.text, key: EMAIL)
                         self.performSegueWithIdentifier("FeedVC", sender: self)

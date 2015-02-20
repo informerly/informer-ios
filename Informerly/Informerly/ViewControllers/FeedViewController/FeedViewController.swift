@@ -71,7 +71,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func downloadData() {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var auth_token = Utilities.sharedInstance.getStringForKey(AUTH_TOKEN)
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             println(auth_token)
             var parameters = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
@@ -108,8 +108,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         self.tableView.reloadData()
                         self.tableView.layoutIfNeeded()
                         
-//                        var indexPath : NSIndexPath = NSIndexPath(forRow: row, inSection: 0)
-//                        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
                         if link_id != "-1" {
                             Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
                             self.rowID = row

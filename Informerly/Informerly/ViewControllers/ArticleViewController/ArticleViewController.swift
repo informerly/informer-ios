@@ -151,7 +151,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
     // Web serivce to mark article as Read.
     func markRead() {
         var path : String = "links/\(feeds[articleIndex].id!)/read"
-        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getStringForKey(AUTH_TOKEN),
+        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
                                                "client_id":"",
                                                "link_id": feeds[articleIndex].id!]
         NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,

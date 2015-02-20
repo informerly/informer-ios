@@ -30,11 +30,22 @@ class Utilities {
     func setStringForKey(value:String,key:String) {
         NSUserDefaults.standardUserDefaults().setObject(value, forKey: key)
         NSUserDefaults.standardUserDefaults().synchronize()
-        
     }
     
     func getStringForKey(key:String)->String {
         return NSUserDefaults.standardUserDefaults().stringForKey(key)!
+    }
+    
+    
+    func setAuthToken(value:String,key:String) {
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+        userDefaults.setObject(value, forKey: AUTH_TOKEN)
+        userDefaults.synchronize()
+    }
+    
+    func getAuthToken(key:String)->String {
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+        return userDefaults.stringForKey(key)!
     }
     
     func isConnectedToNetwork() -> Bool {
