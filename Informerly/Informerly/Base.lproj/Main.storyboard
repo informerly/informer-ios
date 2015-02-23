@@ -399,7 +399,7 @@
         <!--Help View Controller-->
         <scene sceneID="ull-cn-Irw">
             <objects>
-                <viewController id="E2L-wB-N30" customClass="HelpViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HelpVC" id="E2L-wB-N30" customClass="HelpViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BaG-Y4-fyP"/>
                         <viewControllerLayoutGuide type="bottom" id="NZd-bb-C05"/>

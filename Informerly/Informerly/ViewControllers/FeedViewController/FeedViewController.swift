@@ -64,7 +64,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func createNavTitle() {
         var title : UILabel = UILabel(frame: CGRectMake(0, 0, 65, 30))
         title.text = "Your Feed"
-        title.font = UIFont(name: "OpenSans-Reguler", size: 14.0)
+        title.font = UIFont(name: "OpenSans-Regular", size: 14.0)
         self.navigationItem.titleView = title
     }
     

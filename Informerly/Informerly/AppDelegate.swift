@@ -19,10 +19,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let options = launchOptions {
             var notification: AnyObject? = options[UIApplicationLaunchOptionsRemoteNotificationKey]
-            var userInfo : [NSObject:AnyObject] = notification as Dictionary
-
-            var linkID : String =  String(userInfo["link_id"] as Int)
-            Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            
+            if notification != nil {
+                var userInfo : [NSObject:AnyObject] = notification as Dictionary
+                var linkID : String =  String(userInfo["link_id"] as Int)
+                Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            } else {
+                
+                var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+                var linkID : String = userDefaults.stringForKey("StoryIndex")!
+                Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            }
         } else {
             Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
         }
@@ -49,9 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
             }
         }
-        
-        
-        
         
         var pushSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: .Alert, categories: nil)
                 

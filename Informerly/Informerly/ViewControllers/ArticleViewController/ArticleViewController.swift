@@ -17,7 +17,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
     var articleIndex : Int!
     var webIndicator : UIActivityIndicatorView!
     var zenIndicator : UIActivityIndicatorView!
-    var swipeDirection : String!
     var isZenMode : Bool!
     var isStarted : Bool!
     
@@ -68,11 +67,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         //Article Web View Gestures 
         var swipeRight = UISwipeGestureRecognizer(target: self, action: "onWebModeSwipe:")
         swipeRight.direction = UISwipeGestureRecognizerDirection.Right
-        self.view.addGestureRecognizer(swipeRight)
+        self.articleZenView.addGestureRecognizer(swipeRight)
         
         var swipeLeft = UISwipeGestureRecognizer(target: self, action: "onWebModeSwipe:")
         swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
-        self.view.addGestureRecognizer(swipeLeft)
+        self.articleZenView.addGestureRecognizer(swipeLeft)
         
         // Activity indicator
         webIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
@@ -87,7 +86,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         zenIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(zenIndicator)
         
-        swipeDirection = ""
         isZenMode = false
 
     }
@@ -132,9 +130,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
                 self.webIndicator.startAnimating()
             }
             
-            
-            
-            
         } else if sender.selectedSegmentIndex == 1 {
             
             isZenMode = true
@@ -162,16 +157,18 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 println("Failure marking article as read")
                 
-                var error : [String:AnyObject] = extraInfo as Dictionary
-                var message : String = error["error"] as String
-                
-                if message == "Invalid authentication token." {
-                    var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                        var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
-                        self.showViewController(loginVC, sender: self)
-                    }))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                if extraInfo != nil {
+                    var error : [String:AnyObject] = extraInfo as Dictionary
+                    var message : String = error["error"] as String
+                    
+                    if message == "Invalid authentication token." {
+                        var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                            var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                            self.showViewController(loginVC, sender: self)
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
                 }
             }
     }
@@ -185,44 +182,36 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
             case UISwipeGestureRecognizerDirection.Right:
                 println("Swiped right")
                 if articleIndex - Int(1) >= 0 {
-                    if isZenMode == false {
-                        self.webIndicator.startAnimating()
-                    } else {
-                        self.zenIndicator.startAnimating()
-                    }
                     
-                    self.swipeDirection = "Right"
                     articleIndex = articleIndex - Int(1)
                     articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
                     articleWebView.alpha = 0.0
                     
                     if feeds[articleIndex].content != nil {
+                        self.zenIndicator.startAnimating()
                         var content: String = feeds[articleIndex].content!
                         articleZenView.loadHTMLString(content, baseURL: nil)
                         self.animateRightZenMode(articleZenView)
-                        self.zenIndicator.stopAnimating()
+                        
                     }
+                    self.zenIndicator.stopAnimating()
                     self.markRead()
                 }
             case UISwipeGestureRecognizerDirection.Left:
                 println("Swiped left")
                 if articleIndex + Int(1) < feeds.count {
-                    if isZenMode == false {
-                        self.webIndicator.startAnimating()
-                    } else {
-                        self.zenIndicator.startAnimating()
-                    }
-                    self.swipeDirection = "Left"
+                    
                     articleWebView.alpha = 0.0
                     articleIndex = articleIndex + Int(1)
                     articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
                     
                     if feeds[articleIndex].content != nil {
+                        self.zenIndicator.startAnimating()
                         var content: String = feeds[articleIndex].content!
                         articleZenView.loadHTMLString(content, baseURL: nil)
                         self.animateLeftZenMode(articleZenView)
-                        self.zenIndicator.stopAnimating()
                     }
+                    self.zenIndicator.stopAnimating()
                     self.markRead()
                 }
             default:
@@ -248,37 +237,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         println("finish")
         webIndicator.stopAnimating()
-//        articleWebView.hidden = false
         articleWebView.alpha = 1.0
-        
-        if self.swipeDirection == "Right" {
-            self.animateRight(articleWebView)
-        } else if self.swipeDirection == "Left" {
-            self.animateLeft(articleWebView)
-        }
-    }
-    
-    
-    // Methods to Animate WebView
-    func animateRight(view : WKWebView) {
-        view.frame = CGRectMake(-self.view.frame.width*2,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
-        
-        UIView.animateWithDuration(0.50, delay: 0.2, options: nil, animations: { () -> Void in
-            view.frame = CGRectMake(0,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
-            }, completion: {
-                (value:Bool) in
-            })
-    }
-    
-    func animateLeft(view : WKWebView) {
-        view.frame = CGRectMake(self.view.frame.width*2,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
-        
-        UIView.animateWithDuration(0.50, delay: 0.2, options: nil, animations: { () -> Void in
-            view.frame = CGRectMake(0,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
-            }, completion: { (value:Bool) in
-                
-            })
-        
     }
     
     // Methods to Animate WebView

@@ -24,30 +24,52 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         self.nextStoryBtn.layer.borderColor = UIColor(rgba: "#64ACFF").CGColor
         self.nextStoryBtn.layer.borderWidth = 2.0
         self.nextStoryBtn.layer.cornerRadius = 5.0
+        self.nextStoryBtn.hidden = false
         
+        
+        //Article Web View Gestures
+        var tap = UITapGestureRecognizer(target: self, action: "onTitleTap")
+        self.titleLabel.addGestureRecognizer(tap)
+        titleLabel.userInteractionEnabled = true
         
         var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
-        var token : String = userDefaults.stringForKey("auth_token")!
+        var token : String! = userDefaults.stringForKey("auth_token")
         
-        var parameters = ["auth_token":token,
-            "client_id":"dev-ios-informer",
-            "content":"true"]
-        
-        
-        NetworkManager.sharedNetworkClient().processGetRequestWithPath("feeds",
-            parameter: parameters,
-            success: { (requestStatus : Int32, processedData : AnyObject!, extraInfo : AnyObject!) -> Void in
-                if requestStatus == 200 {
-                    self.feeds = processedData["links"] as Array
-                    var feed : [String:AnyObject] = self.feeds[self.index] as Dictionary
-                    var title : String = feed["title"] as String
-                    println(title)
-                    self.titleLabel.text = title
-                }
-            }) { (status : Int32, error : NSError!, extraInfo:AnyObject!) -> Void in
-                println("error")
+        if token != nil {
+            var parameters = ["auth_token":token,
+                "client_id":"dev-ios-informer",
+                "content":"true"]
+            
+            NetworkManager.sharedNetworkClient().processGetRequestWithPath("feeds",
+                parameter: parameters,
+                success: { (requestStatus : Int32, processedData : AnyObject!, extraInfo : AnyObject!) -> Void in
+                    if requestStatus == 200 {
+                        self.feeds = processedData["links"] as Array
+                        var feed : [String:AnyObject] = self.feeds[self.index] as Dictionary
+                        var title : String = feed["title"] as String
+                        println(title)
+                        self.titleLabel.text = title
+                    }
+                }) { (status : Int32, error : NSError!, extraInfo:AnyObject!) -> Void in
+                    println("error")
+            }
+        } else {
+            self.titleLabel.text = "Unable to load title."
+            self.nextStoryBtn.hidden = true
         }
-
+    }
+    
+    func onTitleTap() {
+        println("tapped")
+        
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+        userDefaults.setObject("\(index)", forKey: "StoryIndex")
+        userDefaults.synchronize()
+        
+        var url =  NSURL(string:"TodayExtension://home")
+        self.extensionContext?.openURL(url!, completionHandler:{(success: Bool) -> Void in
+            println("task done!")
+        })
     }
     
     override func didReceiveMemoryWarning() {
@@ -61,6 +83,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         completionHandler(NCUpdateResult.NewData)
     }
     
+//    func widgetMarginInsetsForProposedMarginInsets(defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets {
+//        defaultMarginInsets.bottom = 10.0
+//        return defaultMarginInsets
+//    }
+    
+    
+    
     @IBAction func onNextBtnPressed(sender: AnyObject) {
         self.index = self.index + 1
         
@@ -71,5 +100,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         var title : String = feed["title"] as String
         println(title)
         self.titleLabel.text = title
+        
     }
 }

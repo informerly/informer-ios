@@ -334,7 +334,6 @@
 		1845B9B51A7F8C4600172610 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				186BD5351A9711640044C86B /* TodayWidget */,
 				187EAA561A8DFF42000ED503 /* HelpViewController */,
 				187EAA531A8DD686000ED503 /* FeedbackViewController */,
 				18E609BC1A85376A0082DC6C /* MenuViewController */,
@@ -368,13 +367,6 @@
 				1845B9DF1A7F8F9D00172610 /* NetworkManager.m */,
 			);
 			path = "Network Manager";
-			sourceTree = "<group>";
-		};
-		186BD5351A9711640044C86B /* TodayWidget */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = TodayWidget;
 			sourceTree = "<group>";
 		};
 		186BD53B1A9711FE0044C86B /* Frameworks */ = {
