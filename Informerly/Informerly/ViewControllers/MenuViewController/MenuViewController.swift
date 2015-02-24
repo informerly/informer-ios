@@ -60,7 +60,7 @@ class MenuViewController:UIViewController {
                     self.indicator.stopAnimating()
                     Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
 //                    Utilities.sharedInstance.setStringForKey(AUTH_TOKEN, key: "")
-                    Utilities.sharedInstance.setAuthToken(AUTH_TOKEN, key: "")
+                    Utilities.sharedInstance.setAuthToken("", key: AUTH_TOKEN)
                     Utilities.sharedInstance.setBoolForKey(false, key: FROM_MENU_VC)
                     
                     var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
@@ -71,6 +71,7 @@ class MenuViewController:UIViewController {
                     println(error.localizedDescription)
             }
         } else {
+            self.indicator.stopAnimating()
             self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
         }
     }

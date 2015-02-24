@@ -25,7 +25,7 @@
 			<string>com.informerly.informer</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>todayExtension</string>
+				<string>TodayExtension</string>
 			</array>
 		</dict>
 	</array>

@@ -134,6 +134,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             }
         } else {
             indicator.stopAnimating()
+            self.refreshCntrl.endRefreshing()
             self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
         }
     }

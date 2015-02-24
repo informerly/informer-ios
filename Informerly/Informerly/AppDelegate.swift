@@ -25,9 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 var linkID : String =  String(userInfo["link_id"] as Int)
                 Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             } else {
-                
                 var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
-                var linkID : String = userDefaults.stringForKey("StoryIndex")!
+                var linkID : String = userDefaults.stringForKey("id")!
                 Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             }
         } else {
@@ -145,6 +144,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayloadInBackground(userInfo, block: nil)
         }
         println("Push sent/opened?")
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+        var linkID : String = userDefaults.stringForKey("id")!
+        Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+        println(linkID)
+        
+        var storyboard = self.window?.rootViewController?.storyboard
+        var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
+        var navigationVC = self.window?.rootViewController as UINavigationController
+        navigationVC.viewControllers = [rootVC]
+        self.window?.rootViewController = navigationVC
+        
+        return true
     }
     
 }

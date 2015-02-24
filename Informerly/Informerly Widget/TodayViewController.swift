@@ -10,7 +10,7 @@ import UIKit
 import NotificationCenter
 
 class TodayViewController: UIViewController, NCWidgetProviding {
-        
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var nextStoryBtn: UIButton!
     var feeds : [AnyObject]!
@@ -24,7 +24,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         self.nextStoryBtn.layer.borderColor = UIColor(rgba: "#64ACFF").CGColor
         self.nextStoryBtn.layer.borderWidth = 2.0
         self.nextStoryBtn.layer.cornerRadius = 5.0
-        self.nextStoryBtn.hidden = false
         
         
         //Article Web View Gestures
@@ -35,7 +34,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
         var token : String! = userDefaults.stringForKey("auth_token")
         
-        if token != nil {
+        if token != nil && token != "" {
             var parameters = ["auth_token":token,
                 "client_id":"dev-ios-informer",
                 "content":"true"]
@@ -49,6 +48,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                         var title : String = feed["title"] as String
                         println(title)
                         self.titleLabel.text = title
+                        self.nextStoryBtn.hidden = false
                     }
                 }) { (status : Int32, error : NSError!, extraInfo:AnyObject!) -> Void in
                     println("error")
@@ -60,10 +60,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     func onTitleTap() {
-        println("tapped")
+        
+        var feed : [String:AnyObject] = self.feeds[self.index] as Dictionary
+        var id : Int = feed["id"] as Int
         
         var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
-        userDefaults.setObject("\(index)", forKey: "StoryIndex")
+        userDefaults.setObject("\(id)", forKey: "id")
         userDefaults.synchronize()
         
         var url =  NSURL(string:"TodayExtension://home")
@@ -83,10 +85,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         completionHandler(NCUpdateResult.NewData)
     }
     
-//    func widgetMarginInsetsForProposedMarginInsets(defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets {
-//        defaultMarginInsets.bottom = 10.0
-//        return defaultMarginInsets
-//    }
+    func widgetMarginInsetsForProposedMarginInsets(defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets {
+        var newMargins : UIEdgeInsets = UIEdgeInsets(top: defaultMarginInsets.top, left: defaultMarginInsets.left, bottom: 10.0, right: 15.0)
+        return newMargins
+    }
     
     
     

@@ -100,7 +100,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="iHp-Xa-6ef">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="new_logo" translatesAutoresizingMaskIntoConstraints="NO" id="iHp-Xa-6ef">
                                         <rect key="frame" x="80" y="14" width="160" height="16"/>
                                     </imageView>
                                 </subviews>
@@ -294,7 +294,7 @@
                                     <action selector="onLogoutPressed:" destination="TBP-BJ-AuH" eventType="touchUpInside" id="UhS-95-90B"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="T3n-Yr-a9b">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="new_logo" translatesAutoresizingMaskIntoConstraints="NO" id="T3n-Yr-a9b">
                                 <rect key="frame" x="240" y="40" width="120" height="12"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="GtM-fO-jO9"/>
@@ -493,8 +493,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo" width="160" height="16"/>
         <image name="clock_icon" width="16" height="16"/>
         <image name="icon_back_white" width="16" height="16"/>
+        <image name="new_logo" width="160" height="19"/>
     </resources>
 </document>
