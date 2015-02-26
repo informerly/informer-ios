@@ -101,7 +101,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="new_logo" translatesAutoresizingMaskIntoConstraints="NO" id="iHp-Xa-6ef">
-                                        <rect key="frame" x="80" y="14" width="160" height="16"/>
+                                        <rect key="frame" x="80" y="14" width="160" height="19"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -295,10 +295,10 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="new_logo" translatesAutoresizingMaskIntoConstraints="NO" id="T3n-Yr-a9b">
-                                <rect key="frame" x="240" y="40" width="120" height="12"/>
+                                <rect key="frame" x="240" y="40" width="120" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="GtM-fO-jO9"/>
-                                    <constraint firstAttribute="height" constant="12" id="Hzv-BJ-jDn"/>
+                                    <constraint firstAttribute="height" constant="14" id="Hzv-BJ-jDn"/>
                                 </constraints>
                             </imageView>
                         </subviews>
