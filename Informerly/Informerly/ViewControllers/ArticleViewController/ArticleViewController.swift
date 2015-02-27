@@ -9,16 +9,16 @@
 import Foundation
 import WebKit
 
-class ArticleViewController : UIViewController,WKNavigationDelegate {
+class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollViewDelegate {
     
     var articleWebView : WKWebView!
-    var articleZenView : UIWebView!
+    var zenModeScrollView : UIScrollView!
     var feeds : [Feeds.InformerlyFeed]!
     var articleIndex : Int!
     var webIndicator : UIActivityIndicatorView!
-    var zenIndicator : UIActivityIndicatorView!
     var isZenMode : Bool!
     var isStarted : Bool!
+    var zenModeWebViewX : CGFloat!
     
     let ANIMATION_DURATION = 1.0
     
@@ -37,6 +37,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         var navBarHeight = self.navigationController?.navigationBar.frame.height
         var resultantHeight = statusBarHeight + navBarHeight!
         
+        // Getting feeds from model
+        self.feeds = Feeds.sharedInstance.getFeeds()
+        
         // Creates Article web view
         var frame : CGRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
         articleWebView = WKWebView(frame: frame, configuration: WKWebViewConfiguration())
@@ -44,34 +47,37 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         articleWebView.alpha = 0.0
         self.view.addSubview(articleWebView)
         
-        // Creates Zen mode Web view
-        articleZenView = UIWebView()
-        articleZenView.frame = frame
-        articleZenView.alpha = 0.0
-        self.view.addSubview(articleZenView)
-
-        // Getting feeds from model
-        self.feeds = Feeds.sharedInstance.getFeeds()
-        
         // Load article in web and zen mode
         articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
         
-        if feeds[articleIndex].content != nil {
-            var content : String = feeds[articleIndex].content!
-            articleZenView.loadHTMLString(content, baseURL: nil)
+        // Create Zen mode ScrollView
+        var rect : CGRect = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - resultantHeight)
+        self.zenModeScrollView = UIScrollView(frame: rect)
+        self.zenModeScrollView.contentSize = CGSizeMake(self.view.frame.width * CGFloat(self.feeds.count) , self.view.frame.height - resultantHeight)
+        self.zenModeScrollView.pagingEnabled = true
+        self.zenModeScrollView.delegate = self
+        self.zenModeScrollView.alpha = 0.0
+        self.view.addSubview(self.zenModeScrollView)
+        
+        self.zenModeWebViewX = 0
+        for var i=0; i<self.feeds.count; i++ {
+            // Creates Zen mode Web view
+            var frame : CGRect = CGRectMake(self.zenModeWebViewX, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
+            var articleZenView : UIWebView = UIWebView()
+            articleZenView.frame = frame
+            self.zenModeScrollView.addSubview(articleZenView)
+            
+            if feeds[i].content != nil {
+                var content : String = feeds[i].content!
+                articleZenView.loadHTMLString(content, baseURL: nil)
+            }
+            
+            self.zenModeWebViewX = self.zenModeWebViewX + self.view.frame.width
+
         }
         
-        // Calls Read Web-Service
+        //Calls Read Web-Service
         self.markRead()
-        
-        //Article Web View Gestures 
-        var swipeRight = UISwipeGestureRecognizer(target: self, action: "onWebModeSwipe:")
-        swipeRight.direction = UISwipeGestureRecognizerDirection.Right
-        self.articleZenView.addGestureRecognizer(swipeRight)
-        
-        var swipeLeft = UISwipeGestureRecognizer(target: self, action: "onWebModeSwipe:")
-        swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
-        self.articleZenView.addGestureRecognizer(swipeLeft)
         
         // Activity indicator
         webIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
@@ -79,12 +85,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         webIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(webIndicator)
         webIndicator.startAnimating()
-        
-        // Activity indicator
-        zenIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
-        zenIndicator.hidesWhenStopped = true
-        zenIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-        view.addSubview(zenIndicator)
         
         isZenMode = false
 
@@ -117,7 +117,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
     {
         if sender.selectedSegmentIndex == 0 {
             isZenMode = false
-            self.articleZenView.alpha = 0.0
+            self.zenModeScrollView.alpha = 0.0
             
             if articleWebView.loading == false {
                 UIView.animateWithDuration(ANIMATION_DURATION, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
@@ -136,8 +136,10 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
             self.articleWebView.alpha = 0.0
             self.webIndicator.hidden = true
             
+            self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
+            
             UIView.animateWithDuration(ANIMATION_DURATION, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                self.articleZenView.alpha = 1.0
+                self.zenModeScrollView.alpha = 1.0
             }, completion: nil)
         }
     }
@@ -145,6 +147,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
     
     // Web serivce to mark article as Read.
     func markRead() {
+        
+        self.feeds[self.articleIndex].read = true
+        
         var path : String = "links/\(feeds[articleIndex].id!)/read"
         var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
                                                "client_id":"",
@@ -153,7 +158,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                 println("Successfully marked as read.")
-                self.feeds[self.articleIndex].read = true
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 println("Failure marking article as read")
                 
@@ -173,52 +177,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
             }
     }
     
-    // Gesture Recognizer
-    func onWebModeSwipe(gesture:UIGestureRecognizer){
-        
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            
-            switch swipeGesture.direction {
-            case UISwipeGestureRecognizerDirection.Right:
-                println("Swiped right")
-                if articleIndex - Int(1) >= 0 {
-                    
-                    articleIndex = articleIndex - Int(1)
-                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
-                    articleWebView.alpha = 0.0
-                    
-                    if feeds[articleIndex].content != nil {
-                        self.zenIndicator.startAnimating()
-                        var content: String = feeds[articleIndex].content!
-                        articleZenView.loadHTMLString(content, baseURL: nil)
-                        self.animateRightZenMode(articleZenView)
-                        
-                    }
-                    self.zenIndicator.stopAnimating()
-                    self.markRead()
-                }
-            case UISwipeGestureRecognizerDirection.Left:
-                println("Swiped left")
-                if articleIndex + Int(1) < feeds.count {
-                    
-                    articleWebView.alpha = 0.0
-                    articleIndex = articleIndex + Int(1)
-                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
-                    
-                    if feeds[articleIndex].content != nil {
-                        self.zenIndicator.startAnimating()
-                        var content: String = feeds[articleIndex].content!
-                        articleZenView.loadHTMLString(content, baseURL: nil)
-                        self.animateLeftZenMode(articleZenView)
-                    }
-                    self.zenIndicator.stopAnimating()
-                    self.markRead()
-                }
-            default:
-                break
-            }
-        }
-    }
     
     func onBackPressed() {
         self.navigationController?.popViewControllerAnimated(true)
@@ -240,26 +198,16 @@ class ArticleViewController : UIViewController,WKNavigationDelegate {
         articleWebView.alpha = 1.0
     }
     
-    // Methods to Animate WebView
-    func animateRightZenMode(view : UIWebView) {
-        view.frame = CGRectMake(-self.view.frame.width*2,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
-        
-        UIView.animateWithDuration(0.50, delay: 0.2, options: nil, animations: { () -> Void in
-            view.frame = CGRectMake(0,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
-            }, completion: {
-                (value:Bool) in
-        })
-    }
     
-    func animateLeftZenMode(view : UIWebView) {
-        view.frame = CGRectMake(self.view.frame.width*2,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
+    // UIScrollView Delegate
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        var pageWidth : CGFloat = self.view.frame.width
+        var page : CGFloat = scrollView.contentOffset.x / pageWidth
+        articleIndex = Int(page)
         
-        UIView.animateWithDuration(0.50, delay: 0.2, options: nil, animations: { () -> Void in
-            view.frame = CGRectMake(0,view.frame.origin.y,view.frame.size.width, view.frame.size.height)
-            }, completion: { (value:Bool) in
-                
-        })
-        
+        // Load article in web and zen mode
+        articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+        self.markRead()
     }
     
     
