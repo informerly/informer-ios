@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var pushSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: .Alert, categories: nil)
                 
-        Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
+//        Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
         
         application.applicationIconBadgeNumber = 0
         var setting : UIUserNotificationSettings = UIUserNotificationSettings(forTypes:
