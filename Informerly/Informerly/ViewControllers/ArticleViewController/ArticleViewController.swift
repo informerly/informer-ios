@@ -19,6 +19,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var isZenMode : Bool!
     var isStarted : Bool!
     var zenModeWebViewX : CGFloat!
+    var readArticles : [Int]!
     
     let ANIMATION_DURATION = 1.0
     
@@ -76,8 +77,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
 
         }
         
+        self.readArticles = [Int]()
         //Calls Read Web-Service
-        self.markRead()
+        
+        if self.feeds[self.articleIndex].read == false {
+            self.markRead()
+        }
         
         // Activity indicator
         webIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
@@ -161,6 +166,15 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 println("Failure marking article as read")
                 
+                var readArticles:[Int]!
+                if NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) == nil {
+                    readArticles = [Int]()
+                }
+                println(readArticles)
+                readArticles.append(self.feeds[self.articleIndex].id!)
+                NSUserDefaults.standardUserDefaults().setObject(readArticles, forKey: READ_ARTICLES)
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
                 if extraInfo != nil {
                     var error : [String:AnyObject] = extraInfo as Dictionary
                     var message : String = error["error"] as String
@@ -207,7 +221,10 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         // Load article in web and zen mode
         articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
-        self.markRead()
+        
+        if self.feeds[self.articleIndex].read == false {
+            self.markRead()
+        }
     }
     
     

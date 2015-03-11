@@ -15,6 +15,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var indicator : UIActivityIndicatorView!
     private var width : CGFloat!
     var refreshCntrl : UIRefreshControl!
+    var readArticles : [Int]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +46,13 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         view.addSubview(indicator)
         self.indicator.startAnimating()
         
-        // Download feeds.
-        self.downloadData()
+        self.readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as? Array
+        if self.readArticles == nil || self.readArticles.isEmpty {
+            // Download feeds.
+            self.downloadData()
+        } else {
+            self.markUnreadArticles(self.readArticles)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -66,6 +72,44 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         title.text = "Your Feed"
         title.font = UIFont(name: "OpenSans-Regular", size: 14.0)
         self.navigationItem.titleView = title
+    }
+    
+    func markUnreadArticles(articlesList : [Int]){
+        
+        indicator.startAnimating()
+        
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            for articleID in articlesList {
+                self.markRead(articleID)
+            }
+        } else {
+            indicator.stopAnimating()
+            self.refreshCntrl.endRefreshing()
+            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+        }
+    }
+    
+    func markRead(articleID:Int) {
+        var path : String = "links/\(articleID)/read"
+        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
+            "client_id":"",
+            "link_id": articleID]
+        NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
+            parameter: parameters,
+            success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                println("Successfully marked as read.")
+                
+                self.readArticles.removeAtIndex(find(self.readArticles, articleID)!)
+                NSUserDefaults.standardUserDefaults().setObject(self.readArticles, forKey: READ_ARTICLES)
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
+                if self.readArticles.isEmpty {
+                    self.downloadData()
+                }
+                
+            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                println("Failure marking article as read")
+        }
     }
     
     func downloadData() {
