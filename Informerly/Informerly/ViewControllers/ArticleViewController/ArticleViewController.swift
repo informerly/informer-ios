@@ -169,6 +169,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 var readArticles:[Int]!
                 if NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) == nil {
                     readArticles = [Int]()
+                } else {
+                    readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as Array
                 }
                 println(readArticles)
                 readArticles.append(self.feeds[self.articleIndex].id!)
