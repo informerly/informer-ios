@@ -46,13 +46,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         view.addSubview(indicator)
         self.indicator.startAnimating()
         
-        self.readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as? Array
-        if self.readArticles == nil || self.readArticles.isEmpty {
-            // Download feeds.
-            self.downloadData()
-        } else {
-            self.markUnreadArticles(self.readArticles)
-        }
+        self.downloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -72,44 +66,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         title.text = "Your Feed"
         title.font = UIFont(name: "OpenSans-Regular", size: 14.0)
         self.navigationItem.titleView = title
-    }
-    
-    func markUnreadArticles(articlesList : [Int]){
-        
-        indicator.startAnimating()
-        
-        if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            for articleID in articlesList {
-                self.markRead(articleID)
-            }
-        } else {
-            indicator.stopAnimating()
-            self.refreshCntrl.endRefreshing()
-            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
-        }
-    }
-    
-    func markRead(articleID:Int) {
-        var path : String = "links/\(articleID)/read"
-        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
-            "client_id":"",
-            "link_id": articleID]
-        NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
-            parameter: parameters,
-            success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
-                println("Successfully marked as read.")
-                
-                self.readArticles.removeAtIndex(find(self.readArticles, articleID)!)
-                NSUserDefaults.standardUserDefaults().setObject(self.readArticles, forKey: READ_ARTICLES)
-                NSUserDefaults.standardUserDefaults().synchronize()
-                
-                if self.readArticles.isEmpty {
-                    self.downloadData()
-                }
-                
-            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                println("Failure marking article as read")
-        }
     }
     
     func downloadData() {
@@ -161,20 +117,24 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     self.indicator.stopAnimating()
                     self.refreshCntrl.endRefreshing()
-                    println(error)
-                    var error : [String:AnyObject] = extraInfo as Dictionary
-                    var message : String = error["error"] as String
                     
-                    if message == "Invalid authentication token." {
-                        var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                            var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
-                            self.showViewController(loginVC, sender: self)
-                        }))
-                        self.presentViewController(alert, animated: true, completion: nil)
+                    if extraInfo != nil {
+                        var error : [String:AnyObject] = extraInfo as Dictionary
+                        var message : String = error["error"] as String
+                        
+                        if message == "Invalid authentication token." {
+                            var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                                self.showViewController(loginVC, sender: self)
+                            }))
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                        
+                        self.showAlert("Error !", msg: message)
+                    } else {
+                        self.showAlert("Error !", msg: "Try Again!")
                     }
-                    
-                    self.showAlert("Error !", msg: message)
             }
         } else {
             indicator.stopAnimating()

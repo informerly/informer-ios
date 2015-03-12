@@ -59,9 +59,11 @@ class MenuViewController:UIViewController {
                 success: { (requestStatus : Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     self.indicator.stopAnimating()
                     Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
-//                    Utilities.sharedInstance.setStringForKey(AUTH_TOKEN, key: "")
                     Utilities.sharedInstance.setAuthToken("", key: AUTH_TOKEN)
                     Utilities.sharedInstance.setBoolForKey(false, key: FROM_MENU_VC)
+                    
+                    NSUserDefaults.standardUserDefaults().setObject([], forKey: READ_ARTICLES)
+                    NSUserDefaults.standardUserDefaults().synchronize()
                     
                     var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
                     self.showViewController(loginVC, sender: self)

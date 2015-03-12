@@ -12,10 +12,16 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    private var reachability:Reachability?;
+    var readArticles : [Int]!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"checkForReachability:", name: kReachabilityChangedNotification, object: nil);
+        
+        self.reachability = Reachability.reachabilityForInternetConnection();
+        self.reachability?.startNotifier()
         
         if let options = launchOptions {
             var notification: AnyObject? = options[UIApplicationLaunchOptionsRemoteNotificationKey]
@@ -67,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.sharedApplication().registerUserNotificationSettings(setting);
         UIApplication.sharedApplication().registerForRemoteNotifications();
+        
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             var storyboard = self.window?.rootViewController?.storyboard
@@ -159,6 +166,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = navigationVC
         
         return true
+    }
+    
+    
+    func checkForReachability(notification:NSNotification)
+    {
+        let networkReachability = notification.object as Reachability;
+        var remoteHostStatus = networkReachability.currentReachabilityStatus()
+        
+        if (remoteHostStatus.value == NotReachable.value)
+        {
+            println("Not Reachable")
+        }
+        else
+        {
+            println("Reachable")
+            
+            if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
+                self.readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as Array
+                
+                if (readArticles != nil) && (readArticles?.isEmpty == false) {
+                    self.markUnreadArticles(readArticles!)
+                }
+            }
+        }
+    }
+    
+    
+    func markUnreadArticles(articlesList : [Int]){
+        
+        for articleID in articlesList {
+            self.markRead(articleID)
+        }
+    }
+    
+    func markRead(articleID:Int) {
+        var path : String = "links/\(articleID)/read"
+        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
+            "client_id":"",
+            "link_id": articleID]
+        NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
+            parameter: parameters,
+            success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                println("Successfully marked as read.")
+                
+                self.readArticles.removeAtIndex(find(self.readArticles, articleID)!)
+                NSUserDefaults.standardUserDefaults().setObject(self.readArticles, forKey: READ_ARTICLES)
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
+            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                println("Failure marking article as read")
+        }
     }
     
 }
