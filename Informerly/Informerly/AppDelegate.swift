@@ -18,7 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch
         
-        Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
+        if UIDevice.currentDevice().model == "iPhone Simulator" {
+            Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
+        }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"checkForReachability:", name: kReachabilityChangedNotification, object: nil);
         
