@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch
         
+        Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"checkForReachability:", name: kReachabilityChangedNotification, object: nil);
         
         self.reachability = Reachability.reachabilityForInternetConnection();
@@ -63,8 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         var pushSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: .Alert, categories: nil)
-                
-//        Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
         
         application.applicationIconBadgeNumber = 0
         var setting : UIUserNotificationSettings = UIUserNotificationSettings(forTypes:
