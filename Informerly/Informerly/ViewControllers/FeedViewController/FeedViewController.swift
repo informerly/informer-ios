@@ -9,13 +9,15 @@
 import Foundation
 
 class FeedViewController : UITableViewController, UITableViewDelegate, UITableViewDataSource {
-   
+    
     private var feedsData : [Feeds.InformerlyFeed] = []
+    private var unreadFeeds : [Feeds.InformerlyFeed] = []
     private var rowID : Int!
     private var indicator : UIActivityIndicatorView!
     private var width : CGFloat!
     var refreshCntrl : UIRefreshControl!
-    var readArticles : [Int]!
+    private var isUnreadTab = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +35,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         // Getting screen width.
         width = UIScreen.mainScreen().bounds.width - 40
+        
+        
+        //TableView header
+        self.createTableViewHeader()
         
         // Pull to Refresh
         self.refreshCntrl = UIRefreshControl()
@@ -68,6 +74,32 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.navigationItem.titleView = title
     }
     
+    func createTableViewHeader(){
+        var headerView : UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, 75))
+        
+        var customSegmentedControl = UISegmentedControl (items: ["All News","Unread"])
+        customSegmentedControl.frame = CGRectMake(self.view.frame.size.width/2 - 140, 20,280, 35)
+        customSegmentedControl.selectedSegmentIndex = 0
+        customSegmentedControl.tintColor = UIColor.lightGrayColor()
+        customSegmentedControl.addTarget(self, action: "segmentedValueChanged:", forControlEvents: .ValueChanged)
+        headerView.addSubview(customSegmentedControl)
+        
+        self.tableView.tableHeaderView = headerView
+    }
+    
+    // segemented control call back
+    func segmentedValueChanged(sender:UISegmentedControl!)
+    {
+        if sender.selectedSegmentIndex == 0 {
+            isUnreadTab = false
+            unreadFeeds = []
+            self.tableView.reloadData()
+        } else {
+            isUnreadTab = true
+            self.tableView.reloadData()
+        }
+    }
+    
     func downloadData() {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
@@ -87,10 +119,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         self.refreshCntrl.endRefreshing()
                         Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
                         self.feedsData.removeAll(keepCapacity: false)
+                        self.unreadFeeds.removeAll(keepCapacity: false)
                         self.feedsData = Feeds.sharedInstance.getFeeds()
                         
                         var link_id : String! = Utilities.sharedInstance.getStringForKey(LINK_ID)
-                        println(link_id)
                         var row = -1
                         if link_id != "-1" {
                             var feed : Feeds.InformerlyFeed!
@@ -145,11 +177,25 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     // TableView delegates and Data source methods
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if isUnreadTab == true {
+            unreadFeeds = []
+            for feed in self.feedsData {
+                if feed.read == false {
+                    unreadFeeds.append(feed)
+                }
+            }
+            return unreadFeeds.count
+        }
         return feedsData.count
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return  self.getTextHeight(feedsData[indexPath.row].title!, width: width) + CGFloat(68)
+        
+        if isUnreadTab == true {
+            return self.getTextHeight(unreadFeeds[indexPath.row].title!, width: width) + CGFloat(68)
+        }
+        return self.getTextHeight(feedsData[indexPath.row].title!, width: width) + CGFloat(68)
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -160,19 +206,25 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var readingTime = cell.viewWithTag(3) as UILabel
         var tick = cell.viewWithTag(4) as UIImageView
         
-        source.text = feedsData[indexPath.row].source
-        source.textColor = UIColor(rgba: feedsData[indexPath.row].sourceColor!)
+        var feed : Feeds.InformerlyFeed;
+        if isUnreadTab == true {
+            feed = unreadFeeds[indexPath.row]
+        } else {
+            feed = feedsData[indexPath.row]
+        }
         
-        title.text = feedsData[indexPath.row].title
+        source.text = feed.source
+        source.textColor = UIColor(rgba: feed.sourceColor!)
+        title.text = feed.title
         
-        if feedsData[indexPath.row].read != true {
+        
+        if feed.read != true {
             title.textColor = UIColor.blackColor()
-            readingTime.text = "\(String(feedsData[indexPath.row].readingTime!)) min read"
+            readingTime.text = "\(String(feed.readingTime!)) min read"
             tick.image = UIImage(named: "clock_icon")
         } else {
             title.textColor = UIColor(rgba: "#9B9B9B")
             readingTime.text = "Read"
-            
             tick.image = UIImage(named: "icon_tick")
         }
         
@@ -210,6 +262,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         if segue.identifier == "ArticleVC" {
             var articleVC : ArticleViewController = segue.destinationViewController as ArticleViewController
             articleVC.articleIndex = rowID
+            articleVC.isUnreadTab = self.isUnreadTab
+            if isUnreadTab == true {
+                articleVC.unreadFeeds = self.unreadFeeds
+            }
         }
     }
     

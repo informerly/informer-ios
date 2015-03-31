@@ -14,6 +14,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var articleWebView : WKWebView!
     var zenModeScrollView : UIScrollView!
     var feeds : [Feeds.InformerlyFeed]!
+    var unreadFeeds : [Feeds.InformerlyFeed]!
+    var isUnreadTab : Bool!
     var articleIndex : Int!
     var webIndicator : UIActivityIndicatorView!
     var isZenMode : Bool!
@@ -39,7 +41,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         var resultantHeight = statusBarHeight + navBarHeight!
         
         // Getting feeds from model
-        self.feeds = Feeds.sharedInstance.getFeeds()
+        
+        if isUnreadTab == true {
+            self.feeds = unreadFeeds
+        } else {
+            self.feeds = Feeds.sharedInstance.getFeeds()
+        }
         
         // Creates Article web view
         var frame : CGRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
@@ -74,7 +81,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             }
             
             self.zenModeWebViewX = self.zenModeWebViewX + self.view.frame.width
-
+            
         }
         
         self.readArticles = [Int]()
@@ -92,7 +99,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         webIndicator.startAnimating()
         
         isZenMode = false
-
+        
     }
     
     // Creates bar button for navbar
@@ -145,7 +152,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             
             UIView.animateWithDuration(ANIMATION_DURATION, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                 self.zenModeScrollView.alpha = 1.0
-            }, completion: nil)
+                }, completion: nil)
         }
     }
     
@@ -157,8 +164,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         var path : String = "links/\(feeds[articleIndex].id!)/read"
         var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
-                                               "client_id":"",
-                                               "link_id": feeds[articleIndex].id!]
+            "client_id":"",
+            "link_id": feeds[articleIndex].id!]
         NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
@@ -190,7 +197,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                         self.presentViewController(alert, animated: true, completion: nil)
                     }
                 }
-            }
+        }
     }
     
     
