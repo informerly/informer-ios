@@ -22,6 +22,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var isStarted : Bool!
     var zenModeWebViewX : CGFloat!
     var readArticles : [Int]!
+    var zenModeBtnView : UIView!
+    var customSegmentedControl : UISegmentedControl!
     
     let ANIMATION_DURATION = 1.0
     
@@ -54,6 +56,31 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         articleWebView.navigationDelegate = self
         articleWebView.alpha = 0.0
         self.view.addSubview(articleWebView)
+        
+        var zenModeBtnViewRect : CGRect = CGRectMake(self.view.frame.size.width/2-100, self.view.frame.size.height/2-150,
+            200, 200)
+        self.zenModeBtnView = UIView(frame: zenModeBtnViewRect)
+        self.view.addSubview(zenModeBtnView)
+        
+        var zenCloudImageView : UIImageView = UIImageView(image: UIImage(named: "zen_cloud"))
+        zenCloudImageView.frame = CGRectMake(zenModeBtnView.frame.size.width/2 - zenCloudImageView.frame.size.width/2,
+            0, zenCloudImageView.frame.size.width, zenCloudImageView.frame.size.height)
+        zenModeBtnView.addSubview(zenCloudImageView)
+        
+        var zenModeBtn : UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        zenModeBtn.setImage(UIImage(named: "zen_btn"), forState: UIControlState.Normal)
+        zenModeBtn.frame = CGRectMake(zenModeBtnView.frame.size.width/2 - 85,zenCloudImageView.frame.size.height + 10, 170,55)
+        zenModeBtn.addTarget(self, action: Selector("onZenModeBtnPress:"), forControlEvents: UIControlEvents.TouchUpInside)
+        zenModeBtnView.addSubview(zenModeBtn)
+        
+        var zenModeViewLabelRect : CGRect = CGRectMake(0, 150, 200, 45)
+        var zenModeViewLabel : UILabel = UILabel(frame: zenModeViewLabelRect)
+        zenModeViewLabel.numberOfLines = 2
+        zenModeViewLabel.textAlignment = NSTextAlignment.Center
+        zenModeViewLabel.font = UIFont.systemFontOfSize(14.0)
+        zenModeViewLabel.text = "Tap on this button if your connection is slow."
+        zenModeViewLabel.textColor = UIColor.grayColor()
+        zenModeBtnView.addSubview(zenModeViewLabel)
         
         // Load article in web and zen mode
         articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
@@ -91,12 +118,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             self.markRead()
         }
         
-        // Activity indicator
-        webIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
-        webIndicator.hidesWhenStopped = true
-        webIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-        view.addSubview(webIndicator)
-        webIndicator.startAnimating()
+//        // Activity indicator
+//        webIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
+//        webIndicator.hidesWhenStopped = true
+//        webIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+//        view.addSubview(webIndicator)
+//        webIndicator.startAnimating()
         
         isZenMode = false
         
@@ -116,7 +143,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     // Creates Segemted control
     func createSegmentedControl() {
-        var customSegmentedControl = UISegmentedControl (items: ["Web","Zen"])
+        customSegmentedControl = UISegmentedControl (items: ["Web","Zen"])
         customSegmentedControl.frame = CGRectMake(0, 0,130, 30)
         customSegmentedControl.selectedSegmentIndex = 0
         customSegmentedControl.addTarget(self, action: "segmentedValueChanged:", forControlEvents: .ValueChanged)
@@ -135,18 +162,20 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 UIView.animateWithDuration(ANIMATION_DURATION, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                     self.articleWebView.alpha = 1.0
                     }, completion: nil)
-                self.webIndicator.stopAnimating()
-                self.webIndicator.hidesWhenStopped = true
+                self.zenModeBtnView.hidden = true
+//                self.webIndicator.stopAnimating()
+//                self.webIndicator.hidesWhenStopped = true
             } else {
-                self.webIndicator.hidden = false
-                self.webIndicator.startAnimating()
+                self.zenModeBtnView.hidden = false
+//                self.webIndicator.hidden = false
+//                self.webIndicator.startAnimating()
             }
             
         } else if sender.selectedSegmentIndex == 1 {
             
             isZenMode = true
             self.articleWebView.alpha = 0.0
-            self.webIndicator.hidden = true
+//            self.webIndicator.hidden = true
             
             self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
             
@@ -217,8 +246,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     // Web view delegate
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         println("finish")
-        webIndicator.stopAnimating()
+//        webIndicator.stopAnimating()
         articleWebView.alpha = 1.0
+        self.zenModeBtnView.hidden = true
     }
     
     
@@ -234,6 +264,18 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         if self.feeds[self.articleIndex].read == false {
             self.markRead()
         }
+    }
+    
+    func onZenModeBtnPress(sender:UIButton){
+        isZenMode = true
+        zenModeBtnView.hidden = true
+        customSegmentedControl.selectedSegmentIndex = 1
+        self.articleWebView.alpha = 0.0
+        self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
+        
+        UIView.animateWithDuration(ANIMATION_DURATION, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+            self.zenModeScrollView.alpha = 1.0
+            }, completion: nil)
     }
     
     
