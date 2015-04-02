@@ -17,13 +17,14 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var unreadFeeds : [Feeds.InformerlyFeed]!
     var isUnreadTab : Bool!
     var articleIndex : Int!
-    var webIndicator : UIActivityIndicatorView!
     var isZenMode : Bool!
     var isStarted : Bool!
     var zenModeWebViewX : CGFloat!
     var readArticles : [Int]!
     var zenModeBtnView : UIView!
     var customSegmentedControl : UISegmentedControl!
+    var progressTimer : NSTimer!
+    var tintColor : UIColor!
     
     let ANIMATION_DURATION = 1.0
     
@@ -57,30 +58,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         articleWebView.alpha = 0.0
         self.view.addSubview(articleWebView)
         
-        var zenModeBtnViewRect : CGRect = CGRectMake(self.view.frame.size.width/2-100, self.view.frame.size.height/2-150,
-            200, 200)
-        self.zenModeBtnView = UIView(frame: zenModeBtnViewRect)
-        self.view.addSubview(zenModeBtnView)
+        // Create Zen mode Button
+        self.createZenModeButton()
         
-        var zenCloudImageView : UIImageView = UIImageView(image: UIImage(named: "zen_cloud"))
-        zenCloudImageView.frame = CGRectMake(zenModeBtnView.frame.size.width/2 - zenCloudImageView.frame.size.width/2,
-            0, zenCloudImageView.frame.size.width, zenCloudImageView.frame.size.height)
-        zenModeBtnView.addSubview(zenCloudImageView)
-        
-        var zenModeBtn : UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
-        zenModeBtn.setImage(UIImage(named: "zen_btn"), forState: UIControlState.Normal)
-        zenModeBtn.frame = CGRectMake(zenModeBtnView.frame.size.width/2 - 85,zenCloudImageView.frame.size.height + 10, 170,55)
-        zenModeBtn.addTarget(self, action: Selector("onZenModeBtnPress:"), forControlEvents: UIControlEvents.TouchUpInside)
-        zenModeBtnView.addSubview(zenModeBtn)
-        
-        var zenModeViewLabelRect : CGRect = CGRectMake(0, 150, 200, 45)
-        var zenModeViewLabel : UILabel = UILabel(frame: zenModeViewLabelRect)
-        zenModeViewLabel.numberOfLines = 2
-        zenModeViewLabel.textAlignment = NSTextAlignment.Center
-        zenModeViewLabel.font = UIFont.systemFontOfSize(14.0)
-        zenModeViewLabel.text = "Tap on this button if your connection is slow."
-        zenModeViewLabel.textColor = UIColor.grayColor()
-        zenModeBtnView.addSubview(zenModeViewLabel)
+        // Create progress bar
+        self.createProgressBar()
         
         // Load article in web and zen mode
         articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
@@ -108,7 +90,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             }
             
             self.zenModeWebViewX = self.zenModeWebViewX + self.view.frame.width
-            
         }
         
         self.readArticles = [Int]()
@@ -117,13 +98,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         if self.feeds[self.articleIndex].read == false {
             self.markRead()
         }
-        
-//        // Activity indicator
-//        webIndicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
-//        webIndicator.hidesWhenStopped = true
-//        webIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-//        view.addSubview(webIndicator)
-//        webIndicator.startAnimating()
         
         isZenMode = false
         
@@ -163,20 +137,14 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                     self.articleWebView.alpha = 1.0
                     }, completion: nil)
                 self.zenModeBtnView.hidden = true
-//                self.webIndicator.stopAnimating()
-//                self.webIndicator.hidesWhenStopped = true
             } else {
                 self.zenModeBtnView.hidden = false
-//                self.webIndicator.hidden = false
-//                self.webIndicator.startAnimating()
             }
             
         } else if sender.selectedSegmentIndex == 1 {
             
             isZenMode = true
             self.articleWebView.alpha = 0.0
-//            self.webIndicator.hidden = true
-            
             self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
             
             UIView.animateWithDuration(ANIMATION_DURATION, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
@@ -185,6 +153,54 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         }
     }
     
+    // create zenModeButton
+    func createZenModeButton(){
+        var zenModeBtnViewRect : CGRect = CGRectMake(self.view.frame.size.width/2-100, self.view.frame.size.height/2-150,
+            200, 200)
+        self.zenModeBtnView = UIView(frame: zenModeBtnViewRect)
+        self.view.addSubview(zenModeBtnView)
+        
+        var zenCloudImageView : UIImageView = UIImageView(image: UIImage(named: "zen_cloud"))
+        zenCloudImageView.frame = CGRectMake(zenModeBtnView.frame.size.width/2 - zenCloudImageView.frame.size.width/2,
+            0, zenCloudImageView.frame.size.width, zenCloudImageView.frame.size.height)
+        zenModeBtnView.addSubview(zenCloudImageView)
+        
+        var zenModeBtn : UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        zenModeBtn.setImage(UIImage(named: "zen_btn"), forState: UIControlState.Normal)
+        zenModeBtn.frame = CGRectMake(zenModeBtnView.frame.size.width/2 - 85,zenCloudImageView.frame.size.height + 10, 170,55)
+        zenModeBtn.addTarget(self, action: Selector("onZenModeBtnPress:"), forControlEvents: UIControlEvents.TouchUpInside)
+        zenModeBtnView.addSubview(zenModeBtn)
+        
+        var zenModeViewLabelRect : CGRect = CGRectMake(0, 150, 200, 45)
+        var zenModeViewLabel : UILabel = UILabel(frame: zenModeViewLabelRect)
+        zenModeViewLabel.numberOfLines = 2
+        zenModeViewLabel.textAlignment = NSTextAlignment.Center
+        zenModeViewLabel.font = UIFont.systemFontOfSize(14.0)
+        zenModeViewLabel.text = "Tap on this button if your connection is slow."
+        zenModeViewLabel.textColor = UIColor.grayColor()
+        zenModeBtnView.addSubview(zenModeViewLabel)
+    }
+    
+    func createProgressBar(){
+        progressTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("progressWithPercentage"), userInfo: nil, repeats: true)
+    }
+    
+    func progressWithPercentage() {
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            
+            var percentage : Float = Float(self.articleWebView.estimatedProgress)
+            if percentage == 1.0 {
+                self.progressTimer.invalidate()
+            }
+            
+            if !self.isZenMode {
+                self.navigationController?.setSGProgressPercentage(percentage * 100, andTintColor:UIColor(red: 44/255, green: 123/255, blue: 254/255, alpha: 1))
+            } else {
+                self.navigationController?.setSGProgressPercentage(percentage * 100, andTintColor: UIColor.clearColor())
+            }
+        })
+    }
     
     // Web serivce to mark article as Read.
     func markRead() {
@@ -246,7 +262,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     // Web view delegate
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         println("finish")
-//        webIndicator.stopAnimating()
         articleWebView.alpha = 1.0
         self.zenModeBtnView.hidden = true
     }

@@ -14,5 +14,6 @@
 #import <Parse/Parse.h>
 #import <ParseCrashReporting/ParseCrashReporting.h>
 #import "Reachability.h"
+#import "UINavigationController+SGProgress.h"
 
 #endif

@@ -76,7 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().registerUserNotificationSettings(setting);
         UIApplication.sharedApplication().registerForRemoteNotifications();
         
-        
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             var storyboard = self.window?.rootViewController?.storyboard
             var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
@@ -185,7 +184,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             println("Reachable")
             
             if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
-                self.readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as Array
+                self.readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES)? as Array
                 
                 if (readArticles != nil) && (readArticles?.isEmpty == false) {
                     self.markUnreadArticles(readArticles!)

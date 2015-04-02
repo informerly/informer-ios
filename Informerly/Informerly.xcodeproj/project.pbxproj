@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1803D2B81ACD189E00D6C1DE /* SGProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2B51ACD189E00D6C1DE /* SGProgressView.m */; };
+		1803D2B91ACD189E00D6C1DE /* UINavigationController+SGProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2B71ACD189E00D6C1DE /* UINavigationController+SGProgress.m */; };
 		1845B9921A7F8A5F00172610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9911A7F8A5F00172610 /* AppDelegate.swift */; };
 		1845B9971A7F8A5F00172610 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9951A7F8A5F00172610 /* Main.storyboard */; };
 		1845B9991A7F8A5F00172610 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9981A7F8A5F00172610 /* Images.xcassets */; };
@@ -111,6 +113,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1803D2B41ACD189E00D6C1DE /* SGProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGProgressView.h; sourceTree = "<group>"; };
+		1803D2B51ACD189E00D6C1DE /* SGProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGProgressView.m; sourceTree = "<group>"; };
+		1803D2B61ACD189E00D6C1DE /* UINavigationController+SGProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+SGProgress.h"; sourceTree = "<group>"; };
+		1803D2B71ACD189E00D6C1DE /* UINavigationController+SGProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+SGProgress.m"; sourceTree = "<group>"; };
 		1845B98C1A7F8A5F00172610 /* Informerly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Informerly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1845B9901A7F8A5F00172610 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1845B9911A7F8A5F00172610 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -231,6 +237,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1803D2B31ACD187900D6C1DE /* SGNavigationProgressBar */ = {
+			isa = PBXGroup;
+			children = (
+				1803D2B41ACD189E00D6C1DE /* SGProgressView.h */,
+				1803D2B51ACD189E00D6C1DE /* SGProgressView.m */,
+				1803D2B61ACD189E00D6C1DE /* UINavigationController+SGProgress.h */,
+				1803D2B71ACD189E00D6C1DE /* UINavigationController+SGProgress.m */,
+			);
+			path = SGNavigationProgressBar;
+			sourceTree = "<group>";
+		};
 		1845B9831A7F8A5F00172610 = {
 			isa = PBXGroup;
 			children = (
@@ -319,6 +336,7 @@
 		1845B9B31A7F8C4600172610 /* Third Party Libs */ = {
 			isa = PBXGroup;
 			children = (
+				1803D2B31ACD187900D6C1DE /* SGNavigationProgressBar */,
 				188B077E1AB17A5A00447CD9 /* Reachability */,
 				186BD5661A973B0B0044C86B /* AFNetworking */,
 			);
@@ -691,6 +709,7 @@
 				186BD57C1A973B0B0044C86B /* AFHTTPRequestOperationManager.m in Sources */,
 				1845B9E01A7F8F9D00172610 /* NetworkManager.m in Sources */,
 				186BD5841A973B0B0044C86B /* AFURLConnectionOperation.m in Sources */,
+				1803D2B81ACD189E00D6C1DE /* SGProgressView.m in Sources */,
 				18D75DD21A834EB200BFEF6E /* UIColorExtension.swift in Sources */,
 				18D75DCF1A834C0200BFEF6E /* Utilities.swift in Sources */,
 				186BD5861A973B0B0044C86B /* AFURLRequestSerialization.m in Sources */,
@@ -701,6 +720,7 @@
 				186BD5821A973B0B0044C86B /* AFSecurityPolicy.m in Sources */,
 				1845B9E71A7FB00700172610 /* User.swift in Sources */,
 				186BD5801A973B0B0044C86B /* AFNetworkReachabilityManager.m in Sources */,
+				1803D2B91ACD189E00D6C1DE /* UINavigationController+SGProgress.m in Sources */,
 				186BD58A1A973B0B0044C86B /* AFURLSessionManager.m in Sources */,
 				18E609BE1A85377F0082DC6C /* MenuViewController.swift in Sources */,
 				188B07811AB17A6400447CD9 /* Reachability.m in Sources */,
