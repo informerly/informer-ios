@@ -76,12 +76,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().registerUserNotificationSettings(setting);
         UIApplication.sharedApplication().registerForRemoteNotifications();
         
+        
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
-            var storyboard = self.window?.rootViewController?.storyboard
-            var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
-            var navigationVC = self.window?.rootViewController as UINavigationController
-            navigationVC.viewControllers = [rootVC]
-            self.window?.rootViewController = navigationVC
+//            var storyboard = self.window?.rootViewController?.storyboard
+//            var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
+//            var navigationVC = self.window?.rootViewController as UINavigationController
+//            navigationVC.viewControllers = [rootVC]
+//            self.window?.rootViewController = navigationVC
+            
+            self.loadFeedVC()
         }
         return true
     }
@@ -184,10 +187,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             println("Reachable")
             
             if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
-                self.readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES)? as Array
                 
-                if (readArticles != nil) && (readArticles?.isEmpty == false) {
-                    self.markUnreadArticles(readArticles!)
+                if (NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) != nil) {
+                    self.readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as Array
+                    
+                    if (readArticles != nil) && (readArticles?.isEmpty == false) {
+                        self.markUnreadArticles(readArticles!)
+                    }
                 }
             }
         }
@@ -218,6 +224,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 println("Failure marking article as read")
         }
+    }
+    
+    func loadFeedVC(){
+        var storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        
+        var container = storyboard.instantiateViewControllerWithIdentifier("MFSideMenuContainerViewController") as MFSideMenuContainerViewController
+        
+        var leftSideMenuViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("LeftMenuViewController") as UIViewController
+        
+        var rootVC = storyboard.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
+        var navigationVC: UINavigationController = UINavigationController(rootViewController: rootVC)
+        
+        container.panMode = MFSideMenuPanModeSideMenu
+        container.leftMenuViewController = leftSideMenuViewController
+        container.rightMenuViewController = nil
+        container.centerViewController = navigationVC
+        
+        self.window?.rootViewController = container
     }
     
 }

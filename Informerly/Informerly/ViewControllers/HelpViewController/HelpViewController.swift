@@ -44,8 +44,8 @@ class HelpViewController: UIViewController,MFMailComposeViewControllerDelegate {
     }
     
     @IBAction func onBackPress(sender: AnyObject) {
-//        self.dismissViewControllerAnimated(true, completion: nil)
-        self.navigationController?.popViewControllerAnimated(true)
+        self.dismissViewControllerAnimated(true, completion: nil)
+//        self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func onSupportBtnPress(sender: AnyObject) {

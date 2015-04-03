@@ -270,8 +270,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func onMenuPressed() {
-        var menuVC = self.storyboard?.instantiateViewControllerWithIdentifier("menuVC") as UIViewController
-        self.navigationController?.pushViewController(menuVC, animated: true)
+//        var menuVC = self.storyboard?.instantiateViewControllerWithIdentifier("menuVC") as UIViewController
+//        self.navigationController?.pushViewController(menuVC, animated: true)
+        self.menuContainerViewController.toggleLeftSideMenuCompletion(nil)
     }
     
     func onPullToRefresh(sender:AnyObject) {

@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Informerly/ViewControllers/ArticleViewController/ArticleViewController.swift"
-            timestampString = "449653506.718906"
+            filePath = "Informerly/Third Party Libs/SWRevealController/SWRevealViewController.m"
+            timestampString = "449666480.310942"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
-            landmarkName = "segmentedValueChanged(_:)"
+            startingLineNumber = "822"
+            endingLineNumber = "822"
+            landmarkName = "-revealToggleAnimated:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

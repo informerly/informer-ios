@@ -245,8 +245,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         }
     }
     
-    
     func onBackPressed() {
+        self.navigationController?.setSGProgressPercentage(100, andTintColor: UIColor.clearColor())
         self.navigationController?.popViewControllerAnimated(true)
     }
     

@@ -10,10 +10,10 @@
 #define Informerly_bridging_header_h
 
 #import "NetworkManager.h"
-//#import "AFNetworking.h"
 #import <Parse/Parse.h>
 #import <ParseCrashReporting/ParseCrashReporting.h>
 #import "Reachability.h"
 #import "UINavigationController+SGProgress.h"
+#import "MFSideMenu.h"
 
 #endif
