@@ -17,6 +17,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var width : CGFloat!
     var refreshCntrl : UIRefreshControl!
     private var isUnreadTab = false
+    private var menu:REMenu!
     
     
     override func viewDidLoad() {
@@ -32,6 +33,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var menu : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onMenuPressed"))
         menu.tintColor = UIColor.grayColor()
         self.navigationItem.leftBarButtonItem = menu
+        
+        // Create Top menu
+        self.createTopMenu()
         
         // Getting screen width.
         width = UIScreen.mainScreen().bounds.width - 40
@@ -55,6 +59,38 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.downloadData()
     }
     
+    func createTopMenu(){
+        var item1 : REMenuItem = REMenuItem(title: "Main Feed", image: UIImage(named: "icon_home"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
+            self.menu.close()
+        }
+        
+        var item2 : REMenuItem = REMenuItem(title: "Category1", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
+            self.menu.close()
+        }
+        var item3 : REMenuItem = REMenuItem(title: "Category2", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
+            self.menu.close()
+        }
+        var item4 : REMenuItem = REMenuItem(title: "Category3", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
+            self.menu.close()
+        }
+        var item5 : REMenuItem = REMenuItem(title: "Bookmarks", image: UIImage(named: "icon_bookmark"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
+            self.menu.close()
+        }
+        
+        menu = REMenu(items: [item1,item2,item3,item4,item5])
+        menu.backgroundColor = UIColor.whiteColor()
+        menu.separatorHeight = 1
+        menu.separatorColor = UIColor(rgba: "#E6E7E8")
+        menu.textAlignment = NSTextAlignment.Left
+        menu.textOffset = CGSizeMake(50, 0)
+        menu.textColor = UIColor(rgba: "#4A4A4A")
+        menu.font = UIFont(name: "Open Sans", size: 15)
+        menu.borderColor = UIColor(rgba: "#E6E7E8")
+        menu.highlightedBackgroundColor = UIColor(rgba: "#E6E7E8")
+        menu.highlightedSeparatorColor = UIColor(rgba: "#E6E7E8")
+
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -68,10 +104,34 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func createNavTitle() {
-        var title : UILabel = UILabel(frame: CGRectMake(0, 0, 65, 30))
+        
+        var navTitleView : UIView = UIView(frame: CGRectMake(0, 0, 90, 30))
+        
+        var title : UILabel = UILabel(frame: CGRectMake(0, 0, 80, 30))
         title.text = "Your Feed"
         title.font = UIFont(name: "OpenSans-Regular", size: 14.0)
-        self.navigationItem.titleView = title
+        
+        var arrow : UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        arrow.setImage(UIImage(named: "icon_arrow"), forState: UIControlState.Normal)
+        arrow.frame = CGRectMake(81, 13, 10, 5)
+        arrow.tintColor = UIColor.grayColor()
+        
+        navTitleView.addSubview(title)
+        navTitleView.addSubview(arrow)
+        
+        var titleViewTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onNavBarTitleTap:"))
+        navTitleView.addGestureRecognizer(titleViewTap)
+        
+        self.navigationItem.titleView = navTitleView
+    }
+    
+    func onNavBarTitleTap(gesture : UIGestureRecognizer) {
+        
+        if (self.menu.isOpen) {
+            self.menu.close()
+        } else {
+            menu.showFromNavigationController(self.navigationController)
+        }
     }
     
     func createTableViewHeader(){
@@ -270,8 +330,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func onMenuPressed() {
-//        var menuVC = self.storyboard?.instantiateViewControllerWithIdentifier("menuVC") as UIViewController
-//        self.navigationController?.pushViewController(menuVC, animated: true)
         self.menuContainerViewController.toggleLeftSideMenuCompletion(nil)
     }
     

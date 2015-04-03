@@ -15,5 +15,6 @@
 #import "Reachability.h"
 #import "UINavigationController+SGProgress.h"
 #import "MFSideMenu.h"
+#import "REMenu.h"
 
 #endif
