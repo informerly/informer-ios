@@ -22,6 +22,7 @@ let READ_ARTICLES = "readArticles"
 let LOGIN_URL = "users/sign_in"
 let FEED_URL  = "feeds"
 let LOGOUT_URL = "users/sign_out"
+let BOOKMARK_URL = "bookmarks"
 
 // Gradient Colors
 let LIGHT_BLUE_COLOR = "#499EFF"

@@ -172,7 +172,6 @@
         <!--Feed View Controller-->
         <scene sceneID="3Fi-UQ-Th3">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pvv-ul-QnB" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="FeedVC" id="m52-eL-UU4" customClass="FeedViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="104" sectionHeaderHeight="22" sectionFooterHeight="22" id="t4o-mx-jjP">
                         <rect key="frame" x="0.0" y="64" width="600" height="556"/>
@@ -202,7 +201,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="5670A406-48FD-4BB1-9C02-2CB2C345F769" translatesAutoresizingMaskIntoConstraints="NO" id="zvV-dE-liN">
+                                        <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="27514E21-EDB7-4ECF-AF23-14DA13A5CC7D" translatesAutoresizingMaskIntoConstraints="NO" id="zvV-dE-liN">
                                             <rect key="frame" x="22" y="63" width="16" height="16"/>
                                         </imageView>
                                     </subviews>
@@ -235,6 +234,7 @@
                         <segue destination="lts-Ev-rsI" kind="show" identifier="ArticleVC" id="e7r-M9-hLq"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pvv-ul-QnB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1985" y="-396"/>
         </scene>
@@ -314,7 +314,7 @@
                         <viewControllerLayoutGuide type="bottom" id="2k0-RF-Ewo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bj6-EX-SLL">
-                        <rect key="frame" x="0.0" y="64" width="600" height="556"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -581,7 +581,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="5670A406-48FD-4BB1-9C02-2CB2C345F769" width="16" height="16">
+        <image name="27514E21-EDB7-4ECF-AF23-14DA13A5CC7D" width="16" height="16">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

@@ -12,13 +12,16 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     private var feedsData : [Feeds.InformerlyFeed] = []
     private var unreadFeeds : [Feeds.InformerlyFeed] = []
+    private var bookmarkedFeeds : [Feeds.InformerlyFeed] = []
     private var rowID : Int!
     private var indicator : UIActivityIndicatorView!
     private var width : CGFloat!
     var refreshCntrl : UIRefreshControl!
     private var isUnreadTab = false
+    private var isBookmarked = false
     private var menu:REMenu!
-    
+    private var navTitle : UILabel!
+    private var arrow : UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +77,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             self.menu.close()
         }
         var item5 : REMenuItem = REMenuItem(title: "Bookmarks", image: UIImage(named: "icon_bookmark"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
-            self.menu.close()
+//            self.onBookmark()
         }
         
         menu = REMenu(items: [item1,item2,item3,item4,item5])
@@ -105,24 +108,31 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func createNavTitle() {
         
-        var navTitleView : UIView = UIView(frame: CGRectMake(0, 0, 90, 30))
+        if isBookmarked == false {
+            var navTitleView : UIView = UIView(frame: CGRectMake(0, 0, 90, 30))
+            
+            navTitle = UILabel(frame: CGRectMake(0, 0, 80, 30))
+            navTitle.text = "Your Feed"
+            navTitle.font = UIFont(name: "OpenSans-Regular", size: 14.0)
+            
+            arrow = UIButton.buttonWithType(UIButtonType.System) as UIButton
+            arrow.setImage(UIImage(named: "icon_arrow"), forState: UIControlState.Normal)
+            arrow.frame = CGRectMake(81, 13, 10, 5)
+            arrow.tintColor = UIColor.grayColor()
+            
+            navTitleView.addSubview(navTitle)
+            navTitleView.addSubview(arrow)
+            
+            var titleViewTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onNavBarTitleTap:"))
+            navTitleView.addGestureRecognizer(titleViewTap)
+            
+            self.navigationItem.titleView = navTitleView
+        } else {
+            navTitle.frame = CGRectMake(0, 0, 100, 30)
+            navTitle.text = "Bookmarked"
+            arrow.frame = CGRectMake(101, 13, 10, 5)
+        }
         
-        var title : UILabel = UILabel(frame: CGRectMake(0, 0, 80, 30))
-        title.text = "Your Feed"
-        title.font = UIFont(name: "OpenSans-Regular", size: 14.0)
-        
-        var arrow : UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
-        arrow.setImage(UIImage(named: "icon_arrow"), forState: UIControlState.Normal)
-        arrow.frame = CGRectMake(81, 13, 10, 5)
-        arrow.tintColor = UIColor.grayColor()
-        
-        navTitleView.addSubview(title)
-        navTitleView.addSubview(arrow)
-        
-        var titleViewTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onNavBarTitleTap:"))
-        navTitleView.addGestureRecognizer(titleViewTap)
-        
-        self.navigationItem.titleView = navTitleView
     }
     
     func onNavBarTitleTap(gesture : UIGestureRecognizer) {
@@ -247,6 +257,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             }
             return unreadFeeds.count
         }
+        else if isBookmarked == true {
+            return bookmarkedFeeds.count
+        }
         return feedsData.count
     }
     
@@ -254,6 +267,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         if isUnreadTab == true {
             return self.getTextHeight(unreadFeeds[indexPath.row].title!, width: width) + CGFloat(68)
+        } else if isBookmarked == true {
+            return self.getTextHeight(bookmarkedFeeds[indexPath.row].title!, width: width) + CGFloat(68)
         }
         return self.getTextHeight(feedsData[indexPath.row].title!, width: width) + CGFloat(68)
     }
@@ -269,6 +284,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var feed : Feeds.InformerlyFeed;
         if isUnreadTab == true {
             feed = unreadFeeds[indexPath.row]
+        } else if isBookmarked == true {
+            feed = bookmarkedFeeds[indexPath.row]
         } else {
             feed = feedsData[indexPath.row]
         }
@@ -280,7 +297,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         if feed.read != true {
             title.textColor = UIColor.blackColor()
-            readingTime.text = "\(String(feed.readingTime!)) min read"
+//            readingTime.text = "\(String(feed.readingTime!)) min read"
             tick.image = UIImage(named: "clock_icon")
         } else {
             title.textColor = UIColor(rgba: "#9B9B9B")
@@ -336,6 +353,51 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func onPullToRefresh(sender:AnyObject) {
         self.downloadData()
     }
+    
+    func onBookmark(){
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            println(auth_token)
+            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+                "client_id":"dev-ios-informer"]
+            
+            NetworkManager.sharedNetworkClient().processGetRequestWithPath(BOOKMARK_URL,
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    
+                    if requestStatus == 200 {
+                        println(processedData)
+                        self.isBookmarked = true
+                        self.createNavTitle()
+                        Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
+                        self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
+                        self.tableView.reloadData()
+                        
+                        self.menu.close()
+                    }
+                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    
+                    if extraInfo != nil {
+                        var error : [String:AnyObject] = extraInfo as Dictionary
+                        var message : String = error["error"] as String
+                        
+                        if message == "Invalid authentication token." {
+                            var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                                self.showViewController(loginVC, sender: self)
+                            }))
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                        
+                        self.showAlert("Error !", msg: message)
+                    } else {
+                        self.showAlert("Error !", msg: "Try Again!")
+                    }
+            }
+        }
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
