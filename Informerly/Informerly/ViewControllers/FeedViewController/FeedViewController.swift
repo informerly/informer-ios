@@ -297,7 +297,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         if feed.read != true {
             title.textColor = UIColor.blackColor()
-//            readingTime.text = "\(String(feed.readingTime!)) min read"
+            readingTime.text = "\(String(feed.readingTime!)) min read"
             tick.image = UIImage(named: "clock_icon")
         } else {
             title.textColor = UIColor(rgba: "#9B9B9B")

@@ -201,7 +201,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="27514E21-EDB7-4ECF-AF23-14DA13A5CC7D" translatesAutoresizingMaskIntoConstraints="NO" id="zvV-dE-liN">
+                                        <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="7A729F44-B2E4-46BB-9FE4-86283723CBBD" translatesAutoresizingMaskIntoConstraints="NO" id="zvV-dE-liN">
                                             <rect key="frame" x="22" y="63" width="16" height="16"/>
                                         </imageView>
                                     </subviews>
@@ -308,7 +308,7 @@
         <!--Article View Controller-->
         <scene sceneID="6O6-jo-P3P">
             <objects>
-                <viewController id="lts-Ev-rsI" customClass="ArticleViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ArticleVC" id="lts-Ev-rsI" customClass="ArticleViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="mfX-Sf-okS"/>
                         <viewControllerLayoutGuide type="bottom" id="2k0-RF-Ewo"/>
@@ -581,7 +581,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="27514E21-EDB7-4ECF-AF23-14DA13A5CC7D" width="16" height="16">
+        <image name="7A729F44-B2E4-46BB-9FE4-86283723CBBD" width="16" height="16">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

@@ -64,11 +64,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         // Create Zen mode Button
         self.createZenModeButton()
         
-//         Create progress bar
+        // Create progress bar
         self.createProgressBar()
-        
-        // Create Toolbar
-        self.createToolBar()
         
         // Load article in web and zen mode
         articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
@@ -88,6 +85,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             var frame : CGRect = CGRectMake(self.zenModeWebViewX, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
             var articleZenView : UIWebView = UIWebView()
             articleZenView.frame = frame
+            articleZenView.scrollView.delegate = self
             self.zenModeScrollView.addSubview(articleZenView)
             
             if feeds[i].content != nil {
@@ -106,6 +104,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         }
         
         isZenMode = false
+        
+        // Create Toolbar
+        self.createToolBar()
         
     }
     
@@ -143,7 +144,10 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                     self.articleWebView.alpha = 1.0
                     }, completion: nil)
                 self.zenModeBtnView.hidden = true
+                toolbar.alpha = 1.0
+                self.view.bringSubviewToFront(toolbar)
             } else {
+                toolbar.alpha = 0.0
                 self.zenModeBtnView.hidden = false
                 self.createProgressBar()
             }
@@ -152,13 +156,15 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             
             isZenMode = true
             self.articleWebView.alpha = 0.0
-            self.navigationController?.cancelSGProgress()
+            toolbar.alpha = 1.0
             self.progressTimer.invalidate()
+            self.navigationController?.cancelSGProgress()
             self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
             
             UIView.animateWithDuration(ANIMATION_DURATION, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                 self.zenModeScrollView.alpha = 1.0
                 }, completion: nil)
+            self.view.bringSubviewToFront(toolbar)
         }
     }
     
@@ -191,6 +197,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     }
     
     func createProgressBar(){
+        
+        if self.progressTimer != nil {
+            self.progressTimer.invalidate()
+        }
+        
         self.progressTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("progressWithPercentage"), userInfo: nil, repeats: true)
     }
     
@@ -200,9 +211,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             
             var percentage : Float = Float(self.articleWebView.estimatedProgress)
             if percentage == 1.0 {
-//                self.navigationController?.finishSGProgress()
+                self.navigationController?.cancelSGProgress()
                 self.progressTimer.invalidate()
-//                self.progressTimer = nil
             }
             
             if !self.isZenMode {
@@ -216,20 +226,21 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     func createToolBar(){
         
         toolbar = UIToolbar(frame: CGRectMake(0, self.view.frame.size.height - 44 - 64, self.view.frame.size.width, 44))
+        toolbar.alpha = 0.0
         
-        var leftArrow : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_left_arrow"), style: UIBarButtonItemStyle.Plain, target: nil, action: Selector("onPrev"))
+        var leftArrow : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_left_arrow"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onPrev"))
         
-        var flexibleItem1 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        var flexibleItem1 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
         
-        var rightArrow : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_right_arrow"), style: UIBarButtonItemStyle.Plain, target: nil, action: Selector("onNext"))
+        var rightArrow : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_right_arrow"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNext"))
         
-        var flexibleItem2 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        var flexibleItem2 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
-        var bookmark : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_bookmark"), style: UIBarButtonItemStyle.Plain, target: nil, action: Selector("onBookmark"))
+        var bookmark : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_bookmark"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector(""))
         
-        var flexibleItem3 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        var flexibleItem3 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
-        var share : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "share_btn"), style: UIBarButtonItemStyle.Plain, target: nil, action: Selector("onSharePressed"))
+        var share : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "share_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onSharePressed"))
         
         toolbar.tintColor = UIColor(rgba: "#A6A8AB")
         
@@ -243,7 +254,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         items.append(share)
         
         toolbar.setItems(items, animated: true)
-        self.articleWebView.addSubview(toolbar)
+        self.view.addSubview(toolbar)
     }
     
     // Web serivce to mark article as Read.
@@ -291,8 +302,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     func onBackPressed() {
         self.navigationController?.cancelSGProgress()
-        
-//        self.navigationController?.popViewControllerAnimated(true)
+//        self.navigationController?.popViewControllerAnimated(false)
         
 //        var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
 //        appDelegate.loadFeedVC()
@@ -311,21 +321,25 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         println("finish")
         articleWebView.alpha = 1.0
+        toolbar.alpha = 1.0
         self.zenModeBtnView.hidden = true
     }
     
     
     // UIScrollView Delegate
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        var pageWidth : CGFloat = self.view.frame.width
-        var page : CGFloat = scrollView.contentOffset.x / pageWidth
-        articleIndex = Int(page)
         
-        // Load article in web and zen mode
-        articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
-        
-        if self.feeds[self.articleIndex].read == false {
-            self.markRead()
+        if isZenMode == true {
+            var pageWidth : CGFloat = self.view.frame.width
+            var page : CGFloat = scrollView.contentOffset.x / pageWidth
+            articleIndex = Int(page)
+            
+            // Load article in web and zen mode
+            articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+            
+            if self.feeds[self.articleIndex].read == false {
+                self.markRead()
+            }
         }
     }
     
@@ -420,12 +434,10 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        if isZenMode == false {
-            if lastContentOffset < scrollView.contentOffset.y {
-                toolbar.alpha = 0.0
-            } else {
-                toolbar.alpha = 1.0
-            }
+        if lastContentOffset < scrollView.contentOffset.y {
+            toolbar.alpha = 0.0
+        } else {
+            toolbar.alpha = 1.0
         }
     }
         
