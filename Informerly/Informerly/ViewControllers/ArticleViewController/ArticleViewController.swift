@@ -26,6 +26,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var progressTimer : NSTimer!
     var tintColor : UIColor!
     var lastContentOffset : CGFloat = 0.0
+    var lastContentOffsetX : CGFloat = 0.0
     var toolbar : UIToolbar!
     
     let ANIMATION_DURATION = 1.0
@@ -301,11 +302,10 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     }
     
     func onBackPressed() {
+        articleWebView.navigationDelegate = nil
+        articleWebView.scrollView.delegate = nil
         self.navigationController?.cancelSGProgress()
-//        self.navigationController?.popViewControllerAnimated(false)
-        
-//        var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-//        appDelegate.loadFeedVC()
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func onSharePressed() {
@@ -330,15 +330,18 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         
         if isZenMode == true {
-            var pageWidth : CGFloat = self.view.frame.width
-            var page : CGFloat = scrollView.contentOffset.x / pageWidth
-            articleIndex = Int(page)
             
-            // Load article in web and zen mode
-            articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
-            
-            if self.feeds[self.articleIndex].read == false {
-                self.markRead()
+            if lastContentOffsetX < scrollView.contentOffset.x || lastContentOffsetX > scrollView.contentOffset.x  {
+                var pageWidth : CGFloat = self.view.frame.width
+                var page : CGFloat = scrollView.contentOffset.x / pageWidth
+                articleIndex = Int(page)
+                
+                // Load article in web and zen mode
+                articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+                
+                if self.feeds[self.articleIndex].read == false {
+                    self.markRead()
+                }
             }
         }
     }
@@ -430,6 +433,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         lastContentOffset = scrollView.contentOffset.y
+        lastContentOffsetX = scrollView.contentOffset.x
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
