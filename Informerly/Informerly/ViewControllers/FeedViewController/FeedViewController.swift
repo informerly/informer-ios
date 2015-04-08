@@ -22,6 +22,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var menu:REMenu!
     private var navTitle : UILabel!
     private var arrow : UIButton!
+    private var overlay:UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,13 +58,26 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         indicator.hidesWhenStopped = true
         indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
         view.addSubview(indicator)
-        self.indicator.startAnimating()
         
+        self.createOverlayView()
         self.downloadData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIApplication.sharedApplication().statusBarHidden = false
+        self.navigationController?.navigationBar.hidden = false
+        //        if Utilities.sharedInstance.getBoolForKey(FROM_MENU_VC) == false {
+        //            self.tableView.reloadData()
+        //        } else {
+        Utilities.sharedInstance.setBoolForKey(false, key: FROM_MENU_VC)
+        //        }
     }
     
     func createTopMenu(){
         var item1 : REMenuItem = REMenuItem(title: "Main Feed", image: UIImage(named: "icon_home"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
+            self.downloadData()
             self.menu.close()
         }
         
@@ -77,7 +91,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             self.menu.close()
         }
         var item5 : REMenuItem = REMenuItem(title: "Bookmarks", image: UIImage(named: "icon_bookmark"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
-//            self.onBookmark()
+            self.indicator.startAnimating()
+            self.onBookmark()
         }
         
         menu = REMenu(items: [item1,item2,item3,item4,item5])
@@ -92,18 +107,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         menu.highlightedBackgroundColor = UIColor(rgba: "#E6E7E8")
         menu.highlightedSeparatorColor = UIColor(rgba: "#E6E7E8")
 
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        UIApplication.sharedApplication().statusBarHidden = false
-        self.navigationController?.navigationBar.hidden = false
-        if Utilities.sharedInstance.getBoolForKey(FROM_MENU_VC) == false {
-            self.tableView.reloadData()
-        } else {
-            Utilities.sharedInstance.setBoolForKey(false, key: FROM_MENU_VC)
-        }
     }
     
     func createNavTitle() {
@@ -132,7 +135,19 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             navTitle.text = "Bookmarked"
             arrow.frame = CGRectMake(101, 13, 10, 5)
         }
+    }
+    
+    func createOverlayView(){
         
+        // Calculating origin for webview
+        var statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
+        var navBarHeight = self.navigationController?.navigationBar.frame.height
+        var resultantHeight = statusBarHeight + navBarHeight!
+        
+        self.overlay = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight))
+        self.overlay.backgroundColor = UIColor.clearColor()
+        self.overlay.hidden = true
+        self.view.addSubview(self.overlay)
     }
     
     func onNavBarTitleTap(gesture : UIGestureRecognizer) {
@@ -172,6 +187,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func downloadData() {
         
+        self.indicator.startAnimating()
+        self.overlay.hidden = false
+        
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             println(auth_token)
@@ -184,12 +202,19 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
-                        
+                        self.overlay.hidden = true
                         self.indicator.stopAnimating()
                         self.refreshCntrl.endRefreshing()
                         Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
                         self.feedsData.removeAll(keepCapacity: false)
                         self.unreadFeeds.removeAll(keepCapacity: false)
+                        self.bookmarkedFeeds.removeAll(keepCapacity: false)
+                        
+                        self.isBookmarked = false
+                        self.navTitle.text = "Your Feed"
+                        self.navTitle.frame = CGRectMake(0, 0, 80, 30)
+                        self.arrow.frame = CGRectMake(81, 13, 10, 5)
+                        
                         self.feedsData = Feeds.sharedInstance.getFeeds()
                         
                         var link_id : String! = Utilities.sharedInstance.getStringForKey(LINK_ID)
@@ -217,6 +242,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    self.overlay.hidden = true
                     self.indicator.stopAnimating()
                     self.refreshCntrl.endRefreshing()
                     
@@ -248,9 +274,18 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     // TableView delegates and Data source methods
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if isUnreadTab == true {
+        if isUnreadTab == true && isBookmarked == false {
             unreadFeeds = []
             for feed in self.feedsData {
+                if feed.read == false {
+                    unreadFeeds.append(feed)
+                }
+            }
+            return unreadFeeds.count
+        }
+        else if isUnreadTab == true && isBookmarked == true {
+            unreadFeeds = []
+            for feed in self.bookmarkedFeeds {
                 if feed.read == false {
                     unreadFeeds.append(feed)
                 }
@@ -297,8 +332,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         if feed.read != true {
             title.textColor = UIColor.blackColor()
-            readingTime.text = "\(String(feed.readingTime!)) min read"
-            tick.image = UIImage(named: "clock_icon")
+            
+            if feed.readingTime != nil{
+                readingTime.text = "\(String(feed.readingTime!)) min read"
+                tick.image = UIImage(named: "clock_icon")
+            }
         } else {
             title.textColor = UIColor(rgba: "#9B9B9B")
             readingTime.text = "Read"
@@ -340,6 +378,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             var articleVC : ArticleViewController = segue.destinationViewController as ArticleViewController
             articleVC.articleIndex = rowID
             articleVC.isUnreadTab = self.isUnreadTab
+            articleVC.isBookmarked = self.isBookmarked
             if isUnreadTab == true {
                 articleVC.unreadFeeds = self.unreadFeeds
             }
@@ -355,6 +394,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func onBookmark(){
+        self.overlay.hidden = false
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             println(auth_token)
@@ -367,6 +407,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     
                     if requestStatus == 200 {
                         println(processedData)
+                        self.overlay.hidden = true
+                        self.indicator.stopAnimating()
                         self.isBookmarked = true
                         self.createNavTitle()
                         Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
@@ -378,6 +420,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     
                     if extraInfo != nil {
+                        self.overlay.hidden = true
+                        self.indicator.stopAnimating()
                         var error : [String:AnyObject] = extraInfo as Dictionary
                         var message : String = error["error"] as String
                         

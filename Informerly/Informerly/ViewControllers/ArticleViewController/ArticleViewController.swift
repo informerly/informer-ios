@@ -15,7 +15,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var zenModeScrollView : UIScrollView!
     var feeds : [Feeds.InformerlyFeed]!
     var unreadFeeds : [Feeds.InformerlyFeed]!
+    var bookmarkedFeeds : [Feeds.InformerlyFeed]!
     var isUnreadTab : Bool!
+    var isBookmarked : Bool!
     var articleIndex : Int!
     var isZenMode : Bool!
     var isStarted : Bool!
@@ -28,6 +30,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var lastContentOffset : CGFloat = 0.0
     var lastContentOffsetX : CGFloat = 0.0
     var toolbar : UIToolbar!
+    var bookmark : UIBarButtonItem!
     
     let ANIMATION_DURATION = 1.0
     
@@ -50,7 +53,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         if isUnreadTab == true {
             self.feeds = unreadFeeds
-        } else {
+        }
+        else {
             self.feeds = Feeds.sharedInstance.getFeeds()
         }
         
@@ -117,10 +121,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         back_btn.tintColor = UIColor.grayColor()
         self.navigationItem.leftBarButtonItem = back_btn
-        
-//        var shareBarBtnItem : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "share_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onSharePressed"))
-//        shareBarBtnItem.tintColor = UIColor.grayColor()
-//        self.navigationItem.rightBarButtonItem = shareBarBtnItem
     }
     
     // Creates Segemted control
@@ -237,7 +237,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         var flexibleItem2 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
-        var bookmark : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_bookmark"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector(""))
+        bookmark = UIBarButtonItem(image: UIImage(named: "icon_bookmark"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onBookmark"))
+
+        if feeds[articleIndex].bookmarked == true {
+            bookmark.image = UIImage(named: "icon_bookmark_filled")
+        }
         
         var flexibleItem3 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
@@ -336,6 +340,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 var page : CGFloat = scrollView.contentOffset.x / pageWidth
                 articleIndex = Int(page)
                 
+                if feeds[articleIndex].bookmarked == true {
+                    bookmark.image = UIImage(named: "icon_bookmark_filled")
+                } else {
+                    bookmark.image = UIImage(named: "icon_bookmark")
+                }
+                
                 // Load article in web and zen mode
                 articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
                 
@@ -364,29 +374,50 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     // Toolbar actions
     func onNext(){
         
-        if articleIndex < self.feeds.count {
+        if articleIndex < self.feeds.count - 1 {
+//            toolbar.alpha = 0.0
             articleWebView.alpha = 0.0
             zenModeBtnView.hidden = false
             
             // Load article in web and zen mode
             articleIndex = articleIndex + 1
+            
+            if feeds[articleIndex].bookmarked == true {
+                bookmark.image = UIImage(named: "icon_bookmark_filled")
+            } else {
+                bookmark.image = UIImage(named: "icon_bookmark")
+            }
+            
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
             self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
             createProgressBar()
+            if self.feeds[self.articleIndex].read == false {
+                self.markRead()
+            }
         }
     }
     
     func onPrev(){
         
         if articleIndex > 0 {
+//            toolbar.alpha = 0.0
             articleWebView.alpha = 0.0
             zenModeBtnView.hidden = false
             
             // Load article in web and zen mode
             articleIndex = articleIndex - 1
+            
+            if feeds[articleIndex].bookmarked == true {
+                bookmark.image = UIImage(named: "icon_bookmark_filled")
+            } else {
+                bookmark.image = UIImage(named: "icon_bookmark")
+            }
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
             self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
             createProgressBar()
+            if self.feeds[self.articleIndex].read == false {
+                self.markRead()
+            }
         }
     }
     
@@ -399,14 +430,20 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             
             var parameters : [String:AnyObject] = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
-                "bookmark":linkID]
+                "link_id":feeds[articleIndex].id!]
             
-            NetworkManager.sharedNetworkClient().processGetRequestWithPath(BOOKMARK_URL,
+            NetworkManager.sharedNetworkClient().processPostRequestWithPath(BOOKMARK_URL,
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
                         println(processedData)
+                        var message = processedData["message"] as String
+                        if message == "Bookmark Created" {
+                            self.bookmark.image = UIImage(named: "icon_bookmark_filled")
+                        } else if message == "Bookmark Removed" {
+                            self.bookmark.image = UIImage(named: "icon_bookmark")
+                        }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     
