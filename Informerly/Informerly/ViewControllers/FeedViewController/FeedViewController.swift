@@ -399,7 +399,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             println(auth_token)
             var parameters : [String:AnyObject] = ["auth_token":auth_token,
-                "client_id":"dev-ios-informer"]
+                "client_id":"dev-ios-informer",
+                "content":"true"]
             
             NetworkManager.sharedNetworkClient().processGetRequestWithPath(BOOKMARK_URL,
                 parameter: parameters,

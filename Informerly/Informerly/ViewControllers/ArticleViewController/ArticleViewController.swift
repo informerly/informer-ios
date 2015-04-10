@@ -361,6 +361,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         zenModeBtnView.hidden = true
         customSegmentedControl.selectedSegmentIndex = 1
         self.articleWebView.alpha = 0.0
+        toolbar.alpha = 1.0
         self.navigationController?.cancelSGProgress()
         self.progressTimer.invalidate()
         self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
