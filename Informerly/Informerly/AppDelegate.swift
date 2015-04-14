@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     private var reachability:Reachability?;
     var readArticles : [Int]!
-
+ 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch
         
@@ -31,8 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var notification: AnyObject? = options[UIApplicationLaunchOptionsRemoteNotificationKey]
             
             if notification != nil {
-                var userInfo : [NSObject:AnyObject] = notification as Dictionary
-                var linkID : String =  String(userInfo["link_id"] as Int)
+                var userInfo : [NSObject:AnyObject] = notification as! Dictionary
+                var linkID : String =  String(userInfo["link_id"] as! Int)
                 Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             } else {
                 var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // in iOS 7). In that case, we skip tracking here to avoid double
             // counting the app-open.
             let oldPushHandlerOnly = !self.respondsToSelector(Selector("application:didReceiveRemoteNotification:fetchCompletionHandler:"))
-            let noPushPayload: AnyObject? = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey]?
+            let noPushPayload: AnyObject? = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey]
             if oldPushHandlerOnly || noPushPayload != nil {
                 PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
             }
@@ -140,12 +140,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             
-            var linkID : String = String(userInfo["link_id"] as Int)
+            var linkID : String = String(userInfo["link_id"] as! Int)
             Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             
             var storyboard = self.window?.rootViewController?.storyboard
-            var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
-            var navigationVC = self.window?.rootViewController as UINavigationController
+            var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as! UIViewController
+            var navigationVC = self.window?.rootViewController as! UINavigationController
             navigationVC.viewControllers = [rootVC]
             self.window?.rootViewController = navigationVC
         }
@@ -164,8 +164,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println(linkID)
         
         var storyboard = self.window?.rootViewController?.storyboard
-        var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
-        var navigationVC = self.window?.rootViewController as UINavigationController
+        var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as! UIViewController
+        var navigationVC = self.window?.rootViewController as! UINavigationController
         navigationVC.viewControllers = [rootVC]
         self.window?.rootViewController = navigationVC
         
@@ -175,7 +175,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func checkForReachability(notification:NSNotification)
     {
-        let networkReachability = notification.object as Reachability;
+        let networkReachability = notification.object as! Reachability;
         var remoteHostStatus = networkReachability.currentReachabilityStatus()
         
         if (remoteHostStatus.value == NotReachable.value)
@@ -189,7 +189,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
                 
                 if (NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) != nil) {
-                    self.readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as Array
+                    self.readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as! Array
                     
                     if (readArticles != nil) && (readArticles?.isEmpty == false) {
                         self.markUnreadArticles(readArticles!)
@@ -229,11 +229,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func loadFeedVC(){
         var storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         
-        var container = storyboard.instantiateViewControllerWithIdentifier("MFSideMenuContainerViewController") as MFSideMenuContainerViewController
+        var container = storyboard.instantiateViewControllerWithIdentifier("MFSideMenuContainerViewController") as! MFSideMenuContainerViewController
         
-        var leftSideMenuViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("LeftMenuViewController") as UIViewController
+        var leftSideMenuViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("LeftMenuViewController") as! UIViewController
         
-        var rootVC = storyboard.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
+        var rootVC = storyboard.instantiateViewControllerWithIdentifier("FeedVC") as! UIViewController
         var navigationVC: UINavigationController = UINavigationController(rootViewController: rootVC)
         
         container.panMode = MFSideMenuPanModeSideMenu

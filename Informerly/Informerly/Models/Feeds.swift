@@ -62,7 +62,7 @@ class Feeds  {
         self.feeds.removeAll(keepCapacity: false)
         for feedData in feeds {
             var feed : InformerlyFeed = InformerlyFeed()
-            feed.populateFeed(feedData as [String: AnyObject])
+            feed.populateFeed(feedData as! [String: AnyObject])
             
             self.feeds.append(feed)
         }

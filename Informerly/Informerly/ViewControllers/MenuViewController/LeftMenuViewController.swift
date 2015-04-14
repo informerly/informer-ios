@@ -41,13 +41,13 @@ class LeftMenuViewController : UIViewController {
     
     func onHelpTap(gesture:UIGestureRecognizer){
         self.menuContainerViewController.menuState = MFSideMenuStateClosed
-        var helpVC = self.storyboard?.instantiateViewControllerWithIdentifier("HelpVC") as HelpViewController
+        var helpVC = self.storyboard?.instantiateViewControllerWithIdentifier("HelpVC") as! HelpViewController
         self.showViewController(helpVC, sender: self)
     }
     
     func onFeedbackTap(gesture:UIGestureRecognizer){
         self.menuContainerViewController.menuState = MFSideMenuStateClosed
-        var feedbackVC = self.storyboard?.instantiateViewControllerWithIdentifier("FeedbackVC") as FeedbackViewContoller
+        var feedbackVC = self.storyboard?.instantiateViewControllerWithIdentifier("FeedbackVC") as! FeedbackViewContoller
         self.showViewController(feedbackVC, sender: self)
     }
     
@@ -65,7 +65,7 @@ class LeftMenuViewController : UIViewController {
                     NSUserDefaults.standardUserDefaults().setObject([], forKey: READ_ARTICLES)
                     NSUserDefaults.standardUserDefaults().synchronize()
                     
-                    var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                    var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                     self.showViewController(loginVC, sender: self)
                     
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in

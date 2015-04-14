@@ -181,7 +181,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             0, zenCloudImageView.frame.size.width, zenCloudImageView.frame.size.height)
         zenModeBtnView.addSubview(zenCloudImageView)
         
-        var zenModeBtn : UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        var zenModeBtn : UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         zenModeBtn.setImage(UIImage(named: "zen_btn"), forState: UIControlState.Normal)
         zenModeBtn.frame = CGRectMake(zenModeBtnView.frame.size.width/2 - 85,zenCloudImageView.frame.size.height + 10, 170,55)
         zenModeBtn.addTarget(self, action: Selector("onZenModeBtnPress:"), forControlEvents: UIControlEvents.TouchUpInside)
@@ -282,7 +282,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 if NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) == nil {
                     readArticles = [Int]()
                 } else {
-                    readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as Array
+                    readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as! Array
                 }
                 println(readArticles)
                 readArticles.append(self.feeds[self.articleIndex].id!)
@@ -290,13 +290,13 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 NSUserDefaults.standardUserDefaults().synchronize()
                 
                 if extraInfo != nil {
-                    var error : [String:AnyObject] = extraInfo as Dictionary
-                    var message : String = error["error"] as String
+                    var error : [String:AnyObject] = extraInfo as! Dictionary
+                    var message : String = error["error"] as! String
                     
                     if message == "Invalid authentication token." {
                         var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                            var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                            var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                             self.showViewController(loginVC, sender: self)
                         }))
                         self.presentViewController(alert, animated: true, completion: nil)
@@ -439,7 +439,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                     
                     if requestStatus == 200 {
                         println(processedData)
-                        var message = processedData["message"] as String
+                        var message = processedData["message"] as! String
                         if message == "Bookmark Created" {
                             self.bookmark.image = UIImage(named: "icon_bookmark_filled")
                         } else if message == "Bookmark Removed" {
@@ -449,13 +449,13 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     
                     if extraInfo != nil {
-                        var error : [String:AnyObject] = extraInfo as Dictionary
-                        var message : String = error["error"] as String
+                        var error : [String:AnyObject] = extraInfo as! Dictionary
+                        var message : String = error["error"] as! String
                         
                         if message == "Invalid authentication token." {
                             var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                 self.showViewController(loginVC, sender: self)
                             }))
                             self.presentViewController(alert, animated: true, completion: nil)

@@ -43,9 +43,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 parameter: parameters,
                 success: { (requestStatus : Int32, processedData : AnyObject!, extraInfo : AnyObject!) -> Void in
                     if requestStatus == 200 {
-                        self.feeds = processedData["links"] as Array
-                        var feed : [String:AnyObject] = self.feeds[self.index] as Dictionary
-                        var title : String = feed["title"] as String
+                        self.feeds = processedData["links"] as! Array
+                        var feed : [String:AnyObject] = self.feeds[self.index] as! Dictionary
+                        var title : String = feed["title"] as! String
                         println(title)
                         self.titleLabel.text = title
                         self.nextStoryBtn.hidden = false
@@ -61,8 +61,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     func onTitleTap() {
         
-        var feed : [String:AnyObject] = self.feeds[self.index] as Dictionary
-        var id : Int = feed["id"] as Int
+        var feed : [String:AnyObject] = self.feeds[self.index] as! Dictionary
+        var id : Int = feed["id"] as! Int
         
         var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
         userDefaults.setObject("\(id)", forKey: "id")
@@ -97,8 +97,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         if self.index == feeds.count {
             self.index = 0
         }
-        var feed : [String:AnyObject] = feeds[self.index] as Dictionary
-        var title : String = feed["title"] as String
+        var feed : [String:AnyObject] = feeds[self.index] as! Dictionary
+        var title : String = feed["title"] as! String
         println(title)
         self.titleLabel.text = title
         

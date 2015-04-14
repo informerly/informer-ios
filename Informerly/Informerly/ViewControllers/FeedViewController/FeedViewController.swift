@@ -118,7 +118,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             navTitle.text = "Your Feed"
             navTitle.font = UIFont(name: "OpenSans-Regular", size: 14.0)
             
-            arrow = UIButton.buttonWithType(UIButtonType.System) as UIButton
+            arrow = UIButton.buttonWithType(UIButtonType.System) as! UIButton
             arrow.setImage(UIImage(named: "icon_arrow"), forState: UIControlState.Normal)
             arrow.frame = CGRectMake(81, 13, 10, 5)
             arrow.tintColor = UIColor.grayColor()
@@ -205,7 +205,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         self.overlay.hidden = true
                         self.indicator.stopAnimating()
                         self.refreshCntrl.endRefreshing()
-                        Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
+                        Feeds.sharedInstance.populateFeeds(processedData["links"]as! [AnyObject])
                         self.feedsData.removeAll(keepCapacity: false)
                         self.unreadFeeds.removeAll(keepCapacity: false)
                         self.bookmarkedFeeds.removeAll(keepCapacity: false)
@@ -247,13 +247,13 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     self.refreshCntrl.endRefreshing()
                     
                     if extraInfo != nil {
-                        var error : [String:AnyObject] = extraInfo as Dictionary
-                        var message : String = error["error"] as String
+                        var error : [String:AnyObject] = extraInfo as! Dictionary
+                        var message : String = error["error"] as! String
                         
                         if message == "Invalid authentication token." {
                             var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                 self.showViewController(loginVC, sender: self)
                             }))
                             self.presentViewController(alert, animated: true, completion: nil)
@@ -309,12 +309,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell")as! UITableViewCell
         
-        var source = cell.viewWithTag(1) as UILabel
-        var title = cell.viewWithTag(2) as UILabel
-        var readingTime = cell.viewWithTag(3) as UILabel
-        var tick = cell.viewWithTag(4) as UIImageView
+        var source = cell.viewWithTag(1) as! UILabel
+        var title = cell.viewWithTag(2) as! UILabel
+        var readingTime = cell.viewWithTag(3) as! UILabel
+        var tick = cell.viewWithTag(4) as! UIImageView
         
         var feed : Feeds.InformerlyFeed;
         if isUnreadTab == true {
@@ -350,13 +350,13 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.rowID = indexPath.row
         let cell : UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
         
-        var title = cell.viewWithTag(2) as UILabel
+        var title = cell.viewWithTag(2)as! UILabel
         title.textColor = UIColor(rgba: "#9B9B9B")
         
-        var read = cell.viewWithTag(3) as UILabel
+        var read = cell.viewWithTag(3) as! UILabel
         read.text = "Read"
         
-        var tick = cell.viewWithTag(4) as UIImageView
+        var tick = cell.viewWithTag(4) as! UIImageView
         tick.image = UIImage(named: "icon_tick")
         
         self.performSegueWithIdentifier("ArticleVC", sender: self)
@@ -367,7 +367,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var font : UIFont = UIFont(name: "OpenSans-Bold", size: 18)!
         var constrainedSize: CGSize = CGSizeMake(width, 9999);
         var attributesDictionary = NSDictionary(objectsAndKeys: font, NSFontAttributeName)
-        var string = NSMutableAttributedString(string: pString, attributes: attributesDictionary)
+        var string = NSMutableAttributedString(string: pString, attributes: attributesDictionary as [NSObject : AnyObject])
         var requiredHeight: CGRect = string.boundingRectWithSize(constrainedSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         return requiredHeight.size.height
     }
@@ -375,7 +375,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "ArticleVC" {
-            var articleVC : ArticleViewController = segue.destinationViewController as ArticleViewController
+            var articleVC : ArticleViewController = segue.destinationViewController as! ArticleViewController
             articleVC.articleIndex = rowID
             articleVC.isUnreadTab = self.isUnreadTab
             articleVC.isBookmarked = self.isBookmarked
@@ -412,7 +412,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         self.indicator.stopAnimating()
                         self.isBookmarked = true
                         self.createNavTitle()
-                        Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
+                        Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
                         self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
                         self.tableView.reloadData()
                         
@@ -423,13 +423,13 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     if extraInfo != nil {
                         self.overlay.hidden = true
                         self.indicator.stopAnimating()
-                        var error : [String:AnyObject] = extraInfo as Dictionary
-                        var message : String = error["error"] as String
+                        var error : [String:AnyObject] = extraInfo as! Dictionary
+                        var message : String = error["error"] as! String
                         
                         if message == "Invalid authentication token." {
                             var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                 self.showViewController(loginVC, sender: self)
                             }))
                             self.presentViewController(alert, animated: true, completion: nil)

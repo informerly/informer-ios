@@ -65,7 +65,7 @@ class MenuViewController:UIViewController {
                     NSUserDefaults.standardUserDefaults().setObject([], forKey: READ_ARTICLES)
                     NSUserDefaults.standardUserDefaults().synchronize()
                     
-                    var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                    var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                     self.showViewController(loginVC, sender: self)
                     
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
