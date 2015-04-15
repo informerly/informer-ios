@@ -61,6 +61,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         self.createOverlayView()
         self.downloadData()
+        self.downloadBookmark()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -68,11 +69,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         UIApplication.sharedApplication().statusBarHidden = false
         self.navigationController?.navigationBar.hidden = false
-        //        if Utilities.sharedInstance.getBoolForKey(FROM_MENU_VC) == false {
-        //            self.tableView.reloadData()
-        //        } else {
-        Utilities.sharedInstance.setBoolForKey(false, key: FROM_MENU_VC)
-        //        }
     }
     
     func createTopMenu(){
@@ -393,6 +389,28 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.downloadData()
     }
     
+    func downloadBookmark(){
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+                "client_id":"dev-ios-informer",
+                "content":"true"]
+            
+            NetworkManager.sharedNetworkClient().processGetRequestWithPath(BOOKMARK_URL,
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    
+                    if requestStatus == 200 {
+                        
+                        Utilities.sharedInstance.setArrayForKey(NSKeyedArchiver.archivedDataWithRootObject(processedData) , key: BOOKMARK_FEEDS)
+                    }
+                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+
+            }
+        }
+
+    }
+    
     func onBookmark(){
         self.overlay.hidden = false
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
@@ -414,8 +432,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         self.createNavTitle()
                         Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
                         self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
-                        self.tableView.reloadData()
                         
+                        self.tableView.reloadData()
                         self.menu.close()
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
@@ -440,6 +458,17 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         self.showAlert("Error !", msg: "Try Again!")
                     }
             }
+        } else {
+            self.overlay.hidden = true
+            self.indicator.stopAnimating()
+            self.isBookmarked = true
+            self.createNavTitle()
+            
+            var processedData : AnyObject = Utilities.sharedInstance.getArrayForKey(BOOKMARK_FEEDS)
+            Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
+            self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
+            self.tableView.reloadData()
+            self.menu.close()
         }
     }
     

@@ -14,7 +14,7 @@ class Feeds  {
         
         var id : Int?
         var title : String?
-        var description : String?
+        var feedDescription : String?
         var content : String?
         var readingTime : Int?
         var source : String?
@@ -32,7 +32,7 @@ class Feeds  {
         func populateFeed (feed:[String:AnyObject]) {
             self.id = feed["id"] as? Int
             self.title = feed["title"] as? String
-            self.description = feed["description"] as? String
+            self.feedDescription = feed["description"] as? String
             self.content = feed["content"] as? String
             self.readingTime = feed["reading_time"] as? Int
             self.source = feed["source"] as? String

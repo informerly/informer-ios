@@ -36,6 +36,30 @@ class Utilities {
         return NSUserDefaults.standardUserDefaults().stringForKey(key)!
     }
     
+    func setObjectForKey(object:AnyObject,key:String) {
+        NSUserDefaults.standardUserDefaults().setObject(object, forKey: key)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    func getObjectForKey(key:String)->[Feeds.InformerlyFeed] {
+        
+        let data =  NSUserDefaults.standardUserDefaults().objectForKey(key) as! NSData
+        let unarchivedData: [Feeds.InformerlyFeed]? = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [Feeds.InformerlyFeed]
+        return unarchivedData!
+    }
+    
+    func setArrayForKey(object:AnyObject,key:String) {
+        NSUserDefaults.standardUserDefaults().setObject(object, forKey: key)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    func getArrayForKey(key:String)->AnyObject {
+        
+        let data =  NSUserDefaults.standardUserDefaults().objectForKey(key) as! NSData
+        let unarchivedData: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+        return unarchivedData!
+    }
+    
     
     func setAuthToken(value:String,key:String) {
         var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!

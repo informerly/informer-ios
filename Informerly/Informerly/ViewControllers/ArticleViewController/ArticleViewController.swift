@@ -237,11 +237,13 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         var flexibleItem2 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
-        bookmark = UIBarButtonItem(image: UIImage(named: "icon_bookmark"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onBookmark"))
-
+        var img : UIImage? = UIImage(named: "icon_bookmark")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        
         if feeds[articleIndex].bookmarked == true {
-            bookmark.image = UIImage(named: "icon_bookmark_filled")
+            img = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         }
+        
+        bookmark = UIBarButtonItem(image: img, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onBookmark"))
         
         var flexibleItem3 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
@@ -341,9 +343,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 articleIndex = Int(page)
                 
                 if feeds[articleIndex].bookmarked == true {
-                    bookmark.image = UIImage(named: "icon_bookmark_filled")
+                    bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                 } else {
-                    bookmark.image = UIImage(named: "icon_bookmark")
+                    bookmark.image = UIImage(named: "icon_bookmark")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                 }
                 
                 // Load article in web and zen mode
@@ -384,9 +386,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             articleIndex = articleIndex + 1
             
             if feeds[articleIndex].bookmarked == true {
-                bookmark.image = UIImage(named: "icon_bookmark_filled")
+                bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             } else {
-                bookmark.image = UIImage(named: "icon_bookmark")
+                bookmark.image = UIImage(named: "icon_bookmark")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             }
             
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
@@ -409,9 +411,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             articleIndex = articleIndex - 1
             
             if feeds[articleIndex].bookmarked == true {
-                bookmark.image = UIImage(named: "icon_bookmark_filled")
+                bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             } else {
-                bookmark.image = UIImage(named: "icon_bookmark")
+                bookmark.image = UIImage(named: "icon_bookmark")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             }
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
             self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
@@ -441,9 +443,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                         println(processedData)
                         var message = processedData["message"] as! String
                         if message == "Bookmark Created" {
-                            self.bookmark.image = UIImage(named: "icon_bookmark_filled")
+                            self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                         } else if message == "Bookmark Removed" {
-                            self.bookmark.image = UIImage(named: "icon_bookmark")
+                            self.bookmark.image = UIImage(named: "icon_bookmark")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                         }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
@@ -466,7 +468,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                         self.showAlert("Error !", msg: "Try Again!")
                     }
                 }
-            }
+        } else {
+            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+        }
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
