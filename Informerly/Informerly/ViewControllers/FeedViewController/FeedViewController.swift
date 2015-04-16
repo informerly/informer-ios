@@ -72,26 +72,26 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func createTopMenu(){
-        var item1 : REMenuItem = REMenuItem(title: "Main Feed", image: UIImage(named: "icon_home"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
+        var yourFeed : REMenuItem = REMenuItem(title: "Your Feed", image: UIImage(named: "icon_home"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
             self.downloadData()
             self.menu.close()
         }
         
-        var item2 : REMenuItem = REMenuItem(title: "Category1", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
-            self.menu.close()
-        }
-        var item3 : REMenuItem = REMenuItem(title: "Category2", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
-            self.menu.close()
-        }
-        var item4 : REMenuItem = REMenuItem(title: "Category3", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
-            self.menu.close()
-        }
-        var item5 : REMenuItem = REMenuItem(title: "Bookmarks", image: UIImage(named: "icon_bookmark"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
+//        var item2 : REMenuItem = REMenuItem(title: "Category1", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
+//            self.menu.close()
+//        }
+//        var item3 : REMenuItem = REMenuItem(title: "Category2", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
+//            self.menu.close()
+//        }
+//        var item4 : REMenuItem = REMenuItem(title: "Category3", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
+//            self.menu.close()
+//        }
+        var bookmarkFeeds : REMenuItem = REMenuItem(title: "Bookmarks", image: UIImage(named: "icon_bookmark"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
             self.indicator.startAnimating()
             self.onBookmark()
         }
         
-        menu = REMenu(items: [item1,item2,item3,item4,item5])
+        menu = REMenu(items: [yourFeed,bookmarkFeeds])
         menu.backgroundColor = UIColor.whiteColor()
         menu.separatorHeight = 1
         menu.separatorColor = UIColor(rgba: "#E6E7E8")
@@ -386,7 +386,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func onPullToRefresh(sender:AnyObject) {
-        self.downloadData()
+        
+        if isBookmarked == false {
+            self.downloadData()
+        } else {
+            self.onBookmark()
+        }
     }
     
     func downloadBookmark(){
@@ -426,6 +431,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     
                     if requestStatus == 200 {
                         println(processedData)
+                        self.refreshCntrl.endRefreshing()
                         self.overlay.hidden = true
                         self.indicator.stopAnimating()
                         self.isBookmarked = true
@@ -439,6 +445,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     
                     if extraInfo != nil {
+                        self.refreshCntrl.endRefreshing()
                         self.overlay.hidden = true
                         self.indicator.stopAnimating()
                         var error : [String:AnyObject] = extraInfo as! Dictionary
@@ -459,6 +466,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     }
             }
         } else {
+            self.refreshCntrl.endRefreshing()
             self.overlay.hidden = true
             self.indicator.stopAnimating()
             self.isBookmarked = true

@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>16D3CEE2-FFB0-4EC2-9259-29A6D13569CD</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Informerly</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>99831AAA52300E811F9EBCEAE8153D0F9FD7086B</key>
 		<string>https://github.com/emilyemoss/informer.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Informerly/Informerly.xcodeproj/project.xcworkspace</string>
+	<string>Informerly/Informerly.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>99831AAA52300E811F9EBCEAE8153D0F9FD7086B</key>

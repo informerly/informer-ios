@@ -481,9 +481,15 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         if lastContentOffset < scrollView.contentOffset.y {
-            toolbar.alpha = 0.0
+            
+            UIView.animateWithDuration(1.0, animations: { () -> Void in
+                self.toolbar.frame = CGRectMake(0, self.view.frame.size.height + 44, self.view.frame.size.width, 44)
+            })
+
         } else {
-            toolbar.alpha = 1.0
+            UIView.animateWithDuration(1.0, animations: { () -> Void in
+                self.toolbar.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44)
+            })
         }
     }
         
