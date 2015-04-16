@@ -291,7 +291,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(AF_APP_EXTENSIONS)
 - (void)setShouldExecuteAsBackgroundTaskWithExpirationHandler:(void (^)(void))handler {
-//    [self.lock lock];
+    [self.lock lock];
 //    if (!self.backgroundTaskIdentifier) {
 //        UIApplication *application = [UIApplication sharedApplication];
 //        __weak __typeof(self)weakSelf = self;
@@ -310,7 +310,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 //            }
 //        }];
 //    }
-//    [self.lock unlock];
+    [self.lock unlock];
 }
 #endif
 

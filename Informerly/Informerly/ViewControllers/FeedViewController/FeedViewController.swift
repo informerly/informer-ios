@@ -430,7 +430,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
-                        println(processedData)
                         self.refreshCntrl.endRefreshing()
                         self.overlay.hidden = true
                         self.indicator.stopAnimating()
