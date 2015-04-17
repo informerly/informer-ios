@@ -27,7 +27,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var customSegmentedControl : UISegmentedControl!
     var progressTimer : NSTimer!
     var tintColor : UIColor!
-    var lastContentOffset : CGFloat = 0.0
+    var lastContentOffset : CGFloat = 1.0
     var lastContentOffsetX : CGFloat = 0.0
     var toolbar : UIToolbar!
     var bookmark : UIBarButtonItem!
@@ -57,6 +57,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         else {
             self.feeds = Feeds.sharedInstance.getFeeds()
         }
+        
+        // Getting bookmark feeds
+        var processedData : AnyObject = Utilities.sharedInstance.getArrayForKey(BOOKMARK_FEEDS)
+        Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
+        self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
         
         // Creates Article web view
         var frame : CGRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
@@ -171,8 +176,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     // create zenModeButton
     func createZenModeButton(){
-        var zenModeBtnViewRect : CGRect = CGRectMake(self.view.frame.size.width/2-100, self.view.frame.size.height/2-150,
-            200, 200)
+        var zenModeBtnViewRect : CGRect = CGRectMake(self.view.frame.size.width/2-100, self.view.frame.size.height/2-110,
+            200, 100)
         self.zenModeBtnView = UIView(frame: zenModeBtnViewRect)
         self.view.addSubview(zenModeBtnView)
         
@@ -187,14 +192,14 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         zenModeBtn.addTarget(self, action: Selector("onZenModeBtnPress:"), forControlEvents: UIControlEvents.TouchUpInside)
         zenModeBtnView.addSubview(zenModeBtn)
         
-        var zenModeViewLabelRect : CGRect = CGRectMake(0, 150, 200, 45)
-        var zenModeViewLabel : UILabel = UILabel(frame: zenModeViewLabelRect)
-        zenModeViewLabel.numberOfLines = 2
-        zenModeViewLabel.textAlignment = NSTextAlignment.Center
-        zenModeViewLabel.font = UIFont.systemFontOfSize(14.0)
-        zenModeViewLabel.text = "Tap on this button if your connection is slow."
-        zenModeViewLabel.textColor = UIColor.grayColor()
-        zenModeBtnView.addSubview(zenModeViewLabel)
+//        var zenModeViewLabelRect : CGRect = CGRectMake(0, 150, 200, 45)
+//        var zenModeViewLabel : UILabel = UILabel(frame: zenModeViewLabelRect)
+//        zenModeViewLabel.numberOfLines = 2
+//        zenModeViewLabel.textAlignment = NSTextAlignment.Center
+//        zenModeViewLabel.font = UIFont.systemFontOfSize(14.0)
+//        zenModeViewLabel.text = "Tap on this button if your connection is slow."
+//        zenModeViewLabel.textColor = UIColor.grayColor()
+//        zenModeBtnView.addSubview(zenModeViewLabel)
     }
     
     func createProgressBar(){
@@ -286,7 +291,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 } else {
                     readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as! Array
                 }
-                println(readArticles)
                 readArticles.append(self.feeds[self.articleIndex].id!)
                 NSUserDefaults.standardUserDefaults().setObject(readArticles, forKey: READ_ARTICLES)
                 NSUserDefaults.standardUserDefaults().synchronize()
@@ -326,9 +330,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     // Web view delegate
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         println("finish")
+        self.zenModeBtnView.hidden = true
         articleWebView.alpha = 1.0
         toolbar.alpha = 1.0
-        self.zenModeBtnView.hidden = true
     }
     
     
@@ -349,6 +353,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 }
                 
                 // Load article in web and zen mode
+                articleWebView.alpha = 0.0
                 articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
                 
                 if self.feeds[self.articleIndex].read == false {
@@ -378,7 +383,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     func onNext(){
         
         if articleIndex < self.feeds.count - 1 {
-//            toolbar.alpha = 0.0
             articleWebView.alpha = 0.0
             zenModeBtnView.hidden = false
             
@@ -403,7 +407,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     func onPrev(){
         
         if articleIndex > 0 {
-//            toolbar.alpha = 0.0
             articleWebView.alpha = 0.0
             zenModeBtnView.hidden = false
             
@@ -426,6 +429,13 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     func onBookmark(){
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            
+            if self.feeds[articleIndex].bookmarked == true {
+                self.bookmark.image = UIImage(named: "icon_bookmark")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+            } else {
+                self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+            }
+            
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             println(auth_token)
             
@@ -440,12 +450,19 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
-                        println(processedData)
                         var message = processedData["message"] as! String
                         if message == "Bookmark Created" {
-                            self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                            self.feeds[self.articleIndex].bookmarked = true
+                            self.bookmarkedFeeds.append(self.feeds[self.articleIndex])
                         } else if message == "Bookmark Removed" {
-                            self.bookmark.image = UIImage(named: "icon_bookmark")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                            self.feeds[self.articleIndex].bookmarked = false
+                            
+                            var index = self.articleIndex
+                            for feed in self.bookmarkedFeeds {
+                                if feed.id == self.feeds[index].id {
+                                    self.bookmarkedFeeds.removeAtIndex(index)
+                                }
+                            }
                         }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
@@ -476,22 +493,26 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         lastContentOffset = scrollView.contentOffset.y
         lastContentOffsetX = scrollView.contentOffset.x
+        if scrollView.contentOffset.y == 0.0 {
+            lastContentOffset = 1.0
+        }
+
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
         if lastContentOffset < scrollView.contentOffset.y {
-            
-            UIView.animateWithDuration(1.0, animations: { () -> Void in
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.toolbar.frame = CGRectMake(0, self.view.frame.size.height + 44, self.view.frame.size.width, 44)
             })
 
         } else {
-            UIView.animateWithDuration(1.0, animations: { () -> Void in
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.toolbar.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44)
             })
         }
     }
+    
         
     func showAlert(title:String, msg:String){
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
