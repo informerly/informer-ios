@@ -30,6 +30,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         // Setting Nav bar.
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.hidden = false
+        self.navigationController?.navigationBar.translucent = false
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
         self.createNavTitle()
         
@@ -37,6 +38,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var menu : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onMenuPressed"))
         menu.tintColor = UIColor.grayColor()
         self.navigationItem.leftBarButtonItem = menu
+        
+        // Adds interest icon on nav bar.
+        var interestBtn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_interests"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector(""))
+        interestBtn.tintColor = UIColor.grayColor()
+        self.navigationItem.rightBarButtonItem = interestBtn
         
         // Create Top menu
         self.createTopMenu()
@@ -383,6 +389,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func onMenuPressed() {
         self.menuContainerViewController.toggleLeftSideMenuCompletion(nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "yourFeedNotificationSelector:", name:"YourFeedNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "bookmarkNotificationSelector:", name:"BookmarkNotification", object: nil)
     }
     
     func onPullToRefresh(sender:AnyObject) {
@@ -418,6 +426,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func onBookmark(){
         self.overlay.hidden = false
+        self.indicator.startAnimating()
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             println(auth_token)
@@ -479,14 +488,21 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    @objc func yourFeedNotificationSelector(notification: NSNotification){
+        self.downloadData()
+    }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    @objc func bookmarkNotificationSelector(notification: NSNotification){
+        self.onBookmark()
     }
     
     func showAlert(title:String, msg:String){
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
 }

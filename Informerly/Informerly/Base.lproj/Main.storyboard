@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JMc-bZ-UQj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JMc-bZ-UQj">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -19,6 +19,7 @@
             <string>OpenSans-Bold</string>
         </mutableArray>
         <mutableArray key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
@@ -201,7 +202,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="7A729F44-B2E4-46BB-9FE4-86283723CBBD" translatesAutoresizingMaskIntoConstraints="NO" id="zvV-dE-liN">
+                                        <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="2AC7101C-A96F-46A9-8A7D-4E5805896888" translatesAutoresizingMaskIntoConstraints="NO" id="zvV-dE-liN">
                                             <rect key="frame" x="22" y="63" width="16" height="16"/>
                                         </imageView>
                                     </subviews>
@@ -250,36 +251,54 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gVg-wI-MXm">
-                                <rect key="frame" x="0.0" y="20" width="320" height="45"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gVg-wI-MXm">
+                                <rect key="frame" x="0.0" y="507" width="320" height="45"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_help" translatesAutoresizingMaskIntoConstraints="NO" id="QEW-Mf-7KT">
                                         <rect key="frame" x="14" y="12" width="22" height="22"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Help" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cY4-eX-kxy">
-                                        <rect key="frame" x="54" y="11" width="42" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Help / Feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cY4-eX-kxy">
+                                        <rect key="frame" x="54" y="11" width="120" height="22"/>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
                                         <color key="textColor" red="0.29019607843137257" green="0.29019607843137257" blue="0.29019607843137257" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="PgM-WY-K8h"/>
+                                    <constraint firstAttribute="height" constant="45" id="ftJ-R0-yCQ"/>
+                                </constraints>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VjC-A5-yBx">
-                                <rect key="frame" x="0.0" y="65" width="320" height="45"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wb2-3y-WZM">
+                                <rect key="frame" x="0.0" y="20" width="320" height="45"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_feedback" translatesAutoresizingMaskIntoConstraints="NO" id="zaQ-kf-5E3">
-                                        <rect key="frame" x="15" y="13" width="22" height="20"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_home" translatesAutoresizingMaskIntoConstraints="NO" id="ILJ-31-MQY">
+                                        <rect key="frame" x="15" y="12" width="22" height="20"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ray-TG-FU3">
-                                        <rect key="frame" x="54" y="11" width="80" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your Feed" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pwq-7i-KYH">
+                                        <rect key="frame" x="54" y="11" width="75" height="22"/>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
-                                        <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vjv-7K-swV">
-                                <rect key="frame" x="0.0" y="110" width="320" height="45"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FEP-Wx-1zh">
+                                <rect key="frame" x="0.0" y="65" width="320" height="45"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_bookmark" translatesAutoresizingMaskIntoConstraints="NO" id="QzK-Pm-lCj">
+                                        <rect key="frame" x="19" y="14" width="14" height="16"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bookmarks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A1o-2N-R4j">
+                                        <rect key="frame" x="54" y="11" width="85" height="22"/>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
+                                        <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vjv-7K-swV">
+                                <rect key="frame" x="0.0" y="553" width="320" height="45"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_logout" translatesAutoresizingMaskIntoConstraints="NO" id="WYs-jI-28T">
                                         <rect key="frame" x="16" y="14" width="18" height="18"/>
@@ -291,14 +310,25 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="2zD-hv-fSU"/>
+                                    <constraint firstAttribute="height" constant="45" id="SOL-BR-Bkz"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Vjv-7K-swV" firstAttribute="top" secondItem="gVg-wI-MXm" secondAttribute="bottom" constant="1" id="b7y-hi-p5P"/>
+                            <constraint firstItem="Vjv-7K-swV" firstAttribute="leading" secondItem="FBb-b5-aUD" secondAttribute="leadingMargin" constant="-16" id="dya-cF-Dxp"/>
+                            <constraint firstItem="gVg-wI-MXm" firstAttribute="leading" secondItem="FBb-b5-aUD" secondAttribute="leadingMargin" constant="-16" id="jiJ-VH-lcR"/>
+                            <constraint firstItem="10M-ea-0nb" firstAttribute="top" secondItem="Vjv-7K-swV" secondAttribute="bottom" constant="2" id="rGg-nA-1Gh"/>
+                        </constraints>
                     </view>
                     <connections>
-                        <outlet property="feedbackView" destination="VjC-A5-yBx" id="dso-s6-Huj"/>
+                        <outlet property="bookmarkView" destination="FEP-Wx-1zh" id="Fzm-Os-pgZ"/>
                         <outlet property="helpView" destination="gVg-wI-MXm" id="sAk-yW-pIb"/>
                         <outlet property="logoutView" destination="Vjv-7K-swV" id="BOd-hO-C14"/>
+                        <outlet property="yourFeedView" destination="Wb2-3y-WZM" id="73X-al-SRa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l4G-KX-qR0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -581,7 +611,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="7A729F44-B2E4-46BB-9FE4-86283723CBBD" width="16" height="16">
+        <image name="2AC7101C-A96F-46A9-8A7D-4E5805896888" width="16" height="16">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -650,8 +680,9 @@ AAAAAAAAAAAAAAAAAA4vA
 </mutableData>
         </image>
         <image name="icon_back_white" width="16" height="16"/>
-        <image name="icon_feedback" width="22" height="20"/>
+        <image name="icon_bookmark" width="14" height="18"/>
         <image name="icon_help" width="22" height="22"/>
+        <image name="icon_home" width="22" height="20"/>
         <image name="icon_logout" width="18" height="18"/>
         <image name="new_logo" width="160" height="19"/>
     </resources>

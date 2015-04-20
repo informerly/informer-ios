@@ -7,31 +7,45 @@
 //
 
 import Foundation
+import MessageUI
 
-class LeftMenuViewController : UIViewController {
+class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDelegate {
     
+    @IBOutlet weak var yourFeedView: UIView!
+    @IBOutlet weak var bookmarkView: UIView!
     @IBOutlet weak var helpView: UIView!
-    @IBOutlet weak var feedbackView: UIView!
     @IBOutlet weak var logoutView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.applyBottonBorder(self.helpView)
-        self.applyBottonBorder(self.feedbackView)
-        self.applyBottonBorder(self.logoutView)
+        self.applyBottomBorder(self.yourFeedView)
+        self.applyBottomBorder(self.bookmarkView)
+        self.applyTopBorder(self.helpView)
+        self.applyTopBorder(self.logoutView)
+        
+        var yourFeedTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onYourFeedTap:"))
+        self.yourFeedView.addGestureRecognizer(yourFeedTapGesture)
+        
+        var bookmarkTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onBookmarkTap:"))
+        self.bookmarkView.addGestureRecognizer(bookmarkTapGesture)
         
         var helpTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onHelpTap:"))
         self.helpView.addGestureRecognizer(helpTapGesture)
-        
-        var feedbackTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onFeedbackTap:"))
-        self.feedbackView.addGestureRecognizer(feedbackTapGesture)
         
         var logoutTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onLogoutTap:"))
         self.logoutView.addGestureRecognizer(logoutTapGesture)
     }
     
-    func applyBottonBorder(view:UIView) {
+    func applyTopBorder(view:UIView) {
+        var topBorder : CALayer = CALayer()
+        topBorder.borderWidth = 0.5
+        topBorder.borderColor = UIColor(rgba: "#E6E7E8").CGColor
+        topBorder.frame = CGRectMake(0, 0, view.frame.size.width, 1)
+        view.layer.addSublayer(topBorder)
+    }
+    
+    func applyBottomBorder(view:UIView) {
         var bottomBorder : CALayer = CALayer()
         bottomBorder.borderWidth = 0.5
         bottomBorder.borderColor = UIColor(rgba: "#E6E7E8").CGColor
@@ -39,16 +53,18 @@ class LeftMenuViewController : UIViewController {
         view.layer.addSublayer(bottomBorder)
     }
     
-    func onHelpTap(gesture:UIGestureRecognizer){
-        self.menuContainerViewController.menuState = MFSideMenuStateClosed
-        var helpVC = self.storyboard?.instantiateViewControllerWithIdentifier("HelpVC") as! HelpViewController
-        self.showViewController(helpVC, sender: self)
+    func onYourFeedTap(gesture:UIGestureRecognizer){
+        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("YourFeedNotification", object: nil)
     }
     
-    func onFeedbackTap(gesture:UIGestureRecognizer){
-        self.menuContainerViewController.menuState = MFSideMenuStateClosed
-        var feedbackVC = self.storyboard?.instantiateViewControllerWithIdentifier("FeedbackVC") as! FeedbackViewContoller
-        self.showViewController(feedbackVC, sender: self)
+    func onBookmarkTap(gesture:UIGestureRecognizer){
+        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
+    }
+    
+    func onHelpTap(gesture:UIGestureRecognizer){
+        self.openMailComposer()
     }
     
     func onLogoutTap(gesture:UIGestureRecognizer){
@@ -74,6 +90,24 @@ class LeftMenuViewController : UIViewController {
         } else {
             self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
         }
+    }
+    
+    func openMailComposer(){
+        var emailTitle = "Help / Feedback"
+        var messageBody = "Enter your questions, problems, or comments here. We’ll respond as soon as we can:"
+        var toRecipents = ["support@informerly.com"]
+        
+        var mailComposer: MFMailComposeViewController = MFMailComposeViewController()
+        mailComposer.mailComposeDelegate = self
+        mailComposer.setSubject(emailTitle)
+        mailComposer.setToRecipients(toRecipents)
+        mailComposer.setMessageBody(messageBody, isHTML: false)
+        
+        self.presentViewController(mailComposer, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func showAlert(title:String, msg:String) {
