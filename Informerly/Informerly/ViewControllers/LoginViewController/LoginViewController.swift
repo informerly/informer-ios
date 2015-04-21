@@ -179,6 +179,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     
                     self.indicator.stopAnimating()
+                    self.resetFields()
                     
                     var error : [String:AnyObject] = extraInfo as! Dictionary
                     var message : String = error["message"] as! String
@@ -198,15 +199,25 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         
         UIApplication.sharedApplication().openURL(NSURL(string: "http://informerly.com/users/password/new")!)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    func resetFields(){
+        self.emailTextField.text = ""
+        self.passwordTextField.text = ""
+        self.emailTextField.alpha = 0.3
+        self.passwordTextField.alpha = 0.3
+        self.signInBtn.enabled = false
+        self.signInBtn.alpha = 0.3
     }
     
     func showAlert(title:String, msg:String) {
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
 }

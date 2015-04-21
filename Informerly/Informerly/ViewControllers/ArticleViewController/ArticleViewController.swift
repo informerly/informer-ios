@@ -31,6 +31,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var lastContentOffsetX : CGFloat = 0.0
     var toolbar : UIToolbar!
     var bookmark : UIBarButtonItem!
+    var leftArrow : UIBarButtonItem!
+    var rightArrow : UIBarButtonItem!
     
     let ANIMATION_DURATION = 1.0
     
@@ -50,7 +52,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         var resultantHeight = statusBarHeight + navBarHeight!
         
         // Getting feeds from model
-        
         if isUnreadTab == true {
             self.feeds = unreadFeeds
         }
@@ -58,10 +59,10 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             self.feeds = Feeds.sharedInstance.getFeeds()
         }
         
-        // Getting bookmark feeds
-        var processedData : AnyObject = Utilities.sharedInstance.getArrayForKey(BOOKMARK_FEEDS)
-        Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
-        self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
+//        // Getting bookmark feeds
+//        var processedData : AnyObject = Utilities.sharedInstance.getArrayForKey(BOOKMARK_FEEDS)
+//        Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
+//        self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
         
         // Creates Article web view
         var frame : CGRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
@@ -234,11 +235,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         toolbar = UIToolbar(frame: CGRectMake(0, self.view.frame.size.height - 44 - 64, self.view.frame.size.width, 44))
         toolbar.alpha = 0.0
         
-        var leftArrow : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_left_arrow"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onPrev"))
+        leftArrow = UIBarButtonItem(image: UIImage(named: "icon_left_arrow"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onPrev"))
         
         var flexibleItem1 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
         
-        var rightArrow : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_right_arrow"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNext"))
+        rightArrow = UIBarButtonItem(image: UIImage(named: "icon_right_arrow"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNext"))
         
         var flexibleItem2 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
@@ -267,6 +268,15 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         toolbar.setItems(items, animated: true)
         self.view.addSubview(toolbar)
+        
+        
+        if articleIndex == 0 {
+            leftArrow.enabled = false
+        }
+        
+        if articleIndex + 1 == self.feeds.count {
+            rightArrow.enabled = false
+        }
     }
     
     // Web serivce to mark article as Read.
@@ -346,6 +356,18 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 var page : CGFloat = scrollView.contentOffset.x / pageWidth
                 articleIndex = Int(page)
                 
+                if articleIndex == 0 {
+                    leftArrow.enabled = false
+                } else {
+                    leftArrow.enabled = true
+                }
+                
+                if articleIndex == feeds.count - 1 {
+                    rightArrow.enabled = false
+                } else {
+                    rightArrow.enabled = true
+                }
+                
                 if feeds[articleIndex].bookmarked == true {
                     bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                 } else {
@@ -385,6 +407,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         if articleIndex < self.feeds.count - 1 {
             articleWebView.alpha = 0.0
             zenModeBtnView.hidden = false
+            leftArrow.enabled = true
             
             // Load article in web and zen mode
             articleIndex = articleIndex + 1
@@ -396,11 +419,19 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             }
             
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
-            self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
+            })
+            
             createProgressBar()
             if self.feeds[self.articleIndex].read == false {
                 self.markRead()
             }
+        }
+        
+        if articleIndex == self.feeds.count - 1 {
+            rightArrow.enabled = false
         }
     }
     
@@ -409,6 +440,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         if articleIndex > 0 {
             articleWebView.alpha = 0.0
             zenModeBtnView.hidden = false
+            rightArrow.enabled = true
             
             // Load article in web and zen mode
             articleIndex = articleIndex - 1
@@ -419,11 +451,18 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 bookmark.image = UIImage(named: "icon_bookmark")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             }
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
-            self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
+            })
             createProgressBar()
             if self.feeds[self.articleIndex].read == false {
                 self.markRead()
             }
+        }
+        
+        if articleIndex == 0 {
+            leftArrow.enabled = false
         }
     }
     
@@ -437,8 +476,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             }
             
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            println(auth_token)
-            
             var linkID :[String:Int] = ["link_id":feeds[articleIndex].id!]
             
             var parameters : [String:AnyObject] = ["auth_token":auth_token,
@@ -453,16 +490,16 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                         var message = processedData["message"] as! String
                         if message == "Bookmark Created" {
                             self.feeds[self.articleIndex].bookmarked = true
-                            self.bookmarkedFeeds.append(self.feeds[self.articleIndex])
+//                            self.bookmarkedFeeds.append(self.feeds[self.articleIndex])
                         } else if message == "Bookmark Removed" {
                             self.feeds[self.articleIndex].bookmarked = false
                             
-                            var index = self.articleIndex
-                            for feed in self.bookmarkedFeeds {
-                                if feed.id == self.feeds[index].id {
-                                    self.bookmarkedFeeds.removeAtIndex(index)
-                                }
-                            }
+//                            var index = self.articleIndex
+//                            for feed in self.bookmarkedFeeds {
+//                                if feed.id == self.feeds[index].id {
+//                                    self.bookmarkedFeeds.removeAtIndex(index)
+//                                }
+//                            }
                         }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in

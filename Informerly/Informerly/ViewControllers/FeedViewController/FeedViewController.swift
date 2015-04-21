@@ -23,6 +23,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var navTitle : UILabel!
     private var arrow : UIButton!
     private var overlay:UIView!
+    private var isPullToRefresh = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +41,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.navigationItem.leftBarButtonItem = menu
         
         // Adds interest icon on nav bar.
-        var interestBtn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_interests"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector(""))
+        var interestBtn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_interests"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onUpdateYourInterest"))
         interestBtn.tintColor = UIColor.grayColor()
         self.navigationItem.rightBarButtonItem = interestBtn
         
@@ -62,7 +63,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         // Setting up activity indicator
         indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
         indicator.hidesWhenStopped = true
-        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge
+        indicator.color = UIColor.grayColor()
         view.addSubview(indicator)
         
         self.createOverlayView()
@@ -189,7 +191,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func downloadData() {
         
-        self.indicator.startAnimating()
+        if isPullToRefresh == false {
+            self.indicator.startAnimating()
+        }
         self.overlay.hidden = false
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
@@ -205,6 +209,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     
                     if requestStatus == 200 {
                         self.overlay.hidden = true
+                        self.isPullToRefresh = false
                         self.indicator.stopAnimating()
                         self.refreshCntrl.endRefreshing()
                         Feeds.sharedInstance.populateFeeds(processedData["links"]as! [AnyObject])
@@ -394,7 +399,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func onPullToRefresh(sender:AnyObject) {
-        
+        isPullToRefresh = true
         if isBookmarked == false {
             self.downloadData()
         } else {
@@ -426,7 +431,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func onBookmark(){
         self.overlay.hidden = false
-        self.indicator.startAnimating()
+        if isPullToRefresh == false {
+            self.indicator.startAnimating()
+        }
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             println(auth_token)
@@ -440,6 +447,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     
                     if requestStatus == 200 {
                         self.refreshCntrl.endRefreshing()
+                        self.isPullToRefresh = false
                         self.overlay.hidden = true
                         self.indicator.stopAnimating()
                         self.isBookmarked = true
@@ -488,6 +496,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    
+    func onUpdateYourInterest(){
+        self.performSegueWithIdentifier("UpdateInterestsVC", sender: self)
+    }
+    
+    // Notication selectors
     @objc func yourFeedNotificationSelector(notification: NSNotification){
         self.downloadData()
     }
@@ -495,6 +509,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     @objc func bookmarkNotificationSelector(notification: NSNotification){
         self.onBookmark()
     }
+    
+    
     
     func showAlert(title:String, msg:String){
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)

@@ -16,5 +16,6 @@
 #import "UINavigationController+SGProgress.h"
 #import "MFSideMenu.h"
 #import "REMenu.h"
+#import "Crittercism.h"
 
 #endif

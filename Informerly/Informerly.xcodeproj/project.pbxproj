@@ -68,6 +68,9 @@
 		18D75DCA1A823FC600BFEF6E /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */; };
 		18D75DCF1A834C0200BFEF6E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DCE1A834C0200BFEF6E /* Utilities.swift */; };
 		18D75DD21A834EB200BFEF6E /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DD11A834EB200BFEF6E /* UIColorExtension.swift */; };
+		18DEC7401AE639F900F8F661 /* dsym_upload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 18DEC73E1AE639F900F8F661 /* dsym_upload.sh */; };
+		18DEC7411AE639F900F8F661 /* libCrittercism_v5_1_3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DEC73F1AE639F900F8F661 /* libCrittercism_v5_1_3.a */; };
+		18DEC7441AE6517500F8F661 /* UpdateInterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DEC7431AE6517500F8F661 /* UpdateInterestViewController.swift */; };
 		18E609BE1A85377F0082DC6C /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E609BD1A85377F0082DC6C /* MenuViewController.swift */; };
 		18ECA3DA1A979EA90009DFA6 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */; };
 		18ECA3DB1A979EBB0009DFA6 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E1F1A83568700BBA510 /* OpenSans-Regular.ttf */; };
@@ -204,6 +207,13 @@
 		18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
 		18D75DCE1A834C0200BFEF6E /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		18D75DD11A834EB200BFEF6E /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		18DEC73A1AE639F900F8F661 /* CRFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRFilter.h; sourceTree = "<group>"; };
+		18DEC73B1AE639F900F8F661 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
+		18DEC73C1AE639F900F8F661 /* CrittercismConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismConfig.h; sourceTree = "<group>"; };
+		18DEC73D1AE639F900F8F661 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
+		18DEC73E1AE639F900F8F661 /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
+		18DEC73F1AE639F900F8F661 /* libCrittercism_v5_1_3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v5_1_3.a; sourceTree = "<group>"; };
+		18DEC7431AE6517500F8F661 /* UpdateInterestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateInterestViewController.swift; sourceTree = "<group>"; };
 		18E609BD1A85377F0082DC6C /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		18F71CA01A821A8600F74910 /* Feeds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feeds.swift; sourceTree = "<group>"; };
 		A12D439C1A8ACA950066E2F3 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -230,6 +240,7 @@
 			files = (
 				A1E79B741A8AE0F800DED86C /* libstdc++.6.dylib in Frameworks */,
 				A12D43B41A8ACB1D0066E2F3 /* libsqlite3.dylib in Frameworks */,
+				18DEC7411AE639F900F8F661 /* libCrittercism_v5_1_3.a in Frameworks */,
 				A12D43B51A8ACB1D0066E2F3 /* libz.dylib in Frameworks */,
 				A12D43AF1A8ACAF50066E2F3 /* Security.framework in Frameworks */,
 				A12D43B01A8ACAF50066E2F3 /* StoreKit.framework in Frameworks */,
@@ -394,6 +405,7 @@
 		1845B9B31A7F8C4600172610 /* Third Party Libs */ = {
 			isa = PBXGroup;
 			children = (
+				18DEC7391AE639CB00F8F661 /* Crittercism */,
 				1803D2EF1ACEA41A00D6C1DE /* TopMenu */,
 				1803D2E21ACD695400D6C1DE /* MFSideMenu */,
 				1803D2B31ACD187900D6C1DE /* SGNavigationProgressBar */,
@@ -406,6 +418,7 @@
 		1845B9B51A7F8C4600172610 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				18DEC7421AE6513800F8F661 /* UpdateInterestVC */,
 				187EAA561A8DFF42000ED503 /* HelpViewController */,
 				187EAA531A8DD686000ED503 /* FeedbackViewController */,
 				18E609BC1A85376A0082DC6C /* MenuViewController */,
@@ -578,6 +591,27 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		18DEC7391AE639CB00F8F661 /* Crittercism */ = {
+			isa = PBXGroup;
+			children = (
+				18DEC73A1AE639F900F8F661 /* CRFilter.h */,
+				18DEC73B1AE639F900F8F661 /* Crittercism.h */,
+				18DEC73C1AE639F900F8F661 /* CrittercismConfig.h */,
+				18DEC73D1AE639F900F8F661 /* CrittercismDelegate.h */,
+				18DEC73E1AE639F900F8F661 /* dsym_upload.sh */,
+				18DEC73F1AE639F900F8F661 /* libCrittercism_v5_1_3.a */,
+			);
+			path = Crittercism;
+			sourceTree = "<group>";
+		};
+		18DEC7421AE6513800F8F661 /* UpdateInterestVC */ = {
+			isa = PBXGroup;
+			children = (
+				18DEC7431AE6517500F8F661 /* UpdateInterestViewController.swift */,
+			);
+			path = UpdateInterestVC;
+			sourceTree = "<group>";
+		};
 		18E609BC1A85376A0082DC6C /* MenuViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -725,6 +759,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18DEC7401AE639F900F8F661 /* dsym_upload.sh in Resources */,
 				18C65E271A83568700BBA510 /* OpenSans-Italic.ttf in Resources */,
 				18C65E241A83568700BBA510 /* OpenSans-BoldItalic.ttf in Resources */,
 				1845B9971A7F8A5F00172610 /* Main.storyboard in Resources */,
@@ -782,6 +817,7 @@
 				186BD57A1A973B0B0044C86B /* AFHTTPRequestOperation.m in Sources */,
 				187EAA581A8DFF8A000ED503 /* HelpViewController.swift in Sources */,
 				1803D2EC1ACD695D00D6C1DE /* UIViewController+MFSideMenuAdditions.m in Sources */,
+				18DEC7441AE6517500F8F661 /* UpdateInterestViewController.swift in Sources */,
 				1803D2EA1ACD695D00D6C1DE /* MFSideMenuContainerViewController.m in Sources */,
 				186BD5821A973B0B0044C86B /* AFSecurityPolicy.m in Sources */,
 				1803D2FE1ACEA42A00D6C1DE /* REMenuItemView.m in Sources */,
@@ -950,6 +986,12 @@
 				INFOPLIST_FILE = Informerly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Informerly/Third",
+					Party,
+					Libs/Crittercism,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
@@ -972,6 +1014,12 @@
 				INFOPLIST_FILE = Informerly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Informerly/Third",
+					Party,
+					Libs/Crittercism,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
