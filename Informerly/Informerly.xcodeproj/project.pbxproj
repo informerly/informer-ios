@@ -655,6 +655,8 @@
 				1845B9891A7F8A5F00172610 /* Frameworks */,
 				1845B98A1A7F8A5F00172610 /* Resources */,
 				186BD54B1A9711FE0044C86B /* Embed App Extensions */,
+				18DEC7611AE7AE8500F8F661 /* ShellScript */,
+				18DEC7621AE7BB5B00F8F661 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -794,6 +796,35 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		18DEC7611AE7AE8500F8F661 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "APP_ID=\"553120c07365f84f7d3d6e79\"\nAPI_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\nsource \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
+		};
+		18DEC7621AE7BB5B00F8F661 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=/usr/local/bin:$PATH\ncd ${SRCROOT}/parse\n\nparse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1845B9881A7F8A5F00172610 /* Sources */ = {

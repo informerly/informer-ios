@@ -1,0 +1,14 @@
+{
+  "global": {
+    "parseVersion": "1.4.2"
+  },
+  "applications": {
+    "Informer [DEV]": {
+      "applicationId": "cZuNXGv2vSezrMNI2aHniKwxn2SStYJjOVQCwtgG",
+      "masterKey": "goujiNa0MDHOtWjZNkSkJJs9WCecyiryG6V1CioS"
+    },
+    "_default": {
+      "link": "Informer [DEV]"
+    }
+  }
+}

@@ -61,17 +61,19 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     func onTitleTap() {
         
-        var feed : [String:AnyObject] = self.feeds[self.index] as! Dictionary
-        var id : Int = feed["id"] as! Int
-        
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
-        userDefaults.setObject("\(id)", forKey: "id")
-        userDefaults.synchronize()
-        
-        var url =  NSURL(string:"TodayExtension://home")
-        self.extensionContext?.openURL(url!, completionHandler:{(success: Bool) -> Void in
-            println("task done!")
-        })
+        if self.feeds != nil {
+            var feed : [String:AnyObject] = self.feeds[self.index] as! Dictionary
+            var id : Int = feed["id"] as! Int
+            
+            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+            userDefaults.setObject("\(id)", forKey: "id")
+            userDefaults.synchronize()
+            
+            var url =  NSURL(string:"TodayExtension://home")
+            self.extensionContext?.openURL(url!, completionHandler:{(success: Bool) -> Void in
+                println("task done!")
+            })
+        }
     }
     
     override func didReceiveMemoryWarning() {

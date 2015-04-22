@@ -32,8 +32,8 @@ class Utilities {
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
-    func getStringForKey(key:String)->String {
-        return NSUserDefaults.standardUserDefaults().stringForKey(key)!
+    func getStringForKey(key:String)->String? {
+        return NSUserDefaults.standardUserDefaults().stringForKey(key)
     }
     
     func setObjectForKey(object:AnyObject,key:String) {
