@@ -54,16 +54,23 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     }
     
     func onYourFeedTap(gesture:UIGestureRecognizer){
-        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: nil)
+        self.yourFeedView.backgroundColor = UIColor.lightGrayColor()
+        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: { () -> Void in
+            self.yourFeedView.backgroundColor = UIColor.clearColor()
+        })
         NSNotificationCenter.defaultCenter().postNotificationName("YourFeedNotification", object: nil)
     }
     
     func onBookmarkTap(gesture:UIGestureRecognizer){
-        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: nil)
+        self.bookmarkView.backgroundColor = UIColor.lightGrayColor()
+        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: { () -> Void in
+            self.bookmarkView.backgroundColor = UIColor.clearColor()
+        })
         NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
     }
     
     func onHelpTap(gesture:UIGestureRecognizer){
+        self.helpView.backgroundColor = UIColor.lightGrayColor()
         self.openMailComposer()
     }
     
@@ -108,6 +115,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         self.dismissViewControllerAnimated(true, completion: nil)
+        self.helpView.backgroundColor = UIColor.clearColor()
     }
     
     func showAlert(title:String, msg:String) {

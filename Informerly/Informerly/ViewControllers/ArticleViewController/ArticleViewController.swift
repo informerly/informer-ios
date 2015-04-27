@@ -9,7 +9,7 @@
 import Foundation
 import WebKit
 
-class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollViewDelegate {
+class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollViewDelegate,UIWebViewDelegate {
     
     var articleWebView : WKWebView!
     var zenModeScrollView : UIScrollView!
@@ -95,6 +95,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             // Creates Zen mode Web view
             var frame : CGRect = CGRectMake(self.zenModeWebViewX, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
             var articleZenView : UIWebView = UIWebView()
+            articleZenView.delegate = self
             articleZenView.frame = frame
             articleZenView.scrollView.delegate = self
             self.zenModeScrollView.addSubview(articleZenView)
@@ -243,7 +244,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         var flexibleItem2 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
-        var img : UIImage? = UIImage(named: "icon_bookmark")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        var img : UIImage? = UIImage(named: "icon_bookmark")
         
         if feeds[articleIndex].bookmarked == true {
             img = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
@@ -371,7 +372,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 if feeds[articleIndex].bookmarked == true {
                     bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                 } else {
-                    bookmark.image = UIImage(named: "icon_bookmark")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    bookmark.image = UIImage(named: "icon_bookmark")
                 }
                 
                 // Load article in web and zen mode
@@ -415,7 +416,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             if feeds[articleIndex].bookmarked == true {
                 bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             } else {
-                bookmark.image = UIImage(named: "icon_bookmark")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                bookmark.image = UIImage(named: "icon_bookmark")
             }
             
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
@@ -448,7 +449,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             if feeds[articleIndex].bookmarked == true {
                 bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             } else {
-                bookmark.image = UIImage(named: "icon_bookmark")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                bookmark.image = UIImage(named: "icon_bookmark")
             }
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
             
@@ -470,7 +471,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             
             if self.feeds[articleIndex].bookmarked == true {
-                self.bookmark.image = UIImage(named: "icon_bookmark")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                self.bookmark.image = UIImage(named: "icon_bookmark")
             } else {
                 self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             }
@@ -550,6 +551,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         }
     }
     
+    
+    // Zen web view delegate methods
+    func webViewDidFinishLoad(webView: UIWebView) {
+        webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")
+    }
         
     func showAlert(title:String, msg:String){
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)

@@ -236,7 +236,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var leftSideMenuViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("LeftMenuViewController") as! UIViewController
         
-        var rootVC = storyboard.instantiateViewControllerWithIdentifier("FeedVC") as! UIViewController
+        var rootVC = storyboard.instantiateViewControllerWithIdentifier("FeedVC") as! FeedViewController
         var navigationVC: UINavigationController = UINavigationController(rootViewController: rootVC)
         
         container.panMode = MFSideMenuPanModeSideMenu

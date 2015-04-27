@@ -19,7 +19,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     var refreshCntrl : UIRefreshControl!
     private var isUnreadTab = false
     private var isBookmarked = false
-    private var menu:REMenu!
+    private var menu:UIBarButtonItem!
     private var navTitle : UILabel!
 //    private var arrow : UIButton!
     private var overlay:UIView!
@@ -36,7 +36,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.createNavTitle()
         
         // Adds menu icon on nav bar.
-        var menu : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onMenuPressed"))
+        menu = UIBarButtonItem(image: UIImage(named: "menu_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onMenuPressed"))
         menu.tintColor = UIColor.grayColor()
         self.navigationItem.leftBarButtonItem = menu
         
@@ -44,9 +44,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var interestBtn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_interests"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onUpdateYourInterest"))
         interestBtn.tintColor = UIColor.grayColor()
         self.navigationItem.rightBarButtonItem = interestBtn
-        
-//        // Create Top menu
-//        self.createTopMenu()
         
         // Getting screen width.
         width = UIScreen.mainScreen().bounds.width - 40
@@ -79,40 +76,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.navigationController?.navigationBar.hidden = false
     }
     
-//    func createTopMenu(){
-//        var yourFeed : REMenuItem = REMenuItem(title: "Your Feed", image: UIImage(named: "icon_home"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
-//            self.downloadData()
-//            self.menu.close()
-//        }
-//        
-////        var item2 : REMenuItem = REMenuItem(title: "Category1", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
-////            self.menu.close()
-////        }
-////        var item3 : REMenuItem = REMenuItem(title: "Category2", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
-////            self.menu.close()
-////        }
-////        var item4 : REMenuItem = REMenuItem(title: "Category3", image: UIImage(named: "icon_folder"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
-////            self.menu.close()
-////        }
-//        var bookmarkFeeds : REMenuItem = REMenuItem(title: "Bookmarks", image: UIImage(named: "icon_bookmark"), backgroundColor: UIColor.whiteColor(), highlightedImage: nil) { (item) -> Void in
-//            self.indicator.startAnimating()
-//            self.onBookmark()
-//        }
-//        
-//        menu = REMenu(items: [yourFeed,bookmarkFeeds])
-//        menu.backgroundColor = UIColor.whiteColor()
-//        menu.separatorHeight = 1
-//        menu.separatorColor = UIColor(rgba: "#E6E7E8")
-//        menu.textAlignment = NSTextAlignment.Left
-//        menu.textOffset = CGSizeMake(50, 0)
-//        menu.textColor = UIColor(rgba: "#4A4A4A")
-//        menu.font = UIFont(name: "Open Sans", size: 15)
-//        menu.borderColor = UIColor(rgba: "#E6E7E8")
-//        menu.highlightedBackgroundColor = UIColor(rgba: "#E6E7E8")
-//        menu.highlightedSeparatorColor = UIColor(rgba: "#E6E7E8")
-//
-//    }
-    
     func createNavTitle() {
         
         if isBookmarked == false {
@@ -122,22 +85,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             navTitle.text = "Your Feed"
             navTitle.font = UIFont(name: "OpenSans-Regular", size: 14.0)
             
-//            arrow = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-//            arrow.setImage(UIImage(named: "icon_arrow"), forState: UIControlState.Normal)
-//            arrow.frame = CGRectMake(81, 13, 10, 5)
-//            arrow.tintColor = UIColor.grayColor()
-            
             navTitleView.addSubview(navTitle)
-//            navTitleView.addSubview(arrow)
-            
-//            var titleViewTap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onNavBarTitleTap:"))
-//            navTitleView.addGestureRecognizer(titleViewTap)
             
             self.navigationItem.titleView = navTitleView
         } else {
             navTitle.frame = CGRectMake(0, 0, 100, 30)
             navTitle.text = "Bookmarked"
-//            arrow.frame = CGRectMake(101, 13, 10, 5)
         }
     }
     
@@ -153,15 +106,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.overlay.hidden = true
         self.view.addSubview(self.overlay)
     }
-    
-//    func onNavBarTitleTap(gesture : UIGestureRecognizer) {
-//        
-//        if (self.menu.isOpen) {
-//            self.menu.close()
-//        } else {
-//            menu.showFromNavigationController(self.navigationController)
-//        }
-//    }
     
     func createTableViewHeader(){
         var headerView : UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, 75))
@@ -208,6 +152,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
+                        self.menu.enabled = true
                         self.overlay.hidden = true
                         self.isPullToRefresh = false
                         self.indicator.stopAnimating()
@@ -220,7 +165,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         self.isBookmarked = false
                         self.navTitle.text = "Your Feed"
                         self.navTitle.frame = CGRectMake(0, 0, 80, 30)
-//                        self.arrow.frame = CGRectMake(81, 13, 10, 5)
                         
                         self.feedsData = Feeds.sharedInstance.getFeeds()
                         
@@ -249,6 +193,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    self.menu.enabled = true
                     self.overlay.hidden = true
                     self.indicator.stopAnimating()
                     self.refreshCntrl.endRefreshing()
@@ -370,8 +315,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func getTextHeight(pString: String, width: CGFloat) -> CGFloat {
-        var fontSize: CGFloat = 18;
-        var font : UIFont = UIFont(name: "OpenSans-Bold", size: 18)!
+        var font : UIFont = UIFont(name: "OpenSans-Bold", size: 19.5)!
         var constrainedSize: CGSize = CGSizeMake(width, 9999);
         var attributesDictionary = NSDictionary(objectsAndKeys: font, NSFontAttributeName)
         var string = NSMutableAttributedString(string: pString, attributes: attributesDictionary as [NSObject : AnyObject])
@@ -446,6 +390,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
+                        self.menu.enabled = true
                         self.refreshCntrl.endRefreshing()
                         self.isPullToRefresh = false
                         self.overlay.hidden = true
@@ -456,11 +401,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
                         
                         self.tableView.reloadData()
-//                        self.menu.close()
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     
                     if extraInfo != nil {
+                        self.menu.enabled = true
                         self.refreshCntrl.endRefreshing()
                         self.overlay.hidden = true
                         self.indicator.stopAnimating()
@@ -492,7 +437,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
             self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
             self.tableView.reloadData()
-//            self.menu.close()
         }
     }
     
@@ -503,10 +447,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     // Notication selectors
     @objc func yourFeedNotificationSelector(notification: NSNotification){
+        self.menu.enabled = false
         self.downloadData()
     }
     
     @objc func bookmarkNotificationSelector(notification: NSNotification){
+        self.menu.enabled = false
         self.onBookmark()
     }
     
