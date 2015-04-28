@@ -107,7 +107,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         
         if textField === passwordTextField && count(emailTextField.text) > 0 {
             
-            if newLength == 1 {
+            if newLength >= 1 {
                 signInBtn.enabled = true
                 signInBtn.alpha = 1.0
             } else if newLength == 0 {
@@ -119,7 +119,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         
         if textField === emailTextField && count(passwordTextField.text) > 0 {
             
-            if newLength == 1 {
+            if newLength >= 1 {
                 signInBtn.enabled = true
                 signInBtn.alpha = 1.0
             } else if newLength == 0 {
