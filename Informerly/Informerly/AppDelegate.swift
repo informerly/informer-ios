@@ -35,8 +35,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if notification != nil {
                 var userInfo : [NSObject:AnyObject] = notification as! Dictionary
-                var linkID : String =  String(userInfo["link_id"] as! Int)
-                Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+                if userInfo["link_id"] != nil {
+                    var linkID : String =  String(userInfo["link_id"] as! Int)
+                    Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+                }
             } else {
                 var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
                 var linkID : String = userDefaults.stringForKey("id")!
@@ -45,8 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
         }
-        
-//        Utilities.sharedInstance.setStringForKey("0", key: LINK_ID)
         
         // Emily adding Parse details - for Junaid's review.
         

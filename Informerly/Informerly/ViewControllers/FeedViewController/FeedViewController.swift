@@ -21,7 +21,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var isBookmarked = false
     private var menu:UIBarButtonItem!
     private var navTitle : UILabel!
-//    private var arrow : UIButton!
     private var overlay:UIView!
     private var isPullToRefresh = false
     
@@ -177,15 +176,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                                     row = row + 1
                                     var id : Int = link_id.toInt()!
                                     if feed.id == id {
-                                        break
+                                            break
                                     }
                                 }
                             }
                         }
-                        
+                            
                         self.tableView.reloadData()
                         self.tableView.layoutIfNeeded()
-                        
+                            
                         if link_id != "-1" {
                             Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
                             self.rowID = row
