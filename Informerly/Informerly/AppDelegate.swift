@@ -31,20 +31,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.reachability?.startNotifier()
         
         if let options = launchOptions {
-            var notification: AnyObject? = options[UIApplicationLaunchOptionsRemoteNotificationKey]
-            
-            if notification != nil {
-                var userInfo : [NSObject:AnyObject] = notification as! Dictionary
-                if userInfo["link_id"] != nil {
-                    var linkID : String =  String(userInfo["link_id"] as! Int)
-                    Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            if let notification = options[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
+                if let linkID = notification["link_id"] as? NSNumber {
+                    Utilities.sharedInstance.setStringForKey(linkID.stringValue, key: LINK_ID)
                 }
-            } else {
+                else {
+                    Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
+                }
+            }
+            else {
                 var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
                 var linkID : String = userDefaults.stringForKey("id")!
                 Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             }
-        } else {
+        }
+        else {
             Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
         }
         
