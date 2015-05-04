@@ -10,9 +10,10 @@ import Foundation
 
 class FeedViewController : UITableViewController, UITableViewDelegate, UITableViewDataSource {
     
-    private var feedsData : [Feeds.InformerlyFeed] = []
-    private var unreadFeeds : [Feeds.InformerlyFeed] = []
-    private var bookmarkedFeeds : [Feeds.InformerlyFeed] = []
+    private var feeds : [InformerlyFeed] = []
+    private var bookmarks : [InformerlyFeed] = []
+    private var unreadFeeds : [InformerlyFeed] = []
+    private var unreadBookmarkFeeds : [InformerlyFeed] = []
     private var rowID : Int!
     private var indicator : UIActivityIndicatorView!
     private var width : CGFloat!
@@ -47,7 +48,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         // Getting screen width.
         width = UIScreen.mainScreen().bounds.width - 40
         
-        
         //TableView header
         self.createTableViewHeader()
         
@@ -73,6 +73,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         UIApplication.sharedApplication().statusBarHidden = false
         self.navigationController?.navigationBar.hidden = false
+        
+//        self.feeds = Feeds.sharedInstance.getFeeds()
+        self.bookmarks = Bookmarks.sharedInstance.getBookmarks()
+        
+        self.tableView.reloadData()
     }
     
     func createNavTitle() {
@@ -151,28 +156,27 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
-                        self.menu.enabled = true
+//                        self.menu.enabled = true
                         self.overlay.hidden = true
                         self.isPullToRefresh = false
                         self.indicator.stopAnimating()
                         self.refreshCntrl.endRefreshing()
                         Feeds.sharedInstance.populateFeeds(processedData["links"]as! [AnyObject])
-                        self.feedsData.removeAll(keepCapacity: false)
+                        self.feeds.removeAll(keepCapacity: false)
                         self.unreadFeeds.removeAll(keepCapacity: false)
-                        self.bookmarkedFeeds.removeAll(keepCapacity: false)
                         
                         self.isBookmarked = false
                         self.navTitle.text = "Your Feed"
                         self.navTitle.frame = CGRectMake(0, 0, 80, 30)
                         
-                        self.feedsData = Feeds.sharedInstance.getFeeds()
+                        self.feeds = Feeds.sharedInstance.getFeeds()
                         
                         var link_id : String! = Utilities.sharedInstance.getStringForKey(LINK_ID)
                         var row = -1
                         if link_id != "-1" {
-                            var feed : Feeds.InformerlyFeed!
+                            var feed : InformerlyFeed!
                             if  link_id != nil {
-                                for feed in self.feedsData {
+                                for feed in self.feeds {
                                     row = row + 1
                                     var id : Int = link_id.toInt()!
                                     if feed.id == id {
@@ -227,7 +231,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         if isUnreadTab == true && isBookmarked == false {
             unreadFeeds = []
-            for feed in self.feedsData {
+            for feed in self.feeds {
                 if feed.read == false {
                     unreadFeeds.append(feed)
                 }
@@ -235,28 +239,30 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             return unreadFeeds.count
         }
         else if isUnreadTab == true && isBookmarked == true {
-            unreadFeeds = []
-            for feed in self.bookmarkedFeeds {
+            unreadBookmarkFeeds = []
+            for feed in self.bookmarks {
                 if feed.read == false {
-                    unreadFeeds.append(feed)
+                    unreadBookmarkFeeds.append(feed)
                 }
             }
-            return unreadFeeds.count
+            return unreadBookmarkFeeds.count
         }
         else if isBookmarked == true {
-            return bookmarkedFeeds.count
+            return bookmarks.count
         }
-        return feedsData.count
+        return feeds.count
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        if isUnreadTab == true {
+        if isUnreadTab == true && isBookmarked == false {
             return self.getTextHeight(unreadFeeds[indexPath.row].title!, width: width) + CGFloat(68)
+        } else if isUnreadTab == true && isBookmarked == true {
+            return self.getTextHeight(unreadBookmarkFeeds[indexPath.row].title!, width: width) + CGFloat(68)
         } else if isBookmarked == true {
-            return self.getTextHeight(bookmarkedFeeds[indexPath.row].title!, width: width) + CGFloat(68)
+            return self.getTextHeight(bookmarks[indexPath.row].title!, width: width) + CGFloat(68)
         }
-        return self.getTextHeight(feedsData[indexPath.row].title!, width: width) + CGFloat(68)
+        return self.getTextHeight(feeds[indexPath.row].title!, width: width) + CGFloat(68)
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -267,32 +273,83 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var readingTime = cell.viewWithTag(3) as! UILabel
         var tick = cell.viewWithTag(4) as! UIImageView
         
-        var feed : Feeds.InformerlyFeed;
-        if isUnreadTab == true {
+        var feed : InformerlyFeed;
+        if isUnreadTab == true && isBookmarked == false {
             feed = unreadFeeds[indexPath.row]
-        } else if isBookmarked == true {
-            feed = bookmarkedFeeds[indexPath.row]
-        } else {
-            feed = feedsData[indexPath.row]
-        }
-        
-        source.text = feed.source
-        source.textColor = UIColor(rgba: feed.sourceColor!)
-        title.text = feed.title
-        
-        
-        if feed.read != true {
-            title.textColor = UIColor.blackColor()
+            source.text = feed.source
+            source.textColor = UIColor(rgba: feed.sourceColor!)
+            title.text = feed.title
             
-            if feed.readingTime != nil{
-                readingTime.text = "\(String(feed.readingTime!)) min read"
-                tick.image = UIImage(named: "clock_icon")
+            if feed.read != true {
+                title.textColor = UIColor.blackColor()
+                
+                if feed.readingTime != nil{
+                    readingTime.text = "\(String(feed.readingTime!)) min read"
+                    tick.image = UIImage(named: "clock_icon")
+                }
+            } else {
+                title.textColor = UIColor(rgba: "#9B9B9B")
+                readingTime.text = "Read"
+                tick.image = UIImage(named: "icon_tick")
+            }
+        } else if isUnreadTab == true && isBookmarked == true {
+            var feed : InformerlyFeed
+            feed = unreadBookmarkFeeds[indexPath.row]
+            source.text = feed.source
+            source.textColor = UIColor(rgba: feed.sourceColor!)
+            title.text = feed.title
+            
+            if feed.read != true {
+                title.textColor = UIColor.blackColor()
+                
+                if feed.readingTime != nil{
+                    readingTime.text = "\(String(feed.readingTime!)) min read"
+                    tick.image = UIImage(named: "clock_icon")
+                }
+            } else {
+                title.textColor = UIColor(rgba: "#9B9B9B")
+                readingTime.text = "Read"
+                tick.image = UIImage(named: "icon_tick")
+            }
+        } else if isBookmarked == true {
+            var feed : InformerlyFeed
+            feed = bookmarks[indexPath.row]
+            source.text = feed.source
+            source.textColor = UIColor(rgba: feed.sourceColor!)
+            title.text = feed.title
+            
+            if feed.read != true {
+                title.textColor = UIColor.blackColor()
+                
+                if feed.readingTime != nil{
+                    readingTime.text = "\(String(feed.readingTime!)) min read"
+                    tick.image = UIImage(named: "clock_icon")
+                }
+            } else {
+                title.textColor = UIColor(rgba: "#9B9B9B")
+                readingTime.text = "Read"
+                tick.image = UIImage(named: "icon_tick")
             }
         } else {
-            title.textColor = UIColor(rgba: "#9B9B9B")
-            readingTime.text = "Read"
-            tick.image = UIImage(named: "icon_tick")
+            feed = feeds[indexPath.row]
+            source.text = feed.source
+            source.textColor = UIColor(rgba: feed.sourceColor!)
+            title.text = feed.title
+            
+            if feed.read != true {
+                title.textColor = UIColor.blackColor()
+                
+                if feed.readingTime != nil{
+                    readingTime.text = "\(String(feed.readingTime!)) min read"
+                    tick.image = UIImage(named: "clock_icon")
+                }
+            } else {
+                title.textColor = UIColor(rgba: "#9B9B9B")
+                readingTime.text = "Read"
+                tick.image = UIImage(named: "icon_tick")
+            }
         }
+        
         
         return cell
     }
@@ -329,8 +386,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             articleVC.articleIndex = rowID
             articleVC.isUnreadTab = self.isUnreadTab
             articleVC.isBookmarked = self.isBookmarked
-            if isUnreadTab == true {
+            if isUnreadTab == true && isBookmarked == false {
                 articleVC.unreadFeeds = self.unreadFeeds
+            } else {
+                articleVC.unreadbookmarkedFeeds = self.unreadBookmarkFeeds
             }
         }
     }
@@ -362,8 +421,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
-                        
-                        Utilities.sharedInstance.setArrayForKey(NSKeyedArchiver.archivedDataWithRootObject(processedData) , key: BOOKMARK_FEEDS)
+                        self.refreshCntrl.endRefreshing()
+                        Bookmarks.sharedInstance.populateFeeds(processedData["links"]as! [AnyObject])
+                        self.bookmarks.removeAll(keepCapacity: false)
+                        self.bookmarks = Bookmarks.sharedInstance.getBookmarks()
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
 
@@ -373,70 +434,80 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func onBookmark(){
-        self.overlay.hidden = false
-        if isPullToRefresh == false {
-            self.indicator.startAnimating()
+        
+        if isPullToRefresh == true {
+            self.downloadBookmark()
+            isPullToRefresh = false
         }
-        if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            println(auth_token)
-            var parameters : [String:AnyObject] = ["auth_token":auth_token,
-                "client_id":"dev-ios-informer",
-                "content":"true"]
-            
-            NetworkManager.sharedNetworkClient().processGetRequestWithPath(BOOKMARK_URL,
-                parameter: parameters,
-                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
-                    
-                    if requestStatus == 200 {
-                        self.menu.enabled = true
-                        self.refreshCntrl.endRefreshing()
-                        self.isPullToRefresh = false
-                        self.overlay.hidden = true
-                        self.indicator.stopAnimating()
-                        self.isBookmarked = true
-                        self.createNavTitle()
-                        Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
-                        self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
-                        
-                        self.tableView.reloadData()
-                    }
-                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                    
-                    if extraInfo != nil {
-                        self.menu.enabled = true
-                        self.refreshCntrl.endRefreshing()
-                        self.overlay.hidden = true
-                        self.indicator.stopAnimating()
-                        var error : [String:AnyObject] = extraInfo as! Dictionary
-                        var message : String = error["error"] as! String
-                        
-                        if message == "Invalid authentication token." {
-                            var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
-                                self.showViewController(loginVC, sender: self)
-                            }))
-                            self.presentViewController(alert, animated: true, completion: nil)
-                        }
-                        
-                        self.showAlert("Error !", msg: message)
-                    } else {
-                        self.showAlert("Error !", msg: "Try Again!")
-                    }
-            }
-        } else {
-            self.refreshCntrl.endRefreshing()
-            self.overlay.hidden = true
-            self.indicator.stopAnimating()
-            self.isBookmarked = true
-            self.createNavTitle()
-            
-            var processedData : AnyObject = Utilities.sharedInstance.getArrayForKey(BOOKMARK_FEEDS)
-            Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
-            self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
-            self.tableView.reloadData()
-        }
+        
+        self.isBookmarked = true
+        self.createNavTitle()
+        self.bookmarks = Bookmarks.sharedInstance.getBookmarks()
+        self.tableView.reloadData()
+        
+//        self.overlay.hidden = false
+//        if isPullToRefresh == false {
+//            self.indicator.startAnimating()
+//        }
+//        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+//            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+//            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+//                "client_id":"dev-ios-informer",
+//                "content":"true"]
+//            
+//            NetworkManager.sharedNetworkClient().processGetRequestWithPath(BOOKMARK_URL,
+//                parameter: parameters,
+//                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+//                    
+//                    if requestStatus == 200 {
+//                        self.menu.enabled = true
+//                        self.refreshCntrl.endRefreshing()
+//                        self.isPullToRefresh = false
+//                        self.overlay.hidden = true
+//                        self.indicator.stopAnimating()
+//                        self.isBookmarked = true
+//                        self.createNavTitle()
+//                        Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
+//                        self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
+//                        
+//                        self.tableView.reloadData()
+//                    }
+//                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+//                    
+//                    if extraInfo != nil {
+//                        self.menu.enabled = true
+//                        self.refreshCntrl.endRefreshing()
+//                        self.overlay.hidden = true
+//                        self.indicator.stopAnimating()
+//                        var error : [String:AnyObject] = extraInfo as! Dictionary
+//                        var message : String = error["error"] as! String
+//                        
+//                        if message == "Invalid authentication token." {
+//                            var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+//                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+//                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+//                                self.showViewController(loginVC, sender: self)
+//                            }))
+//                            self.presentViewController(alert, animated: true, completion: nil)
+//                        }
+//                        
+//                        self.showAlert("Error !", msg: message)
+//                    } else {
+//                        self.showAlert("Error !", msg: "Try Again!")
+//                    }
+//            }
+//        } else {
+//            self.refreshCntrl.endRefreshing()
+//            self.overlay.hidden = true
+//            self.indicator.stopAnimating()
+//            self.isBookmarked = true
+//            self.createNavTitle()
+//            
+//            var processedData : AnyObject = Utilities.sharedInstance.getArrayForKey(BOOKMARK_FEEDS)
+//            Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
+//            self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
+//            self.tableView.reloadData()
+//        }
     }
     
     
@@ -446,12 +517,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     // Notication selectors
     @objc func yourFeedNotificationSelector(notification: NSNotification){
-        self.menu.enabled = false
+//        self.menu.enabled = false
         self.downloadData()
     }
     
     @objc func bookmarkNotificationSelector(notification: NSNotification){
-        self.menu.enabled = false
+//        self.menu.enabled = false
         self.onBookmark()
     }
     

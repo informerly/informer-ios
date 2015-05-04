@@ -32,6 +32,7 @@ class UpdateInterestViewController : UIViewController,UITextViewDelegate {
         self.createOverlayView()
         
         self.interestsTextView.delegate = self
+        self.interestsTextView.becomeFirstResponder()
         
         textViewFrame = self.interestsTextView.frame
         

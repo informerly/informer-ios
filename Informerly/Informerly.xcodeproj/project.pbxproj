@@ -18,6 +18,7 @@
 		1803D2FC1ACEA42A00D6C1DE /* REMenuContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F51ACEA42A00D6C1DE /* REMenuContainerView.m */; };
 		1803D2FD1ACEA42A00D6C1DE /* REMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F71ACEA42A00D6C1DE /* REMenuItem.m */; };
 		1803D2FE1ACEA42A00D6C1DE /* REMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */; };
+		1811D9B11AF4B07E00C135FF /* Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1811D9B01AF4B07E00C135FF /* Bookmarks.swift */; };
 		1845B9921A7F8A5F00172610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9911A7F8A5F00172610 /* AppDelegate.swift */; };
 		1845B9971A7F8A5F00172610 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9951A7F8A5F00172610 /* Main.storyboard */; };
 		1845B9991A7F8A5F00172610 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9981A7F8A5F00172610 /* Images.xcassets */; };
@@ -74,6 +75,8 @@
 		18ECA3DA1A979EA90009DFA6 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */; };
 		18ECA3DB1A979EBB0009DFA6 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E1F1A83568700BBA510 /* OpenSans-Regular.ttf */; };
 		18ECA3DC1A97A59E0009DFA6 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DD11A834EB200BFEF6E /* UIColorExtension.swift */; };
+		18F0EC7E1AF77B5500E6D055 /* InformerlyFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0EC7D1AF77B5500E6D055 /* InformerlyFeed.swift */; };
+		18F0EC7F1AF77B5500E6D055 /* InformerlyFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0EC7D1AF77B5500E6D055 /* InformerlyFeed.swift */; };
 		18F71CA11A821A8600F74910 /* Feeds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F71CA01A821A8600F74910 /* Feeds.swift */; };
 		A12D439E1A8ACA950066E2F3 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A12D439C1A8ACA950066E2F3 /* Bolts.framework */; };
 		A12D439F1A8ACA950066E2F3 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A12D439D1A8ACA950066E2F3 /* Parse.framework */; };
@@ -146,6 +149,7 @@
 		1803D2F71ACEA42A00D6C1DE /* REMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMenuItem.m; sourceTree = "<group>"; };
 		1803D2F81ACEA42A00D6C1DE /* REMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REMenuItemView.h; sourceTree = "<group>"; };
 		1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMenuItemView.m; sourceTree = "<group>"; };
+		1811D9B01AF4B07E00C135FF /* Bookmarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bookmarks.swift; sourceTree = "<group>"; };
 		1845B98C1A7F8A5F00172610 /* Informerly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Informerly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1845B9901A7F8A5F00172610 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1845B9911A7F8A5F00172610 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -214,6 +218,7 @@
 		18DEC75D1AE6D3D900F8F661 /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
 		18DEC75E1AE6D3D900F8F661 /* libCrittercism_v5_1_3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v5_1_3.a; sourceTree = "<group>"; };
 		18E609BD1A85377F0082DC6C /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		18F0EC7D1AF77B5500E6D055 /* InformerlyFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformerlyFeed.swift; sourceTree = "<group>"; };
 		18F71CA01A821A8600F74910 /* Feeds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feeds.swift; sourceTree = "<group>"; };
 		A12D439C1A8ACA950066E2F3 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		A12D439D1A8ACA950066E2F3 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
@@ -397,6 +402,8 @@
 			children = (
 				1845B9E61A7FB00700172610 /* User.swift */,
 				18F71CA01A821A8600F74910 /* Feeds.swift */,
+				1811D9B01AF4B07E00C135FF /* Bookmarks.swift */,
+				18F0EC7D1AF77B5500E6D055 /* InformerlyFeed.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -807,7 +814,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APP_ID=\"553120c07365f84f7d3d6e79\"\nAPI_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\nsource \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
+			shellScript = "#APP_ID=\"553120c07365f84f7d3d6e79\"\n#API_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\n#source \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
 		};
 		18DEC7621AE7BB5B00F8F661 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -820,7 +827,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=/usr/local/bin:$PATH\ncd ${SRCROOT}/parse\n\nparse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
+			shellScript = "#export PATH=/usr/local/bin:$PATH\n#cd ${SRCROOT}/parse\n\n#parse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -835,11 +842,13 @@
 				186BD57C1A973B0B0044C86B /* AFHTTPRequestOperationManager.m in Sources */,
 				1845B9E01A7F8F9D00172610 /* NetworkManager.m in Sources */,
 				186BD5841A973B0B0044C86B /* AFURLConnectionOperation.m in Sources */,
+				18F0EC7E1AF77B5500E6D055 /* InformerlyFeed.swift in Sources */,
 				1803D2B81ACD189E00D6C1DE /* SGProgressView.m in Sources */,
 				1803D2EE1ACD6D2F00D6C1DE /* LeftMenuViewController.swift in Sources */,
 				1803D2FD1ACEA42A00D6C1DE /* REMenuItem.m in Sources */,
 				18D75DD21A834EB200BFEF6E /* UIColorExtension.swift in Sources */,
 				18D75DCF1A834C0200BFEF6E /* Utilities.swift in Sources */,
+				1811D9B11AF4B07E00C135FF /* Bookmarks.swift in Sources */,
 				186BD5861A973B0B0044C86B /* AFURLRequestSerialization.m in Sources */,
 				187EAA551A8DD6A6000ED503 /* FeedbackViewController.swift in Sources */,
 				186BD57E1A973B0B0044C86B /* AFHTTPSessionManager.m in Sources */,
@@ -885,6 +894,7 @@
 				186BD5A81A9763290044C86B /* AFHTTPRequestOperationManager.m in Sources */,
 				186BD5AA1A9763290044C86B /* AFHTTPSessionManager.m in Sources */,
 				186BD5AD1A9763290044C86B /* AFNetworkReachabilityManager.m in Sources */,
+				18F0EC7F1AF77B5500E6D055 /* InformerlyFeed.swift in Sources */,
 				186BD5AF1A9763290044C86B /* AFSecurityPolicy.m in Sources */,
 				186BD5B11A9763290044C86B /* AFURLConnectionOperation.m in Sources */,
 				186BD5B31A9763290044C86B /* AFURLRequestSerialization.m in Sources */,

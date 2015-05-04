@@ -13,9 +13,10 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     var articleWebView : WKWebView!
     var zenModeScrollView : UIScrollView!
-    var feeds : [Feeds.InformerlyFeed]!
-    var unreadFeeds : [Feeds.InformerlyFeed]!
-    var bookmarkedFeeds : [Feeds.InformerlyFeed]!
+    var feeds : [InformerlyFeed]!
+    var unreadFeeds : [InformerlyFeed]!
+    var unreadbookmarkedFeeds : [InformerlyFeed]!
+    var bookmarkedFeeds : [InformerlyFeed]!
     var isUnreadTab : Bool!
     var isBookmarked : Bool!
     var articleIndex : Int!
@@ -51,18 +52,15 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         var navBarHeight = self.navigationController?.navigationBar.frame.height
         var resultantHeight = statusBarHeight + navBarHeight!
         
-        // Getting feeds from model
-        if isUnreadTab == true {
+        if isUnreadTab == true && isBookmarked == false {
             self.feeds = unreadFeeds
-        }
-        else {
+        } else if isUnreadTab == true && isBookmarked == true {
+            self.bookmarkedFeeds = unreadbookmarkedFeeds
+        } else if isBookmarked == true {
+            self.bookmarkedFeeds = Bookmarks.sharedInstance.getBookmarks()
+        }else {
             self.feeds = Feeds.sharedInstance.getFeeds()
         }
-        
-//        // Getting bookmark feeds
-//        var processedData : AnyObject = Utilities.sharedInstance.getArrayForKey(BOOKMARK_FEEDS)
-//        Feeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject])
-//        self.bookmarkedFeeds = Feeds.sharedInstance.getFeeds()
         
         // Creates Article web view
         var frame : CGRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
@@ -78,20 +76,29 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         // Create progress bar
         self.createProgressBar()
         
+        var count = 0
         // Load article in web and zen mode
-        articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+        if isBookmarked == true {
+            count = self.bookmarkedFeeds.count
+            articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].URL!)!))
+        } else {
+            count = self.feeds.count
+            articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+        }
         
         // Create Zen mode ScrollView
         var rect : CGRect = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - resultantHeight)
         self.zenModeScrollView = UIScrollView(frame: rect)
-        self.zenModeScrollView.contentSize = CGSizeMake(self.view.frame.width * CGFloat(self.feeds.count) , self.view.frame.height - resultantHeight)
+        self.zenModeScrollView.contentSize = CGSizeMake(self.view.frame.width * CGFloat(count) , self.view.frame.height - resultantHeight)
         self.zenModeScrollView.pagingEnabled = true
         self.zenModeScrollView.delegate = self
         self.zenModeScrollView.alpha = 0.0
         self.view.addSubview(self.zenModeScrollView)
         
         self.zenModeWebViewX = 0
-        for var i=0; i<self.feeds.count; i++ {
+        self.readArticles = [Int]()
+        
+        for var i=0; i<count; i++ {
             // Creates Zen mode Web view
             var frame : CGRect = CGRectMake(self.zenModeWebViewX, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
             var articleZenView : UIWebView = UIWebView()
@@ -100,19 +107,27 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             articleZenView.scrollView.delegate = self
             self.zenModeScrollView.addSubview(articleZenView)
             
-            if feeds[i].content != nil {
-                var content : String = feeds[i].content!
-                articleZenView.loadHTMLString(content, baseURL: nil)
+            if isBookmarked == true {
+                if bookmarkedFeeds[i].content != nil {
+                    var content : String = bookmarkedFeeds[i].content!
+                    articleZenView.loadHTMLString(content, baseURL: nil)
+                    //Calls Read Web-Service
+                    if self.bookmarkedFeeds[self.articleIndex].read == false {
+                        self.markRead()
+                    }
+                }
+            } else {
+                if feeds[i].content != nil {
+                    var content : String = feeds[i].content!
+                    articleZenView.loadHTMLString(content, baseURL: nil)
+                    //Calls Read Web-Service
+                    if self.feeds[self.articleIndex].read == false {
+                        self.markRead()
+                    }
+                }
             }
             
             self.zenModeWebViewX = self.zenModeWebViewX + self.view.frame.width
-        }
-        
-        self.readArticles = [Int]()
-        //Calls Read Web-Service
-        
-        if self.feeds[self.articleIndex].read == false {
-            self.markRead()
         }
         
         isZenMode = false
@@ -246,8 +261,19 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
 
         var img : UIImage? = UIImage(named: "icon_bookmark")
         
-        if feeds[articleIndex].bookmarked == true {
+        if isBookmarked == true {
             img = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+            if articleIndex + 1 == self.bookmarkedFeeds.count {
+                rightArrow.enabled = false
+            }
+        } else {
+            if feeds[articleIndex].bookmarked == true {
+                img = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+            }
+            
+            if articleIndex + 1 == self.feeds.count {
+                rightArrow.enabled = false
+            }
         }
         
         bookmark = UIBarButtonItem(image: img, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onBookmark"))
@@ -275,20 +301,27 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             leftArrow.enabled = false
         }
         
-        if articleIndex + 1 == self.feeds.count {
-            rightArrow.enabled = false
-        }
     }
     
     // Web serivce to mark article as Read.
     func markRead() {
         
-        self.feeds[self.articleIndex].read = true
+        var path : String!
+        var articleID : Int!
         
-        var path : String = "links/\(feeds[articleIndex].id!)/read"
+        if isBookmarked == true {
+            self.bookmarkedFeeds[self.articleIndex].read = true
+            path = "links/\(bookmarkedFeeds[articleIndex].id!)/read"
+            articleID = bookmarkedFeeds[articleIndex].id!
+        } else {
+            self.feeds[self.articleIndex].read = true
+            path = "links/\(feeds[articleIndex].id!)/read"
+            articleID = feeds[articleIndex].id!
+        }
+        
         var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
             "client_id":"",
-            "link_id": feeds[articleIndex].id!]
+            "link_id": articleID]
         NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
@@ -331,8 +364,14 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     func onSharePressed() {
         var sharingItems = [AnyObject]()
-        sharingItems.append(feeds[articleIndex].title!)
-        sharingItems.append(feeds[articleIndex].URL!)
+        
+        if isBookmarked == true {
+            sharingItems.append(bookmarkedFeeds[articleIndex].title!)
+            sharingItems.append(bookmarkedFeeds[articleIndex].URL!)
+        } else {
+            sharingItems.append(feeds[articleIndex].title!)
+            sharingItems.append(feeds[articleIndex].URL!)
+        }
         
         let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: nil)
         self.presentViewController(activityVC, animated: true, completion: nil)
@@ -363,24 +402,44 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                     leftArrow.enabled = true
                 }
                 
-                if articleIndex == feeds.count - 1 {
-                    rightArrow.enabled = false
-                } else {
-                    rightArrow.enabled = true
-                }
                 
-                if feeds[articleIndex].bookmarked == true {
+                if isBookmarked == true {
+                    
+                    if articleIndex == bookmarkedFeeds.count - 1 {
+                        rightArrow.enabled = false
+                    } else {
+                        rightArrow.enabled = true
+                    }
+                    
                     bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    // Load article in web and zen mode
+                    articleWebView.alpha = 0.0
+                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].URL!)!))
+                    
+                    if self.bookmarkedFeeds[self.articleIndex].read == false {
+                        self.markRead()
+                    }
                 } else {
-                    bookmark.image = UIImage(named: "icon_bookmark")
-                }
-                
-                // Load article in web and zen mode
-                articleWebView.alpha = 0.0
-                articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
-                
-                if self.feeds[self.articleIndex].read == false {
-                    self.markRead()
+                    
+                    if articleIndex == feeds.count - 1 {
+                        rightArrow.enabled = false
+                    } else {
+                        rightArrow.enabled = true
+                    }
+                    
+                    if feeds[articleIndex].bookmarked == true {
+                        bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    } else {
+                        bookmark.image = UIImage(named: "icon_bookmark")
+                    }
+                    
+                    // Load article in web and zen mode
+                    articleWebView.alpha = 0.0
+                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+                    
+                    if self.feeds[self.articleIndex].read == false {
+                        self.markRead()
+                    }
                 }
             }
         }
@@ -413,27 +472,42 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             // Load article in web and zen mode
             articleIndex = articleIndex + 1
             
-            if feeds[articleIndex].bookmarked == true {
+            if isBookmarked == true {
                 bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].URL!)!))
+                createProgressBar()
+                if self.bookmarkedFeeds[self.articleIndex].read == false {
+                    self.markRead()
+                }
+                
+                if articleIndex == self.bookmarkedFeeds.count - 1 {
+                    rightArrow.enabled = false
+                }
+                
             } else {
-                bookmark.image = UIImage(named: "icon_bookmark")
+                if feeds[articleIndex].bookmarked == true {
+                    bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                } else {
+                    bookmark.image = UIImage(named: "icon_bookmark")
+                }
+                
+                articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+                createProgressBar()
+                if self.feeds[self.articleIndex].read == false {
+                    self.markRead()
+                }
+                
+                if articleIndex == self.feeds.count - 1 {
+                    rightArrow.enabled = false
+                }
             }
-            
-            articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
             
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
             })
             
-            createProgressBar()
-            if self.feeds[self.articleIndex].read == false {
-                self.markRead()
-            }
         }
         
-        if articleIndex == self.feeds.count - 1 {
-            rightArrow.enabled = false
-        }
     }
     
     func onPrev(){
@@ -446,20 +520,33 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             // Load article in web and zen mode
             articleIndex = articleIndex - 1
             
-            if feeds[articleIndex].bookmarked == true {
-                bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+            if isBookmarked == true {
+               bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].URL!)!))
+                
+                createProgressBar()
+                if self.bookmarkedFeeds[self.articleIndex].read == false {
+                    self.markRead()
+                }
+                
             } else {
-                bookmark.image = UIImage(named: "icon_bookmark")
+                if feeds[articleIndex].bookmarked == true {
+                    bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                } else {
+                    bookmark.image = UIImage(named: "icon_bookmark")
+                }
+                articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+                
+                createProgressBar()
+                if self.feeds[self.articleIndex].read == false {
+                    self.markRead()
+                }
             }
-            articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
             
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
             })
-            createProgressBar()
-            if self.feeds[self.articleIndex].read == false {
-                self.markRead()
-            }
+            
         }
         
         if articleIndex == 0 {
@@ -468,20 +555,33 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     }
     
     func onBookmark(){
+        var articleID : Int;
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            
-            if self.feeds[articleIndex].bookmarked == true {
-                self.bookmark.image = UIImage(named: "icon_bookmark")
+            if isBookmarked == true {
+                articleID = bookmarkedFeeds[articleIndex].id!
+                if self.bookmarkedFeeds[articleIndex].bookmarked == true {
+                    self.bookmark.image = UIImage(named: "icon_bookmark")
+                    self.bookmarkedFeeds[self.articleIndex].bookmarked = false
+                } else {
+                    self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    self.bookmarkedFeeds[self.articleIndex].bookmarked = true
+                }
             } else {
-                self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                articleID = feeds[articleIndex].id!
+                if self.feeds[articleIndex].bookmarked == true {
+                    self.bookmark.image = UIImage(named: "icon_bookmark")
+                    self.feeds[self.articleIndex].bookmarked = false
+                } else {
+                    self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    self.feeds[self.articleIndex].bookmarked = true
+                }
             }
             
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            var linkID :[String:Int] = ["link_id":feeds[articleIndex].id!]
             
             var parameters : [String:AnyObject] = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
-                "link_id":feeds[articleIndex].id!]
+                "link_id":articleID]
             
             NetworkManager.sharedNetworkClient().processPostRequestWithPath(BOOKMARK_URL,
                 parameter: parameters,
@@ -489,18 +589,33 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                     
                     if requestStatus == 200 {
                         var message = processedData["message"] as! String
+                        var bookmarkDictionary : [String:AnyObject] = processedData["bookmark"] as! Dictionary
+                        var linkID = bookmarkDictionary["link_id"] as! Int
                         if message == "Bookmark Created" {
-                            self.feeds[self.articleIndex].bookmarked = true
-//                            self.bookmarkedFeeds.append(self.feeds[self.articleIndex])
-                        } else if message == "Bookmark Removed" {
-                            self.feeds[self.articleIndex].bookmarked = false
+                            var data : [InformerlyFeed] = Feeds.sharedInstance.getFeeds()
+                            var feed : InformerlyFeed
+                            var counter = 0
+                            for feed in data {
+                                if feed.id == linkID {
+                                    Feeds.sharedInstance.getFeeds()[counter].bookmarked = true
+                                    Bookmarks.sharedInstance.addBookmark(feed)
+                                    break
+                                }
+                                counter++
+                            }
                             
-//                            var index = self.articleIndex
-//                            for feed in self.bookmarkedFeeds {
-//                                if feed.id == self.feeds[index].id {
-//                                    self.bookmarkedFeeds.removeAtIndex(index)
-//                                }
-//                            }
+                        } else if message == "Bookmark Removed" {
+                            var data : [InformerlyFeed] = Feeds.sharedInstance.getFeeds()
+                            var feed : InformerlyFeed
+                            var counter = 0
+                            for feed in data {
+                                if feed.id == linkID {
+                                    Feeds.sharedInstance.getFeeds()[counter].bookmarked = false
+                                    Bookmarks.sharedInstance.removeBookmark(linkID)
+                                    break
+                                }
+                                counter++
+                            }
                         }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
