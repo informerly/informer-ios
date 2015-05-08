@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch
         
         // Adds crittercism sdk for crash logs
-//        Crittercism.enableWithAppID("553120c07365f84f7d3d6e79")
+        Crittercism.enableWithAppID("553120c07365f84f7d3d6e79")
         
         if UIDevice.currentDevice().model == "iPhone Simulator" {
             Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
