@@ -93,6 +93,9 @@
 		A12D43B51A8ACB1D0066E2F3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A12D43B31A8ACB1D0066E2F3 /* libz.dylib */; };
 		A1E79B6F1A8ADFBB00DED86C /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E79B6E1A8ADFBB00DED86C /* ParseCrashReporting.framework */; };
 		A1E79B741A8AE0F800DED86C /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E79B721A8AE0A800DED86C /* libstdc++.6.dylib */; };
+		A874A1C31AFD0A620033903B /* Informer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A874A1C11AFD0A620033903B /* Informer.xcdatamodeld */; };
+		A874A1F61AFD0BF60033903B /* BookmarkFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = A874A1F51AFD0BF60033903B /* BookmarkFeed.swift */; };
+		A874A1F91AFD0C840033903B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A874A1F81AFD0C840033903B /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -235,6 +238,9 @@
 		A12D43B31A8ACB1D0066E2F3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		A1E79B6E1A8ADFBB00DED86C /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
 		A1E79B721A8AE0A800DED86C /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
+		A874A1C21AFD0A620033903B /* Informer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Informer.xcdatamodel; sourceTree = "<group>"; };
+		A874A1F51AFD0BF60033903B /* BookmarkFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkFeed.swift; sourceTree = "<group>"; };
+		A874A1F81AFD0C840033903B /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -356,10 +362,12 @@
 				1845B9B21A7F8C4600172610 /* Models */,
 				1845B9B31A7F8C4600172610 /* Third Party Libs */,
 				1845B9B51A7F8C4600172610 /* ViewControllers */,
+				A874A1F71AFD0C780033903B /* CoreData Manager */,
 				1845B9911A7F8A5F00172610 /* AppDelegate.swift */,
 				1845B9951A7F8A5F00172610 /* Main.storyboard */,
 				1845B9981A7F8A5F00172610 /* Images.xcassets */,
 				1845B98F1A7F8A5F00172610 /* Supporting Files */,
+				A874A1C11AFD0A620033903B /* Informer.xcdatamodeld */,
 			);
 			path = Informerly;
 			sourceTree = "<group>";
@@ -404,6 +412,7 @@
 				18F71CA01A821A8600F74910 /* Feeds.swift */,
 				1811D9B01AF4B07E00C135FF /* Bookmarks.swift */,
 				18F0EC7D1AF77B5500E6D055 /* InformerlyFeed.swift */,
+				A874A1F51AFD0BF60033903B /* BookmarkFeed.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -650,6 +659,14 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		A874A1F71AFD0C780033903B /* CoreData Manager */ = {
+			isa = PBXGroup;
+			children = (
+				A874A1F81AFD0C840033903B /* CoreDataManager.swift */,
+			);
+			path = "CoreData Manager";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -836,6 +853,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A874A1F61AFD0BF60033903B /* BookmarkFeed.swift in Sources */,
 				1845B9E51A7F905600172610 /* Constants.swift in Sources */,
 				1803D2FA1ACEA42A00D6C1DE /* RECommonFunctions.m in Sources */,
 				1845B9BB1A7F8CFE00172610 /* LoginViewController.swift in Sources */,
@@ -845,6 +863,7 @@
 				18F0EC7E1AF77B5500E6D055 /* InformerlyFeed.swift in Sources */,
 				1803D2B81ACD189E00D6C1DE /* SGProgressView.m in Sources */,
 				1803D2EE1ACD6D2F00D6C1DE /* LeftMenuViewController.swift in Sources */,
+				A874A1C31AFD0A620033903B /* Informer.xcdatamodeld in Sources */,
 				1803D2FD1ACEA42A00D6C1DE /* REMenuItem.m in Sources */,
 				18D75DD21A834EB200BFEF6E /* UIColorExtension.swift in Sources */,
 				18D75DCF1A834C0200BFEF6E /* Utilities.swift in Sources */,
@@ -872,6 +891,7 @@
 				18D75DCA1A823FC600BFEF6E /* ArticleViewController.swift in Sources */,
 				18F71CA11A821A8600F74910 /* Feeds.swift in Sources */,
 				186BD5881A973B0B0044C86B /* AFURLResponseSerialization.m in Sources */,
+				A874A1F91AFD0C840033903B /* CoreDataManager.swift in Sources */,
 				1845B9921A7F8A5F00172610 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1161,6 +1181,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A874A1C11AFD0A620033903B /* Informer.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A874A1C21AFD0A620033903B /* Informer.xcdatamodel */,
+			);
+			currentVersion = A874A1C21AFD0A620033903B /* Informer.xcdatamodel */;
+			path = Informer.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1845B9841A7F8A5F00172610 /* Project object */;
 }
