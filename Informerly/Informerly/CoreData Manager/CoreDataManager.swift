@@ -11,7 +11,13 @@ import CoreData
 
 class CoreDataManager
 {
-    class func addBookmarkFeed(feedDict:[String:AnyObject], isSynced: Bool) {
+    class func addBookmarkFeeds(feedList: [AnyObject], isSynced: Bool) {
+        for feed in feedList {
+            self.addFeed(feed as! [String : AnyObject], isSynced: isSynced)
+        }
+    }
+    
+    class func addFeed(feedDict:[String:AnyObject], isSynced: Bool) {
         
         if (self.isFeedAlreadyExistForFeedID(feedDict["id"] as! Int)) {
             return
@@ -39,6 +45,42 @@ class CoreDataManager
         feedItem.url = feedDict["url"] as? String
         feedItem.read = feedDict["read"] as? Bool
         feedItem.bookmarked = feedDict["bookmarked"] as? Bool
+        feedItem.isSynced = isSynced
+        
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
+    }
+    
+    class func addBookmarkFeed(feed:InformerlyFeed, isSynced: Bool) {
+        
+        if (self.isFeedAlreadyExistForFeedID(feed.id!)) {
+            return
+        }
+        
+        //create the object of AppDelegate
+        let appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //get the context from AppDelegate
+        let managedContext = appDelegate.managedObjectContext!
+        
+        var feedItem : BookmarkFeed = NSEntityDescription.insertNewObjectForEntityForName("BookmarkFeed", inManagedObjectContext: managedContext) as! BookmarkFeed
+        
+        feedItem.id = feed.id
+        feedItem.title = feed.title
+        feedItem.feedDescription = feed.feedDescription
+        feedItem.content = feed.content
+        feedItem.readingTime = feed.readingTime
+        feedItem.source = feed.source
+        feedItem.sourceColor = feed.sourceColor
+        feedItem.publishedAt = feed.publishedAt
+        feedItem.originalDate = feed.originalDate
+        feedItem.shortLink = feed.shortLink
+        feedItem.slug = feed.slug
+        feedItem.url = feed.URL
+        feedItem.read = feed.read
+        feedItem.bookmarked = feed.bookmarked
         feedItem.isSynced = isSynced
         
         var error: NSError?

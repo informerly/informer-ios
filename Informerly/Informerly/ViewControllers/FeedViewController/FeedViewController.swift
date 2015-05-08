@@ -11,9 +11,9 @@ import Foundation
 class FeedViewController : UITableViewController, UITableViewDelegate, UITableViewDataSource {
     
     private var feeds : [InformerlyFeed] = []
-    private var bookmarks : [InformerlyFeed] = []
+    private var bookmarks : [BookmarkFeed] = []
     private var unreadFeeds : [InformerlyFeed] = []
-    private var unreadBookmarkFeeds : [InformerlyFeed] = []
+    private var unreadBookmarkFeeds : [BookmarkFeed] = []
     private var rowID : Int!
     private var indicator : UIActivityIndicatorView!
     private var width : CGFloat!
@@ -74,9 +74,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         UIApplication.sharedApplication().statusBarHidden = false
         self.navigationController?.navigationBar.hidden = false
         
-//        self.feeds = Feeds.sharedInstance.getFeeds()
-        self.bookmarks = Bookmarks.sharedInstance.getBookmarks()
-        
+        self.bookmarks = CoreDataManager.getBookmarkFeeds()
         self.tableView.reloadData()
     }
     
@@ -216,7 +214,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         
                         self.showAlert("Error !", msg: message)
                     } else {
-                        self.showAlert("Error !", msg: "Try Again!")
+//                        self.showAlert("Error !", msg: "Try Again!")
                     }
             }
         } else {
@@ -293,7 +291,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 tick.image = UIImage(named: "icon_tick")
             }
         } else if isUnreadTab == true && isBookmarked == true {
-            var feed : InformerlyFeed
+            var feed : BookmarkFeed
             feed = unreadBookmarkFeeds[indexPath.row]
             source.text = feed.source
             source.textColor = UIColor(rgba: feed.sourceColor!)
@@ -302,8 +300,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             if feed.read != true {
                 title.textColor = UIColor.blackColor()
                 
-                if feed.readingTime != nil{
-                    readingTime.text = "\(String(feed.readingTime!)) min read"
+                if feed.readingTime != nil {
+                    readingTime.text = "\(feed.readingTime?.stringValue) min read"
                     tick.image = UIImage(named: "clock_icon")
                 }
             } else {
@@ -312,7 +310,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 tick.image = UIImage(named: "icon_tick")
             }
         } else if isBookmarked == true {
-            var feed : InformerlyFeed
+            var feed : BookmarkFeed
             feed = bookmarks[indexPath.row]
             source.text = feed.source
             source.textColor = UIColor(rgba: feed.sourceColor!)
@@ -322,7 +320,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 title.textColor = UIColor.blackColor()
                 
                 if feed.readingTime != nil{
-                    readingTime.text = "\(String(feed.readingTime!)) min read"
+                    readingTime.text = "\(feed.readingTime?.stringValue) min read"
                     tick.image = UIImage(named: "clock_icon")
                 }
             } else {
@@ -401,11 +399,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func onPullToRefresh(sender:AnyObject) {
-        isPullToRefresh = true
-        if isBookmarked == false {
-            self.downloadData()
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            isPullToRefresh = true
+            if isBookmarked == false {
+                self.downloadData()
+            } else {
+                self.onBookmark()
+            }
         } else {
-            self.onBookmark()
+            self.refreshCntrl.endRefreshing()
         }
     }
     
@@ -422,9 +424,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     
                     if requestStatus == 200 {
                         self.refreshCntrl.endRefreshing()
-                        Bookmarks.sharedInstance.populateFeeds(processedData["links"]as! [AnyObject])
-                        self.bookmarks.removeAll(keepCapacity: false)
-                        self.bookmarks = Bookmarks.sharedInstance.getBookmarks()
+                        
+                        CoreDataManager.addBookmarkFeeds(processedData["links"] as! [AnyObject], isSynced: true)
+                        self.bookmarks = CoreDataManager.getBookmarkFeeds()
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
 
@@ -442,7 +444,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         self.isBookmarked = true
         self.createNavTitle()
-        self.bookmarks = Bookmarks.sharedInstance.getBookmarks()
+        self.bookmarks = CoreDataManager.getBookmarkFeeds()
         self.tableView.reloadData()
         
 //        self.overlay.hidden = false
@@ -518,7 +520,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     // Notication selectors
     @objc func yourFeedNotificationSelector(notification: NSNotification){
 //        self.menu.enabled = false
-        self.downloadData()
+        self.isBookmarked = false
+        self.navTitle.text = "Your Feed"
+        self.navTitle.frame = CGRectMake(0, 0, 80, 30)
+        self.tableView.reloadData()
     }
     
     @objc func bookmarkNotificationSelector(notification: NSNotification){

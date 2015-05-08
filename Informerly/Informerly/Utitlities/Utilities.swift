@@ -41,11 +41,8 @@ class Utilities {
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
-    func getObjectForKey(key:String)->[InformerlyFeed] {
-        
-        let data =  NSUserDefaults.standardUserDefaults().objectForKey(key) as! NSData
-        let unarchivedData: [InformerlyFeed]? = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [InformerlyFeed]
-        return unarchivedData!
+    func getObjectForKey(key:String)->[Int]? {
+        return NSUserDefaults.standardUserDefaults().objectForKey(key) as? [Int]
     }
     
     func setArrayForKey(object:AnyObject,key:String) {

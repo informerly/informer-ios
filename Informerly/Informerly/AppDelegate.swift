@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch
         
         // Adds crittercism sdk for crash logs
-        Crittercism.enableWithAppID("553120c07365f84f7d3d6e79")
+//        Crittercism.enableWithAppID("553120c07365f84f7d3d6e79")
         
         if UIDevice.currentDevice().model == "iPhone Simulator" {
             Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
@@ -200,6 +200,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.markUnreadArticles(readArticles!)
                     }
                 }
+                
+                var unbookmarkedFeeds:[BookmarkFeed] = CoreDataManager.getBookmarkFeeds()
+                
+                for feed in unbookmarkedFeeds {
+                    if feed.isSynced == false {
+                        self.markBookmarked(feed.id!.integerValue)
+                    }
+                }
             }
         }
     }
@@ -228,6 +236,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 println("Failure marking article as read")
+        }
+    }
+    
+    func markBookmarked(feedID:Int){
+        var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+        
+        var parameters : [String:AnyObject] = ["auth_token":auth_token,
+            "client_id":"dev-ios-informer",
+            "link_id":feedID]
+        
+        NetworkManager.sharedNetworkClient().processPostRequestWithPath(BOOKMARK_URL,
+            parameter: parameters,
+            success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                
+                if requestStatus == 200 {
+                    var bookmarkDictionary : [String:AnyObject] = processedData["bookmark"] as! Dictionary
+                    var linkID = bookmarkDictionary["link_id"] as! Int
+                    CoreDataManager.updateSyncStatusForFeedID(linkID, syncStatus: true)
+                    println("Marked ...")
+                }
+            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                println("Failed to bookmark ...")
         }
     }
     
