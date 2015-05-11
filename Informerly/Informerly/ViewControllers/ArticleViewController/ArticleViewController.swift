@@ -663,6 +663,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 if self.feeds[self.articleIndex].bookmarked == true {
                     self.bookmark.image = UIImage(named: "icon_bookmark")
                     self.feeds[self.articleIndex].bookmarked = false
+                    bookmarkedFeeds = CoreDataManager.getBookmarkFeeds()
                     CoreDataManager.removeBookmarkFeedOfID(bookmarkedFeeds[articleIndex].id!.integerValue)
                 } else {
                     self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)

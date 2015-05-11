@@ -66,6 +66,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.createOverlayView()
         self.downloadData()
         self.downloadBookmark()
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -220,6 +221,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         } else {
             indicator.stopAnimating()
             self.refreshCntrl.endRefreshing()
+            self.overlay.hidden = true
             self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
         }
     }
@@ -530,8 +532,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
 //        self.menu.enabled = false
         self.onBookmark()
     }
-    
-    
     
     func showAlert(title:String, msg:String){
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
