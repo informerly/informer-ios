@@ -17,5 +17,6 @@
 #import "MFSideMenu.h"
 #import "REMenu.h"
 #import "Crittercism.h"
+#import "SVProgressHUD.h"
 
 #endif

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1803BC2C1B0210C9003DCB17 /* MenuItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803BC2B1B0210C9003DCB17 /* MenuItems.swift */; };
+		1803BC2E1B021421003DCB17 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803BC2D1B021421003DCB17 /* Item.swift */; };
+		1803BC301B033238003DCB17 /* CategoryFeeds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803BC2F1B033238003DCB17 /* CategoryFeeds.swift */; };
+		1803BC431B0386EB003DCB17 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803BC3E1B0386EB003DCB17 /* SVIndefiniteAnimatedView.m */; };
+		1803BC441B0386EB003DCB17 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1803BC401B0386EB003DCB17 /* SVProgressHUD.bundle */; };
+		1803BC451B0386EB003DCB17 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803BC421B0386EB003DCB17 /* SVProgressHUD.m */; };
 		1803D2B81ACD189E00D6C1DE /* SGProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2B51ACD189E00D6C1DE /* SGProgressView.m */; };
 		1803D2B91ACD189E00D6C1DE /* UINavigationController+SGProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2B71ACD189E00D6C1DE /* UINavigationController+SGProgress.m */; };
 		1803D2EA1ACD695D00D6C1DE /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2E51ACD695D00D6C1DE /* MFSideMenuContainerViewController.m */; };
@@ -130,6 +136,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1803BC2B1B0210C9003DCB17 /* MenuItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItems.swift; sourceTree = "<group>"; };
+		1803BC2D1B021421003DCB17 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		1803BC2F1B033238003DCB17 /* CategoryFeeds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryFeeds.swift; sourceTree = "<group>"; };
+		1803BC3D1B0386EB003DCB17 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
+		1803BC3E1B0386EB003DCB17 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
+		1803BC3F1B0386EB003DCB17 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
+		1803BC401B0386EB003DCB17 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		1803BC411B0386EB003DCB17 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		1803BC421B0386EB003DCB17 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		1803D2B41ACD189E00D6C1DE /* SGProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGProgressView.h; sourceTree = "<group>"; };
 		1803D2B51ACD189E00D6C1DE /* SGProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGProgressView.m; sourceTree = "<group>"; };
 		1803D2B61ACD189E00D6C1DE /* UINavigationController+SGProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+SGProgress.h"; sourceTree = "<group>"; };
@@ -285,6 +300,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1803BC3C1B0386EB003DCB17 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				1803BC3D1B0386EB003DCB17 /* SVIndefiniteAnimatedView.h */,
+				1803BC3E1B0386EB003DCB17 /* SVIndefiniteAnimatedView.m */,
+				1803BC3F1B0386EB003DCB17 /* SVProgressHUD-Prefix.pch */,
+				1803BC401B0386EB003DCB17 /* SVProgressHUD.bundle */,
+				1803BC411B0386EB003DCB17 /* SVProgressHUD.h */,
+				1803BC421B0386EB003DCB17 /* SVProgressHUD.m */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
 		1803D2B31ACD187900D6C1DE /* SGNavigationProgressBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,6 +441,9 @@
 				1811D9B01AF4B07E00C135FF /* Bookmarks.swift */,
 				18F0EC7D1AF77B5500E6D055 /* InformerlyFeed.swift */,
 				A874A1F51AFD0BF60033903B /* BookmarkFeed.swift */,
+				1803BC2B1B0210C9003DCB17 /* MenuItems.swift */,
+				1803BC2D1B021421003DCB17 /* Item.swift */,
+				1803BC2F1B033238003DCB17 /* CategoryFeeds.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -420,6 +451,7 @@
 		1845B9B31A7F8C4600172610 /* Third Party Libs */ = {
 			isa = PBXGroup;
 			children = (
+				1803BC3C1B0386EB003DCB17 /* SVProgressHUD */,
 				18DEC7581AE6D3C100F8F661 /* Crittercism */,
 				1803D2EF1ACEA41A00D6C1DE /* TopMenu */,
 				1803D2E21ACD695400D6C1DE /* MFSideMenu */,
@@ -791,6 +823,7 @@
 				18C65E251A83568700BBA510 /* OpenSans-ExtraBold.ttf in Resources */,
 				18C65E221A83568700BBA510 /* Apache License.txt in Resources */,
 				18C65E291A83568700BBA510 /* OpenSans-LightItalic.ttf in Resources */,
+				1803BC441B0386EB003DCB17 /* SVProgressHUD.bundle in Resources */,
 				18C65E231A83568700BBA510 /* OpenSans-Bold.ttf in Resources */,
 				1845B9991A7F8A5F00172610 /* Images.xcassets in Resources */,
 				18C65E2C1A83568700BBA510 /* OpenSans-SemiboldItalic.ttf in Resources */,
@@ -857,6 +890,8 @@
 				1845B9E51A7F905600172610 /* Constants.swift in Sources */,
 				1803D2FA1ACEA42A00D6C1DE /* RECommonFunctions.m in Sources */,
 				1845B9BB1A7F8CFE00172610 /* LoginViewController.swift in Sources */,
+				1803BC301B033238003DCB17 /* CategoryFeeds.swift in Sources */,
+				1803BC2E1B021421003DCB17 /* Item.swift in Sources */,
 				186BD57C1A973B0B0044C86B /* AFHTTPRequestOperationManager.m in Sources */,
 				1845B9E01A7F8F9D00172610 /* NetworkManager.m in Sources */,
 				186BD5841A973B0B0044C86B /* AFURLConnectionOperation.m in Sources */,
@@ -864,6 +899,7 @@
 				1803D2B81ACD189E00D6C1DE /* SGProgressView.m in Sources */,
 				1803D2EE1ACD6D2F00D6C1DE /* LeftMenuViewController.swift in Sources */,
 				A874A1C31AFD0A620033903B /* Informer.xcdatamodeld in Sources */,
+				1803BC2C1B0210C9003DCB17 /* MenuItems.swift in Sources */,
 				1803D2FD1ACEA42A00D6C1DE /* REMenuItem.m in Sources */,
 				18D75DD21A834EB200BFEF6E /* UIColorExtension.swift in Sources */,
 				18D75DCF1A834C0200BFEF6E /* Utilities.swift in Sources */,
@@ -881,6 +917,8 @@
 				1845B9E71A7FB00700172610 /* User.swift in Sources */,
 				186BD5801A973B0B0044C86B /* AFNetworkReachabilityManager.m in Sources */,
 				1803D2B91ACD189E00D6C1DE /* UINavigationController+SGProgress.m in Sources */,
+				1803BC431B0386EB003DCB17 /* SVIndefiniteAnimatedView.m in Sources */,
+				1803BC451B0386EB003DCB17 /* SVProgressHUD.m in Sources */,
 				186BD58A1A973B0B0044C86B /* AFURLSessionManager.m in Sources */,
 				18E609BE1A85377F0082DC6C /* MenuViewController.swift in Sources */,
 				188B07811AB17A6400447CD9 /* Reachability.m in Sources */,

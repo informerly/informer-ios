@@ -15,10 +15,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var zenModeScrollView : UIScrollView!
     var feeds : [InformerlyFeed]!
     var unreadFeeds : [InformerlyFeed]!
+    var categoryFeeds : [InformerlyFeed]!
     var unreadbookmarkedFeeds : [BookmarkFeed]!
     var bookmarkedFeeds : [BookmarkFeed]!
     var isUnreadTab : Bool!
     var isBookmarked : Bool!
+    var isCategoryFeeds : Bool!
     var articleIndex : Int!
     var isZenMode : Bool!
     var isStarted : Bool!
@@ -56,12 +58,15 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             self.feeds = unreadFeeds
         } else if isUnreadTab == true && isBookmarked == true {
             self.bookmarkedFeeds = unreadbookmarkedFeeds
-        } else if isBookmarked == true {
-            self.bookmarkedFeeds = CoreDataManager.getBookmarkFeeds() //Bookmarks.sharedInstance.getBookmarks()
-        }
-//        else {
             self.feeds = Feeds.sharedInstance.getFeeds()
-//        }
+        } else if isBookmarked == true {
+            self.bookmarkedFeeds = CoreDataManager.getBookmarkFeeds()
+            self.feeds = Feeds.sharedInstance.getFeeds()
+        } else if isCategoryFeeds == true {
+            self.feeds = self.categoryFeeds
+        } else {
+            self.feeds = Feeds.sharedInstance.getFeeds()
+        }
         
         // Creates Article web view
         var frame : CGRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
@@ -112,19 +117,21 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 if bookmarkedFeeds[i].content != nil {
                     var content : String = bookmarkedFeeds[i].content!
                     articleZenView.loadHTMLString(content, baseURL: nil)
-                    //Calls Read Web-Service
-                    if self.bookmarkedFeeds[self.articleIndex].read == false {
-                        self.markRead()
-                    }
+                }
+                
+                //Calls Read Web-Service
+                if self.bookmarkedFeeds[self.articleIndex].read == false {
+                    self.markRead()
                 }
             } else {
                 if feeds[i].content != nil {
                     var content : String = feeds[i].content!
                     articleZenView.loadHTMLString(content, baseURL: nil)
-                    //Calls Read Web-Service
-                    if self.feeds[self.articleIndex].read == false {
-                        self.markRead()
-                    }
+                }
+                
+                //Calls Read Web-Service
+                if self.feeds[self.articleIndex].read == false {
+                    self.markRead()
                 }
             }
             

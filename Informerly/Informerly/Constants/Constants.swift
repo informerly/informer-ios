@@ -23,6 +23,7 @@ let UNBOOKMARKED_FEEDS = "UNBOOKMARKED_FEEDS"
 // Network Constants
 let LOGIN_URL = "users/sign_in"
 let FEED_URL  = "feeds"
+let MENU_FEED_URL  = "users/feeds"
 let LOGOUT_URL = "users/sign_out"
 let BOOKMARK_URL = "bookmarks"
 

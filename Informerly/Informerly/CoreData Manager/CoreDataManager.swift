@@ -107,7 +107,7 @@ class CoreDataManager
             println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
         }
         
-        return result;
+        return result.reverse();
     }
     
     class func removeBookmarkFeedOfID(feedID: Int) {
@@ -126,8 +126,10 @@ class CoreDataManager
         var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkFeed]
         
         if(error == nil) {
-            managedContext.deleteObject(result[0])
-            managedContext.save(nil)
+            if result.count > 0 {
+                managedContext.deleteObject(result[0])
+                managedContext.save(nil)
+            }
         }
         else {
             println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
