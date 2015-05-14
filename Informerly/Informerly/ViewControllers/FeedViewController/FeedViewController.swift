@@ -16,14 +16,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var unreadFeeds : [InformerlyFeed] = []
     private var unreadBookmarkFeeds : [BookmarkFeed] = []
     private var rowID : Int!
-//    private var indicator : UIActivityIndicatorView!
     private var width : CGFloat!
     var refreshCntrl : UIRefreshControl!
     private var isUnreadTab = false
     private var isBookmarked = false
     private var menu:UIBarButtonItem!
     private var navTitle : UILabel!
-//    private var overlay:UIView!
     private var isPullToRefresh = false
     private var isCategoryFeeds = false
     private var categoryID : Int = -1
@@ -59,14 +57,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.refreshCntrl.addTarget(self, action: Selector("onPullToRefresh:"), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(self.refreshCntrl)
         
-        // Setting up activity indicator
-//        indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
-//        indicator.hidesWhenStopped = true
-//        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge
-//        indicator.color = UIColor.grayColor()
-//        view.addSubview(indicator)
-        
-        self.createOverlayView()
         self.downloadData()
         self.downloadBookmark()
 
@@ -101,19 +91,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    func createOverlayView(){
-        
-        // Calculating origin for webview
-//        var statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
-//        var navBarHeight = self.navigationController?.navigationBar.frame.height
-//        var resultantHeight = statusBarHeight + navBarHeight!
-//        
-//        self.overlay = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight))
-//        self.overlay.backgroundColor = UIColor.clearColor()
-//        self.overlay.hidden = true
-//        self.view.addSubview(self.overlay)
-    }
-    
     func createTableViewHeader(){
         var headerView : UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, 75))
         
@@ -143,10 +120,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func downloadData() {
         
         if isPullToRefresh == false {
-//            self.indicator.startAnimating()
             SVProgressHUD.showWithMaskType(SVProgressHUDMaskType.Gradient)
         }
-//        self.overlay.hidden = false
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
@@ -160,10 +135,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
-//                        self.menu.enabled = true
-//                        self.overlay.hidden = true
                         self.isPullToRefresh = false
-//                        self.indicator.stopAnimating()
                         SVProgressHUD.dismiss()
                         self.refreshCntrl.endRefreshing()
                         Feeds.sharedInstance.populateFeeds(processedData["links"]as! [AnyObject])
@@ -202,8 +174,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     self.menu.enabled = true
-//                    self.overlay.hidden = true
-//                    self.indicator.stopAnimating()
                     SVProgressHUD.dismiss()
                     self.refreshCntrl.endRefreshing()
                     
@@ -226,10 +196,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     }
             }
         } else {
-//            indicator.stopAnimating()
             SVProgressHUD.dismiss()
             self.refreshCntrl.endRefreshing()
-//            self.overlay.hidden = true
             self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
         }
     }
@@ -537,19 +505,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         if  self.categoryFeeds == nil || self.categoryFeeds!.isEmpty || isPullToRefresh == true {
             
             if Utilities.sharedInstance.isConnectedToNetwork() == true {
-                
-//                self.overlay.hidden = false
-                //                self.indicator.startAnimating()
-                
-                if isPullToRefresh == false {
+                                if isPullToRefresh == false {
                     SVProgressHUD.showWithMaskType(SVProgressHUDMaskType.Gradient)
                 }
                 
                 isPullToRefresh = false
                 
                 var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-//                2A6n4L3ffsrz8bNpp9xy
-                var parameters = ["auth_token":auth_token]
+                var parameters = ["auth_token":auth_token,
+                "content":"true"]
                 var URL = "\(FEED_URL)/\(categoryID)"
                 
                 NetworkManager.sharedNetworkClient().processGetRequestWithPath(URL,
@@ -557,9 +521,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                         
                         if requestStatus == 200 {
-                            
-//                            self.overlay.hidden = true
-                            //                            self.indicator.stopAnimating()
                             SVProgressHUD.dismiss()
                             self.refreshCntrl.endRefreshing()
                             
@@ -569,8 +530,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         }
                     }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                         self.menu.enabled = true
-//                        self.overlay.hidden = true
-                        //                        self.indicator.stopAnimating()
                         SVProgressHUD.dismiss()
                         self.refreshCntrl.endRefreshing()
                         
@@ -591,10 +550,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         }
                 }
             } else {
-                //                indicator.stopAnimating()
                 SVProgressHUD.dismiss()
                 self.refreshCntrl.endRefreshing()
-//                self.overlay.hidden = true
                 self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
             }
         } else {
