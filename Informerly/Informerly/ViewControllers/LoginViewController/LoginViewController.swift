@@ -172,6 +172,10 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         Utilities.sharedInstance.setStringForKey(String(User.sharedInstance.id), key: USER_ID)
                         Utilities.sharedInstance.setStringForKey(self.emailTextField.text, key: EMAIL)
                         
+                        var parseInstallation : PFInstallation = PFInstallation.currentInstallation()
+                        parseInstallation["username"] = self.emailTextField.text
+                        parseInstallation.saveInBackgroundWithBlock(nil)
+                        
                         var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                         appDelegate.loadFeedVC()
                     }

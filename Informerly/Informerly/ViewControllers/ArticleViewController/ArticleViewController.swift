@@ -36,6 +36,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var bookmark : UIBarButtonItem!
     var leftArrow : UIBarButtonItem!
     var rightArrow : UIBarButtonItem!
+    var customURLData : InformerlyFeed!
     
     let ANIMATION_DURATION = 1.0
     
@@ -54,18 +55,23 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         var navBarHeight = self.navigationController?.navigationBar.frame.height
         var resultantHeight = statusBarHeight + navBarHeight!
         
-        if isUnreadTab == true && isBookmarked == false {
-            self.feeds = unreadFeeds
-        } else if isUnreadTab == true && isBookmarked == true {
-            self.bookmarkedFeeds = unreadbookmarkedFeeds
-            self.feeds = Feeds.sharedInstance.getFeeds()
-        } else if isBookmarked == true {
-            self.bookmarkedFeeds = CoreDataManager.getBookmarkFeeds()
-            self.feeds = Feeds.sharedInstance.getFeeds()
-        } else if isCategoryFeeds == true {
-            self.feeds = self.categoryFeeds
+        if Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) == true {
+            self.feeds = [self.customURLData]
+            self.articleIndex = 0
         } else {
-            self.feeds = Feeds.sharedInstance.getFeeds()
+            if isUnreadTab == true && isBookmarked == false {
+                self.feeds = unreadFeeds
+            } else if isUnreadTab == true && isBookmarked == true {
+                self.bookmarkedFeeds = unreadbookmarkedFeeds
+                self.feeds = Feeds.sharedInstance.getFeeds()
+            } else if isBookmarked == true {
+                self.bookmarkedFeeds = CoreDataManager.getBookmarkFeeds()
+                self.feeds = Feeds.sharedInstance.getFeeds()
+            } else if isCategoryFeeds == true {
+                self.feeds = self.categoryFeeds
+            } else {
+                self.feeds = Feeds.sharedInstance.getFeeds()
+            }
         }
         
         // Creates Article web view
@@ -144,7 +150,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         // Create Toolbar
         self.createToolBar()
-        
+        Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_CUSTOM_URL)
     }
     
     // Creates bar button for navbar
@@ -300,6 +306,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         if articleIndex == 0 {
             leftArrow.enabled = false
+        }
+        
+        if Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) {
+            leftArrow.enabled = false
+            rightArrow.enabled = false
         }
         
     }

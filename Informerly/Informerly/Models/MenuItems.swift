@@ -20,6 +20,7 @@ class MenuItems {
     
     func populateItems(items : [AnyObject]) {
         self.items.removeAll(keepCapacity: false)
+        
         for itemData in items {
             var item : Item = Item()
             item.populateItem(itemData as! [String: AnyObject])

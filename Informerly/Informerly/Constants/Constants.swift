@@ -19,6 +19,7 @@ let FROM_MENU_VC = "fromMenuVC"
 let READ_ARTICLES = "readArticles"
 let BOOKMARK_FEEDS = "BOOKMARK_FEEDS"
 let UNBOOKMARKED_FEEDS = "UNBOOKMARKED_FEEDS"
+let IS_FROM_CUSTOM_URL = "is_from_custom_url"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"

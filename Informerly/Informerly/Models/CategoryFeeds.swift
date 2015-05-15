@@ -21,11 +21,29 @@ class CategoryFeeds {
     
     func populateFeeds(feeds : [AnyObject], categoryID : Int) {
         self.feeds.removeAll(keepCapacity: false)
-        for feedData in feeds {
-            var feed : InformerlyFeed = InformerlyFeed()
-            feed.populateFeed(feedData as! [String: AnyObject])
+        
+        var newItems : [AnyObject] = []
+        
+        if feeds.count > 20 {
             
-            self.feeds.append(feed)
+            for (var i = 0; i < 20; i++) {
+                var feed : AnyObject = feeds[i]
+                newItems.append(feed)
+            }
+            
+            for feedData in newItems {
+                var feed : InformerlyFeed = InformerlyFeed()
+                feed.populateFeed(feedData as! [String: AnyObject])
+                
+                self.feeds.append(feed)
+            }
+        } else {
+            for feedData in feeds {
+                var feed : InformerlyFeed = InformerlyFeed()
+                feed.populateFeed(feedData as! [String: AnyObject])
+                
+                self.feeds.append(feed)
+            }
         }
         
         self.categoriesData[categoryID] = self.feeds

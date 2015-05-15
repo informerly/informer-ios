@@ -25,6 +25,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var isPullToRefresh = false
     private var isCategoryFeeds = false
     private var categoryID : Int = -1
+    private var customURLData : InformerlyFeed!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,7 +158,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                                     row = row + 1
                                     var id : Int = link_id.toInt()!
                                     if feed.id == id {
-                                            break
+                                        break
                                     }
                                 }
                             }
@@ -167,9 +168,14 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         self.tableView.layoutIfNeeded()
                             
                         if link_id != "-1" {
-                            Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
-                            self.rowID = row
-                            self.performSegueWithIdentifier("ArticleVC", sender: self)
+                            
+                            if Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) == true {
+                                self.downloadArticleData(link_id)
+                            } else {
+                                Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
+                                self.rowID = row
+                                self.performSegueWithIdentifier("ArticleVC", sender: self)
+                            }
                         }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
@@ -199,6 +205,45 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             SVProgressHUD.dismiss()
             self.refreshCntrl.endRefreshing()
             self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+        }
+    }
+    
+    
+    func downloadArticleData(articleID : String) {
+        
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            var parameters = ["auth_token":auth_token,
+                "client_id":"dev-ios-informer",
+                "content":"true"]
+            
+            NetworkManager.sharedNetworkClient().processGetRequestWithPath("links/\(articleID)",
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    var data : [String:AnyObject] = processedData["link"] as! Dictionary
+                    
+                    self.customURLData = InformerlyFeed()
+                    self.customURLData.id = data["id"] as? Int
+                    self.customURLData.title = data["title"] as? String
+                    self.customURLData.feedDescription = data["description"] as? String
+                    self.customURLData.content = data["content"] as? String
+                    self.customURLData.readingTime = data["reading_time"] as? Int
+                    self.customURLData.source = data["source"] as? String
+                    self.customURLData.sourceColor = data["source_color"] as? String
+                    self.customURLData.URL = data["url"] as? String
+                    self.customURLData.read = data["read"] as? Bool
+                    self.customURLData.bookmarked = data["bookmarked"] as? Bool
+                    self.customURLData.publishedAt = data["published_at"] as? String
+                    self.customURLData.originalDate = data["original_date"] as? String
+                    self.customURLData.shortLink = data["shortLink"] as? String
+                    self.customURLData.slug = data["slug"] as? String
+                    
+                    self.performSegueWithIdentifier("ArticleVC", sender: self)
+            }, failure: { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                
+            })
+            
         }
     }
     
@@ -393,17 +438,22 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         if segue.identifier == "ArticleVC" {
             var articleVC : ArticleViewController = segue.destinationViewController as! ArticleViewController
-            articleVC.articleIndex = rowID
-            articleVC.isUnreadTab = self.isUnreadTab
-            articleVC.isBookmarked = self.isBookmarked
-            articleVC.isCategoryFeeds = self.isCategoryFeeds
-            if isUnreadTab == true && isBookmarked == false {
-                articleVC.unreadFeeds = self.unreadFeeds
-            } else if isCategoryFeeds == true {
-                articleVC.categoryFeeds = self.categoryFeeds!
-            } else {
-                articleVC.unreadbookmarkedFeeds = self.unreadBookmarkFeeds
-            }
+            
+//            if Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) == true {
+                articleVC.customURLData = self.customURLData
+//            } else {
+                articleVC.articleIndex = rowID
+                articleVC.isUnreadTab = self.isUnreadTab
+                articleVC.isBookmarked = self.isBookmarked
+                articleVC.isCategoryFeeds = self.isCategoryFeeds
+                if isUnreadTab == true && isBookmarked == false {
+                    articleVC.unreadFeeds = self.unreadFeeds
+                } else if isCategoryFeeds == true {
+                    articleVC.categoryFeeds = self.categoryFeeds!
+                } else {
+                    articleVC.unreadbookmarkedFeeds = self.unreadBookmarkFeeds
+                }
+//            }
         }
     }
     

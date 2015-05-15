@@ -40,11 +40,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
                 }
             }
-            else {
+            else if let url = options[UIApplicationLaunchOptionsURLKey] as? NSURL {
+                Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
+            } else {
                 var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
                 var linkID : String = userDefaults.stringForKey("id")!
                 Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             }
+            
         }
         else {
             Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
@@ -83,12 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
-//            var storyboard = self.window?.rootViewController?.storyboard
-//            var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
-//            var navigationVC = self.window?.rootViewController as UINavigationController
-//            navigationVC.viewControllers = [rootVC]
-//            self.window?.rootViewController = navigationVC
-            
             self.loadFeedVC()
         }
         return true
@@ -139,8 +136,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         PFPush.handlePush(userInfo)
-        
-//        var notification: AnyObject? = userInfo[UIApplicationLaunchOptionsRemoteNotificationKey]
         println("app recieved notification from remote \(userInfo)");
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
@@ -148,11 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var linkID : String = String(userInfo["link_id"] as! Int)
             Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             
-            var storyboard = self.window?.rootViewController?.storyboard
-            var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as! UIViewController
-            var navigationVC = self.window?.rootViewController as! UINavigationController
-            navigationVC.viewControllers = [rootVC]
-            self.window?.rootViewController = navigationVC
+            self.loadFeedVC()
         }
         
 
@@ -163,16 +154,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
-        var linkID : String = userDefaults.stringForKey("id")!
-        Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
-        println(linkID)
         
-        var storyboard = self.window?.rootViewController?.storyboard
-        var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as! UIViewController
-        var navigationVC = self.window?.rootViewController as! UINavigationController
-        navigationVC.viewControllers = [rootVC]
-        self.window?.rootViewController = navigationVC
+        if url.scheme == "TodayExtension" {
+            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+            var linkID : String = userDefaults.stringForKey("id")!
+            Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            println(linkID)
+            self.loadFeedVC()
+        } else if url.scheme == "informerly" {
+            Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
+            Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_CUSTOM_URL)
+            self.loadFeedVC()
+        }
         
         return true
     }
