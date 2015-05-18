@@ -37,6 +37,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var leftArrow : UIBarButtonItem!
     var rightArrow : UIBarButtonItem!
     var customURLData : InformerlyFeed!
+    var resultantHeight : CGFloat = 0.0
+    var zenWebViews : [UIWebView?] = []
     
     let ANIMATION_DURATION = 1.0
     
@@ -53,7 +55,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         // Calculating origin for webview
         var statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
         var navBarHeight = self.navigationController?.navigationBar.frame.height
-        var resultantHeight = statusBarHeight + navBarHeight!
+        self.resultantHeight = statusBarHeight + navBarHeight!
         
         if Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) == true {
             self.feeds = [self.customURLData]
@@ -98,6 +100,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
         }
         
+        self.zenWebViews = [UIWebView?](count: count, repeatedValue: nil)
         self.markRead()
         
         // Create Zen mode ScrollView
@@ -112,44 +115,23 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         self.zenModeWebViewX = 0
         self.readArticles = [Int]()
         
-        for var i=0; i<count; i++ {
-            // Creates Zen mode Web view
-            var frame : CGRect = CGRectMake(self.zenModeWebViewX, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
-            var articleZenView : UIWebView = UIWebView()
-            articleZenView.delegate = self
-            articleZenView.frame = frame
-            articleZenView.scrollView.delegate = self
-            self.zenModeScrollView.addSubview(articleZenView)
-            
-            if isBookmarked == true {
-                if bookmarkedFeeds[i].content != nil {
-                    var content : String = bookmarkedFeeds[i].content!
-                    articleZenView.loadHTMLString(content, baseURL: nil)
-                }
-                
-                //Calls Read Web-Service
-//                if self.bookmarkedFeeds[self.articleIndex].read == false {
-//                    self.markRead()
-//                }
-            } else {
-                if feeds[i].content != nil {
-                    var content : String = feeds[i].content!
-                    articleZenView.loadHTMLString(content, baseURL: nil)
-                }
-                
-                //Calls Read Web-Service
-//                if self.feeds[self.articleIndex].read == false {
-//                    self.markRead()
-//                }
-            }
-            
-            self.zenModeWebViewX = self.zenModeWebViewX + self.view.frame.width
-        }
-        
-        isZenMode = false
         
         // Create Toolbar
         self.createToolBar()
+        
+        if self.articleIndex > 0 {
+            self.createZenWebView(self.articleIndex - 1)
+            self.createZenWebView(self.articleIndex - 2)
+        }
+        
+        self.createZenWebView(self.articleIndex)
+        self.createZenWebView(self.articleIndex + 1)
+        self.createZenWebView(self.articleIndex + 2)
+        self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
+        
+        
+        isZenMode = false
+
         Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_CUSTOM_URL)
     }
     
@@ -224,6 +206,47 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         zenModeBtn.frame = CGRectMake(zenModeBtnView.frame.size.width/2 - 85,zenCloudImageView.frame.size.height + 10, 170,55)
         zenModeBtn.addTarget(self, action: Selector("onZenModeBtnPress:"), forControlEvents: UIControlEvents.TouchUpInside)
         zenModeBtnView.addSubview(zenModeBtn)
+    }
+    
+    
+    func createZenWebView(index : Int){
+        
+        if index >= 0 && index < self.zenWebViews.count && self.zenWebViews[index] == nil {
+            // Creates Zen mode Web view
+            self.zenModeWebViewX = CGFloat(index) * self.view.frame.width
+            var frame : CGRect = CGRectMake(self.zenModeWebViewX, 0, self.view.frame.size.width, self.view.frame.height)
+            var articleZenView : UIWebView = UIWebView()
+            articleZenView.delegate = self
+            articleZenView.frame = frame
+            articleZenView.scrollView.delegate = self
+            self.zenModeScrollView.addSubview(articleZenView)
+            
+            if isBookmarked == true {
+                if bookmarkedFeeds[index].content != nil {
+                    var content : String = bookmarkedFeeds[index].content!
+                    articleZenView.loadHTMLString(content, baseURL: nil)
+                }
+                
+            } else {
+                if feeds[index].content != nil {
+                    var content : String = feeds[index].content!
+                    articleZenView.loadHTMLString(content, baseURL: nil)
+                }
+            }
+            
+            self.zenWebViews[index] = articleZenView
+            println(index)
+        }
+    }
+    
+    func removeZenWebView(index:Int){
+        
+        if  index >= 0 && index < self.zenWebViews.count && self.zenWebViews[index] != nil {
+            var webView : UIWebView = self.zenWebViews[index]!
+            webView.removeFromSuperview()
+            self.zenWebViews[index] = nil
+        }
+        
     }
     
     func createProgressBar(){
@@ -408,12 +431,19 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 var page : CGFloat = scrollView.contentOffset.x / pageWidth
                 articleIndex = Int(page)
                 
+                if lastContentOffsetX < scrollView.contentOffset.x {
+                    self.removeZenWebView(self.articleIndex - 3)
+                    self.createZenWebView(self.articleIndex + 2)
+                } else {
+                    self.removeZenWebView(self.articleIndex + 3)
+                    self.createZenWebView(self.articleIndex - 2)
+                }
+                
                 if articleIndex == 0 {
                     leftArrow.enabled = false
                 } else {
                     leftArrow.enabled = true
                 }
-                
                 
                 if isBookmarked == true {
                     
@@ -521,9 +551,13 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 }
             }
             
+            self.removeZenWebView(self.articleIndex - 3)
+            
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
             })
+            
+            self.createZenWebView(self.articleIndex + 2)
         }
     }
     
@@ -560,9 +594,13 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
 //                }
             }
             
+            self.removeZenWebView(self.articleIndex + 3)
+            
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
             })
+            
+            self.createZenWebView(self.articleIndex - 2)
             
         }
         
