@@ -25,6 +25,7 @@
 		1803D2FD1ACEA42A00D6C1DE /* REMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F71ACEA42A00D6C1DE /* REMenuItem.m */; };
 		1803D2FE1ACEA42A00D6C1DE /* REMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */; };
 		1811D9B11AF4B07E00C135FF /* Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1811D9B01AF4B07E00C135FF /* Bookmarks.swift */; };
+		18383F341B0B44FE00498B35 /* BookmarkFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18383F331B0B44FE00498B35 /* BookmarkFeed.swift */; };
 		1845B9921A7F8A5F00172610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9911A7F8A5F00172610 /* AppDelegate.swift */; };
 		1845B9971A7F8A5F00172610 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9951A7F8A5F00172610 /* Main.storyboard */; };
 		1845B9991A7F8A5F00172610 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9981A7F8A5F00172610 /* Images.xcassets */; };
@@ -100,7 +101,6 @@
 		A1E79B6F1A8ADFBB00DED86C /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E79B6E1A8ADFBB00DED86C /* ParseCrashReporting.framework */; };
 		A1E79B741A8AE0F800DED86C /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E79B721A8AE0A800DED86C /* libstdc++.6.dylib */; };
 		A874A1C31AFD0A620033903B /* Informer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A874A1C11AFD0A620033903B /* Informer.xcdatamodeld */; };
-		A874A1F61AFD0BF60033903B /* BookmarkFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = A874A1F51AFD0BF60033903B /* BookmarkFeed.swift */; };
 		A874A1F91AFD0C840033903B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A874A1F81AFD0C840033903B /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -168,6 +168,7 @@
 		1803D2F81ACEA42A00D6C1DE /* REMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REMenuItemView.h; sourceTree = "<group>"; };
 		1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMenuItemView.m; sourceTree = "<group>"; };
 		1811D9B01AF4B07E00C135FF /* Bookmarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bookmarks.swift; sourceTree = "<group>"; };
+		18383F331B0B44FE00498B35 /* BookmarkFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkFeed.swift; sourceTree = "<group>"; };
 		1845B98C1A7F8A5F00172610 /* Informerly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Informerly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1845B9901A7F8A5F00172610 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1845B9911A7F8A5F00172610 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -254,7 +255,6 @@
 		A1E79B6E1A8ADFBB00DED86C /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
 		A1E79B721A8AE0A800DED86C /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		A874A1C21AFD0A620033903B /* Informer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Informer.xcdatamodel; sourceTree = "<group>"; };
-		A874A1F51AFD0BF60033903B /* BookmarkFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkFeed.swift; sourceTree = "<group>"; };
 		A874A1F81AFD0C840033903B /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -436,11 +436,11 @@
 		1845B9B21A7F8C4600172610 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				18383F331B0B44FE00498B35 /* BookmarkFeed.swift */,
 				1845B9E61A7FB00700172610 /* User.swift */,
 				18F71CA01A821A8600F74910 /* Feeds.swift */,
 				1811D9B01AF4B07E00C135FF /* Bookmarks.swift */,
 				18F0EC7D1AF77B5500E6D055 /* InformerlyFeed.swift */,
-				A874A1F51AFD0BF60033903B /* BookmarkFeed.swift */,
 				1803BC2B1B0210C9003DCB17 /* MenuItems.swift */,
 				1803BC2D1B021421003DCB17 /* Item.swift */,
 				1803BC2F1B033238003DCB17 /* CategoryFeeds.swift */,
@@ -864,7 +864,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#APP_ID=\"553120c07365f84f7d3d6e79\"\n#API_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\n#source \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
+			shellScript = "APP_ID=\"553120c07365f84f7d3d6e79\"\nAPI_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\nsource \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
 		};
 		18DEC7621AE7BB5B00F8F661 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -877,7 +877,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#export PATH=/usr/local/bin:$PATH\n#cd ${SRCROOT}/parse\n\n#parse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
+			shellScript = "export PATH=/usr/local/bin:$PATH\ncd ${SRCROOT}/parse\n\nparse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -886,7 +886,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A874A1F61AFD0BF60033903B /* BookmarkFeed.swift in Sources */,
 				1845B9E51A7F905600172610 /* Constants.swift in Sources */,
 				1803D2FA1ACEA42A00D6C1DE /* RECommonFunctions.m in Sources */,
 				1845B9BB1A7F8CFE00172610 /* LoginViewController.swift in Sources */,
@@ -911,6 +910,7 @@
 				187EAA581A8DFF8A000ED503 /* HelpViewController.swift in Sources */,
 				1803D2EC1ACD695D00D6C1DE /* UIViewController+MFSideMenuAdditions.m in Sources */,
 				18DEC7441AE6517500F8F661 /* UpdateInterestViewController.swift in Sources */,
+				18383F341B0B44FE00498B35 /* BookmarkFeed.swift in Sources */,
 				1803D2EA1ACD695D00D6C1DE /* MFSideMenuContainerViewController.m in Sources */,
 				186BD5821A973B0B0044C86B /* AFSecurityPolicy.m in Sources */,
 				1803D2FE1ACEA42A00D6C1DE /* REMenuItemView.m in Sources */,

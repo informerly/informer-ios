@@ -39,6 +39,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var customURLData : InformerlyFeed!
     var resultantHeight : CGFloat = 0.0
     var zenWebViews : [UIWebView?] = []
+    var isFromNextORPrev = true
     
     let ANIMATION_DURATION = 1.0
     
@@ -235,7 +236,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             }
             
             self.zenWebViews[index] = articleZenView
-            println(index)
+
         }
     }
     
@@ -370,7 +371,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 } else {
                     readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as! Array
                 }
-                readArticles.append(self.feeds[self.articleIndex].id!)
+                if self.isBookmarked == true {
+                    readArticles.append(self.bookmarkedFeeds[self.articleIndex].id!.integerValue)
+                } else {
+                    readArticles.append(self.feeds[self.articleIndex].id!)
+                }
+                
                 NSUserDefaults.standardUserDefaults().setObject(readArticles, forKey: READ_ARTICLES)
                 NSUserDefaults.standardUserDefaults().synchronize()
                 
@@ -422,69 +428,111 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     
     // UIScrollView Delegate
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        lastContentOffset = scrollView.contentOffset.y
+        lastContentOffsetX = scrollView.contentOffset.x
+        if scrollView.contentOffset.y == 0.0 {
+            lastContentOffset = 1.0
+        }
         
-        if isZenMode == true {
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        if lastContentOffset < scrollView.contentOffset.y {
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                self.toolbar.frame = CGRectMake(0, self.view.frame.size.height + 44, self.view.frame.size.width, 44)
+            })
             
+        } else {
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                self.toolbar.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44)
+            })
+        }
+    }
+    
+    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
+        if isZenMode == true {
+            isFromNextORPrev = false
             if lastContentOffsetX < scrollView.contentOffset.x || lastContentOffsetX > scrollView.contentOffset.x  {
-                var pageWidth : CGFloat = self.view.frame.width
-                var page : CGFloat = scrollView.contentOffset.x / pageWidth
-                articleIndex = Int(page)
                 
                 if lastContentOffsetX < scrollView.contentOffset.x {
-                    self.removeZenWebView(self.articleIndex - 3)
-                    self.createZenWebView(self.articleIndex + 2)
+                    onNext()
+                    isFromNextORPrev = true
                 } else {
-                    self.removeZenWebView(self.articleIndex + 3)
-                    self.createZenWebView(self.articleIndex - 2)
-                }
-                
-                if articleIndex == 0 {
-                    leftArrow.enabled = false
-                } else {
-                    leftArrow.enabled = true
-                }
-                
-                if isBookmarked == true {
-                    
-                    if articleIndex == bookmarkedFeeds.count - 1 {
-                        rightArrow.enabled = false
-                    } else {
-                        rightArrow.enabled = true
-                    }
-                    
-                    bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-                    // Load article in web and zen mode
-                    articleWebView.alpha = 0.0
-                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].url!)!))
-                    
-//                    if self.bookmarkedFeeds[self.articleIndex].read == false {
-                        self.markRead()
-//                    }
-                } else {
-                    
-                    if articleIndex == feeds.count - 1 {
-                        rightArrow.enabled = false
-                    } else {
-                        rightArrow.enabled = true
-                    }
-                    
-                    if feeds[articleIndex].bookmarked == true {
-                        bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-                    } else {
-                        bookmark.image = UIImage(named: "icon_bookmark")
-                    }
-                    
-                    // Load article in web and zen mode
-                    articleWebView.alpha = 0.0
-                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
-                    
-//                    if self.feeds[self.articleIndex].read == false {
-                        self.markRead()
-//                    }
+                    onPrev()
+                    isFromNextORPrev = true
                 }
             }
         }
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+//        if isZenMode == true {
+//            
+//            if lastContentOffsetX < scrollView.contentOffset.x || lastContentOffsetX > scrollView.contentOffset.x  {
+//                var pageWidth : CGFloat = self.view.frame.width
+//                var page : CGFloat = scrollView.contentOffset.x / pageWidth
+////                articleIndex = Int(page)
+//                
+//                if lastContentOffsetX < scrollView.contentOffset.x {
+//                    self.onNext()
+////                    self.removeZenWebView(self.articleIndex - 3)
+////                    self.createZenWebView(self.articleIndex + 2)
+//                } else {
+//                    self.onPrev()
+////                    self.removeZenWebView(self.articleIndex + 3)
+////                    self.createZenWebView(self.articleIndex - 2)
+//                }
+//                
+////                if articleIndex == 0 {
+////                    leftArrow.enabled = false
+////                } else {
+////                    leftArrow.enabled = true
+////                }
+////                
+////                if isBookmarked == true {
+////                    
+////                    if articleIndex == bookmarkedFeeds.count - 1 {
+////                        rightArrow.enabled = false
+////                    } else {
+////                        rightArrow.enabled = true
+////                    }
+////                    
+////                    bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+////                    // Load article in web and zen mode
+////                    articleWebView.alpha = 0.0
+////                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].url!)!))
+////                    
+////                    //                    if self.bookmarkedFeeds[self.articleIndex].read == false {
+////                    self.markRead()
+////                    //                    }
+////                } else {
+////                    
+////                    if articleIndex == feeds.count - 1 {
+////                        rightArrow.enabled = false
+////                    } else {
+////                        rightArrow.enabled = true
+////                    }
+////                    
+////                    if feeds[articleIndex].bookmarked == true {
+////                        bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+////                    } else {
+////                        bookmark.image = UIImage(named: "icon_bookmark")
+////                    }
+////                    
+////                    // Load article in web and zen mode
+////                    articleWebView.alpha = 0.0
+////                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+////                    
+////                    //                    if self.feeds[self.articleIndex].read == false {
+////                    self.markRead()
+////                    //                    }
+////                }
+//            }
+//        }
+//        
     }
     
     func onZenModeBtnPress(sender:UIButton){
@@ -553,9 +601,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             
             self.removeZenWebView(self.articleIndex - 3)
             
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
-            })
+            if self.isFromNextORPrev == true {
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
+                })
+            }
             
             self.createZenWebView(self.articleIndex + 2)
         }
@@ -596,9 +646,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             
             self.removeZenWebView(self.articleIndex + 3)
             
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
-            })
+            if isFromNextORPrev == true {
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
+                })
+            }
             
             self.createZenWebView(self.articleIndex - 2)
             
@@ -794,30 +846,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
         })
-    }
-    
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        lastContentOffset = scrollView.contentOffset.y
-        lastContentOffsetX = scrollView.contentOffset.x
-        if scrollView.contentOffset.y == 0.0 {
-            lastContentOffset = 1.0
-        }
-
-    }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        if lastContentOffset < scrollView.contentOffset.y {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                self.toolbar.frame = CGRectMake(0, self.view.frame.size.height + 44, self.view.frame.size.width, 44)
-            })
-
-        } else {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                self.toolbar.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44)
-            })
-        }
     }
     
     

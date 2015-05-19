@@ -35,14 +35,14 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         
         var logoutTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onLogoutTap:"))
         self.logoutView.addGestureRecognizer(logoutTapGesture)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "getMenuItemsNotificationSelector:", name:"GetMenuItemsNotification", object: nil)
     }
     
     func downloadMenuItems(){
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             var parameters = ["auth_token":auth_token]
-            
-//            2A6n4L3ffsrz8bNpp9xy
             
             NetworkManager.sharedNetworkClient().processGetRequestWithPath(MENU_FEED_URL,
                 parameter: parameters,
@@ -188,6 +188,11 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                             "name" : categoryName]
             NSNotificationCenter.defaultCenter().postNotificationName("CategoryNotification", object: nil, userInfo: userInfo)
         }
+    }
+    
+    // Notication selectors
+    @objc func getMenuItemsNotificationSelector(notification: NSNotification) {
+        self.downloadMenuItems()
     }
     
     override func didReceiveMemoryWarning() {

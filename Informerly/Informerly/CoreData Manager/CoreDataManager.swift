@@ -46,6 +46,7 @@ class CoreDataManager
         feedItem.read = feedDict["read"] as? Bool
         feedItem.bookmarked = feedDict["bookmarked"] as? Bool
         feedItem.isSynced = isSynced
+        feedItem.creationDateTime = NSDate()
         
         var error: NSError?
         if !managedContext.save(&error) {
@@ -82,6 +83,7 @@ class CoreDataManager
         feedItem.read = feed.read
         feedItem.bookmarked = feed.bookmarked
         feedItem.isSynced = isSynced
+        feedItem.creationDateTime = NSDate()
         
         var error: NSError?
         if !managedContext.save(&error) {
@@ -99,6 +101,7 @@ class CoreDataManager
         
         var request: NSFetchRequest = NSFetchRequest()
         request.entity = NSEntityDescription.entityForName("BookmarkFeed", inManagedObjectContext: managedContext)
+        request.sortDescriptors = [NSSortDescriptor(key: "creationDateTime", ascending: false)]
         
         var error: NSError?
         var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkFeed]
@@ -107,7 +110,7 @@ class CoreDataManager
             println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
         }
         
-        return result.reverse();
+        return result;
     }
     
     class func removeBookmarkFeedOfID(feedID: Int) {

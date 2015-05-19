@@ -25,6 +25,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var isPullToRefresh = false
     private var isCategoryFeeds = false
     private var categoryID : Int = -1
+    private var categoryName : String = ""
     private var customURLData : InformerlyFeed!
     
     override func viewDidLoad() {
@@ -472,7 +473,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             } else if isBookmarked == true {
                 self.onBookmark()
             } else if isCategoryFeeds == true {
-                self.downloadCategory(categoryID)
+                self.downloadCategory(categoryID,categoryName: categoryName)
             }
         } else {
             self.refreshCntrl.endRefreshing()
@@ -543,13 +544,19 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         var dict  = notification.userInfo as! Dictionary<String,String>
         self.categoryID = dict["id"]!.toInt()!
-        var categoryName : String = dict["name"]!
-        self.navTitle.text = categoryName
+        self.categoryName = dict["name"]!
         
-        self.downloadCategory(categoryID)
+        self.downloadCategory(categoryID,categoryName: categoryName)
     }
     
-    func downloadCategory(categoryID : Int){
+    func downloadCategory(categoryID : Int, categoryName:String){
+        
+        if Utilities.sharedInstance.isConnectedToNetwork() == false && CategoryFeeds.sharedInstance.getCategoryFeeds(categoryID) == nil{
+            SVProgressHUD.dismiss()
+            self.refreshCntrl.endRefreshing()
+            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+            return
+        }
         
         self.categoryFeeds = CategoryFeeds.sharedInstance.getCategoryFeeds(categoryID)
         if  self.categoryFeeds == nil || self.categoryFeeds!.isEmpty || isPullToRefresh == true {
@@ -573,6 +580,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         if requestStatus == 200 {
                             SVProgressHUD.dismiss()
                             self.refreshCntrl.endRefreshing()
+                            self.navTitle.text = categoryName
                             
                             CategoryFeeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject], categoryID: categoryID)
                             self.categoryFeeds = CategoryFeeds.sharedInstance.getCategoryFeeds(categoryID)
@@ -605,6 +613,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
             }
         } else {
+            self.navTitle.text = categoryName
             self.categoryFeeds = CategoryFeeds.sharedInstance.getCategoryFeeds(categoryID)
             self.tableView.reloadData()
         }
