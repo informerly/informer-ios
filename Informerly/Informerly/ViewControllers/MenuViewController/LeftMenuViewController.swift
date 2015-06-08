@@ -27,8 +27,12 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         
         self.downloadMenuItems()
         
+        self.applyTopBorder(self.bookmarkView)
         self.applyTopBorder(self.helpView)
         self.applyTopBorder(self.logoutView)
+        
+        var bookmarkTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onBookmarkTap:"))
+        self.bookmarkView.addGestureRecognizer(bookmarkTapGesture)
         
         var helpTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onHelpTap:"))
         self.helpView.addGestureRecognizer(helpTapGesture)
@@ -73,6 +77,14 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         bottomBorder.borderColor = UIColor(rgba: "#E6E7E8").CGColor
         bottomBorder.frame = CGRectMake(0, view.frame.size.height - 1, view.frame.size.width, 1)
         view.layer.addSublayer(bottomBorder)
+    }
+    
+    func onBookmarkTap(gesture:UIGestureRecognizer){
+        self.bookmarkView.backgroundColor = UIColor.lightGrayColor()
+        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: { () -> Void in
+            self.bookmarkView.backgroundColor = UIColor.whiteColor()
+        })
+        NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
     }
     
     func onHelpTap(gesture:UIGestureRecognizer){
@@ -134,7 +146,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     // TableView delegates
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.menuItems.count + 2
+        return self.menuItems.count + 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -153,12 +165,14 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
             name = "Your Feed"
             icon_img?.frame = CGRectMake(13, 12, 22, 20)
             icon_img!.image = UIImage(named: "icon_home")
-        } else if indexPath.row == 1 {
-            name = "Bookmarks"
-            icon_img?.frame = CGRectMake(15, 12, 14, 18)
-            icon_img!.image = UIImage(named: "icon_bookmark")
-        } else {
-            name = self.menuItems[indexPath.row - 2].name!
+        }
+//        else if indexPath.row == 1 {
+//            name = "Bookmarks"
+//            icon_img?.frame = CGRectMake(15, 12, 14, 18)
+//            icon_img!.image = UIImage(named: "icon_bookmark")
+//        }
+        else {
+            name = self.menuItems[indexPath.row - 1].name!
             icon_img?.frame = CGRectMake(15, 12, 22, 18)
             icon_img!.image = UIImage(named: "icon_folder")
         }
@@ -177,13 +191,15 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         if indexPath.row == 0 {
             self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: nil)
             NSNotificationCenter.defaultCenter().postNotificationName("YourFeedNotification", object: nil)
-        } else if indexPath.row == 1 {
+        }
+//        else if indexPath.row == 1 {
+//            self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
+//            NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
+//        }
+        else {
             self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
-            NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
-        } else {
-            self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
-            var categoryID : Int? = self.menuItems[indexPath.row - 2].id
-            var categoryName : String = self.menuItems[indexPath.row - 2].name!
+            var categoryID : Int? = self.menuItems[indexPath.row - 1].id
+            var categoryName : String = self.menuItems[indexPath.row - 1].name!
             var userInfo = ["id" : String(categoryID!),
                             "name" : categoryName]
             NSNotificationCenter.defaultCenter().postNotificationName("CategoryNotification", object: nil, userInfo: userInfo)
