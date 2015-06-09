@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch
         
         // Adds crittercism sdk for crash logs
-        Crittercism.enableWithAppID("553120c07365f84f7d3d6e79")
+//        Crittercism.enableWithAppID("553120c07365f84f7d3d6e79")
         
         if UIDevice.currentDevice().model == "iPhone Simulator" {
             Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Emily adding Parse details - for Junaid's review.
         
         // Enable Crash Reporting
-        ParseCrashReporting.enable()
+//        ParseCrashReporting.enable()
         
         // Setup Parse
         Parse.setApplicationId("cZuNXGv2vSezrMNI2aHniKwxn2SStYJjOVQCwtgG", clientKey: "unn7iH2MUeB5G9IErfiYSp5q1KWIc3SbiuFnJa4t")
@@ -198,7 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 for feed in unbookmarkedFeeds {
                     if feed.isSynced == false {
-                        self.markBookmarked(feed.id!.integerValue)
+                        self.markBookmarked(feed.id!)
                     }
                 }
                 

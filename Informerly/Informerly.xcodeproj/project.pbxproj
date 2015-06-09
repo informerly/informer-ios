@@ -25,7 +25,7 @@
 		1803D2FD1ACEA42A00D6C1DE /* REMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F71ACEA42A00D6C1DE /* REMenuItem.m */; };
 		1803D2FE1ACEA42A00D6C1DE /* REMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */; };
 		1811D9B11AF4B07E00C135FF /* Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1811D9B01AF4B07E00C135FF /* Bookmarks.swift */; };
-		18383F341B0B44FE00498B35 /* BookmarkFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18383F331B0B44FE00498B35 /* BookmarkFeed.swift */; };
+		18383F341B0B44FE00498B35 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18383F331B0B44FE00498B35 /* BookmarkEntity.swift */; };
 		1845B9921A7F8A5F00172610 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9911A7F8A5F00172610 /* AppDelegate.swift */; };
 		1845B9971A7F8A5F00172610 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9951A7F8A5F00172610 /* Main.storyboard */; };
 		1845B9991A7F8A5F00172610 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9981A7F8A5F00172610 /* Images.xcassets */; };
@@ -34,6 +34,8 @@
 		1845B9E01A7F8F9D00172610 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9DF1A7F8F9D00172610 /* NetworkManager.m */; };
 		1845B9E51A7F905600172610 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E41A7F905600172610 /* Constants.swift */; };
 		1845B9E71A7FB00700172610 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E61A7FB00700172610 /* User.swift */; };
+		186867AC1B271B3E001C04DD /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 186867A91B271B3E001C04DD /* MGSwipeButton.m */; };
+		186867AD1B271B3E001C04DD /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186867AB1B271B3E001C04DD /* MGSwipeTableCell.m */; };
 		186BD53D1A9711FE0044C86B /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186BD53C1A9711FE0044C86B /* NotificationCenter.framework */; };
 		186BD5421A9711FE0044C86B /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5411A9711FE0044C86B /* TodayViewController.swift */; };
 		186BD5441A9711FE0044C86B /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186BD5431A9711FE0044C86B /* MainInterface.storyboard */; };
@@ -72,6 +74,7 @@
 		18C65E2A1A83568700BBA510 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E1F1A83568700BBA510 /* OpenSans-Regular.ttf */; };
 		18C65E2B1A83568700BBA510 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E201A83568700BBA510 /* OpenSans-Semibold.ttf */; };
 		18C65E2C1A83568700BBA510 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E211A83568700BBA510 /* OpenSans-SemiboldItalic.ttf */; };
+		18C7AC501B26D1C200E05595 /* BookmarkFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C7AC4F1B26D1C200E05595 /* BookmarkFeed.swift */; };
 		18D75DC71A8224CB00BFEF6E /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DC61A8224CB00BFEF6E /* FeedViewController.swift */; };
 		18D75DCA1A823FC600BFEF6E /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */; };
 		18D75DCF1A834C0200BFEF6E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DCE1A834C0200BFEF6E /* Utilities.swift */; };
@@ -168,7 +171,7 @@
 		1803D2F81ACEA42A00D6C1DE /* REMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REMenuItemView.h; sourceTree = "<group>"; };
 		1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMenuItemView.m; sourceTree = "<group>"; };
 		1811D9B01AF4B07E00C135FF /* Bookmarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bookmarks.swift; sourceTree = "<group>"; };
-		18383F331B0B44FE00498B35 /* BookmarkFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkFeed.swift; sourceTree = "<group>"; };
+		18383F331B0B44FE00498B35 /* BookmarkEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkEntity.swift; sourceTree = "<group>"; };
 		1845B98C1A7F8A5F00172610 /* Informerly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Informerly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1845B9901A7F8A5F00172610 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1845B9911A7F8A5F00172610 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -183,6 +186,10 @@
 		1845B9DF1A7F8F9D00172610 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		1845B9E41A7F905600172610 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1845B9E61A7FB00700172610 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		186867A81B271B3E001C04DD /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
+		186867A91B271B3E001C04DD /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
+		186867AA1B271B3E001C04DD /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
+		186867AB1B271B3E001C04DD /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeTableCell.m; sourceTree = "<group>"; };
 		186BD53A1A9711FE0044C86B /* Informerly Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Informerly Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		186BD53C1A9711FE0044C86B /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		186BD5401A9711FE0044C86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -225,6 +232,7 @@
 		18C65E1F1A83568700BBA510 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		18C65E201A83568700BBA510 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		18C65E211A83568700BBA510 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
+		18C7AC4F1B26D1C200E05595 /* BookmarkFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkFeed.swift; sourceTree = "<group>"; };
 		18D75DC61A8224CB00BFEF6E /* FeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
 		18D75DCE1A834C0200BFEF6E /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -436,7 +444,7 @@
 		1845B9B21A7F8C4600172610 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				18383F331B0B44FE00498B35 /* BookmarkFeed.swift */,
+				18383F331B0B44FE00498B35 /* BookmarkEntity.swift */,
 				1845B9E61A7FB00700172610 /* User.swift */,
 				18F71CA01A821A8600F74910 /* Feeds.swift */,
 				1811D9B01AF4B07E00C135FF /* Bookmarks.swift */,
@@ -444,6 +452,7 @@
 				1803BC2B1B0210C9003DCB17 /* MenuItems.swift */,
 				1803BC2D1B021421003DCB17 /* Item.swift */,
 				1803BC2F1B033238003DCB17 /* CategoryFeeds.swift */,
+				18C7AC4F1B26D1C200E05595 /* BookmarkFeed.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -451,6 +460,7 @@
 		1845B9B31A7F8C4600172610 /* Third Party Libs */ = {
 			isa = PBXGroup;
 			children = (
+				186867A71B271B33001C04DD /* SGSwipeTableCell */,
 				1803BC3C1B0386EB003DCB17 /* SVProgressHUD */,
 				18DEC7581AE6D3C100F8F661 /* Crittercism */,
 				1803D2EF1ACEA41A00D6C1DE /* TopMenu */,
@@ -499,6 +509,17 @@
 				1845B9DF1A7F8F9D00172610 /* NetworkManager.m */,
 			);
 			path = "Network Manager";
+			sourceTree = "<group>";
+		};
+		186867A71B271B33001C04DD /* SGSwipeTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				186867A81B271B3E001C04DD /* MGSwipeButton.h */,
+				186867A91B271B3E001C04DD /* MGSwipeButton.m */,
+				186867AA1B271B3E001C04DD /* MGSwipeTableCell.h */,
+				186867AB1B271B3E001C04DD /* MGSwipeTableCell.m */,
+			);
+			path = SGSwipeTableCell;
 			sourceTree = "<group>";
 		};
 		186BD53B1A9711FE0044C86B /* Frameworks */ = {
@@ -864,7 +885,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APP_ID=\"553120c07365f84f7d3d6e79\"\nAPI_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\nsource \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
+			shellScript = "#APP_ID=\"553120c07365f84f7d3d6e79\"\n#API_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\n#source \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
 		};
 		18DEC7621AE7BB5B00F8F661 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -877,7 +898,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=/usr/local/bin:$PATH\ncd ${SRCROOT}/parse\n\nparse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
+			shellScript = "#export PATH=/usr/local/bin:$PATH\n#cd ${SRCROOT}/parse\n\n#parse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -887,6 +908,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1845B9E51A7F905600172610 /* Constants.swift in Sources */,
+				186867AD1B271B3E001C04DD /* MGSwipeTableCell.m in Sources */,
 				1803D2FA1ACEA42A00D6C1DE /* RECommonFunctions.m in Sources */,
 				1845B9BB1A7F8CFE00172610 /* LoginViewController.swift in Sources */,
 				1803BC301B033238003DCB17 /* CategoryFeeds.swift in Sources */,
@@ -901,6 +923,7 @@
 				1803BC2C1B0210C9003DCB17 /* MenuItems.swift in Sources */,
 				1803D2FD1ACEA42A00D6C1DE /* REMenuItem.m in Sources */,
 				18D75DD21A834EB200BFEF6E /* UIColorExtension.swift in Sources */,
+				186867AC1B271B3E001C04DD /* MGSwipeButton.m in Sources */,
 				18D75DCF1A834C0200BFEF6E /* Utilities.swift in Sources */,
 				1811D9B11AF4B07E00C135FF /* Bookmarks.swift in Sources */,
 				186BD5861A973B0B0044C86B /* AFURLRequestSerialization.m in Sources */,
@@ -910,7 +933,7 @@
 				187EAA581A8DFF8A000ED503 /* HelpViewController.swift in Sources */,
 				1803D2EC1ACD695D00D6C1DE /* UIViewController+MFSideMenuAdditions.m in Sources */,
 				18DEC7441AE6517500F8F661 /* UpdateInterestViewController.swift in Sources */,
-				18383F341B0B44FE00498B35 /* BookmarkFeed.swift in Sources */,
+				18383F341B0B44FE00498B35 /* BookmarkEntity.swift in Sources */,
 				1803D2EA1ACD695D00D6C1DE /* MFSideMenuContainerViewController.m in Sources */,
 				186BD5821A973B0B0044C86B /* AFSecurityPolicy.m in Sources */,
 				1803D2FE1ACEA42A00D6C1DE /* REMenuItemView.m in Sources */,
@@ -921,6 +944,7 @@
 				1803BC451B0386EB003DCB17 /* SVProgressHUD.m in Sources */,
 				186BD58A1A973B0B0044C86B /* AFURLSessionManager.m in Sources */,
 				18E609BE1A85377F0082DC6C /* MenuViewController.swift in Sources */,
+				18C7AC501B26D1C200E05595 /* BookmarkFeed.swift in Sources */,
 				188B07811AB17A6400447CD9 /* Reachability.m in Sources */,
 				1803D2FB1ACEA42A00D6C1DE /* REMenu.m in Sources */,
 				18D75DC71A8224CB00BFEF6E /* FeedViewController.swift in Sources */,

@@ -27,6 +27,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var categoryID : Int = -1
     private var categoryName : String = ""
     private var customURLData : InformerlyFeed!
+    private var cellHeight : CGFloat!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -298,11 +299,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         } else if isCategoryFeeds == true {
             return self.getTextHeight(categoryFeeds![indexPath.row].title!, width: width) + CGFloat(68)
         }
+        self.cellHeight = self.getTextHeight(feeds[indexPath.row].title!, width: width) + CGFloat(68)
         return self.getTextHeight(feeds[indexPath.row].title!, width: width) + CGFloat(68)
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell")as! UITableViewCell
+        let cell : MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier("Cell") as! MGSwipeTableCell
+        
+        cell.rightButtons = [self.createCellSwipeView()]
+        cell.rightSwipeSettings.transition = MGSwipeTransition.Border
         
         var source = cell.viewWithTag(1) as! UILabel
         var title = cell.viewWithTag(2) as! UILabel
@@ -334,16 +339,16 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             source.text = feed.source
             source.textColor = UIColor(rgba: feed.sourceColor!)
             title.text = feed.title
+            title.textColor = UIColor.blackColor()
             
             if feed.read != true {
-                title.textColor = UIColor.blackColor()
                 
                 if feed.readingTime != nil {
-                    readingTime.text = "\(feed.readingTime?.stringValue) min read"
+                    readingTime.text = "\(feed.readingTime) min read"
                     tick.image = UIImage(named: "clock_icon")
                 }
             } else {
-                title.textColor = UIColor(rgba: "#9B9B9B")
+//                title.textColor = UIColor(rgba: "#9B9B9B")
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
             }
@@ -353,16 +358,16 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             source.text = feed.source
             source.textColor = UIColor(rgba: feed.sourceColor!)
             title.text = feed.title
+            title.textColor = UIColor.blackColor()
             
             if feed.read != true {
-                title.textColor = UIColor.blackColor()
                 
                 if feed.readingTime != nil{
-                    readingTime.text = "\(feed.readingTime?.stringValue) min read"
+                    readingTime.text = "\(feed.readingTime) min read"
                     tick.image = UIImage(named: "clock_icon")
                 }
             } else {
-                title.textColor = UIColor(rgba: "#9B9B9B")
+//                title.textColor = UIColor(rgba: "#9B9B9B")
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
             }
@@ -623,6 +628,31 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func createCellSwipeView() -> UIView {
+        var swipeView : UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.cellHeight))
+        swipeView.backgroundColor = UIColor.greenColor()
+        
+        let bookmarkBtn = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        bookmarkBtn.frame = CGRectMake(100 - 25, swipeView.frame.size.height/2 - 25, 50, 50)
+        bookmarkBtn.backgroundColor = UIColor.redColor()
+        var bookmarkImage : UIImage = UIImage(named: "icon_bookmark")!
+        bookmarkImage.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        bookmarkBtn.setImage(bookmarkImage, forState: UIControlState.Normal)
+//        bookmarkBtn.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        swipeView.addSubview(bookmarkBtn)
+        
+        let shareBtn = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        shareBtn.frame = CGRectMake(swipeView.frame.size.width - 100 - 25, swipeView.frame.size.height/2 - 25, 50, 50)
+        shareBtn.backgroundColor = UIColor.redColor()
+        var shareImage : UIImage = UIImage(named: "share_btn")!
+        shareImage.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        shareBtn.setImage(shareImage, forState: UIControlState.Normal)
+//        shareBtn.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        swipeView.addSubview(shareBtn)
+        
+        return swipeView
     }
     
     override func didReceiveMemoryWarning() {

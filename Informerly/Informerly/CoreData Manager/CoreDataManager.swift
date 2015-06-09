@@ -29,7 +29,7 @@ class CoreDataManager
         //get the context from AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
-        var feedItem : BookmarkFeed = NSEntityDescription.insertNewObjectForEntityForName("BookmarkFeed", inManagedObjectContext: managedContext) as! BookmarkFeed
+        var feedItem : BookmarkEntity = NSEntityDescription.insertNewObjectForEntityForName("BookmarkEntity", inManagedObjectContext: managedContext) as! BookmarkEntity
         
         feedItem.id = feedDict["id"] as? Int
         feedItem.title = feedDict["title"] as? String
@@ -66,7 +66,7 @@ class CoreDataManager
         //get the context from AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
-        var feedItem : BookmarkFeed = NSEntityDescription.insertNewObjectForEntityForName("BookmarkFeed", inManagedObjectContext: managedContext) as! BookmarkFeed
+        var feedItem : BookmarkEntity = NSEntityDescription.insertNewObjectForEntityForName("BookmarkEntity", inManagedObjectContext: managedContext) as! BookmarkEntity
         
         feedItem.id = feed.id
         feedItem.title = feed.title
@@ -91,6 +91,43 @@ class CoreDataManager
         }
     }
     
+    class func addBookmarkFeed(feed:BookmarkFeed, isSynced: Bool) {
+        
+        if (self.isFeedAlreadyExistForFeedID(feed.id!)) {
+            return
+        }
+        
+        //create the object of AppDelegate
+        let appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //get the context from AppDelegate
+        let managedContext = appDelegate.managedObjectContext!
+        
+        var feedItem : BookmarkEntity = NSEntityDescription.insertNewObjectForEntityForName("BookmarkEntity", inManagedObjectContext: managedContext) as! BookmarkEntity
+        
+        feedItem.id = feed.id
+        feedItem.title = feed.title
+        feedItem.feedDescription = feed.feedDescription
+        feedItem.content = feed.content
+        feedItem.readingTime = feed.readingTime
+        feedItem.source = feed.source
+        feedItem.sourceColor = feed.sourceColor
+        feedItem.publishedAt = feed.publishedAt
+        feedItem.originalDate = feed.originalDate
+        feedItem.shortLink = feed.shortLink
+        feedItem.slug = feed.slug
+        feedItem.url = feed.url
+        feedItem.read = feed.read
+        feedItem.bookmarked = feed.bookmarked
+        feedItem.isSynced = isSynced
+        feedItem.creationDateTime = NSDate()
+        
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
+    }
+    
     class func getBookmarkFeeds() -> [BookmarkFeed] {
         
         //create the object of AppDelegate
@@ -100,17 +137,25 @@ class CoreDataManager
         let managedContext = appDelegate.managedObjectContext!
         
         var request: NSFetchRequest = NSFetchRequest()
-        request.entity = NSEntityDescription.entityForName("BookmarkFeed", inManagedObjectContext: managedContext)
+        request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
         request.sortDescriptors = [NSSortDescriptor(key: "creationDateTime", ascending: false)]
         
         var error: NSError?
-        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkFeed]
+        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
         
         if(error != nil) {
             println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
         }
         
-        return result;
+        var bookmarkFeeds : [BookmarkFeed] = []
+        
+        for feed in result {
+            var bookmarkfeed : BookmarkFeed = BookmarkFeed()
+            bookmarkfeed.populateBookmarkFeed(feed)
+            bookmarkFeeds.append(bookmarkfeed)
+        }
+        
+        return bookmarkFeeds
     }
     
     class func removeBookmarkFeedOfID(feedID: Int) {
@@ -122,11 +167,11 @@ class CoreDataManager
         let managedContext = appDelegate.managedObjectContext!
         
         var request: NSFetchRequest = NSFetchRequest()
-        request.entity = NSEntityDescription.entityForName("BookmarkFeed", inManagedObjectContext: managedContext)
+        request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
         request.predicate = NSPredicate(format: "id=\(feedID)", argumentArray: nil)
         
         var error: NSError?
-        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkFeed]
+        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
         
         if(error == nil) {
             if result.count > 0 {
@@ -148,14 +193,14 @@ class CoreDataManager
         let managedContext = appDelegate.managedObjectContext!
         
         var request: NSFetchRequest = NSFetchRequest()
-        request.entity = NSEntityDescription.entityForName("BookmarkFeed", inManagedObjectContext: managedContext)
+        request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
         request.predicate = NSPredicate(format: "id=\(feedID)", argumentArray: nil)
         
         var error: NSError?
-        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkFeed]
+        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
         
         if(error == nil) {
-            var bookmarkFeed: BookmarkFeed = result[0] as BookmarkFeed
+            var bookmarkFeed: BookmarkEntity = result[0] as BookmarkEntity
             bookmarkFeed.isSynced = syncStatus
             managedContext.save(nil)
         }
@@ -173,11 +218,11 @@ class CoreDataManager
         let managedContext = appDelegate.managedObjectContext!
         
         var request: NSFetchRequest = NSFetchRequest()
-        request.entity = NSEntityDescription.entityForName("BookmarkFeed", inManagedObjectContext: managedContext)
+        request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
         request.predicate = NSPredicate(format: "id=\(feedID)", argumentArray: nil)
         
         var error: NSError?
-        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkFeed]
+        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
         if(error == nil) {
             if (result.count == 1) {
                 return true

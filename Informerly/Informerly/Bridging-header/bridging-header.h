@@ -18,5 +18,7 @@
 #import "REMenu.h"
 #import "Crittercism.h"
 #import "SVProgressHUD.h"
+#import "MGSwipeTableCell.h"
+#import "MGSwipeButton.h"
 
 #endif
