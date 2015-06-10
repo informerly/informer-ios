@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FeedViewController : UITableViewController, UITableViewDelegate, UITableViewDataSource {
+class FeedViewController : UITableViewController, UITableViewDelegate, UITableViewDataSource, MGSwipeTableCellDelegate {
     
     private var feeds : [InformerlyFeed] = []
     private var bookmarks : [BookmarkFeed] = []
@@ -28,6 +28,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var categoryName : String = ""
     private var customURLData : InformerlyFeed!
     private var cellHeight : CGFloat!
+    private var bookmarkBtn : MGSwipeButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +72,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         UIApplication.sharedApplication().statusBarHidden = false
         self.navigationController?.navigationBar.hidden = false
         
-        self.bookmarks = CoreDataManager.getBookmarkFeeds()
+        if isBookmarked == true {
+            self.bookmarks = CoreDataManager.getBookmarkFeeds()
+        } else {
+            self.feeds = Feeds.sharedInstance.getFeeds()
+        }
+        
         self.tableView.reloadData()
     }
     
@@ -305,9 +311,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier("Cell") as! MGSwipeTableCell
+        cell.delegate = self
         
-        cell.rightButtons = [self.createCellSwipeView()]
-        cell.rightSwipeSettings.transition = MGSwipeTransition.Border
+        var imgName = "icon_bookmark"
         
         var source = cell.viewWithTag(1) as! UILabel
         var title = cell.viewWithTag(2) as! UILabel
@@ -333,6 +339,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
             }
+            
+            if feed.bookmarked == true {
+                imgName = "icon_bookmark_filled"
+            }
+            
         } else if isUnreadTab == true && isBookmarked == true {
             var feed : BookmarkFeed
             feed = unreadBookmarkFeeds[indexPath.row]
@@ -352,6 +363,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
             }
+            
+            if feed.bookmarked == true {
+                imgName = "icon_bookmark_filled"
+            }
+            
         } else if isBookmarked == true {
             var feed : BookmarkFeed
             feed = bookmarks[indexPath.row]
@@ -371,6 +387,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
             }
+            
+            if feed.bookmarked == true {
+                imgName = "icon_bookmark_filled"
+            }
+            
         } else if isCategoryFeeds == true {
             feed = categoryFeeds![indexPath.row]
             source.text = feed.source
@@ -388,6 +409,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 title.textColor = UIColor(rgba: "#9B9B9B")
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
+            }
+            
+            if feed.bookmarked == true {
+                imgName = "icon_bookmark_filled"
             }
         }
         
@@ -409,9 +434,23 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
             }
+            
+            if feed.bookmarked == true {
+                imgName = "icon_bookmark_filled"
+            }
         }
         
+        // Create Cell Swipe view
+        var image = UIImage(named: imgName)
+        self.bookmarkBtn = MGSwipeButton(title: "",icon: image,backgroundColor:UIColor.whiteColor(),callback:nil)
+        bookmarkBtn.buttonWidth = self.view.frame.size.width/2
         
+        var shareBtn = MGSwipeButton(title: "", icon: UIImage(named: "share_btn")!, backgroundColor: UIColor.whiteColor(),callback: nil)
+        shareBtn.buttonWidth = self.view.frame.size.width/2
+        
+        cell.rightButtons = [shareBtn,bookmarkBtn]
+        cell.rightSwipeSettings.transition = MGSwipeTransition.Border
+
         return cell
     }
     
@@ -429,6 +468,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         tick.image = UIImage(named: "icon_tick")
         
         self.performSegueWithIdentifier("ArticleVC", sender: self)
+    }
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
     }
     
     func getTextHeight(pString: String, width: CGFloat) -> CGFloat {
@@ -630,29 +673,156 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    func createCellSwipeView() -> UIView {
-        var swipeView : UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.cellHeight))
-        swipeView.backgroundColor = UIColor.greenColor()
+    func onSharePressed(indexPath:Int) {
+        var sharingItems = [AnyObject]()
         
-        let bookmarkBtn = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        bookmarkBtn.frame = CGRectMake(100 - 25, swipeView.frame.size.height/2 - 25, 50, 50)
-        bookmarkBtn.backgroundColor = UIColor.redColor()
-        var bookmarkImage : UIImage = UIImage(named: "icon_bookmark")!
-        bookmarkImage.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        bookmarkBtn.setImage(bookmarkImage, forState: UIControlState.Normal)
-//        bookmarkBtn.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        swipeView.addSubview(bookmarkBtn)
+        if isBookmarked == true {
+            sharingItems.append(self.bookmarks[indexPath].title!)
+            sharingItems.append(self.bookmarks[indexPath].url!)
+        } else if isCategoryFeeds == true {
+            sharingItems.append(self.categoryFeeds![indexPath].title!)
+            sharingItems.append(self.categoryFeeds![indexPath].URL!)
+        } else {
+            sharingItems.append(feeds[indexPath].title!)
+            sharingItems.append(feeds[indexPath].URL!)
+        }
         
-        let shareBtn = UIButton.buttonWithType(UIButtonType.System) as! UIButton
-        shareBtn.frame = CGRectMake(swipeView.frame.size.width - 100 - 25, swipeView.frame.size.height/2 - 25, 50, 50)
-        shareBtn.backgroundColor = UIColor.redColor()
-        var shareImage : UIImage = UIImage(named: "share_btn")!
-        shareImage.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        shareBtn.setImage(shareImage, forState: UIControlState.Normal)
-//        shareBtn.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-        swipeView.addSubview(shareBtn)
+        let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: nil)
+        self.presentViewController(activityVC, animated: true, completion: nil)
+    }
+    
+    func onBookmarkPressed(indexPath:NSIndexPath,bookmarkBtn:MGSwipeButton) {
         
-        return swipeView
+        if isBookmarked == true {
+            
+            if self.bookmarks[indexPath.row].bookmarked == true {
+                bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                self.bookmarks[indexPath.row].bookmarked = false
+                self.markAsBookmarked(self.bookmarks[indexPath.row].id!,feed: self.bookmarks[indexPath.row],indexPath: indexPath)
+                CoreDataManager.removeBookmarkFeedOfID(self.bookmarks[indexPath.row].id!)
+                self.bookmarks = CoreDataManager.getBookmarkFeeds()
+                self.tableView.beginUpdates()
+                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.tableView.endUpdates()
+            } else {
+                bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                self.bookmarks[indexPath.row].bookmarked = true
+                self.markAsBookmarked(self.bookmarks[indexPath.row].id!,feed: self.bookmarks[indexPath.row],indexPath: indexPath)
+            }
+
+        } else if isCategoryFeeds == true {
+            
+            if self.categoryFeeds![indexPath.row].bookmarked == true {
+                bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                self.categoryFeeds![indexPath.row].bookmarked = false
+            } else {
+                bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                self.categoryFeeds![indexPath.row].bookmarked = true
+            }
+            
+            self.markAsBookmarked(self.categoryFeeds![indexPath.row].id!,feed: self.categoryFeeds![indexPath.row],indexPath: indexPath)
+
+        } else {
+            if self.feeds[indexPath.row].bookmarked == true {
+                bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                self.feeds[indexPath.row].bookmarked = false
+            } else {
+                bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                self.feeds[indexPath.row].bookmarked = true
+            }
+            
+            self.markAsBookmarked(self.feeds[indexPath.row].id!,feed: self.feeds[indexPath.row],indexPath: indexPath)
+        }
+    }
+    
+    func markAsBookmarked(articleID:Int, feed:AnyObject,indexPath:NSIndexPath){
+        
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            
+            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+                "client_id":"dev-ios-informer",
+                "link_id":articleID]
+            
+            NetworkManager.sharedNetworkClient().processPostRequestWithPath(BOOKMARK_URL,
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    if requestStatus == 200 {
+                        var message = processedData["message"] as! String
+                        var bookmarkDictionary : [String:AnyObject] = processedData["bookmark"] as! Dictionary
+                        var linkID = bookmarkDictionary["link_id"] as! Int
+                        
+                        if message == "Bookmark Created" {
+                            
+                            if self.isBookmarked == true {
+//                                CoreDataManager.addBookmarkFeed(feed as! BookmarkFeed, isSynced: true)
+//                                self.bookmarks = CoreDataManager.getBookmarkFeeds()
+//                                
+//                                var feed : InformerlyFeed
+//                                var counter = 0
+//                                for feed in self.feeds {
+//                                    if feed.id == articleID {
+//                                        self.feeds[counter].bookmarked = true
+//                                        break
+//                                    }
+//                                    counter++
+//                                }
+                                
+                            } else {
+                                CoreDataManager.addBookmarkFeed(feed as! InformerlyFeed, isSynced: true)
+                                self.bookmarks = CoreDataManager.getBookmarkFeeds()
+                            }
+                        } else if message == "Bookmark Removed" {
+                            if self.isBookmarked == true {
+                                self.bookmarks = CoreDataManager.getBookmarkFeeds()
+                                
+                                var feed : InformerlyFeed
+                                var counter = 0
+                                for feed in self.feeds {
+                                    if feed.id == articleID {
+                                        self.feeds[counter].bookmarked = false
+                                        break
+                                    }
+                                    counter++
+                                }
+                            } else {
+                                CoreDataManager.removeBookmarkFeedOfID(articleID)
+                            }
+                        }
+                    }
+                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    
+                    if extraInfo != nil {
+                        var error : [String:AnyObject] = extraInfo as! Dictionary
+                        var message : String = error["error"] as! String
+                        self.showAlert("Error !", msg: message)
+                    }
+            }
+        } else {
+            // Offline mode
+            
+            if isBookmarked == false {
+                CoreDataManager.addBookmarkFeed(feed as! InformerlyFeed, isSynced: false)
+                self.bookmarks = CoreDataManager.getBookmarkFeeds()
+            } else {
+                CoreDataManager.removeBookmarkFeedOfID(indexPath.row)
+                self.bookmarks = CoreDataManager.getBookmarkFeeds()
+            }
+        }
+    }
+    
+    // Swipe Cell delegates
+    func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
+        
+        var indexPath : NSIndexPath = self.tableView.indexPathForCell(cell)!
+        if index == 0 {
+            self.onSharePressed(indexPath.row)
+            return true
+        } else {
+            var btn = cell.rightButtons[1] as! MGSwipeButton
+            self.onBookmarkPressed(indexPath,bookmarkBtn: btn)
+            return false
+        }
     }
     
     override func didReceiveMemoryWarning() {

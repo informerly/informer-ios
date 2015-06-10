@@ -36,6 +36,7 @@
 		1845B9E71A7FB00700172610 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E61A7FB00700172610 /* User.swift */; };
 		186867AC1B271B3E001C04DD /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 186867A91B271B3E001C04DD /* MGSwipeButton.m */; };
 		186867AD1B271B3E001C04DD /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186867AB1B271B3E001C04DD /* MGSwipeTableCell.m */; };
+		186867B01B2897EA001C04DD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186867AF1B2897EA001C04DD /* SettingsViewController.swift */; };
 		186BD53D1A9711FE0044C86B /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186BD53C1A9711FE0044C86B /* NotificationCenter.framework */; };
 		186BD5421A9711FE0044C86B /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5411A9711FE0044C86B /* TodayViewController.swift */; };
 		186BD5441A9711FE0044C86B /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186BD5431A9711FE0044C86B /* MainInterface.storyboard */; };
@@ -190,6 +191,7 @@
 		186867A91B271B3E001C04DD /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
 		186867AA1B271B3E001C04DD /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
 		186867AB1B271B3E001C04DD /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeTableCell.m; sourceTree = "<group>"; };
+		186867AF1B2897EA001C04DD /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		186BD53A1A9711FE0044C86B /* Informerly Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Informerly Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		186BD53C1A9711FE0044C86B /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		186BD5401A9711FE0044C86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -475,6 +477,7 @@
 		1845B9B51A7F8C4600172610 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				186867AE1B2897B3001C04DD /* SettingsVC */,
 				18DEC7421AE6513800F8F661 /* UpdateInterestVC */,
 				187EAA561A8DFF42000ED503 /* HelpViewController */,
 				187EAA531A8DD686000ED503 /* FeedbackViewController */,
@@ -520,6 +523,14 @@
 				186867AB1B271B3E001C04DD /* MGSwipeTableCell.m */,
 			);
 			path = SGSwipeTableCell;
+			sourceTree = "<group>";
+		};
+		186867AE1B2897B3001C04DD /* SettingsVC */ = {
+			isa = PBXGroup;
+			children = (
+				186867AF1B2897EA001C04DD /* SettingsViewController.swift */,
+			);
+			path = SettingsVC;
 			sourceTree = "<group>";
 		};
 		186BD53B1A9711FE0044C86B /* Frameworks */ = {
@@ -937,6 +948,7 @@
 				1803D2EA1ACD695D00D6C1DE /* MFSideMenuContainerViewController.m in Sources */,
 				186BD5821A973B0B0044C86B /* AFSecurityPolicy.m in Sources */,
 				1803D2FE1ACEA42A00D6C1DE /* REMenuItemView.m in Sources */,
+				186867B01B2897EA001C04DD /* SettingsViewController.swift in Sources */,
 				1845B9E71A7FB00700172610 /* User.swift in Sources */,
 				186BD5801A973B0B0044C86B /* AFNetworkReachabilityManager.m in Sources */,
 				1803D2B91ACD189E00D6C1DE /* UINavigationController+SGProgress.m in Sources */,

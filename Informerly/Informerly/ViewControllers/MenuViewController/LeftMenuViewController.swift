@@ -13,6 +13,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     
     @IBOutlet weak var yourFeedView: UIView!
     @IBOutlet weak var bookmarkView: UIView!
+    @IBOutlet weak var settingsView: UIView!
     @IBOutlet weak var helpView: UIView!
     @IBOutlet weak var logoutView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -27,12 +28,12 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         
         self.downloadMenuItems()
         
-        self.applyTopBorder(self.bookmarkView)
+        self.applyTopBorder(self.settingsView)
         self.applyTopBorder(self.helpView)
         self.applyTopBorder(self.logoutView)
         
-        var bookmarkTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onBookmarkTap:"))
-        self.bookmarkView.addGestureRecognizer(bookmarkTapGesture)
+        var settingTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onSettingTap:"))
+        self.settingsView.addGestureRecognizer(settingTapGesture)
         
         var helpTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onHelpTap:"))
         self.helpView.addGestureRecognizer(helpTapGesture)
@@ -79,14 +80,12 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         view.layer.addSublayer(bottomBorder)
     }
     
-    func onBookmarkTap(gesture:UIGestureRecognizer){
-        self.bookmarkView.backgroundColor = UIColor.lightGrayColor()
-        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: { () -> Void in
-            self.bookmarkView.backgroundColor = UIColor.whiteColor()
-        })
-        NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
+    func onSettingTap(gesture:UIGestureRecognizer){
+        self.settingsView.backgroundColor = UIColor.lightGrayColor()
+//        self.performSegueWithIdentifier("SettingsVC", sender: self)
     }
-    
+
+
     func onHelpTap(gesture:UIGestureRecognizer){
         self.helpView.backgroundColor = UIColor.lightGrayColor()
         self.openMailComposer()
@@ -146,7 +145,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     // TableView delegates
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.menuItems.count + 1
+        return self.menuItems.count + 2
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -166,15 +165,22 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
             icon_img?.frame = CGRectMake(13, 12, 22, 20)
             icon_img!.image = UIImage(named: "icon_home")
         }
-//        else if indexPath.row == 1 {
-//            name = "Bookmarks"
-//            icon_img?.frame = CGRectMake(15, 12, 14, 18)
-//            icon_img!.image = UIImage(named: "icon_bookmark")
-//        }
+        else if indexPath.row == self.menuItems.count + 1 {
+            name = "Bookmarks"
+            icon_img?.frame = CGRectMake(15, 12, 14, 18)
+            icon_img!.image = UIImage(named: "icon_bookmark")
+        }
         else {
-            name = self.menuItems[indexPath.row - 1].name!
-            icon_img?.frame = CGRectMake(15, 12, 22, 18)
-            icon_img!.image = UIImage(named: "icon_folder")
+            
+            if self.menuItems.count == 0 {
+                name = "Bookmarks"
+                icon_img?.frame = CGRectMake(15, 12, 14, 18)
+                icon_img!.image = UIImage(named: "icon_bookmark")
+            } else {
+                name = self.menuItems[indexPath.row - 1].name!
+                icon_img?.frame = CGRectMake(15, 12, 22, 18)
+                icon_img!.image = UIImage(named: "icon_folder")
+            }
         }
         
         var menuLabel : UILabel = cell.viewWithTag(102) as! UILabel
@@ -192,10 +198,10 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
             self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: nil)
             NSNotificationCenter.defaultCenter().postNotificationName("YourFeedNotification", object: nil)
         }
-//        else if indexPath.row == 1 {
-//            self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
-//            NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
-//        }
+        else if ((indexPath.row == 1 && self.menuItems.count == 0) || (indexPath.row == self.menuItems.count + 1)) {
+            self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
+            NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
+        }
         else {
             self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
             var categoryID : Int? = self.menuItems[indexPath.row - 1].id

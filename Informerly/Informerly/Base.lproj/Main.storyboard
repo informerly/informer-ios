@@ -292,11 +292,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FEP-Wx-1zh">
                                 <rect key="frame" x="0.0" y="461" width="320" height="45"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_bookmark" translatesAutoresizingMaskIntoConstraints="NO" id="QzK-Pm-lCj">
-                                        <rect key="frame" x="19" y="14" width="14" height="16"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon-setting" translatesAutoresizingMaskIntoConstraints="NO" id="QzK-Pm-lCj">
+                                        <rect key="frame" x="15" y="14" width="22" height="22"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bookmarks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A1o-2N-R4j">
-                                        <rect key="frame" x="54" y="11" width="85" height="22"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A1o-2N-R4j">
+                                        <rect key="frame" x="54" y="11" width="60" height="22"/>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
                                         <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -364,16 +364,35 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="bookmarkView" destination="FEP-Wx-1zh" id="Fzm-Os-pgZ"/>
                         <outlet property="helpView" destination="gVg-wI-MXm" id="sAk-yW-pIb"/>
                         <outlet property="logoutView" destination="Vjv-7K-swV" id="BOd-hO-C14"/>
+                        <outlet property="settingsView" destination="FEP-Wx-1zh" id="2WV-hB-s1Y"/>
                         <outlet property="tableView" destination="Zjf-lK-cYp" id="R4g-tm-g7S"/>
                         <outlet property="yourFeedView" destination="Wb2-3y-WZM" id="73X-al-SRa"/>
+                        <segue destination="xOv-Yd-g0g" kind="show" identifier="SettingsVC" id="bvw-XV-mzD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l4G-KX-qR0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1985" y="315"/>
+        </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="QMe-Na-kfE">
+            <objects>
+                <viewController id="xOv-Yd-g0g" customClass="SettingsViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PSe-d6-5a4"/>
+                        <viewControllerLayoutGuide type="bottom" id="iev-M7-nGN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="amC-bJ-qey">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ggS-YZ-j3w" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2675" y="315"/>
         </scene>
         <!--Update Interest View Controller-->
         <scene sceneID="Q9w-7y-9tY">
@@ -731,8 +750,8 @@
     </scenes>
     <resources>
         <image name="clock_icon" width="16" height="16"/>
+        <image name="icon-setting" width="22" height="22"/>
         <image name="icon_back_white" width="16" height="16"/>
-        <image name="icon_bookmark" width="14" height="18"/>
         <image name="icon_help" width="22" height="22"/>
         <image name="icon_home" width="22" height="20"/>
         <image name="icon_logout" width="18" height="18"/>
