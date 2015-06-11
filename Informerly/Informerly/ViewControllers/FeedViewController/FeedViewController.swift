@@ -53,6 +53,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         // Getting screen width.
         width = UIScreen.mainScreen().bounds.width - 40
         
+        // TableView separator full width
+//        self.tableView.separatorInset = UIEdgeInsetsZero
+//        self.tableView.layoutMargins = UIEdgeInsetsZero
+        
         //TableView header
         self.createTableViewHeader()
         
@@ -61,8 +65,14 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.refreshCntrl.addTarget(self, action: Selector("onPullToRefresh:"), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(self.refreshCntrl)
         
+        self.fetchUserPreferences()
         self.downloadData()
         self.downloadBookmark()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "yourFeedNotificationSelector:", name:"YourFeedNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "bookmarkNotificationSelector:", name:"BookmarkNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "categoryNotificationSelector:", name:"CategoryNotification", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "settingsNotificationSelector:", name:"SettingsNotification", object: nil)
 
     }
     
@@ -312,6 +322,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : MGSwipeTableCell = tableView.dequeueReusableCellWithIdentifier("Cell") as! MGSwipeTableCell
         cell.delegate = self
+        cell.separatorInset = UIEdgeInsetsZero
         
         var imgName = "icon_bookmark"
         
@@ -355,7 +366,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             if feed.read != true {
                 
                 if feed.readingTime != nil {
-                    readingTime.text = "\(feed.readingTime) min read"
+                    readingTime.text = "\(feed.readingTime!) min read"
                     tick.image = UIImage(named: "clock_icon")
                 }
             } else {
@@ -379,7 +390,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             if feed.read != true {
                 
                 if feed.readingTime != nil{
-                    readingTime.text = "\(feed.readingTime) min read"
+                    readingTime.text = "\(feed.readingTime!) min read"
                     tick.image = UIImage(named: "clock_icon")
                 }
             } else {
@@ -474,6 +485,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         return true
     }
     
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        cell.separatorInset = UIEdgeInsetsZero
+        cell.preservesSuperviewLayoutMargins = false
+        cell.layoutMargins = UIEdgeInsetsZero
+    }
+    
     func getTextHeight(pString: String, width: CGFloat) -> CGFloat {
         var font : UIFont = UIFont(name: "OpenSans-Bold", size: 19.5)!
         var constrainedSize: CGSize = CGSizeMake(width, 9999);
@@ -508,9 +525,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func onMenuPressed() {
         self.menuContainerViewController.toggleLeftSideMenuCompletion(nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "yourFeedNotificationSelector:", name:"YourFeedNotification", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "bookmarkNotificationSelector:", name:"BookmarkNotification", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "categoryNotificationSelector:", name:"CategoryNotification", object: nil)
     }
     
     func onPullToRefresh(sender:AnyObject) {
@@ -566,6 +580,33 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
     }
     
+    func fetchUserPreferences(){
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            var parameters : [String:AnyObject] = ["auth_token":auth_token]
+            
+            NetworkManager.sharedNetworkClient().processGetRequestWithPath(USER_PREFERENCE_URL,
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    
+                    if requestStatus == 200 {
+                        self.refreshCntrl.endRefreshing()
+                        println(processedData["preferences"])
+                        var preferencesArray = processedData["preferences"] as? [AnyObject]
+                        println(preferencesArray?.first)
+                        if preferencesArray != nil && preferencesArray?.count > 0 {
+                            var preferences : [String:AnyObject] = preferencesArray?.first as! [String:AnyObject]
+                            Utilities.sharedInstance.setStringForKey(preferences["value"]! as! String, key: DEFAULT_ARTICLE_VIEW)
+                        } else {
+                            Utilities.sharedInstance.setStringForKey("web", key: DEFAULT_ARTICLE_VIEW)
+                        }
+                    }
+                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    println("Error")
+            }
+        }
+    }
+    
     
     func onUpdateYourInterest(){
         self.performSegueWithIdentifier("UpdateInterestsVC", sender: self)
@@ -596,6 +637,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         self.downloadCategory(categoryID,categoryName: categoryName)
     }
+    
+    @objc func settingsNotificationSelector(notification: NSNotification) {
+        var settingsVC: SettingsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsVC") as! SettingsViewController
+        self.navigationController?.showViewController(settingsVC, sender: self)
+    }
+    
     
     func downloadCategory(categoryID : Int, categoryName:String){
         
@@ -802,7 +849,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             // Offline mode
             
             if isBookmarked == false {
-                CoreDataManager.addBookmarkFeed(feed as! InformerlyFeed, isSynced: false)
+                var tempFeed : InformerlyFeed = feed as! InformerlyFeed
+                if tempFeed.bookmarked == false {
+                    CoreDataManager.removeBookmarkFeedOfID(tempFeed.id!)
+                } else {
+                    CoreDataManager.addBookmarkFeed(feed as! InformerlyFeed, isSynced: false)
+                }
                 self.bookmarks = CoreDataManager.getBookmarkFeeds()
             } else {
                 CoreDataManager.removeBookmarkFeedOfID(indexPath.row)

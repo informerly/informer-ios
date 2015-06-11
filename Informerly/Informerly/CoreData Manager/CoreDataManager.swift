@@ -148,7 +148,6 @@ class CoreDataManager
         }
         
         var bookmarkFeeds : [BookmarkFeed] = []
-        
         for feed in result {
             var bookmarkfeed : BookmarkFeed = BookmarkFeed()
             bookmarkfeed.populateBookmarkFeed(feed)

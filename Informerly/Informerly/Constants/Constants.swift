@@ -20,6 +20,7 @@ let READ_ARTICLES = "readArticles"
 let BOOKMARK_FEEDS = "BOOKMARK_FEEDS"
 let UNBOOKMARKED_FEEDS = "UNBOOKMARKED_FEEDS"
 let IS_FROM_CUSTOM_URL = "is_from_custom_url"
+let DEFAULT_ARTICLE_VIEW = "default_article_view"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"
@@ -27,6 +28,8 @@ let FEED_URL  = "feeds"
 let MENU_FEED_URL  = "users/feeds"
 let LOGOUT_URL = "users/sign_out"
 let BOOKMARK_URL = "bookmarks"
+let USER_PREFERENCE_URL = "users/get_preferences"
+let UPDATE_USER_PREFERENCES_URL = "users/update_preferences"
 
 // Gradient Colors
 let LIGHT_BLUE_COLOR = "#499EFF"

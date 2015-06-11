@@ -35,6 +35,9 @@
             <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
         </mutableArray>
         <mutableArray key="OpenSans-Semibold.ttf">
             <string>OpenSans-Semibold</string>
@@ -369,7 +372,6 @@
                         <outlet property="settingsView" destination="FEP-Wx-1zh" id="2WV-hB-s1Y"/>
                         <outlet property="tableView" destination="Zjf-lK-cYp" id="R4g-tm-g7S"/>
                         <outlet property="yourFeedView" destination="Wb2-3y-WZM" id="73X-al-SRa"/>
-                        <segue destination="xOv-Yd-g0g" kind="show" identifier="SettingsVC" id="bvw-XV-mzD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l4G-KX-qR0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -379,7 +381,7 @@
         <!--Settings View Controller-->
         <scene sceneID="QMe-Na-kfE">
             <objects>
-                <viewController id="xOv-Yd-g0g" customClass="SettingsViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsVC" id="xOv-Yd-g0g" customClass="SettingsViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="PSe-d6-5a4"/>
                         <viewControllerLayoutGuide type="bottom" id="iev-M7-nGN"/>
@@ -387,8 +389,76 @@
                     <view key="view" contentMode="scaleToFill" id="amC-bJ-qey">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DEFAULTS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cQ9-xh-m9N">
+                                <rect key="frame" x="16" y="58" width="59" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="59" id="9aF-CR-cWM"/>
+                                    <constraint firstAttribute="height" constant="22" id="hiv-7H-AdO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="12"/>
+                                <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bku-L1-Nia">
+                                <rect key="frame" x="0.0" y="84" width="600" height="47"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Default Zen View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2wv-cy-4Br">
+                                        <rect key="frame" x="15" y="13" width="130" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="Jj0-yk-WAW"/>
+                                            <constraint firstAttribute="width" constant="130" id="vir-sp-kAs"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
+                                        <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4gB-sT-ars">
+                                        <rect key="frame" x="533" y="8" width="51" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="31" id="2cm-21-8hU"/>
+                                            <constraint firstAttribute="width" constant="49" id="d8X-oc-eUx"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="onSwitchValueChanged:" destination="xOv-Yd-g0g" eventType="valueChanged" id="4lI-Ff-YKJ"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="4gB-sT-ars" secondAttribute="centerY" id="0el-lC-JyS"/>
+                                    <constraint firstAttribute="height" constant="47" id="Ima-2t-c3s"/>
+                                    <constraint firstAttribute="centerY" secondItem="2wv-cy-4Br" secondAttribute="centerY" id="KEp-f7-pub"/>
+                                    <constraint firstAttribute="trailing" secondItem="4gB-sT-ars" secondAttribute="trailing" constant="18" id="POU-uU-8aa"/>
+                                    <constraint firstItem="2wv-cy-4Br" firstAttribute="leading" secondItem="bku-L1-Nia" secondAttribute="leading" constant="15" id="bKY-Eq-KCk"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sKV-Za-Kby">
+                                <rect key="frame" x="16" y="142" width="568" height="72"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="72" id="YgN-ha-MdY"/>
+                                </constraints>
+                                <string key="text">Set default view of your articles. Web view will display the article source. Zen view will strip away all the unneccesary elements typically on a website and only display an article’s content.</string>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="11"/>
+                                <color key="textColor" red="0.29019607843137257" green="0.29019607843137257" blue="0.29019607843137257" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="bku-L1-Nia" firstAttribute="leading" secondItem="amC-bJ-qey" secondAttribute="leadingMargin" constant="-16" id="6iq-ag-MMX"/>
+                            <constraint firstItem="bku-L1-Nia" firstAttribute="trailing" secondItem="amC-bJ-qey" secondAttribute="trailingMargin" constant="16" id="KiP-8S-wD2"/>
+                            <constraint firstItem="bku-L1-Nia" firstAttribute="top" secondItem="cQ9-xh-m9N" secondAttribute="bottom" constant="4" id="NXw-AD-iN1"/>
+                            <constraint firstItem="cQ9-xh-m9N" firstAttribute="top" secondItem="PSe-d6-5a4" secondAttribute="bottom" constant="38" id="QZs-wd-Z5L"/>
+                            <constraint firstItem="sKV-Za-Kby" firstAttribute="trailing" secondItem="amC-bJ-qey" secondAttribute="trailingMargin" id="Rzn-iB-g0t"/>
+                            <constraint firstItem="sKV-Za-Kby" firstAttribute="leading" secondItem="amC-bJ-qey" secondAttribute="leadingMargin" id="d2V-EK-A4a"/>
+                            <constraint firstItem="sKV-Za-Kby" firstAttribute="top" secondItem="bku-L1-Nia" secondAttribute="bottom" constant="11" id="g06-ci-a87"/>
+                            <constraint firstItem="cQ9-xh-m9N" firstAttribute="leading" secondItem="amC-bJ-qey" secondAttribute="leadingMargin" id="pKs-Qv-lCB"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="articleViewSwitch" destination="4gB-sT-ars" id="Vtd-SM-IBw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ggS-YZ-j3w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -42,6 +42,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         self.logoutView.addGestureRecognizer(logoutTapGesture)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "getMenuItemsNotificationSelector:", name:"GetMenuItemsNotification", object: nil)
+        
     }
     
     func downloadMenuItems(){
@@ -82,7 +83,10 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     
     func onSettingTap(gesture:UIGestureRecognizer){
         self.settingsView.backgroundColor = UIColor.lightGrayColor()
-//        self.performSegueWithIdentifier("SettingsVC", sender: self)
+        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: { () -> Void in
+            self.settingsView.backgroundColor = UIColor.whiteColor()
+        })
+        NSNotificationCenter.defaultCenter().postNotificationName("SettingsNotification", object: nil)
     }
 
 
@@ -210,6 +214,12 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                             "name" : categoryName]
             NSNotificationCenter.defaultCenter().postNotificationName("CategoryNotification", object: nil, userInfo: userInfo)
         }
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        cell.separatorInset = UIEdgeInsetsZero
+        cell.preservesSuperviewLayoutMargins = false
+        cell.layoutMargins = UIEdgeInsetsZero
     }
     
     // Notication selectors

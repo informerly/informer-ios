@@ -130,10 +130,21 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         self.createZenWebView(self.articleIndex + 2)
         self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
         
-        
         isZenMode = false
 
         Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_CUSTOM_URL)
+        
+        if Utilities.sharedInstance.getStringForKey(DEFAULT_ARTICLE_VIEW) == "zen" {
+            isZenMode = true
+            customSegmentedControl.selectedSegmentIndex = 1
+            toolbar.alpha = 1.0
+            self.progressTimer.invalidate()
+            self.navigationController?.cancelSGProgress()
+            self.articleWebView.alpha = 0.0
+            self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(articleIndex)
+            self.zenModeScrollView.alpha = 1.0
+            self.view.bringSubviewToFront(toolbar)
+        }
     }
     
     // Creates bar button for navbar
