@@ -37,6 +37,8 @@
 		186867AC1B271B3E001C04DD /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 186867A91B271B3E001C04DD /* MGSwipeButton.m */; };
 		186867AD1B271B3E001C04DD /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 186867AB1B271B3E001C04DD /* MGSwipeTableCell.m */; };
 		186867B01B2897EA001C04DD /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186867AF1B2897EA001C04DD /* SettingsViewController.swift */; };
+		186867BC1B2AC416001C04DD /* ARSafariActivity.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 186867B91B2AC416001C04DD /* ARSafariActivity.bundle */; };
+		186867BD1B2AC416001C04DD /* ARSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 186867BB1B2AC416001C04DD /* ARSafariActivity.m */; };
 		186BD53D1A9711FE0044C86B /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 186BD53C1A9711FE0044C86B /* NotificationCenter.framework */; };
 		186BD5421A9711FE0044C86B /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5411A9711FE0044C86B /* TodayViewController.swift */; };
 		186BD5441A9711FE0044C86B /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186BD5431A9711FE0044C86B /* MainInterface.storyboard */; };
@@ -192,6 +194,9 @@
 		186867AA1B271B3E001C04DD /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
 		186867AB1B271B3E001C04DD /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeTableCell.m; sourceTree = "<group>"; };
 		186867AF1B2897EA001C04DD /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		186867B91B2AC416001C04DD /* ARSafariActivity.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ARSafariActivity.bundle; sourceTree = "<group>"; };
+		186867BA1B2AC416001C04DD /* ARSafariActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARSafariActivity.h; sourceTree = "<group>"; };
+		186867BB1B2AC416001C04DD /* ARSafariActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARSafariActivity.m; sourceTree = "<group>"; };
 		186BD53A1A9711FE0044C86B /* Informerly Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Informerly Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		186BD53C1A9711FE0044C86B /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		186BD5401A9711FE0044C86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -462,6 +467,7 @@
 		1845B9B31A7F8C4600172610 /* Third Party Libs */ = {
 			isa = PBXGroup;
 			children = (
+				186867B81B2AC416001C04DD /* ARSafariActivity */,
 				186867A71B271B33001C04DD /* SGSwipeTableCell */,
 				1803BC3C1B0386EB003DCB17 /* SVProgressHUD */,
 				18DEC7581AE6D3C100F8F661 /* Crittercism */,
@@ -531,6 +537,16 @@
 				186867AF1B2897EA001C04DD /* SettingsViewController.swift */,
 			);
 			path = SettingsVC;
+			sourceTree = "<group>";
+		};
+		186867B81B2AC416001C04DD /* ARSafariActivity */ = {
+			isa = PBXGroup;
+			children = (
+				186867B91B2AC416001C04DD /* ARSafariActivity.bundle */,
+				186867BA1B2AC416001C04DD /* ARSafariActivity.h */,
+				186867BB1B2AC416001C04DD /* ARSafariActivity.m */,
+			);
+			path = ARSafariActivity;
 			sourceTree = "<group>";
 		};
 		186BD53B1A9711FE0044C86B /* Frameworks */ = {
@@ -862,6 +878,7 @@
 				18C65E281A83568700BBA510 /* OpenSans-Light.ttf in Resources */,
 				18C65E2A1A83568700BBA510 /* OpenSans-Regular.ttf in Resources */,
 				18C65E261A83568700BBA510 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				186867BC1B2AC416001C04DD /* ARSafariActivity.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -937,6 +954,7 @@
 				186867AC1B271B3E001C04DD /* MGSwipeButton.m in Sources */,
 				18D75DCF1A834C0200BFEF6E /* Utilities.swift in Sources */,
 				1811D9B11AF4B07E00C135FF /* Bookmarks.swift in Sources */,
+				186867BD1B2AC416001C04DD /* ARSafariActivity.m in Sources */,
 				186BD5861A973B0B0044C86B /* AFURLRequestSerialization.m in Sources */,
 				187EAA551A8DD6A6000ED503 /* FeedbackViewController.swift in Sources */,
 				186BD57E1A973B0B0044C86B /* AFHTTPSessionManager.m in Sources */,

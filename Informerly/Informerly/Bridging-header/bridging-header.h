@@ -20,5 +20,6 @@
 #import "SVProgressHUD.h"
 #import "MGSwipeTableCell.h"
 #import "MGSwipeButton.h"
+#import "ARSafariActivity.h"
 
 #endif

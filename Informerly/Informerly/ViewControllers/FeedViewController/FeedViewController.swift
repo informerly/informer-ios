@@ -722,19 +722,26 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func onSharePressed(indexPath:Int) {
         var sharingItems = [AnyObject]()
-        
+        var url : NSURL!
         if isBookmarked == true {
             sharingItems.append(self.bookmarks[indexPath].title!)
             sharingItems.append(self.bookmarks[indexPath].url!)
+            url = NSURL(string: bookmarks[indexPath].url!)
+            
         } else if isCategoryFeeds == true {
             sharingItems.append(self.categoryFeeds![indexPath].title!)
             sharingItems.append(self.categoryFeeds![indexPath].URL!)
+            url = NSURL(string: self.categoryFeeds![indexPath].URL!)
         } else {
             sharingItems.append(feeds[indexPath].title!)
             sharingItems.append(feeds[indexPath].URL!)
+            url = NSURL(string: feeds[indexPath].URL!)
         }
         
-        let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: nil)
+        sharingItems.append(url)
+        
+        let activity = ARSafariActivity()
+        let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
         self.presentViewController(activityVC, animated: true, completion: nil)
     }
     
