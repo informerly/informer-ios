@@ -414,21 +414,21 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    func onSharePressed(indexPath:Int) {
+    func onSharePressed() {
         var sharingItems = [AnyObject]()
         var url : NSURL!
         if isBookmarked == true {
-            sharingItems.append(self.bookmarkedFeeds[indexPath].title!)
-            sharingItems.append(self.bookmarkedFeeds[indexPath].url!)
-            url = NSURL(string: bookmarkedFeeds[indexPath].url!)
+            sharingItems.append(self.bookmarkedFeeds[articleIndex].title!)
+            sharingItems.append(self.bookmarkedFeeds[articleIndex].url!)
+            url = NSURL(string: bookmarkedFeeds[articleIndex].url!)
         } else if isCategoryFeeds == true {
-            sharingItems.append(self.categoryFeeds![indexPath].title!)
-            sharingItems.append(self.categoryFeeds![indexPath].URL!)
-            url = NSURL(string: self.categoryFeeds![indexPath].URL!)
+            sharingItems.append(self.categoryFeeds![articleIndex].title!)
+            sharingItems.append(self.categoryFeeds![articleIndex].URL!)
+            url = NSURL(string: self.categoryFeeds![articleIndex].URL!)
         } else {
-            sharingItems.append(feeds[indexPath].title!)
-            sharingItems.append(feeds[indexPath].URL!)
-            url = NSURL(string: feeds[indexPath].URL!)
+            sharingItems.append(feeds[articleIndex].title!)
+            sharingItems.append(feeds[articleIndex].URL!)
+            url = NSURL(string: feeds[articleIndex].URL!)
         }
         
         sharingItems.append(url)
