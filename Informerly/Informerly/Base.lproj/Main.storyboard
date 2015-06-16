@@ -39,6 +39,7 @@
             <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
+            <string>OpenSans</string>
         </mutableArray>
         <mutableArray key="OpenSans-Semibold.ttf">
             <string>OpenSans-Semibold</string>
@@ -442,7 +443,7 @@
                                             <constraint firstAttribute="width" constant="49" id="d8X-oc-eUx"/>
                                         </constraints>
                                         <connections>
-                                            <action selector="onSwitchValueChanged:" destination="xOv-Yd-g0g" eventType="valueChanged" id="4lI-Ff-YKJ"/>
+                                            <action selector="onDefaultZenViewSwtichValueChanged:" destination="xOv-Yd-g0g" eventType="valueChanged" id="L5j-go-nIr"/>
                                         </connections>
                                     </switch>
                                 </subviews>
@@ -456,30 +457,73 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sKV-Za-Kby">
-                                <rect key="frame" x="16" y="142" width="568" height="72"/>
+                                <rect key="frame" x="16" y="203" width="568" height="72"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="72" id="YgN-ha-MdY"/>
+                                    <constraint firstAttribute="height" constant="72" id="wEA-7Y-Zsy"/>
                                 </constraints>
                                 <string key="text">Set default view of your articles. Web view will display the article source. Zen view will strip away all the unneccesary elements typically on a website and only display an article’s content.</string>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="11"/>
                                 <color key="textColor" red="0.29019607843137257" green="0.29019607843137257" blue="0.29019607843137257" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="YgN-ha-MdY"/>
+                                    </mask>
+                                </variation>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0VL-r0-Vbv">
+                                <rect key="frame" x="0.0" y="132" width="600" height="47"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Default Unread Articles View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iaU-Q7-5v9">
+                                        <rect key="frame" x="15" y="13" width="212" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="212" id="GOO-aZ-T6r"/>
+                                            <constraint firstAttribute="height" constant="22" id="tXp-nm-N5Y"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
+                                        <color key="textColor" red="0.29019607843137257" green="0.29019607843137257" blue="0.29019607843137257" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5Us-7G-ZFC">
+                                        <rect key="frame" x="532" y="8" width="51" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="49" id="Mju-f2-ewv"/>
+                                            <constraint firstAttribute="height" constant="31" id="Toi-dv-S9C"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="onDefaultListSwitchValueChanged:" destination="xOv-Yd-g0g" eventType="valueChanged" id="9Ck-PN-5Ks"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="47" id="86S-Gx-QIo"/>
+                                    <constraint firstItem="iaU-Q7-5v9" firstAttribute="leading" secondItem="0VL-r0-Vbv" secondAttribute="leading" constant="15" id="CG5-Ns-EHS"/>
+                                    <constraint firstAttribute="trailing" secondItem="5Us-7G-ZFC" secondAttribute="trailing" constant="19" id="NIs-W7-wtZ"/>
+                                    <constraint firstAttribute="centerY" secondItem="iaU-Q7-5v9" secondAttribute="centerY" id="SQU-qt-093"/>
+                                    <constraint firstAttribute="centerY" secondItem="5Us-7G-ZFC" secondAttribute="centerY" id="YIn-28-X7Q"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="bku-L1-Nia" firstAttribute="leading" secondItem="amC-bJ-qey" secondAttribute="leadingMargin" constant="-16" id="6iq-ag-MMX"/>
                             <constraint firstItem="bku-L1-Nia" firstAttribute="trailing" secondItem="amC-bJ-qey" secondAttribute="trailingMargin" constant="16" id="KiP-8S-wD2"/>
+                            <constraint firstItem="sKV-Za-Kby" firstAttribute="leading" secondItem="amC-bJ-qey" secondAttribute="leadingMargin" id="LiF-Sd-d65"/>
                             <constraint firstItem="bku-L1-Nia" firstAttribute="top" secondItem="cQ9-xh-m9N" secondAttribute="bottom" constant="4" id="NXw-AD-iN1"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0VL-r0-Vbv" secondAttribute="trailing" constant="-16" id="Nx9-Ko-TMo"/>
                             <constraint firstItem="cQ9-xh-m9N" firstAttribute="top" secondItem="PSe-d6-5a4" secondAttribute="bottom" constant="38" id="QZs-wd-Z5L"/>
-                            <constraint firstItem="sKV-Za-Kby" firstAttribute="trailing" secondItem="amC-bJ-qey" secondAttribute="trailingMargin" id="Rzn-iB-g0t"/>
-                            <constraint firstItem="sKV-Za-Kby" firstAttribute="leading" secondItem="amC-bJ-qey" secondAttribute="leadingMargin" id="d2V-EK-A4a"/>
-                            <constraint firstItem="sKV-Za-Kby" firstAttribute="top" secondItem="bku-L1-Nia" secondAttribute="bottom" constant="11" id="g06-ci-a87"/>
+                            <constraint firstItem="0VL-r0-Vbv" firstAttribute="leading" secondItem="amC-bJ-qey" secondAttribute="leadingMargin" constant="-16" id="X0C-Fm-M94"/>
+                            <constraint firstItem="0VL-r0-Vbv" firstAttribute="top" secondItem="bku-L1-Nia" secondAttribute="bottom" constant="1" id="gLv-OJ-d3W"/>
+                            <constraint firstItem="sKV-Za-Kby" firstAttribute="trailing" secondItem="amC-bJ-qey" secondAttribute="trailingMargin" id="idN-fD-ZW8"/>
                             <constraint firstItem="cQ9-xh-m9N" firstAttribute="leading" secondItem="amC-bJ-qey" secondAttribute="leadingMargin" id="pKs-Qv-lCB"/>
+                            <constraint firstItem="sKV-Za-Kby" firstAttribute="top" secondItem="0VL-r0-Vbv" secondAttribute="bottom" constant="24" id="spV-iI-cfV"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="articleViewSwitch" destination="4gB-sT-ars" id="Vtd-SM-IBw"/>
+                        <outlet property="defaultListSwitch" destination="5Us-7G-ZFC" id="iMO-cC-aLb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ggS-YZ-j3w" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -36,12 +36,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Informerly/ViewControllers/FeedViewController/FeedViewController.swift"
-            timestampString = "455788641.109403"
+            timestampString = "456166032.370563"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "865"
-            endingLineNumber = "865"
-            landmarkName = "markAsBookmarked(_:feed:indexPath:)"
+            startingLineNumber = "984"
+            endingLineNumber = "984"
+            landmarkName = "onMarkReadPressed(_:readBtn:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

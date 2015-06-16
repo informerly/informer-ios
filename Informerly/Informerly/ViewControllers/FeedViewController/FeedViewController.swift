@@ -27,8 +27,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var categoryID : Int = -1
     private var categoryName : String = ""
     private var customURLData : InformerlyFeed!
-    private var cellHeight : CGFloat!
     private var bookmarkBtn : MGSwipeButton!
+    private var readBtn : MGSwipeButton!
+    private var customSegmentedControl : UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,6 +89,14 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             self.feeds = Feeds.sharedInstance.getFeeds()
         }
         
+        if Utilities.sharedInstance.getStringForKey(DEFAULT_LIST) == "unread" {
+            self.customSegmentedControl.selectedSegmentIndex = 1
+            self.isUnreadTab = true
+        } else if Utilities.sharedInstance.getStringForKey(DEFAULT_LIST) == "all" {
+            self.customSegmentedControl.selectedSegmentIndex = 0
+            self.isUnreadTab = false
+        }
+        
         self.tableView.reloadData()
     }
     
@@ -113,7 +122,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func createTableViewHeader(){
         var headerView : UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, 75))
         
-        var customSegmentedControl = UISegmentedControl (items: ["All News","Unread"])
+        customSegmentedControl = UISegmentedControl (items: ["All News","Unread"])
         customSegmentedControl.frame = CGRectMake(self.view.frame.size.width/2 - 140, 20,280, 35)
         customSegmentedControl.selectedSegmentIndex = 0
         customSegmentedControl.tintColor = UIColor.lightGrayColor()
@@ -315,7 +324,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         } else if isCategoryFeeds == true {
             return self.getTextHeight(categoryFeeds![indexPath.row].title!, width: width) + CGFloat(68)
         }
-        self.cellHeight = self.getTextHeight(feeds[indexPath.row].title!, width: width) + CGFloat(68)
         return self.getTextHeight(feeds[indexPath.row].title!, width: width) + CGFloat(68)
     }
     
@@ -325,6 +333,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         cell.separatorInset = UIEdgeInsetsZero
         
         var imgName = "icon_bookmark"
+        var tickImgName = "icon_tick"
         
         var source = cell.viewWithTag(1) as! UILabel
         var title = cell.viewWithTag(2) as! UILabel
@@ -349,6 +358,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 title.textColor = UIColor(rgba: "#9B9B9B")
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
+                tickImgName = "icon_check_circle"
             }
             
             if feed.bookmarked == true {
@@ -373,6 +383,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
 //                title.textColor = UIColor(rgba: "#9B9B9B")
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
+                tickImgName = "icon_check_circle"
             }
             
             if feed.bookmarked == true {
@@ -397,6 +408,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
 //                title.textColor = UIColor(rgba: "#9B9B9B")
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
+                tickImgName = "icon_check_circle"
             }
             
             if feed.bookmarked == true {
@@ -420,6 +432,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 title.textColor = UIColor(rgba: "#9B9B9B")
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
+                tickImgName = "icon_check_circle"
             }
             
             if feed.bookmarked == true {
@@ -444,6 +457,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 title.textColor = UIColor(rgba: "#9B9B9B")
                 readingTime.text = "Read"
                 tick.image = UIImage(named: "icon_tick")
+                tickImgName = "icon_check_circle"
             }
             
             if feed.bookmarked == true {
@@ -452,14 +466,18 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         }
         
         // Create Cell Swipe view
-        var image = UIImage(named: imgName)
-        self.bookmarkBtn = MGSwipeButton(title: "",icon: image,backgroundColor:UIColor.whiteColor(),callback:nil)
-        bookmarkBtn.buttonWidth = self.view.frame.size.width/2
+        var bookmarkimage = UIImage(named: imgName)
+        var tickImage = UIImage(named: tickImgName)
+        self.bookmarkBtn = MGSwipeButton(title: "",icon: bookmarkimage,backgroundColor:UIColor.whiteColor(),callback:nil)
+        bookmarkBtn.buttonWidth = self.view.frame.size.width/3
+        
+        self.readBtn = MGSwipeButton(title: "",icon: tickImage, backgroundColor: UIColor.whiteColor(), callback: nil)
+        self.readBtn.buttonWidth = self.view.frame.size.width/3
         
         var shareBtn = MGSwipeButton(title: "", icon: UIImage(named: "share_btn")!, backgroundColor: UIColor.whiteColor(),callback: nil)
-        shareBtn.buttonWidth = self.view.frame.size.width/2
+        shareBtn.buttonWidth = self.view.frame.size.width/3
         
-        cell.rightButtons = [shareBtn,bookmarkBtn]
+        cell.rightButtons = [shareBtn,readBtn,bookmarkBtn]
         cell.rightSwipeSettings.transition = MGSwipeTransition.Border
 
         return cell
@@ -592,13 +610,26 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     if requestStatus == 200 {
                         self.refreshCntrl.endRefreshing()
                         println(processedData["preferences"])
-                        var preferencesArray = processedData["preferences"] as? [AnyObject]
-                        println(preferencesArray?.first)
+                        var preferencesArray : [AnyObject]? = processedData["preferences"] as? [AnyObject]
                         if preferencesArray != nil && preferencesArray?.count > 0 {
-                            var preferences : [String:AnyObject] = preferencesArray?.first as! [String:AnyObject]
-                            Utilities.sharedInstance.setStringForKey(preferences["value"]! as! String, key: DEFAULT_ARTICLE_VIEW)
+                            
+                            var object : AnyObject!
+                            for object in preferencesArray! {
+                                var preferences : [String:AnyObject] = object as! [String:AnyObject]
+                                if preferences["name"]! as! String == DEFAULT_ARTICLE_VIEW {
+                                    Utilities.sharedInstance.setStringForKey(preferences["value"]! as! String, key: DEFAULT_ARTICLE_VIEW)
+                                } else if preferences["name"]! as! String == DEFAULT_LIST {
+                                    Utilities.sharedInstance.setStringForKey(preferences["value"]! as! String, key: DEFAULT_LIST)
+                                    
+                                    if preferences["value"]! as! String == "unread" {
+                                        self.isUnreadTab = true
+                                        self.customSegmentedControl.selectedSegmentIndex = 1
+                                    }
+                                }
+                            }
                         } else {
                             Utilities.sharedInstance.setStringForKey("web", key: DEFAULT_ARTICLE_VIEW)
+                            Utilities.sharedInstance.setStringForKey("all", key: DEFAULT_LIST)
                         }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
@@ -724,18 +755,39 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var sharingItems = [AnyObject]()
         var url : NSURL!
         if isBookmarked == true {
-            sharingItems.append(self.bookmarks[indexPath].title!)
-            sharingItems.append(self.bookmarks[indexPath].url!)
-            url = NSURL(string: bookmarks[indexPath].url!)
+            
+            if isUnreadTab == true {
+                sharingItems.append(self.unreadBookmarkFeeds[indexPath].title!)
+                sharingItems.append(self.unreadBookmarkFeeds[indexPath].url!)
+                url = NSURL(string: unreadBookmarkFeeds[indexPath].url!)
+            } else {
+                sharingItems.append(self.bookmarks[indexPath].title!)
+                sharingItems.append(self.bookmarks[indexPath].url!)
+                url = NSURL(string: bookmarks[indexPath].url!)
+            }
             
         } else if isCategoryFeeds == true {
-            sharingItems.append(self.categoryFeeds![indexPath].title!)
-            sharingItems.append(self.categoryFeeds![indexPath].URL!)
-            url = NSURL(string: self.categoryFeeds![indexPath].URL!)
+            
+            if isUnreadTab == true {
+                sharingItems.append(self.unreadFeeds[indexPath].title!)
+                sharingItems.append(self.unreadFeeds[indexPath].URL!)
+                url = NSURL(string: self.unreadFeeds[indexPath].URL!)
+            } else {
+                sharingItems.append(self.categoryFeeds![indexPath].title!)
+                sharingItems.append(self.categoryFeeds![indexPath].URL!)
+                url = NSURL(string: self.categoryFeeds![indexPath].URL!)
+            }
         } else {
-            sharingItems.append(feeds[indexPath].title!)
-            sharingItems.append(feeds[indexPath].URL!)
-            url = NSURL(string: feeds[indexPath].URL!)
+            
+            if isUnreadTab == true {
+                sharingItems.append(self.unreadFeeds[indexPath].title!)
+                sharingItems.append(self.unreadFeeds[indexPath].URL!)
+                url = NSURL(string: self.unreadFeeds[indexPath].URL!)
+            } else {
+                sharingItems.append(feeds[indexPath].title!)
+                sharingItems.append(feeds[indexPath].URL!)
+                url = NSURL(string: feeds[indexPath].URL!)
+            }
         }
         
         sharingItems.append(url)
@@ -748,44 +800,94 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func onBookmarkPressed(indexPath:NSIndexPath,bookmarkBtn:MGSwipeButton) {
         
         if isBookmarked == true {
-            
-            if self.bookmarks[indexPath.row].bookmarked == true {
-                bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
-                self.bookmarks[indexPath.row].bookmarked = false
-                self.markAsBookmarked(self.bookmarks[indexPath.row].id!,feed: self.bookmarks[indexPath.row],indexPath: indexPath)
-                CoreDataManager.removeBookmarkFeedOfID(self.bookmarks[indexPath.row].id!)
-                self.bookmarks = CoreDataManager.getBookmarkFeeds()
-                self.tableView.beginUpdates()
-                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                self.tableView.endUpdates()
+            if isUnreadTab == true {
+                if self.unreadBookmarkFeeds[indexPath.row].bookmarked == true {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    self.unreadBookmarkFeeds[indexPath.row].bookmarked = false
+                    self.markAsBookmarked(self.unreadBookmarkFeeds[indexPath.row].id!,feed: self.unreadBookmarkFeeds[indexPath.row],indexPath: indexPath)
+                    CoreDataManager.removeBookmarkFeedOfID(self.unreadBookmarkFeeds[indexPath.row].id!)
+                    self.bookmarks = CoreDataManager.getBookmarkFeeds()
+                    self.unreadBookmarkFeeds.removeAll(keepCapacity: false)
+                    
+                    for feed in self.bookmarks {
+                        if feed.read == false {
+                            self.unreadBookmarkFeeds.append(feed)
+                        }
+                    }
+                    
+                    self.tableView.beginUpdates()
+                    self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                    self.tableView.endUpdates()
+                } else {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    self.bookmarks[indexPath.row].bookmarked = true
+                    self.markAsBookmarked(self.bookmarks[indexPath.row].id!,feed: self.bookmarks[indexPath.row],indexPath: indexPath)
+                }
             } else {
-                bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
-                self.bookmarks[indexPath.row].bookmarked = true
-                self.markAsBookmarked(self.bookmarks[indexPath.row].id!,feed: self.bookmarks[indexPath.row],indexPath: indexPath)
+                
+                if self.bookmarks[indexPath.row].bookmarked == true {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    self.bookmarks[indexPath.row].bookmarked = false
+                    self.markAsBookmarked(self.bookmarks[indexPath.row].id!,feed: self.bookmarks[indexPath.row],indexPath: indexPath)
+                    CoreDataManager.removeBookmarkFeedOfID(self.bookmarks[indexPath.row].id!)
+                    self.bookmarks = CoreDataManager.getBookmarkFeeds()
+                    self.tableView.beginUpdates()
+                    self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                    self.tableView.endUpdates()
+                } else {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    self.bookmarks[indexPath.row].bookmarked = true
+                    self.markAsBookmarked(self.bookmarks[indexPath.row].id!,feed: self.bookmarks[indexPath.row],indexPath: indexPath)
+                }
             }
 
         } else if isCategoryFeeds == true {
             
-            if self.categoryFeeds![indexPath.row].bookmarked == true {
-                bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
-                self.categoryFeeds![indexPath.row].bookmarked = false
+            if isUnreadTab == true {
+                if self.unreadFeeds[indexPath.row].bookmarked == true {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    self.unreadFeeds[indexPath.row].bookmarked = false
+                } else {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    self.unreadFeeds[indexPath.row].bookmarked = true
+                }
+                
+                self.markAsBookmarked(self.unreadFeeds[indexPath.row].id!,feed: self.unreadFeeds[indexPath.row],indexPath: indexPath)
             } else {
-                bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
-                self.categoryFeeds![indexPath.row].bookmarked = true
+                if self.categoryFeeds![indexPath.row].bookmarked == true {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    self.categoryFeeds![indexPath.row].bookmarked = false
+                } else {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    self.categoryFeeds![indexPath.row].bookmarked = true
+                }
+                
+                self.markAsBookmarked(self.categoryFeeds![indexPath.row].id!,feed: self.categoryFeeds![indexPath.row],indexPath: indexPath)
             }
-            
-            self.markAsBookmarked(self.categoryFeeds![indexPath.row].id!,feed: self.categoryFeeds![indexPath.row],indexPath: indexPath)
 
         } else {
-            if self.feeds[indexPath.row].bookmarked == true {
-                bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
-                self.feeds[indexPath.row].bookmarked = false
-            } else {
-                bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
-                self.feeds[indexPath.row].bookmarked = true
-            }
             
-            self.markAsBookmarked(self.feeds[indexPath.row].id!,feed: self.feeds[indexPath.row],indexPath: indexPath)
+            if isUnreadTab == true {
+                if self.unreadFeeds[indexPath.row].bookmarked == true {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    self.unreadFeeds[indexPath.row].bookmarked = false
+                } else {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    self.unreadFeeds[indexPath.row].bookmarked = true
+                }
+                
+                self.markAsBookmarked(self.unreadFeeds[indexPath.row].id!,feed: self.unreadFeeds[indexPath.row],indexPath: indexPath)
+            } else {
+                if self.feeds[indexPath.row].bookmarked == true {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    self.feeds[indexPath.row].bookmarked = false
+                } else {
+                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    self.feeds[indexPath.row].bookmarked = true
+                }
+                
+                self.markAsBookmarked(self.feeds[indexPath.row].id!,feed: self.feeds[indexPath.row],indexPath: indexPath)
+            }
         }
     }
     
@@ -870,6 +972,225 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         }
     }
     
+    func onMarkReadPressed(indexPath:NSIndexPath,readBtn:MGSwipeButton) {
+        
+        let cell : MGSwipeTableCell = self.tableView.cellForRowAtIndexPath(indexPath) as! MGSwipeTableCell
+        var title = cell.viewWithTag(2) as! UILabel
+        var readingTime = cell.viewWithTag(3) as! UILabel
+        var tick = cell.viewWithTag(4) as! UIImageView
+        
+        if isBookmarked == true {
+            if isUnreadTab == true {
+                readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                markAsRead(indexPath)
+                
+                unreadBookmarkFeeds.removeAtIndex(indexPath.row)
+                self.tableView.beginUpdates()
+                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.tableView.endUpdates()
+                
+            } else {
+                if self.bookmarks[indexPath.row].read == true {
+                    readBtn.setImage(UIImage(named: "icon_tick"), forState: UIControlState.Normal)
+                    markAsUnread(indexPath)
+                    
+                    title.textColor = UIColor.blackColor()
+                    readingTime.text = "\(String(self.bookmarks[indexPath.row].readingTime!)) min read"
+                    tick.image = UIImage(named: "clock_icon")
+                    
+                } else {
+                    readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                    markAsRead(indexPath)
+                    
+                    readingTime.text = "Read"
+                    tick.image = UIImage(named: "icon_tick")
+                }
+            }
+            
+        } else if isCategoryFeeds == true {
+            
+            if isUnreadTab == true {
+                readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                markAsRead(indexPath)
+                
+                unreadFeeds.removeAtIndex(indexPath.row)
+                self.tableView.beginUpdates()
+                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.tableView.endUpdates()
+            
+            } else {
+                if self.categoryFeeds![indexPath.row].read == true {
+                    readBtn.setImage(UIImage(named: "icon_tick"), forState: UIControlState.Normal)
+                    markAsUnread(indexPath)
+                    
+                    title.textColor = UIColor.blackColor()
+                    readingTime.text = "\(String(self.categoryFeeds![indexPath.row].readingTime!)) min read"
+                    tick.image = UIImage(named: "clock_icon")
+                    
+                } else {
+                    readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                    markAsRead(indexPath)
+                    
+                    title.textColor = UIColor(rgba: "#9B9B9B")
+                    readingTime.text = "Read"
+                    tick.image = UIImage(named: "icon_tick")
+                }
+            }
+            
+        } else {
+            
+            if isUnreadTab == true {
+                readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                markAsRead(indexPath)
+                
+                self.unreadFeeds.removeAtIndex(indexPath.row)
+                self.tableView.beginUpdates()
+                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.tableView.endUpdates()
+            } else {
+                if self.feeds[indexPath.row].read == true {
+                    readBtn.setImage(UIImage(named: "icon_tick"), forState: UIControlState.Normal)
+                    markAsUnread(indexPath)
+                    
+                    title.textColor = UIColor.blackColor()
+                    readingTime.text = "\(String(self.feeds[indexPath.row].readingTime!)) min read"
+                    tick.image = UIImage(named: "clock_icon")
+                    
+                } else {
+                    readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                    markAsRead(indexPath)
+                    
+                    title.textColor = UIColor(rgba: "#9B9B9B")
+                    readingTime.text = "Read"
+                    tick.image = UIImage(named: "icon_tick")
+                    
+                }
+            }
+        }
+    }
+    
+    func markAsRead(indexPath:NSIndexPath){
+        var path : String!
+        var articleID : Int!
+        
+        if isBookmarked == true {
+            
+            if isUnreadTab == true {
+                
+                self.unreadBookmarkFeeds[indexPath.row].read = true
+                path = "links/\(unreadBookmarkFeeds[indexPath.row].id!)/read"
+                articleID = unreadBookmarkFeeds[indexPath.row].id!
+            } else {
+                self.bookmarks[indexPath.row].read = true
+                path = "links/\(bookmarks[indexPath.row].id!)/read"
+                articleID = bookmarks[indexPath.row].id!
+            }
+            
+        } else {
+            
+            if isUnreadTab == true {
+                self.unreadFeeds[indexPath.row].read = true
+                path = "links/\(unreadFeeds[indexPath.row].id!)/read"
+                articleID = unreadFeeds[indexPath.row].id!
+            } else {
+                self.feeds[indexPath.row].read = true
+                path = "links/\(feeds[indexPath.row].id!)/read"
+                articleID = feeds[indexPath.row].id!
+            }
+        }
+        
+        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
+            "client_id":"",
+            "link_id": articleID]
+        NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
+            parameter: parameters,
+            success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                println("Successfully marked as read.")
+            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                println("Failure marking article as read")
+                
+                var readArticles:[Int]!
+                if NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) == nil {
+                    readArticles = [Int]()
+                } else {
+                    readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as! Array
+                }
+                if self.isBookmarked == true {
+                    
+                    if self.isUnreadTab == true {
+                        readArticles.append(self.unreadBookmarkFeeds[indexPath.row].id!)
+                    } else {
+                        readArticles.append(self.bookmarks[indexPath.row].id!)
+                    }
+                    
+                } else {
+                    
+                    if self.isUnreadTab == true {
+                        readArticles.append(self.unreadFeeds[indexPath.row].id!)
+                    } else {
+                        readArticles.append(self.feeds[indexPath.row].id!)
+                    }
+                }
+                
+                NSUserDefaults.standardUserDefaults().setObject(readArticles, forKey: READ_ARTICLES)
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
+                if extraInfo != nil {
+                    var error : [String:AnyObject] = extraInfo as! Dictionary
+                    var message : String = error["error"] as! String
+                    
+                    if message == "Invalid authentication token." {
+                        var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                            var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                            self.showViewController(loginVC, sender: self)
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                }
+        }
+    }
+    
+    func markAsUnread(indexPath:NSIndexPath){
+        var path : String!
+        var articleID : Int!
+        
+        if isBookmarked == true {
+            self.bookmarks[indexPath.row].read = false
+            path = "links/\(bookmarks[indexPath.row].id!)/mark_as_unread"
+            articleID = bookmarks[indexPath.row].id!
+        } else {
+            self.feeds[indexPath.row].read = false
+            path = "links/\(feeds[indexPath.row].id!)/mark_as_unread"
+            articleID = feeds[indexPath.row].id!
+        }
+        
+        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
+            "link_id": articleID]
+        NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
+            parameter: parameters,
+            success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                println("Successfully marked as unread.")
+            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                println("Failure marking article as unread")
+                
+                if extraInfo != nil {
+                    var error : [String:AnyObject] = extraInfo as! Dictionary
+                    var message : String = error["error"] as! String
+                    
+                    if message == "Invalid authentication token." {
+                        var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                            var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                            self.showViewController(loginVC, sender: self)
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                }
+        }
+        
+    }
+    
     // Swipe Cell delegates
     func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
         
@@ -877,8 +1198,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         if index == 0 {
             self.onSharePressed(indexPath.row)
             return true
-        } else {
+        } else if index == 1 {
             var btn = cell.rightButtons[1] as! MGSwipeButton
+            self.onMarkReadPressed(indexPath, readBtn: btn)
+            return false
+        } else {
+            var btn = cell.rightButtons[2] as! MGSwipeButton
             self.onBookmarkPressed(indexPath,bookmarkBtn: btn)
             return false
         }

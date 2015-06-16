@@ -21,6 +21,7 @@ let BOOKMARK_FEEDS = "BOOKMARK_FEEDS"
 let UNBOOKMARKED_FEEDS = "UNBOOKMARKED_FEEDS"
 let IS_FROM_CUSTOM_URL = "is_from_custom_url"
 let DEFAULT_ARTICLE_VIEW = "default_article_view"
+let DEFAULT_LIST = "default_list"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"

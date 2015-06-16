@@ -10,6 +10,7 @@ import Foundation
 class SettingsViewController : UIViewController {
     
     @IBOutlet weak var articleViewSwitch: UISwitch!
+    @IBOutlet weak var defaultListSwitch: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,6 +25,10 @@ class SettingsViewController : UIViewController {
         if Utilities.sharedInstance.getStringForKey(DEFAULT_ARTICLE_VIEW) == "zen" {
             articleViewSwitch.setOn(true, animated: true)
         }
+        
+        if Utilities.sharedInstance.getStringForKey(DEFAULT_LIST) == "unread" {
+            defaultListSwitch.setOn(true, animated: true)
+        }
     }
     
     func createNavButtons() {
@@ -37,9 +42,7 @@ class SettingsViewController : UIViewController {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    
-    @IBAction func onSwitchValueChanged(sender: UISwitch) {
-        
+    @IBAction func onDefaultZenViewSwtichValueChanged(sender: UISwitch) {
         var mode = ""
         if sender.on == true {
             mode = "zen"
@@ -50,7 +53,7 @@ class SettingsViewController : UIViewController {
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             var parameters : [String:AnyObject] = ["auth_token":auth_token,
-                                                    "preferences":["default_article_view":mode]]
+                "preferences":["default_article_view":mode]]
             
             NetworkManager.sharedNetworkClient().processPostRequestWithPath(UPDATE_USER_PREFERENCES_URL,
                 parameter: parameters,
@@ -62,6 +65,31 @@ class SettingsViewController : UIViewController {
                     println("Error")
             }
             
+        }
+    }
+    
+    @IBAction func onDefaultListSwitchValueChanged(sender: UISwitch) {
+        var mode = ""
+        if sender.on == true {
+            mode = "unread"
+        } else {
+            mode = "all"
+        }
+        
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+                "preferences":["default_list":mode]]
+            
+            NetworkManager.sharedNetworkClient().processPostRequestWithPath(UPDATE_USER_PREFERENCES_URL,
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    if requestStatus == 200 {
+                        Utilities.sharedInstance.setStringForKey(mode, key: DEFAULT_LIST)
+                    }
+                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    println("Error")
+            }
         }
     }
     
