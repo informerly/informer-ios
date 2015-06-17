@@ -18,6 +18,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     @IBOutlet weak var logoutView: UIView!
     @IBOutlet weak var tableView: UITableView!
     var menuItems : [Item] = []
+    var refreshCntrl : UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +26,11 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        
+        // Pull to Refresh
+        self.refreshCntrl = UIRefreshControl()
+        self.refreshCntrl.addTarget(self, action: Selector("onPullToRefresh:"), forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(self.refreshCntrl)
         
         self.downloadMenuItems()
         
@@ -58,11 +64,13 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     if requestStatus == 200 {
+                        self.refreshCntrl.endRefreshing()
                         MenuItems.sharedInstance.populateItems(processedData["feeds"] as! [AnyObject])
                         self.menuItems = MenuItems.sharedInstance.getItems()
                         self.tableView.reloadData()
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    self.refreshCntrl.endRefreshing()
             }
         } else {
 //            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
@@ -238,6 +246,11 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     @objc func getMenuItemsNotificationSelector(notification: NSNotification) {
         self.downloadMenuItems()
     }
+    
+    func onPullToRefresh(sender:AnyObject) {
+        self.downloadMenuItems()
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

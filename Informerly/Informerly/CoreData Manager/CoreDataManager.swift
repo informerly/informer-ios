@@ -12,6 +12,7 @@ import CoreData
 class CoreDataManager
 {
     class func addBookmarkFeeds(feedList: [AnyObject], isSynced: Bool) {
+        self.removeAllBookmarkFeeds()
         for feed in feedList {
             self.addFeed(feed as! [String : AnyObject], isSynced: isSynced)
         }
@@ -19,9 +20,9 @@ class CoreDataManager
     
     class func addFeed(feedDict:[String:AnyObject], isSynced: Bool) {
         
-        if (self.isFeedAlreadyExistForFeedID(feedDict["id"] as! Int)) {
-            return
-        }
+//        if (self.isFeedAlreadyExistForFeedID(feedDict["id"] as! Int)) {
+//            return
+//        }
         
         //create the object of AppDelegate
         let appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -183,6 +184,33 @@ class CoreDataManager
         }
     }
     
+    class func removeAllBookmarkFeeds() {
+        
+        //create the object of AppDelegate
+        let appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //get the context from AppDelegate
+        let managedContext = appDelegate.managedObjectContext!
+        
+        var request: NSFetchRequest = NSFetchRequest()
+        request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
+        
+        var error: NSError?
+        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
+        
+        if(error == nil) {
+            if result.count > 0 {
+                for feedItem in result {
+                    managedContext.deleteObject(feedItem)
+                }
+                managedContext.save(nil)
+            }
+        }
+        else {
+            println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
+        }
+    }
+    
     class func updateSyncStatusForFeedID(feedID: Int, syncStatus:Bool) {
         
         //create the object of AppDelegate
@@ -201,6 +229,31 @@ class CoreDataManager
         if(error == nil) {
             var bookmarkFeed: BookmarkEntity = result[0] as BookmarkEntity
             bookmarkFeed.isSynced = syncStatus
+            managedContext.save(nil)
+        }
+        else {
+            println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
+        }
+    }
+    
+    class func updateReadStatusForFeedID(feedID: Int, readStatus:Bool) {
+        
+        //create the object of AppDelegate
+        let appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //get the context from AppDelegate
+        let managedContext = appDelegate.managedObjectContext!
+        
+        var request: NSFetchRequest = NSFetchRequest()
+        request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
+        request.predicate = NSPredicate(format: "id=\(feedID)", argumentArray: nil)
+        
+        var error: NSError?
+        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
+        
+        if(error == nil) {
+            var bookmarkFeed: BookmarkEntity = result[0] as BookmarkEntity
+            bookmarkFeed.isSynced = readStatus
             managedContext.save(nil)
         }
         else {

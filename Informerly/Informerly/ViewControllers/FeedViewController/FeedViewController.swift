@@ -68,7 +68,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         self.fetchUserPreferences()
         self.downloadData()
-        self.downloadBookmark()
+        self.downloadBookmark { (result) -> Void in}
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "yourFeedNotificationSelector:", name:"YourFeedNotification", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "bookmarkNotificationSelector:", name:"BookmarkNotification", object: nil)
@@ -496,6 +496,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var tick = cell.viewWithTag(4) as! UIImageView
         tick.image = UIImage(named: "icon_tick")
         
+        if isBookmarked == true {
+            CoreDataManager.updateReadStatusForFeedID(self.bookmarks[indexPath.row].id!, readStatus: true)
+        }
+        
         self.performSegueWithIdentifier("ArticleVC", sender: self)
     }
     
@@ -560,7 +564,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    func downloadBookmark(){
+    func downloadBookmark(completion: (result: Bool) -> Void){
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             var parameters : [String:AnyObject] = ["auth_token":auth_token,
@@ -576,9 +580,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         
                         CoreDataManager.addBookmarkFeeds(processedData["links"] as! [AnyObject], isSynced: true)
                         self.bookmarks = CoreDataManager.getBookmarkFeeds()
+                        
+                        completion(result: true)
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-
+                    completion(result: false)
             }
         }
 
@@ -587,14 +593,17 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func onBookmark(){
         
         if isPullToRefresh == true {
-            self.downloadBookmark()
+            self.downloadBookmark({ (result) -> Void in
+                self.bookmarks = CoreDataManager.getBookmarkFeeds()
+                self.tableView.reloadData()
+            })
             isPullToRefresh = false
+        } else {
+            self.isBookmarked = true
+            self.createNavTitle()
+            self.bookmarks = CoreDataManager.getBookmarkFeeds()
+            self.tableView.reloadData()
         }
-        
-        self.isBookmarked = true
-        self.createNavTitle()
-        self.bookmarks = CoreDataManager.getBookmarkFeeds()
-        self.tableView.reloadData()
         
     }
     
@@ -688,7 +697,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         if  self.categoryFeeds == nil || self.categoryFeeds!.isEmpty || isPullToRefresh == true {
             
             if Utilities.sharedInstance.isConnectedToNetwork() == true {
-                                if isPullToRefresh == false {
+                if isPullToRefresh == false {
                     SVProgressHUD.showWithMaskType(SVProgressHUDMaskType.Gradient)
                 }
                 
@@ -984,6 +993,14 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
                 markAsRead(indexPath)
                 
+                var counter = 0
+                for feed in self.bookmarks {
+                    if feed.id == unreadBookmarkFeeds[indexPath.row].id {
+                        self.bookmarks[counter].read = true
+                    }
+                    counter++
+                }
+                
                 unreadBookmarkFeeds.removeAtIndex(indexPath.row)
                 self.tableView.beginUpdates()
                 self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
@@ -1012,6 +1029,14 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             if isUnreadTab == true {
                 readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
                 markAsRead(indexPath)
+                
+                var counter = 0
+                for feed in self.categoryFeeds! {
+                    if feed.id == unreadFeeds[indexPath.row].id {
+                        self.categoryFeeds![counter].read = true
+                    }
+                    counter++
+                }
                 
                 unreadFeeds.removeAtIndex(indexPath.row)
                 self.tableView.beginUpdates()
@@ -1042,6 +1067,14 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             if isUnreadTab == true {
                 readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
                 markAsRead(indexPath)
+                
+                var counter = 0
+                for feed in self.feeds {
+                    if feed.id == unreadFeeds[indexPath.row].id {
+                        self.feeds[counter].read = true
+                    }
+                    counter++
+                }
                 
                 self.unreadFeeds.removeAtIndex(indexPath.row)
                 self.tableView.beginUpdates()
@@ -1077,7 +1110,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             
             if isUnreadTab == true {
                 
-                self.unreadBookmarkFeeds[indexPath.row].read = true
                 path = "links/\(unreadBookmarkFeeds[indexPath.row].id!)/read"
                 articleID = unreadBookmarkFeeds[indexPath.row].id!
             } else {
@@ -1086,6 +1118,18 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 articleID = bookmarks[indexPath.row].id!
             }
             
+        } else if isCategoryFeeds == true {
+            
+            if isUnreadTab == true {
+                self.unreadFeeds[indexPath.row].read = true
+                path = "links/\(unreadFeeds[indexPath.row].id!)/read"
+                articleID = unreadFeeds[indexPath.row].id!
+            } else {
+                self.categoryFeeds![indexPath.row].read = true
+                path = "links/\(categoryFeeds![indexPath.row].id!)/read"
+                articleID = categoryFeeds![indexPath.row].id!
+            }
+        
         } else {
             
             if isUnreadTab == true {
@@ -1159,6 +1203,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             self.bookmarks[indexPath.row].read = false
             path = "links/\(bookmarks[indexPath.row].id!)/mark_as_unread"
             articleID = bookmarks[indexPath.row].id!
+        } else if isCategoryFeeds == true {
+            self.categoryFeeds![indexPath.row].read = false
+            path = "links/\(categoryFeeds![indexPath.row].id!)/mark_as_unread"
+            articleID = categoryFeeds![indexPath.row].id!
         } else {
             self.feeds[indexPath.row].read = false
             path = "links/\(feeds[indexPath.row].id!)/mark_as_unread"
@@ -1201,11 +1249,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         } else if index == 1 {
             var btn = cell.rightButtons[1] as! MGSwipeButton
             self.onMarkReadPressed(indexPath, readBtn: btn)
-            return false
+            return true
         } else {
             var btn = cell.rightButtons[2] as! MGSwipeButton
             self.onBookmarkPressed(indexPath,bookmarkBtn: btn)
-            return false
+            return true
         }
     }
     
