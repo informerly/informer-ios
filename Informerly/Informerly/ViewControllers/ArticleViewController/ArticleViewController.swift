@@ -116,7 +116,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         self.zenModeWebViewX = 0
         self.readArticles = [Int]()
         
-        
         // Create Toolbar
         self.createToolBar()
         

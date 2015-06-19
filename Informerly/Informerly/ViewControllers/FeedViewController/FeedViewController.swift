@@ -984,6 +984,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func onMarkReadPressed(indexPath:NSIndexPath,readBtn:MGSwipeButton) {
         
         let cell : MGSwipeTableCell = self.tableView.cellForRowAtIndexPath(indexPath) as! MGSwipeTableCell
+        cell.rightSwipeSettings.animationDuration = 0.5
         var title = cell.viewWithTag(2) as! UILabel
         var readingTime = cell.viewWithTag(3) as! UILabel
         var tick = cell.viewWithTag(4) as! UIImageView
