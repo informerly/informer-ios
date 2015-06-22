@@ -911,7 +911,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     // Zen web view delegate methods
     func webViewDidFinishLoad(webView: UIWebView) {
-        webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")
+//        webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")
     }
         
     func showAlert(title:String, msg:String){
