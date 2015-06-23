@@ -89,13 +89,13 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             self.feeds = Feeds.sharedInstance.getFeeds()
         }
         
-        if Utilities.sharedInstance.getStringForKey(DEFAULT_LIST) == "unread" {
-            self.customSegmentedControl.selectedSegmentIndex = 1
-            self.isUnreadTab = true
-        } else if Utilities.sharedInstance.getStringForKey(DEFAULT_LIST) == "all" {
-            self.customSegmentedControl.selectedSegmentIndex = 0
-            self.isUnreadTab = false
-        }
+//        if Utilities.sharedInstance.getStringForKey(DEFAULT_LIST) == "unread" {
+//            self.customSegmentedControl.selectedSegmentIndex = 1
+//            self.isUnreadTab = true
+//        } else if Utilities.sharedInstance.getStringForKey(DEFAULT_LIST) == "all" {
+//            self.customSegmentedControl.selectedSegmentIndex = 0
+//            self.isUnreadTab = false
+//        }
         
         self.tableView.reloadData()
     }
@@ -984,7 +984,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func onMarkReadPressed(indexPath:NSIndexPath,readBtn:MGSwipeButton) {
         
         let cell : MGSwipeTableCell = self.tableView.cellForRowAtIndexPath(indexPath) as! MGSwipeTableCell
-        cell.rightSwipeSettings.animationDuration = 0.5
+//        cell.rightSwipeSettings.animationDuration = 2
         var title = cell.viewWithTag(2) as! UILabel
         var readingTime = cell.viewWithTag(3) as! UILabel
         var tick = cell.viewWithTag(4) as! UIImageView

@@ -377,7 +377,7 @@
         self.transition = MGSwipeTransitionBorder;
         self.threshold = 0.5;
         self.offset = 0;
-        self.animationDuration = 0.3;
+        self.animationDuration = 0.7;
     }
     return self;
 }
