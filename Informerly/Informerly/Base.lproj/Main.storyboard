@@ -202,7 +202,10 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JRG-xz-hLa">
-                                            <rect key="frame" x="46" y="63" width="534" height="14"/>
+                                            <rect key="frame" x="46" y="63" width="100" height="14"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="AZT-dU-euJ"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="10"/>
                                             <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
@@ -216,21 +219,35 @@
                                         <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clock_icon" translatesAutoresizingMaskIntoConstraints="NO" id="zvV-dE-liN">
                                             <rect key="frame" x="22" y="63" width="16" height="16"/>
                                         </imageView>
+                                        <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_bookmark" translatesAutoresizingMaskIntoConstraints="NO" id="vcd-Tz-GOc">
+                                            <rect key="frame" x="566" y="62" width="14" height="18"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="18" id="3Sm-oX-VOd"/>
+                                                <constraint firstAttribute="width" constant="14" id="D6u-Oq-SVp"/>
+                                            </constraints>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottomMargin" secondItem="JRG-xz-hLa" secondAttribute="bottom" constant="4" id="2GS-qD-DQp"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="JRG-xz-hLa" secondAttribute="trailing" constant="12" id="41d-4T-N1R"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="Gau-fA-eGu" secondAttribute="trailing" constant="12" id="6Vw-fN-TXy"/>
                                         <constraint firstItem="Pjy-ey-IHh" firstAttribute="leading" secondItem="iP3-ei-UBV" secondAttribute="leadingMargin" constant="12" id="7NI-HE-7av"/>
                                         <constraint firstItem="zvV-dE-liN" firstAttribute="leading" secondItem="iP3-ei-UBV" secondAttribute="leadingMargin" constant="14" id="AGb-qN-vC7"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="Pjy-ey-IHh" secondAttribute="trailing" constant="12" id="Df3-nR-0jJ"/>
+                                        <constraint firstItem="vcd-Tz-GOc" firstAttribute="leading" secondItem="JRG-xz-hLa" secondAttribute="trailing" constant="6" id="Hxo-Se-0Ec"/>
                                         <constraint firstItem="zvV-dE-liN" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="12" id="Oyw-Dt-NKr"/>
                                         <constraint firstItem="JRG-xz-hLa" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="12" id="W1Y-7W-12H"/>
                                         <constraint firstItem="Pjy-ey-IHh" firstAttribute="top" secondItem="iP3-ei-UBV" secondAttribute="topMargin" constant="8" id="YN7-X3-EQz"/>
                                         <constraint firstItem="Gau-fA-eGu" firstAttribute="top" secondItem="Pjy-ey-IHh" secondAttribute="bottom" constant="-1" id="ae2-4n-XlI"/>
+                                        <constraint firstItem="vcd-Tz-GOc" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="11" id="nqa-XU-kW7"/>
                                         <constraint firstItem="Gau-fA-eGu" firstAttribute="leading" secondItem="iP3-ei-UBV" secondAttribute="leadingMargin" constant="12" id="wmh-fO-o9c"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="vcd-Tz-GOc" secondAttribute="trailing" constant="12" id="wnL-dJ-bUz"/>
                                         <constraint firstItem="JRG-xz-hLa" firstAttribute="leading" secondItem="zvV-dE-liN" secondAttribute="trailing" constant="8" id="xAb-Zy-9kg"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="Hxo-Se-0Ec"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -318,8 +335,8 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon_bookmark" translatesAutoresizingMaskIntoConstraints="NO" id="XEY-yd-32d">
                                         <rect key="frame" x="18" y="14" width="14" height="18"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Bookmarks" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w31-Je-v7P">
-                                        <rect key="frame" x="54" y="11" width="85" height="22"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Saved Articles" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w31-Je-v7P">
+                                        <rect key="frame" x="54" y="11" width="104" height="22"/>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
                                         <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
