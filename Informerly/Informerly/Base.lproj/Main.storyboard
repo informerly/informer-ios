@@ -220,10 +220,10 @@
                                             <rect key="frame" x="22" y="63" width="16" height="16"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_bookmark" translatesAutoresizingMaskIntoConstraints="NO" id="vcd-Tz-GOc">
-                                            <rect key="frame" x="566" y="62" width="14" height="18"/>
+                                            <rect key="frame" x="566" y="64" width="10" height="13"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="18" id="3Sm-oX-VOd"/>
-                                                <constraint firstAttribute="width" constant="14" id="D6u-Oq-SVp"/>
+                                                <constraint firstAttribute="height" constant="13" id="3Sm-oX-VOd"/>
+                                                <constraint firstAttribute="width" constant="10" id="D6u-Oq-SVp"/>
                                             </constraints>
                                         </imageView>
                                     </subviews>
@@ -238,9 +238,9 @@
                                         <constraint firstItem="JRG-xz-hLa" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="12" id="W1Y-7W-12H"/>
                                         <constraint firstItem="Pjy-ey-IHh" firstAttribute="top" secondItem="iP3-ei-UBV" secondAttribute="topMargin" constant="8" id="YN7-X3-EQz"/>
                                         <constraint firstItem="Gau-fA-eGu" firstAttribute="top" secondItem="Pjy-ey-IHh" secondAttribute="bottom" constant="-1" id="ae2-4n-XlI"/>
-                                        <constraint firstItem="vcd-Tz-GOc" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="11" id="nqa-XU-kW7"/>
+                                        <constraint firstItem="vcd-Tz-GOc" firstAttribute="top" secondItem="Gau-fA-eGu" secondAttribute="bottom" constant="13" id="nqa-XU-kW7"/>
                                         <constraint firstItem="Gau-fA-eGu" firstAttribute="leading" secondItem="iP3-ei-UBV" secondAttribute="leadingMargin" constant="12" id="wmh-fO-o9c"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="vcd-Tz-GOc" secondAttribute="trailing" constant="12" id="wnL-dJ-bUz"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="vcd-Tz-GOc" secondAttribute="trailing" constant="16" id="wnL-dJ-bUz"/>
                                         <constraint firstItem="JRG-xz-hLa" firstAttribute="leading" secondItem="zvV-dE-liN" secondAttribute="trailing" constant="8" id="xAb-Zy-9kg"/>
                                     </constraints>
                                     <variation key="default">

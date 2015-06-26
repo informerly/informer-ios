@@ -372,6 +372,10 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                 println("Successfully marked as read.")
+                
+                if self.isBookmarked == true {
+                    CoreDataManager.updateReadStatusForFeedID(self.bookmarkedFeeds[self.articleIndex].id!, readStatus: true)
+                }
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 println("Failure marking article as read")
                 
