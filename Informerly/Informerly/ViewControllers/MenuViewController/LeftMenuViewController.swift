@@ -209,8 +209,8 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         
         var menuLabel : UILabel = cell.viewWithTag(102) as! UILabel
         
-        menuLabel.font = UIFont(name: "OpenSans-Regular", size: 16.0)
-        menuLabel.textColor = UIColor(rgba: "#4A4A4A")
+//        menuLabel.font = UIFont(name: "OpenSans-Regular", size: 16.0)
+//        menuLabel.textColor = UIColor(rgba: "#4A4A4A")
         menuLabel.text = name
         
         return cell

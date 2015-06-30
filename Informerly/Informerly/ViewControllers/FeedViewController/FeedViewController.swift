@@ -42,12 +42,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.createNavTitle()
         
         // Adds menu icon on nav bar.
-        menu = UIBarButtonItem(image: UIImage(named: "menu_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onMenuPressed"))
+        menu = UIBarButtonItem(image: UIImage(named: ICON_MENU), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onMenuPressed"))
         menu.tintColor = UIColor.grayColor()
         self.navigationItem.leftBarButtonItem = menu
         
         // Adds interest icon on nav bar.
-        var interestBtn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_interests"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onUpdateYourInterest"))
+        var interestBtn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: ICON_INTERESTS), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onUpdateYourInterest"))
         interestBtn.tintColor = UIColor.grayColor()
         self.navigationItem.rightBarButtonItem = interestBtn
         
@@ -108,7 +108,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             navTitle = UILabel(frame: CGRectMake(0, 0, 80, 30))
             navTitle.text = "Your Feed"
             navTitle.textAlignment = NSTextAlignment.Center
-            navTitle.font = UIFont(name: "OpenSans-Regular", size: 14.0)
+            navTitle.font = UIFont(name: "OpenSans", size: 15.0)
             
             navTitleView.addSubview(navTitle)
             
@@ -332,8 +332,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         cell.delegate = self
         cell.separatorInset = UIEdgeInsetsZero
         
-        var imgName = "icon_bookmark"
-        var tickImgName = "icon_tick"
+        var imgName = ICON_BOOKMARK
+        var tickImgName = ICON_CHECK_CIRCLE_GREY
         
         var source = cell.viewWithTag(1) as! UILabel
         var title = cell.viewWithTag(2) as! UILabel
@@ -354,17 +354,17 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 
                 if feed.readingTime != nil{
                     readingTime.text = "\(String(feed.readingTime!)) min read"
-                    tick.image = UIImage(named: "clock_icon")
+                    tick.image = UIImage(named: ICON_CLOCK)
                 }
             } else {
-                title.textColor = UIColor(rgba: "#9B9B9B")
+                title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                 readingTime.text = "Read"
-                tick.image = UIImage(named: "icon_tick")
-                tickImgName = "icon_check_circle"
+                tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
+                tickImgName = ICON_CHECK_CIRCLE
             }
             
             if feed.bookmarked == true {
-                imgName = "icon_bookmark_filled"
+                imgName = ICON_BOOKMARK_FILLED
                 bookmarkImg.alpha = 1.0
             }
             
@@ -379,17 +379,17 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             if feed.read != true {
                 if feed.readingTime != nil {
                     readingTime.text = "\(feed.readingTime!) min read"
-                    tick.image = UIImage(named: "clock_icon")
+                    tick.image = UIImage(named: ICON_CLOCK)
                 }
             } else {
-                title.textColor = UIColor(rgba: "#9B9B9B")
+                title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                 readingTime.text = "Read"
-                tick.image = UIImage(named: "icon_tick")
-                tickImgName = "icon_check_circle"
+                tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
+                tickImgName = ICON_CHECK_CIRCLE
             }
             
             if feed.bookmarked == true {
-                imgName = "icon_bookmark_filled"
+                imgName = ICON_BOOKMARK_FILLED
                 bookmarkImg.alpha = 1.0
             }
             
@@ -405,17 +405,17 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 
                 if feed.readingTime != nil{
                     readingTime.text = "\(feed.readingTime!) min read"
-                    tick.image = UIImage(named: "clock_icon")
+                    tick.image = UIImage(named: ICON_CLOCK)
                 }
             } else {
-                title.textColor = UIColor(rgba: "#9B9B9B")
+                title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                 readingTime.text = "Read"
-                tick.image = UIImage(named: "icon_tick")
-                tickImgName = "icon_check_circle"
+                tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
+                tickImgName = ICON_CHECK_CIRCLE
             }
             
             if feed.bookmarked == true {
-                imgName = "icon_bookmark_filled"
+                imgName = ICON_BOOKMARK_FILLED
                 bookmarkImg.alpha = 1.0
             }
             
@@ -430,17 +430,17 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 
                 if feed.readingTime != nil{
                     readingTime.text = "\(String(feed.readingTime!)) min read"
-                    tick.image = UIImage(named: "clock_icon")
+                    tick.image = UIImage(named: ICON_CLOCK)
                 }
             } else {
-                title.textColor = UIColor(rgba: "#9B9B9B")
+                title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                 readingTime.text = "Read"
-                tick.image = UIImage(named: "icon_tick")
-                tickImgName = "icon_check_circle"
+                tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
+                tickImgName = ICON_CHECK_CIRCLE
             }
             
             if feed.bookmarked == true {
-                imgName = "icon_bookmark_filled"
+                imgName = ICON_BOOKMARK_FILLED
                 bookmarkImg.alpha = 1.0
             }
         }
@@ -456,17 +456,17 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 
                 if feed.readingTime != nil{
                     readingTime.text = "\(String(feed.readingTime!)) min read"
-                    tick.image = UIImage(named: "clock_icon")
+                    tick.image = UIImage(named: ICON_CLOCK)
                 }
             } else {
-                title.textColor = UIColor(rgba: "#9B9B9B")
+                title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                 readingTime.text = "Read"
-                tick.image = UIImage(named: "icon_tick")
-                tickImgName = "icon_check_circle"
+                tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
+                tickImgName = ICON_CHECK_CIRCLE
             }
             
             if feed.bookmarked == true {
-                imgName = "icon_bookmark_filled"
+                imgName = ICON_BOOKMARK_FILLED
                 bookmarkImg.alpha = 1.0
             }
         }
@@ -474,16 +474,16 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         // Create Cell Swipe view
         var bookmarkimage = UIImage(named: imgName)
         var tickImage = UIImage(named: tickImgName)
-        self.bookmarkBtn = MGSwipeButton(title: "",icon: bookmarkimage,backgroundColor:UIColor.whiteColor(),callback:nil)
+        self.bookmarkBtn = MGSwipeButton(title: "",icon: bookmarkimage,backgroundColor:UIColor(rgba:SWIPE_CELL_BACKGROUND),callback:nil)
         bookmarkBtn.buttonWidth = self.view.frame.size.width/3
         
-        self.readBtn = MGSwipeButton(title: "",icon: tickImage, backgroundColor: UIColor.whiteColor(), callback: nil)
+        self.readBtn = MGSwipeButton(title: "",icon: tickImage, backgroundColor: UIColor(rgba:SWIPE_CELL_BACKGROUND), callback: nil)
         self.readBtn.buttonWidth = self.view.frame.size.width/3
         
-        var shareBtn = MGSwipeButton(title: "", icon: UIImage(named: "share_btn")!, backgroundColor: UIColor.whiteColor(),callback: nil)
+        var shareBtn = MGSwipeButton(title: "", icon: UIImage(named: ICON_SHARE)!, backgroundColor: UIColor(rgba:SWIPE_CELL_BACKGROUND),callback: nil)
         shareBtn.buttonWidth = self.view.frame.size.width/3
         
-        cell.rightButtons = [shareBtn,readBtn,bookmarkBtn]
+        cell.rightButtons = [shareBtn,bookmarkBtn,readBtn]
         cell.rightSwipeSettings.transition = MGSwipeTransition.Border
 
         return cell
@@ -494,13 +494,13 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         let cell : UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
         
         var title = cell.viewWithTag(2)as! UILabel
-        title.textColor = UIColor(rgba: "#9B9B9B")
+        title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
         
         var read = cell.viewWithTag(3) as! UILabel
         read.text = "Read"
         
         var tick = cell.viewWithTag(4) as! UIImageView
-        tick.image = UIImage(named: "icon_tick")
+        tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
         
         if isBookmarked == true {
             CoreDataManager.updateReadStatusForFeedID(self.bookmarks[indexPath.row].id!, readStatus: true)
@@ -520,7 +520,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func getTextHeight(pString: String, width: CGFloat) -> CGFloat {
-        var font : UIFont = UIFont(name: "OpenSans-Bold", size: 19.5)!
+        var font : UIFont = UIFont(name: "OpenSans", size: 18.0)!
         var constrainedSize: CGSize = CGSizeMake(width, 9999);
         var attributesDictionary = NSDictionary(objectsAndKeys: font, NSFontAttributeName)
         var string = NSMutableAttributedString(string: pString, attributes: attributesDictionary as [NSObject : AnyObject])
@@ -820,7 +820,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         if isBookmarked == true {
             if isUnreadTab == true {
                 if self.unreadBookmarkFeeds[indexPath.row].bookmarked == true {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK)!, forState: UIControlState.Normal)
                     bookmarkImg.alpha = 0.0
                     self.unreadBookmarkFeeds[indexPath.row].bookmarked = false
                     self.markAsBookmarked(self.unreadBookmarkFeeds[indexPath.row].id!,feed: self.unreadBookmarkFeeds[indexPath.row],indexPath: indexPath)
@@ -838,7 +838,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                     self.tableView.endUpdates()
                 } else {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK_FILLED)!, forState: UIControlState.Normal)
                     bookmarkImg.alpha = 1.0
                     self.bookmarks[indexPath.row].bookmarked = true
                     self.markAsBookmarked(self.bookmarks[indexPath.row].id!,feed: self.bookmarks[indexPath.row],indexPath: indexPath)
@@ -846,7 +846,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             } else {
                 
                 if self.bookmarks[indexPath.row].bookmarked == true {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK)!, forState: UIControlState.Normal)
                     self.bookmarks[indexPath.row].bookmarked = false
                     bookmarkImg.alpha = 0.0
                     self.markAsBookmarked(self.bookmarks[indexPath.row].id!,feed: self.bookmarks[indexPath.row],indexPath: indexPath)
@@ -856,7 +856,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                     self.tableView.endUpdates()
                 } else {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK_FILLED)!, forState: UIControlState.Normal)
                     self.bookmarks[indexPath.row].bookmarked = true
                     bookmarkImg.alpha = 0.0
                     self.markAsBookmarked(self.bookmarks[indexPath.row].id!,feed: self.bookmarks[indexPath.row],indexPath: indexPath)
@@ -867,11 +867,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             
             if isUnreadTab == true {
                 if self.unreadFeeds[indexPath.row].bookmarked == true {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK)!, forState: UIControlState.Normal)
                     self.unreadFeeds[indexPath.row].bookmarked = false
                     bookmarkImg.alpha = 0.0
                 } else {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK_FILLED)!, forState: UIControlState.Normal)
                     bookmarkImg.alpha = 1.0
                     self.unreadFeeds[indexPath.row].bookmarked = true
                 }
@@ -879,11 +879,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 self.markAsBookmarked(self.unreadFeeds[indexPath.row].id!,feed: self.unreadFeeds[indexPath.row],indexPath: indexPath)
             } else {
                 if self.categoryFeeds![indexPath.row].bookmarked == true {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK)!, forState: UIControlState.Normal)
                     self.categoryFeeds![indexPath.row].bookmarked = false
                     bookmarkImg.alpha = 0.0
                 } else {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK_FILLED)!, forState: UIControlState.Normal)
                     self.categoryFeeds![indexPath.row].bookmarked = true
                     bookmarkImg.alpha = 1.0
                 }
@@ -895,11 +895,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             
             if isUnreadTab == true {
                 if self.unreadFeeds[indexPath.row].bookmarked == true {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK)!, forState: UIControlState.Normal)
                     self.unreadFeeds[indexPath.row].bookmarked = false
                     bookmarkImg.alpha = 0.0
                 } else {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK_FILLED)!, forState: UIControlState.Normal)
                     self.unreadFeeds[indexPath.row].bookmarked = true
                     bookmarkImg.alpha = 1.0
                 }
@@ -907,11 +907,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 self.markAsBookmarked(self.unreadFeeds[indexPath.row].id!,feed: self.unreadFeeds[indexPath.row],indexPath: indexPath)
             } else {
                 if self.feeds[indexPath.row].bookmarked == true {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK)!, forState: UIControlState.Normal)
                     self.feeds[indexPath.row].bookmarked = false
                     bookmarkImg.alpha = 0.0
                 } else {
-                    bookmarkBtn.setImage(UIImage(named: "icon_bookmark_filled")!, forState: UIControlState.Normal)
+                    bookmarkBtn.setImage(UIImage(named: ICON_BOOKMARK_FILLED)!, forState: UIControlState.Normal)
                     self.feeds[indexPath.row].bookmarked = true
                     bookmarkImg.alpha = 1.0
                 }
@@ -1011,7 +1011,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         if isBookmarked == true {
             if isUnreadTab == true {
-                readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
                 markAsRead(indexPath)
                 
                 var counter = 0
@@ -1029,27 +1029,27 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 
             } else {
                 if self.bookmarks[indexPath.row].read == true {
-                    readBtn.setImage(UIImage(named: "icon_tick"), forState: UIControlState.Normal)
+                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE_GREY), forState: UIControlState.Normal)
                     markAsUnread(indexPath)
                     
                     title.textColor = UIColor.blackColor()
                     readingTime.text = "\(String(self.bookmarks[indexPath.row].readingTime!)) min read"
-                    tick.image = UIImage(named: "clock_icon")
+                    tick.image = UIImage(named: ICON_CLOCK)
                     
                 } else {
-                    readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
                     markAsRead(indexPath)
                     
                     readingTime.text = "Read"
-                    title.textColor = UIColor(rgba: "#9B9B9B")
-                    tick.image = UIImage(named: "icon_tick")
+                    title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
+                    tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
                 }
             }
             
         } else if isCategoryFeeds == true {
             
             if isUnreadTab == true {
-                readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
                 markAsRead(indexPath)
                 
                 var counter = 0
@@ -1067,27 +1067,27 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             
             } else {
                 if self.categoryFeeds![indexPath.row].read == true {
-                    readBtn.setImage(UIImage(named: "icon_tick"), forState: UIControlState.Normal)
+                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE_GREY), forState: UIControlState.Normal)
                     markAsUnread(indexPath)
                     
                     title.textColor = UIColor.blackColor()
                     readingTime.text = "\(String(self.categoryFeeds![indexPath.row].readingTime!)) min read"
-                    tick.image = UIImage(named: "clock_icon")
+                    tick.image = UIImage(named: ICON_CLOCK)
                     
                 } else {
-                    readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
                     markAsRead(indexPath)
                     
-                    title.textColor = UIColor(rgba: "#9B9B9B")
+                    title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                     readingTime.text = "Read"
-                    tick.image = UIImage(named: "icon_tick")
+                    tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
                 }
             }
             
         } else {
             
             if isUnreadTab == true {
-                readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
                 markAsRead(indexPath)
                 
                 var counter = 0
@@ -1104,20 +1104,20 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 self.tableView.endUpdates()
             } else {
                 if self.feeds[indexPath.row].read == true {
-                    readBtn.setImage(UIImage(named: "icon_tick"), forState: UIControlState.Normal)
+                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE_GREY), forState: UIControlState.Normal)
                     markAsUnread(indexPath)
                     
                     title.textColor = UIColor.blackColor()
                     readingTime.text = "\(String(self.feeds[indexPath.row].readingTime!)) min read"
-                    tick.image = UIImage(named: "clock_icon")
+                    tick.image = UIImage(named: ICON_CLOCK)
                     
                 } else {
-                    readBtn.setImage(UIImage(named: "icon_check_circle"), forState: UIControlState.Normal)
+                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
                     markAsRead(indexPath)
                     
-                    title.textColor = UIColor(rgba: "#9B9B9B")
+                    title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                     readingTime.text = "Read"
-                    tick.image = UIImage(named: "icon_tick")
+                    tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
                     
                 }
             }
@@ -1270,11 +1270,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             return true
         } else if index == 1 {
             var btn = cell.rightButtons[1] as! MGSwipeButton
-            self.onMarkReadPressed(indexPath, readBtn: btn)
+            self.onBookmarkPressed(indexPath,bookmarkBtn: btn)
             return true
         } else {
             var btn = cell.rightButtons[2] as! MGSwipeButton
-            self.onBookmarkPressed(indexPath,bookmarkBtn: btn)
+            self.onMarkReadPressed(indexPath, readBtn: btn)
             return true
         }
     }

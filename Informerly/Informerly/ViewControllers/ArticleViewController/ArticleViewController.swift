@@ -300,16 +300,16 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         var flexibleItem2 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
-        var img : UIImage? = UIImage(named: "icon_bookmark")
+        var img : UIImage? = UIImage(named: ICON_BOOKMARK)
         
         if isBookmarked == true {
-            img = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+            img = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             if articleIndex + 1 == self.bookmarkedFeeds.count {
                 rightArrow.enabled = false
             }
         } else {
             if feeds[articleIndex].bookmarked == true {
-                img = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                img = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
             }
             
             if articleIndex + 1 == self.feeds.count {
@@ -321,7 +321,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         var flexibleItem3 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
-        var share : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "share_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onSharePressed"))
+        var share : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: ICON_SHARE), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onSharePressed"))
         
         toolbar.tintColor = UIColor(rgba: "#A6A8AB")
         
@@ -593,7 +593,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             articleIndex = articleIndex + 1
             
             if isBookmarked == true {
-                bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                bookmark.image = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                 articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].url!)!))
                 createProgressBar()
 //                if self.bookmarkedFeeds[self.articleIndex].read == false {
@@ -606,9 +606,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 
             } else {
                 if feeds[articleIndex].bookmarked == true {
-                    bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    bookmark.image = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                 } else {
-                    bookmark.image = UIImage(named: "icon_bookmark")
+                    bookmark.image = UIImage(named: ICON_BOOKMARK)
                 }
                 
                 articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
@@ -645,7 +645,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             articleIndex = articleIndex - 1
             
             if isBookmarked == true {
-                bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                bookmark.image = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                 articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].url!)!))
                 
                 createProgressBar()
@@ -655,9 +655,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 
             } else {
                 if feeds[articleIndex].bookmarked == true {
-                    bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    bookmark.image = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                 } else {
-                    bookmark.image = UIImage(named: "icon_bookmark")
+                    bookmark.image = UIImage(named: ICON_BOOKMARK)
                 }
                 articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
                 
@@ -690,18 +690,18 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             if isBookmarked == true {
                 articleID = bookmarkedFeeds[articleIndex].id!
                 if self.bookmarkedFeeds[articleIndex].bookmarked == true {
-                    self.bookmark.image = UIImage(named: "icon_bookmark")
+                    self.bookmark.image = UIImage(named: ICON_BOOKMARK)
                     self.bookmarkedFeeds[articleIndex].bookmarked = false
                 } else {
-                    self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    self.bookmark.image = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                 }
             } else {
                 articleID = feeds[articleIndex].id!
                 if self.feeds[articleIndex].bookmarked == true {
-                    self.bookmark.image = UIImage(named: "icon_bookmark")
+                    self.bookmark.image = UIImage(named: ICON_BOOKMARK)
                     self.feeds[self.articleIndex].bookmarked = false
                 } else {
-                    self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    self.bookmark.image = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                     self.feeds[self.articleIndex].bookmarked = true
                 }
             }
@@ -808,7 +808,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             if isBookmarked == true {
                 
                 if self.bookmarkedFeeds[articleIndex].bookmarked == true {
-                    self.bookmark.image = UIImage(named: "icon_bookmark")
+                    self.bookmark.image = UIImage(named: ICON_BOOKMARK)
                     self.bookmarkedFeeds[articleIndex].bookmarked = false
                     
                     var feed : InformerlyFeed
@@ -824,7 +824,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                     
                     CoreDataManager.removeBookmarkFeedOfID(bookmarkedFeeds[articleIndex].id!)
                 } else {
-                    self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    self.bookmark.image = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                     self.bookmarkedFeeds[articleIndex].bookmarked = true
                     
                     var feed : InformerlyFeed
@@ -844,12 +844,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
 //                self.resetZenModeWebView()
             } else {
                 if self.feeds[self.articleIndex].bookmarked == true {
-                    self.bookmark.image = UIImage(named: "icon_bookmark")
+                    self.bookmark.image = UIImage(named: ICON_BOOKMARK)
                     self.feeds[self.articleIndex].bookmarked = false
                     bookmarkedFeeds = CoreDataManager.getBookmarkFeeds()
                     CoreDataManager.removeBookmarkFeedOfID(bookmarkedFeeds[articleIndex].id!)
                 } else {
-                    self.bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+                    self.bookmark.image = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                     self.feeds[self.articleIndex].bookmarked = true
                     CoreDataManager.addBookmarkFeed(self.feeds[self.articleIndex], isSynced: false)
                 }

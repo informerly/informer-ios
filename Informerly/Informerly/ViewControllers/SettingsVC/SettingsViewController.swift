@@ -17,7 +17,13 @@ class SettingsViewController : UIViewController {
         // Setting up Nav bar
         self.navigationController?.navigationBar.translucent = false
         self.navigationItem.hidesBackButton = true
-        self.navigationItem.title = "Settings"
+        
+        var title : UILabel = UILabel(frame: CGRectMake(0, 0, 70, 30))
+        title.textAlignment = NSTextAlignment.Center
+        title.text = "Settings"
+        title.font = UIFont(name: "OpenSans-Regular", size: 14.0)
+        title.textColor = UIColor(rgba: "#4A4A4A")
+        self.navigationItem.titleView = title
         
         // Create bar buttons
         self.createNavButtons()
@@ -32,7 +38,7 @@ class SettingsViewController : UIViewController {
     }
     
     func createNavButtons() {
-        var doneBtn : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Done, target: self, action: Selector("onDonePress:"))
+        var doneBtn : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onDonePress:"))
         
         self.navigationItem.rightBarButtonItem = doneBtn
         
