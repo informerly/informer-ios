@@ -108,7 +108,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             navTitle = UILabel(frame: CGRectMake(0, 0, 80, 30))
             navTitle.text = "Your Feed"
             navTitle.textAlignment = NSTextAlignment.Center
-            navTitle.font = UIFont(name: "OpenSans", size: 15.0)
+            navTitle.font = UIFont(name: "OpenSans", size: 16.0)
             
             navTitleView.addSubview(navTitle)
             
@@ -122,7 +122,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func createTableViewHeader(){
         var headerView : UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, 75))
         
-        customSegmentedControl = UISegmentedControl (items: ["All News","Unread"])
+        var font = UIFont(name: "OpenSans", size: 12.0)
+        
+        customSegmentedControl = UISegmentedControl (items: ["ALL NEWS","UNREAD"])
+        customSegmentedControl.setTitleTextAttributes([NSFontAttributeName:font!], forState: UIControlState.Normal)
         customSegmentedControl.frame = CGRectMake(self.view.frame.size.width/2 - 140, 20,280, 35)
         customSegmentedControl.selectedSegmentIndex = 0
         customSegmentedControl.tintColor = UIColor.lightGrayColor()

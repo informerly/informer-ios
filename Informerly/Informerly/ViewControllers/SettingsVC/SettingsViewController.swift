@@ -21,7 +21,7 @@ class SettingsViewController : UIViewController {
         var title : UILabel = UILabel(frame: CGRectMake(0, 0, 70, 30))
         title.textAlignment = NSTextAlignment.Center
         title.text = "Settings"
-        title.font = UIFont(name: "OpenSans-Regular", size: 14.0)
+        title.font = UIFont(name: "OpenSans", size: 16.0)
         title.textColor = UIColor(rgba: "#4A4A4A")
         self.navigationItem.titleView = title
         
@@ -39,6 +39,8 @@ class SettingsViewController : UIViewController {
     
     func createNavButtons() {
         var doneBtn : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onDonePress:"))
+        
+        doneBtn.setTitleTextAttributes([NSFontAttributeName:UIFont(name: "OpenSans", size: 16.0)!], forState: UIControlState.Normal)
         
         self.navigationItem.rightBarButtonItem = doneBtn
         
