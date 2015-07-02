@@ -253,7 +253,7 @@ class CoreDataManager
         
         if(error == nil) {
             var bookmarkFeed: BookmarkEntity = result[0] as BookmarkEntity
-            bookmarkFeed.isSynced = readStatus
+            bookmarkFeed.read = readStatus
             managedContext.save(nil)
         }
         else {
