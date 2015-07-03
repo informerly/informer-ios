@@ -140,8 +140,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             
-            var linkID : String = String(userInfo["link_id"] as! Int)
-            Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            if userInfo["link_id"] != nil {
+                var linkID : String = String(userInfo["link_id"] as! Int)
+                Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            } else {
+                Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
+            }
 //            Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_PUSH)
             
 //            self.loadFeedVC()
