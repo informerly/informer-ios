@@ -135,15 +135,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        PFPush.handlePush(userInfo)
+//        PFPush.handlePush(userInfo)
         println("app recieved notification from remote \(userInfo)");
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             
             var linkID : String = String(userInfo["link_id"] as! Int)
             Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+//            Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_PUSH)
             
-            self.loadFeedVC()
+//            self.loadFeedVC()
         }
         
 

@@ -61,6 +61,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         if Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) == true {
             self.feeds = [self.customURLData]
             self.articleIndex = 0
+        } else if (Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true){
+            self.feeds = Feeds.sharedInstance.getFeeds()
+            Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_PUSH)
         } else {
             if isUnreadTab == true && isBookmarked == false {
                 self.feeds = unreadFeeds
@@ -98,7 +101,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].url!)!))
         } else {
             count = self.feeds.count
-            articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+            
+            if articleIndex > count {
+                articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: Feeds.sharedInstance.getFeeds()[articleIndex].URL!)!))
+            } else {
+                articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
+            }
         }
         
         self.zenWebViews = [UIWebView?](count: count, repeatedValue: nil)

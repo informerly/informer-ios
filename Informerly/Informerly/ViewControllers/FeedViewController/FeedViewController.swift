@@ -34,6 +34,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
+        
         // Setting Nav bar.
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.hidden = false
@@ -150,7 +152,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func downloadData() {
         
-        if isPullToRefresh == false {
+        if isPullToRefresh == false || Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
             SVProgressHUD.showWithMaskType(SVProgressHUDMaskType.Gradient)
         }
         
@@ -561,7 +563,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func onPullToRefresh(sender:AnyObject) {
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             isPullToRefresh = true
-            if isBookmarked == false && isCategoryFeeds == false {
+            if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
+                self.downloadData()
+            } else if isBookmarked == false && isCategoryFeeds == false {
                 self.downloadData()
             } else if isBookmarked == true {
                 self.onBookmark()
@@ -1281,6 +1285,19 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             return true
         }
     }
+    
+    
+//    func appDidBecomeActiveCalled(){
+//        
+//        if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
+//            if ((self.navigationController?.topViewController.isKindOfClass(ArticleViewController)) == true) {
+////                self.navigationController?.popViewControllerAnimated(true)
+//
+//            }
+//            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+////            self.onPullToRefresh(self)
+//        }
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
