@@ -154,6 +154,50 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         }
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        var shareMenu : UIMenuItem = UIMenuItem(title: "Share", action: Selector("onTextShare:"))
+        UIMenuController.sharedMenuController().menuItems = [shareMenu]
+    }
+    
+    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+        
+        if action == Selector("onTextShare:") {
+            return true
+        }
+        
+        return super.canPerformAction(action, withSender: sender)
+    }
+    
+    func onTextShare(sender:AnyObject){
+        
+        var selectedText = self.zenWebViews[self.articleIndex]?.stringByEvaluatingJavaScriptFromString("window.getSelection().toString()")
+        
+        var sharingItems = [AnyObject]()
+        var url : String!
+        var subject : String!
+        if isBookmarked == true {
+            subject = self.bookmarkedFeeds[articleIndex].title!
+            url = self.bookmarkedFeeds[articleIndex].url!
+        } else if isCategoryFeeds == true {
+            subject = self.categoryFeeds![articleIndex].title!
+            url = self.categoryFeeds![articleIndex].URL!
+        } else {
+            subject = feeds[articleIndex].title!
+            url = self.feeds[articleIndex].URL!
+        }
+        
+        sharingItems.append("\(selectedText!) \n \n")
+        sharingItems.append(url)
+        
+        let activity = ARSafariActivity()
+        let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
+        activityVC.setValue(subject, forKey: "subject")
+        self.presentViewController(activityVC, animated: true, completion: nil)
+
+    }
+    
     // Creates bar button for navbar
     func createNavBarButtons() {
         var back_btn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onBackPressed"))
@@ -452,6 +496,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     // Web view delegate
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         println("finish")
+        webView.evaluateJavaScript("document.documentElement.style.webkitUserSelect='none';", completionHandler: nil)
         self.zenModeBtnView.hidden = true
         articleWebView.alpha = 1.0
         toolbar.alpha = 1.0
