@@ -188,14 +188,14 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             url = self.feeds[articleIndex].URL!
         }
         
-        sharingItems.append("\(selectedText!) \n \n")
-        sharingItems.append(url)
+        println(selectedText!)
+        sharingItems.append(selectedText!)
+//        sharingItems.append(url)
         
         let activity = ARSafariActivity()
         let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
         activityVC.setValue(subject, forKey: "subject")
         self.presentViewController(activityVC, animated: true, completion: nil)
-
     }
     
     // Creates bar button for navbar
