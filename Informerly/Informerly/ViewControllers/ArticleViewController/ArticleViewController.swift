@@ -188,9 +188,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             url = self.feeds[articleIndex].URL!
         }
         
-        println(selectedText!)
-        sharingItems.append(selectedText!)
-//        sharingItems.append(url)
+        sharingItems.append("\(selectedText!) \n \n")
+        sharingItems.append(url)
         
         let activity = ARSafariActivity()
         let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
