@@ -22,6 +22,6 @@ class Item {
         self.magic = item["magic"] as? String
         self.name = item["name"] as? String
         self.primary = item["primary"] as? Int
-        self.user_id = item [""] as? Int
+        self.user_id = item ["user_id"] as? Int
     }
 }

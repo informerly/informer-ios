@@ -20,6 +20,8 @@ class InformerlyFeedTests: XCTestCase {
         self.createTestData()
     }
     
+    
+    // Helper methods
     func createTestData(){
         testData = [:]
         testData["id"] = 38150
@@ -43,6 +45,8 @@ class InformerlyFeedTests: XCTestCase {
         super.tearDown()
     }
     
+    
+    // Test cases
     func testInformerlyFeedObjectIsNotNil() {
         feed = InformerlyFeed()
         XCTAssertNotNil(feed, "Feed object is not initialized")

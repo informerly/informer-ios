@@ -29,6 +29,8 @@ class UserTests: XCTestCase {
         super.tearDown()
     }
     
+    
+    // Test cases
     func testUserSharedInstanceNotNil() {
         XCTAssertNotNil(User.sharedInstance, "Shared Instance is not available.")
     }

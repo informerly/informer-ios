@@ -74,7 +74,7 @@ class MenuViewController:UIViewController {
             }
         } else {
             self.indicator.stopAnimating()
-            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+            self.showAlert("Looks like you have no signal.", msg: "Don't worry! You can still read your Saved Articles from the side menu.")
         }
     }
     

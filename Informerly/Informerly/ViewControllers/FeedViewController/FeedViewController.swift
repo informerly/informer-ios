@@ -236,7 +236,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         } else {
             SVProgressHUD.dismiss()
             self.refreshCntrl.endRefreshing()
-            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+            self.showAlert("Looks like you have no signal.", msg: "Don't worry! You can still read your Saved Articles from the side menu.")
         }
     }
     
@@ -702,7 +702,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         if Utilities.sharedInstance.isConnectedToNetwork() == false && CategoryFeeds.sharedInstance.getCategoryFeeds(categoryID) == nil{
             SVProgressHUD.dismiss()
             self.refreshCntrl.endRefreshing()
-            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+            self.isCategoryFeeds = false
+            self.showAlert("Looks like you have no signal.", msg: "Don't worry! You can still read your Saved Articles from the side menu.")
             return
         }
         
@@ -758,7 +759,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             } else {
                 SVProgressHUD.dismiss()
                 self.refreshCntrl.endRefreshing()
-                self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+                self.showAlert("Looks like you have no signal.", msg: "Don't worry! You can still read your Saved Articles from the side menu.")
             }
         } else {
             self.navTitle.text = categoryName
