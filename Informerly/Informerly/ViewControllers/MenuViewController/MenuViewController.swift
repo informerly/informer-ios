@@ -74,7 +74,7 @@ class MenuViewController:UIViewController {
             }
         } else {
             self.indicator.stopAnimating()
-            self.showAlert("Looks like you have no signal.", msg: "Don't worry! You can still read your Saved Articles from the side menu.")
+            self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")
         }
     }
     

@@ -236,7 +236,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         } else {
             SVProgressHUD.dismiss()
             self.refreshCntrl.endRefreshing()
-            self.showAlert("Looks like you have no signal.", msg: "Don't worry! You can still read your Saved Articles from the side menu.")
+            self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")
         }
     }
     
@@ -703,7 +703,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             SVProgressHUD.dismiss()
             self.refreshCntrl.endRefreshing()
             self.isCategoryFeeds = false
-            self.showAlert("Looks like you have no signal.", msg: "Don't worry! You can still read your Saved Articles from the side menu.")
+            self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")
             return
         }
         
@@ -759,7 +759,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             } else {
                 SVProgressHUD.dismiss()
                 self.refreshCntrl.endRefreshing()
-                self.showAlert("Looks like you have no signal.", msg: "Don't worry! You can still read your Saved Articles from the side menu.")
+                self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")
             }
         } else {
             self.navTitle.text = categoryName
