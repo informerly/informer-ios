@@ -17,6 +17,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var passwordView: UIView!
+    @IBOutlet weak var forgotPasswordBtn: UIButton!
     private var indicator : UIActivityIndicatorView!
     
     override func viewDidLoad() {
@@ -218,7 +219,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

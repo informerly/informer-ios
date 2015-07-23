@@ -153,6 +153,7 @@
                     <connections>
                         <outlet property="emailTextField" destination="28B-jH-Iqj" id="WGP-FJ-RPQ"/>
                         <outlet property="emailView" destination="UG0-aT-itY" id="kTb-TJ-Yuz"/>
+                        <outlet property="forgotPasswordBtn" destination="Utu-eb-MVo" id="8ka-lh-Kg4"/>
                         <outlet property="passwordTextField" destination="k7c-z4-SNg" id="ZQK-Qt-nJy"/>
                         <outlet property="passwordView" destination="AY8-Sl-1JA" id="ZOt-b0-6Bb"/>
                         <outlet property="signInBtn" destination="SLb-TP-qBG" id="9P4-vn-fBx"/>
@@ -562,7 +563,7 @@
         <!--Update Interest View Controller-->
         <scene sceneID="Q9w-7y-9tY">
             <objects>
-                <viewController id="eOx-YW-8Rv" customClass="UpdateInterestViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UpdateInterestVC" id="eOx-YW-8Rv" customClass="UpdateInterestViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hIq-ve-G65"/>
                         <viewControllerLayoutGuide type="bottom" id="alG-B3-NR0"/>
