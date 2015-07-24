@@ -59,13 +59,13 @@ class Utilities {
     
     
     func setAuthToken(value:String,key:String) {
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
         userDefaults.setObject(value, forKey: AUTH_TOKEN)
         userDefaults.synchronize()
     }
     
     func getAuthToken(key:String)->String {
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
         return userDefaults.stringForKey(key)!
     }
     

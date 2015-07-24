@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             else if let url = options[UIApplicationLaunchOptionsURLKey] as? NSURL {
                 Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
             } else {
-                var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+                var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
                 var linkID : String = userDefaults.stringForKey("id")!
                 Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             }
@@ -161,7 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         
         if url.scheme == "TodayExtension" {
-            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
             var linkID : String = userDefaults.stringForKey("id")!
             Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             println(linkID)
