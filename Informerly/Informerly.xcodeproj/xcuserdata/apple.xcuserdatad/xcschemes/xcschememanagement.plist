@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Glance - Informer WatchKit App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>Informer WatchKit App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 		<key>Informerly Widget.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -14,9 +24,19 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>Notification - Informer WatchKit App.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>182059461B6A05C800CD7CE9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1845B98B1A7F8A5F00172610</key>
 		<dict>
 			<key>primary</key>
