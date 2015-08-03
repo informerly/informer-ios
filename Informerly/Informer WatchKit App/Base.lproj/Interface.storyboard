@@ -36,7 +36,7 @@
                     <items>
                         <label alignment="left" text="Alert Label" id="XkS-y5-khE"/>
                     </items>
-                    <notificationCategory key="notificationCategory" identifier="myCategory" id="JfB-70-Muf"/>
+                    <notificationCategory key="notificationCategory" identifier="notification" id="JfB-70-Muf"/>
                     <connections>
                         <outlet property="notificationAlertLabel" destination="XkS-y5-khE" id="49B-RR-99y"/>
                         <segue destination="gdX-wl-uQE" kind="relationship" relationship="dynamicNotificationInterface" id="fKh-qV-3T2"/>
@@ -48,9 +48,18 @@
         <!--Notification Controller-->
         <scene sceneID="KIl-fV-djm">
             <objects>
-                <controller id="gdX-wl-uQE" customClass="NotificationController" customModule="Informer_WatchKit_App" customModuleProvider="target"/>
+                <controller id="gdX-wl-uQE" customClass="NotificationController" customModule="Informer_WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <label width="136" height="83" alignment="left" text="Title" textAlignment="left" numberOfLines="3" id="vsW-wV-euN"/>
+                        <label alignment="left" id="Xpx-zj-o3F"/>
+                    </items>
+                    <connections>
+                        <outlet property="msgLabel" destination="Xpx-zj-o3F" id="E4O-dk-003"/>
+                        <outlet property="titleLabel" destination="vsW-wV-euN" id="LDt-os-MXO"/>
+                    </connections>
+                </controller>
             </objects>
-            <point key="canvasLocation" x="553" y="1001"/>
+            <point key="canvasLocation" x="553" y="1005"/>
         </scene>
     </scenes>
 </document>

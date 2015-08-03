@@ -88,6 +88,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             self.loadFeedVC()
         }
+        
+        self.registerSettingsAndCategories()
         return true
     }
 
@@ -343,4 +345,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     
+    func registerSettingsAndCategories() {
+        var categories = NSMutableSet()
+        
+        var acceptAction = UIMutableUserNotificationAction()
+        acceptAction.title = NSLocalizedString("Open", comment: "")
+        acceptAction.identifier = "open"
+        acceptAction.activationMode = UIUserNotificationActivationMode.Background
+        acceptAction.authenticationRequired = false
+        
+        var declineAction = UIMutableUserNotificationAction()
+        declineAction.title = NSLocalizedString("Save", comment: "")
+        declineAction.identifier = "save"
+        declineAction.activationMode = UIUserNotificationActivationMode.Background
+        declineAction.authenticationRequired = false
+        
+        var inviteCategory = UIMutableUserNotificationCategory()
+        inviteCategory.setActions([acceptAction, declineAction],
+            forContext: UIUserNotificationActionContext.Default)
+        inviteCategory.identifier = "notification"
+        
+        categories.addObject(inviteCategory)
+        
+        // Configure other actions and categories and add them to the set...
+        
+        var settings = UIUserNotificationSettings(forTypes: (.Alert | .Badge | .Sound),
+            categories: categories as Set<NSObject>)
+        
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+    }
 }
