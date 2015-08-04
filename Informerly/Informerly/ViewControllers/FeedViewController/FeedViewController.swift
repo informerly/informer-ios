@@ -15,6 +15,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var indicator : UIActivityIndicatorView!
     private var width : CGFloat!
     var refreshCntrl : UIRefreshControl!
+    var readArticles : [Int]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.refreshCntrl = UIRefreshControl()
         self.refreshCntrl.addTarget(self, action: Selector("onPullToRefresh:"), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(self.refreshCntrl)
+        
+        // Setting up activity indicator
+        indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2,self.view.frame.height/2 - 50, 0, 0)) as UIActivityIndicatorView
+        indicator.hidesWhenStopped = true
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        view.addSubview(indicator)
+        self.indicator.startAnimating()
+        
+        self.downloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -45,16 +55,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         UIApplication.sharedApplication().statusBarHidden = false
         self.navigationController?.navigationBar.hidden = false
         if Utilities.sharedInstance.getBoolForKey(FROM_MENU_VC) == false {
-            
-            // Setting up activity indicator
-            indicator = UIActivityIndicatorView(frame: CGRectMake(self.view.frame.width/2 - 25,self.view.frame.height/2 - 25, 50, 50)) as UIActivityIndicatorView
-            indicator.hidesWhenStopped = true
-            indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-            view.addSubview(indicator)
-            self.indicator.startAnimating()
-            
-            // Download feeds.
-            self.downloadData()
+            self.tableView.reloadData()
         } else {
             Utilities.sharedInstance.setBoolForKey(false, key: FROM_MENU_VC)
         }
@@ -63,14 +64,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func createNavTitle() {
         var title : UILabel = UILabel(frame: CGRectMake(0, 0, 65, 30))
         title.text = "Your Feed"
-        title.font = UIFont(name: "OpenSans-Reguler", size: 14.0)
+        title.font = UIFont(name: "OpenSans-Regular", size: 14.0)
         self.navigationItem.titleView = title
     }
     
     func downloadData() {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var auth_token = Utilities.sharedInstance.getStringForKey(AUTH_TOKEN)
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            println(auth_token)
             var parameters = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "content":"true"]
@@ -80,6 +82,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
+                        
                         self.indicator.stopAnimating()
                         self.refreshCntrl.endRefreshing()
                         Feeds.sharedInstance.populateFeeds(processedData["links"] as [AnyObject])
@@ -105,8 +108,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         self.tableView.reloadData()
                         self.tableView.layoutIfNeeded()
                         
-//                        var indexPath : NSIndexPath = NSIndexPath(forRow: row, inSection: 0)
-//                        self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
                         if link_id != "-1" {
                             Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
                             self.rowID = row
@@ -116,14 +117,28 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     self.indicator.stopAnimating()
                     self.refreshCntrl.endRefreshing()
-                    println(error)
-                    var error : [String:AnyObject] = extraInfo as Dictionary
-                    var message : String = error["error"] as String
                     
-                    self.showAlert("Error !", msg: message)
+                    if extraInfo != nil {
+                        var error : [String:AnyObject] = extraInfo as Dictionary
+                        var message : String = error["error"] as String
+                        
+                        if message == "Invalid authentication token." {
+                            var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
+                                self.showViewController(loginVC, sender: self)
+                            }))
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                        
+                        self.showAlert("Error !", msg: message)
+                    } else {
+                        self.showAlert("Error !", msg: "Try Again!")
+                    }
             }
         } else {
             indicator.stopAnimating()
+            self.refreshCntrl.endRefreshing()
             self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
         }
     }

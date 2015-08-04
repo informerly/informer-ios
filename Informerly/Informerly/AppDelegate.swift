@@ -12,17 +12,33 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    private var reachability:Reachability?;
+    var readArticles : [Int]!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch
         
+        if UIDevice.currentDevice().model == "iPhone Simulator" {
+            Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"checkForReachability:", name: kReachabilityChangedNotification, object: nil);
+        
+        self.reachability = Reachability.reachabilityForInternetConnection();
+        self.reachability?.startNotifier()
+        
         if let options = launchOptions {
             var notification: AnyObject? = options[UIApplicationLaunchOptionsRemoteNotificationKey]
-            var userInfo : [NSObject:AnyObject] = notification as Dictionary
-
-            var linkID : String =  String(userInfo["link_id"] as Int)
-            Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            
+            if notification != nil {
+                var userInfo : [NSObject:AnyObject] = notification as Dictionary
+                var linkID : String =  String(userInfo["link_id"] as Int)
+                Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            } else {
+                var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+                var linkID : String = userDefaults.stringForKey("id")!
+                Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            }
         } else {
             Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
         }
@@ -50,12 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        
-        
-        
         var pushSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: .Alert, categories: nil)
-                
-        Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
         
         application.applicationIconBadgeNumber = 0
         var setting : UIUserNotificationSettings = UIUserNotificationSettings(forTypes:
@@ -64,6 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.sharedApplication().registerUserNotificationSettings(setting);
         UIApplication.sharedApplication().registerForRemoteNotifications();
+        
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             var storyboard = self.window?.rootViewController?.storyboard
@@ -141,6 +153,72 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayloadInBackground(userInfo, block: nil)
         }
         println("Push sent/opened?")
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+        var linkID : String = userDefaults.stringForKey("id")!
+        Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+        println(linkID)
+        
+        var storyboard = self.window?.rootViewController?.storyboard
+        var rootVC = storyboard?.instantiateViewControllerWithIdentifier("FeedVC") as UIViewController
+        var navigationVC = self.window?.rootViewController as UINavigationController
+        navigationVC.viewControllers = [rootVC]
+        self.window?.rootViewController = navigationVC
+        
+        return true
+    }
+    
+    
+    func checkForReachability(notification:NSNotification)
+    {
+        let networkReachability = notification.object as Reachability;
+        var remoteHostStatus = networkReachability.currentReachabilityStatus()
+        
+        if (remoteHostStatus.value == NotReachable.value)
+        {
+            println("Not Reachable")
+        }
+        else
+        {
+            println("Reachable")
+            
+            if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
+                self.readArticles = NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) as Array
+                
+                if (readArticles != nil) && (readArticles?.isEmpty == false) {
+                    self.markUnreadArticles(readArticles!)
+                }
+            }
+        }
+    }
+    
+    
+    func markUnreadArticles(articlesList : [Int]){
+        
+        for articleID in articlesList {
+            self.markRead(articleID)
+        }
+    }
+    
+    func markRead(articleID:Int) {
+        var path : String = "links/\(articleID)/read"
+        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
+            "client_id":"",
+            "link_id": articleID]
+        NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
+            parameter: parameters,
+            success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                println("Successfully marked as read.")
+                
+                self.readArticles.removeAtIndex(find(self.readArticles, articleID)!)
+                NSUserDefaults.standardUserDefaults().setObject(self.readArticles, forKey: READ_ARTICLES)
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
+            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                println("Failure marking article as read")
+        }
     }
     
 }

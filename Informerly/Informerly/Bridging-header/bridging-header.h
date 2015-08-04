@@ -13,5 +13,6 @@
 //#import "AFNetworking.h"
 #import <Parse/Parse.h>
 #import <ParseCrashReporting/ParseCrashReporting.h>
+#import "Reachability.h"
 
 #endif

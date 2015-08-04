@@ -52,25 +52,28 @@ class MenuViewController:UIViewController {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             indicator.startAnimating()
-            var parameters = ["auth_token":Utilities.sharedInstance.getStringForKey(AUTH_TOKEN),
+            var parameters = ["auth_token":Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
                 "client_id":"dev-ios-informer"]
             NetworkManager.sharedNetworkClient().processDeleteRequestWithPath(LOGOUT_URL,
                 parameter: parameters,
                 success: { (requestStatus : Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     self.indicator.stopAnimating()
                     Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
-                    Utilities.sharedInstance.setStringForKey(AUTH_TOKEN, key: "")
+                    Utilities.sharedInstance.setAuthToken("", key: AUTH_TOKEN)
                     Utilities.sharedInstance.setBoolForKey(false, key: FROM_MENU_VC)
+                    
+                    NSUserDefaults.standardUserDefaults().setObject([], forKey: READ_ARTICLES)
+                    NSUserDefaults.standardUserDefaults().synchronize()
                     
                     var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as LoginViewController
                     self.showViewController(loginVC, sender: self)
-                    
                     
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     self.indicator.stopAnimating()
                     println(error.localizedDescription)
             }
         } else {
+            self.indicator.stopAnimating()
             self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
         }
     }

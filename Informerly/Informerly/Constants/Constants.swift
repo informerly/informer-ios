@@ -16,6 +16,7 @@ let EMAIL = "email"
 let LINK_ID = "link_id"
 let DEVICE_TOKEN = "deviceToken"
 let FROM_MENU_VC = "fromMenuVC"
+let READ_ARTICLES = "readArticles"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"

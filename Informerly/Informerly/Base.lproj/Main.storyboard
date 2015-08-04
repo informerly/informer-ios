@@ -100,8 +100,8 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="iHp-Xa-6ef">
-                                        <rect key="frame" x="80" y="14" width="160" height="16"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="new_logo" translatesAutoresizingMaskIntoConstraints="NO" id="iHp-Xa-6ef">
+                                        <rect key="frame" x="80" y="14" width="160" height="19"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -226,7 +226,7 @@
                         <viewControllerLayoutGuide type="bottom" id="2k0-RF-Ewo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bj6-EX-SLL">
-                        <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -294,11 +294,11 @@
                                     <action selector="onLogoutPressed:" destination="TBP-BJ-AuH" eventType="touchUpInside" id="UhS-95-90B"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="T3n-Yr-a9b">
-                                <rect key="frame" x="240" y="40" width="120" height="12"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="new_logo" translatesAutoresizingMaskIntoConstraints="NO" id="T3n-Yr-a9b">
+                                <rect key="frame" x="240" y="40" width="120" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="GtM-fO-jO9"/>
-                                    <constraint firstAttribute="height" constant="12" id="Hzv-BJ-jDn"/>
+                                    <constraint firstAttribute="height" constant="14" id="Hzv-BJ-jDn"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -399,7 +399,7 @@
         <!--Help View Controller-->
         <scene sceneID="ull-cn-Irw">
             <objects>
-                <viewController id="E2L-wB-N30" customClass="HelpViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HelpVC" id="E2L-wB-N30" customClass="HelpViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BaG-Y4-fyP"/>
                         <viewControllerLayoutGuide type="bottom" id="NZd-bb-C05"/>
@@ -493,8 +493,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo" width="160" height="16"/>
         <image name="clock_icon" width="16" height="16"/>
         <image name="icon_back_white" width="16" height="16"/>
+        <image name="new_logo" width="160" height="19"/>
     </resources>
 </document>
