@@ -97,7 +97,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-        let newLength = countElements(textField.text!) + countElements(string) - range.length
+        let newLength = count(textField.text!) + count(string) - range.length
         
         if newLength == 0 {
             textField.alpha = 0.3
@@ -105,9 +105,9 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             textField.alpha = 1.0
         }
         
-        if textField === passwordTextField && countElements(emailTextField.text) > 0 {
+        if textField === passwordTextField && count(emailTextField.text) > 0 {
             
-            if newLength == 1 {
+            if newLength >= 1 {
                 signInBtn.enabled = true
                 signInBtn.alpha = 1.0
             } else if newLength == 0 {
@@ -117,9 +117,9 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             
         }
         
-        if textField === emailTextField && countElements(passwordTextField.text) > 0 {
+        if textField === emailTextField && count(passwordTextField.text) > 0 {
             
-            if newLength == 1 {
+            if newLength >= 1 {
                 signInBtn.enabled = true
                 signInBtn.alpha = 1.0
             } else if newLength == 0 {
@@ -164,23 +164,29 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                 parameter: parameters,
                 success: { (requestStatus: Int32, processedData: AnyObject!, extraInfo:AnyObject!) -> Void in
                     self.indicator.stopAnimating()
-                    var data : [String:AnyObject] = processedData as Dictionary
-                    if (data["success"] as Bool == true) {
-                        User.sharedInstance.populateUser(processedData as Dictionary)
+                    var data : [String:AnyObject] = processedData as! Dictionary
+                    if (data["success"] as! Bool == true) {
+                        User.sharedInstance.populateUser(processedData as! Dictionary)
                         Utilities.sharedInstance.setBoolForKey(true, key: IS_USER_LOGGED_IN)
-//                        Utilities.sharedInstance.setStringForKey(User.sharedInstance.auth_token, key: AUTH_TOKEN)
                         Utilities.sharedInstance.setAuthToken(User.sharedInstance.auth_token, key: AUTH_TOKEN)
                         Utilities.sharedInstance.setStringForKey(String(User.sharedInstance.id), key: USER_ID)
                         Utilities.sharedInstance.setStringForKey(self.emailTextField.text, key: EMAIL)
-                        self.performSegueWithIdentifier("FeedVC", sender: self)
+                        
+                        var parseInstallation : PFInstallation = PFInstallation.currentInstallation()
+                        parseInstallation["username"] = self.emailTextField.text
+                        parseInstallation.saveInBackgroundWithBlock(nil)
+                        
+                        var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                        appDelegate.loadFeedVC()
                     }
                     
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     
                     self.indicator.stopAnimating()
+                    self.resetFields()
                     
-                    var error : [String:AnyObject] = extraInfo as Dictionary
-                    var message : String = error["message"] as String
+                    var error : [String:AnyObject] = extraInfo as! Dictionary
+                    var message : String = error["message"] as! String
                     self.showAlert("Error !", msg: message)
             }
         } else {
@@ -189,7 +195,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
@@ -197,15 +203,25 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         
         UIApplication.sharedApplication().openURL(NSURL(string: "http://informerly.com/users/password/new")!)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    func resetFields(){
+        self.emailTextField.text = ""
+        self.passwordTextField.text = ""
+        self.emailTextField.alpha = 0.3
+        self.passwordTextField.alpha = 0.3
+        self.signInBtn.enabled = false
+        self.signInBtn.alpha = 0.3
     }
     
     func showAlert(title:String, msg:String) {
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
 }

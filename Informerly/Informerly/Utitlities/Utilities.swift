@@ -32,8 +32,29 @@ class Utilities {
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
-    func getStringForKey(key:String)->String {
-        return NSUserDefaults.standardUserDefaults().stringForKey(key)!
+    func getStringForKey(key:String)->String? {
+        return NSUserDefaults.standardUserDefaults().stringForKey(key)
+    }
+    
+    func setObjectForKey(object:AnyObject,key:String) {
+        NSUserDefaults.standardUserDefaults().setObject(object, forKey: key)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    func getObjectForKey(key:String)->[Int]? {
+        return NSUserDefaults.standardUserDefaults().objectForKey(key) as? [Int]
+    }
+    
+    func setArrayForKey(object:AnyObject,key:String) {
+        NSUserDefaults.standardUserDefaults().setObject(object, forKey: key)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    func getArrayForKey(key:String)->AnyObject {
+        
+        let data =  NSUserDefaults.standardUserDefaults().objectForKey(key) as! NSData
+        let unarchivedData: AnyObject? = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+        return unarchivedData!
     }
     
     

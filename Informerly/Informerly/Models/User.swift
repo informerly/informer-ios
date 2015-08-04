@@ -25,11 +25,11 @@ class User {
     
     func populateUser(data:Dictionary<String,AnyObject>){
         
-        var user : [String:AnyObject] = data["user"] as Dictionary
-        self.auth_token = data["auth_token"] as String
-        self.id = user["id"] as Int
-        self.user_name = user["username"] as String
-        self.full_name = user["full_name"] as String
+        var user : [String:AnyObject] = data["user"] as! Dictionary
+        self.auth_token = data["auth_token"] as! String
+        self.id = user["id"] as! Int
+        self.user_name = user["username"] as! String
+        self.full_name = user["full_name"] as! String
     }
     
     func getUser()->User {

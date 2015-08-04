@@ -104,7 +104,8 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
     }
     
     @IBAction func onBackBtnPress(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+//        self.navigationController?.popViewControllerAnimated(true)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
@@ -124,7 +125,7 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
         }
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
@@ -135,7 +136,8 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
     }
     
     func animateView() {
-        self.navigationController?.popViewControllerAnimated(true)
+//        self.navigationController?.popViewControllerAnimated(true)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
