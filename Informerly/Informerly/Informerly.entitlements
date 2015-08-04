@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.Informerly.informerWidget</string>
+		<string>group.com.informerly.informer-app-today-widget</string>
 	</array>
 </dict>
 </plist>

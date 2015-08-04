@@ -44,7 +44,7 @@ class UpdateInterestViewController : UIViewController,UITextViewDelegate {
 
         var navTitle : UILabel = UILabel(frame: CGRectMake(0, 0, 80, 30))
         navTitle.text = "Update Your Interests"
-        navTitle.font = UIFont(name: "OpenSans-Regular", size: 14.0)
+        navTitle.font = UIFont(name: "OpenSans", size: 16.0)
         
         self.navigationItem.titleView = navTitle
     }
@@ -56,6 +56,7 @@ class UpdateInterestViewController : UIViewController,UITextViewDelegate {
         self.navigationItem.leftBarButtonItem = back_btn
         
         send_btn = UIBarButtonItem(title: "Send", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onSendPress"))
+        send_btn.setTitleTextAttributes([NSFontAttributeName:UIFont(name: "OpenSans", size: 16.0)!], forState: UIControlState.Normal)
         send_btn.enabled = false
         self.navigationItem.rightBarButtonItem = send_btn
     }
@@ -141,7 +142,7 @@ class UpdateInterestViewController : UIViewController,UITextViewDelegate {
                 }
             }
         } else {
-            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+            self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")
             overlay.hidden = true
         }
     }

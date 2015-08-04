@@ -20,6 +20,9 @@ let READ_ARTICLES = "readArticles"
 let BOOKMARK_FEEDS = "BOOKMARK_FEEDS"
 let UNBOOKMARKED_FEEDS = "UNBOOKMARKED_FEEDS"
 let IS_FROM_CUSTOM_URL = "is_from_custom_url"
+let DEFAULT_ARTICLE_VIEW = "default_article_view"
+let DEFAULT_LIST = "default_list"
+let IS_FROM_PUSH = "isFromPush"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"
@@ -27,6 +30,8 @@ let FEED_URL  = "feeds"
 let MENU_FEED_URL  = "users/feeds"
 let LOGOUT_URL = "users/sign_out"
 let BOOKMARK_URL = "bookmarks"
+let USER_PREFERENCE_URL = "users/get_preferences"
+let UPDATE_USER_PREFERENCES_URL = "users/update_preferences"
 
 // Gradient Colors
 let LIGHT_BLUE_COLOR = "#499EFF"
@@ -35,3 +40,17 @@ let DARK_BLUE_COLOR = "#002B5C"
 
 // View border color
 let BORDER_COLOR = "#64ACFF"
+
+// Image names 
+let ICON_CHECK_CIRCLE_GREY = "icon_check_circle_grey"
+let ICON_CHECK_CIRCLE = "icon_check_circle"
+let ICON_BOOKMARK = "icon_bookmark"
+let ICON_BOOKMARK_FILLED = "icon_bookmark_filled"
+let ICON_CLOCK = "clock_icon"
+let ICON_MENU = "menu_btn"
+let ICON_INTERESTS = "icon_interests"
+let ICON_SHARE = "share_btn"
+
+// Cell colors
+let CELL_TITLE_COLOR = "#9B9B9B"
+let SWIPE_CELL_BACKGROUND = "#F7F7F7"

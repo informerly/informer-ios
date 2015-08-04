@@ -99,7 +99,7 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
                 self.showAlert("No Feedback !", msg: "Please add some feedback.")
             }
         } else {
-            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+            self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")
         }
     }
     

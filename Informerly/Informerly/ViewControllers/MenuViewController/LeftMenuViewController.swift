@@ -13,10 +13,12 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     
     @IBOutlet weak var yourFeedView: UIView!
     @IBOutlet weak var bookmarkView: UIView!
+    @IBOutlet weak var settingsView: UIView!
     @IBOutlet weak var helpView: UIView!
     @IBOutlet weak var logoutView: UIView!
     @IBOutlet weak var tableView: UITableView!
     var menuItems : [Item] = []
+    var refreshCntrl : UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,16 +27,32 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         
+        // Pull to Refresh
+        self.refreshCntrl = UIRefreshControl()
+        self.refreshCntrl.addTarget(self, action: Selector("onPullToRefresh:"), forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(self.refreshCntrl)
+        
         self.downloadMenuItems()
         
+        self.applyTopBorder(self.bookmarkView)
+        self.applyTopBorder(self.settingsView)
         self.applyTopBorder(self.helpView)
         self.applyTopBorder(self.logoutView)
+        
+        var bookmarkTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onBookmarkTap:"))
+        self.bookmarkView.addGestureRecognizer(bookmarkTapGesture)
+        
+        var settingTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onSettingTap:"))
+        self.settingsView.addGestureRecognizer(settingTapGesture)
         
         var helpTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onHelpTap:"))
         self.helpView.addGestureRecognizer(helpTapGesture)
         
         var logoutTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onLogoutTap:"))
         self.logoutView.addGestureRecognizer(logoutTapGesture)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "getMenuItemsNotificationSelector:", name:"GetMenuItemsNotification", object: nil)
+        
     }
     
     func downloadMenuItems(){
@@ -42,20 +60,20 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             var parameters = ["auth_token":auth_token]
             
-//            2A6n4L3ffsrz8bNpp9xy
-            
             NetworkManager.sharedNetworkClient().processGetRequestWithPath(MENU_FEED_URL,
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     if requestStatus == 200 {
+                        self.refreshCntrl.endRefreshing()
                         MenuItems.sharedInstance.populateItems(processedData["feeds"] as! [AnyObject])
                         self.menuItems = MenuItems.sharedInstance.getItems()
                         self.tableView.reloadData()
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    self.refreshCntrl.endRefreshing()
             }
         } else {
-//            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+//            self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")
         }
     }
     
@@ -75,9 +93,26 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         view.layer.addSublayer(bottomBorder)
     }
     
+    func onSettingTap(gesture:UIGestureRecognizer){
+        self.settingsView.backgroundColor = UIColor.lightGrayColor()
+        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: { () -> Void in
+            self.settingsView.backgroundColor = UIColor.whiteColor()
+        })
+        NSNotificationCenter.defaultCenter().postNotificationName("SettingsNotification", object: nil)
+    }
+
+
     func onHelpTap(gesture:UIGestureRecognizer){
         self.helpView.backgroundColor = UIColor.lightGrayColor()
         self.openMailComposer()
+    }
+    
+    func onBookmarkTap(gesture:UIGestureRecognizer){
+        self.bookmarkView.backgroundColor = UIColor.lightGrayColor()
+        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: { () -> Void in
+            self.bookmarkView.backgroundColor = UIColor.whiteColor()
+            NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
+        })
     }
     
     func onLogoutTap(gesture:UIGestureRecognizer){
@@ -101,7 +136,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                     println(error.localizedDescription)
             }
         } else {
-            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+            self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")
         }
     }
     
@@ -134,7 +169,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     // TableView delegates
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.menuItems.count + 2
+        return self.menuItems.count + 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -153,20 +188,29 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
             name = "Your Feed"
             icon_img?.frame = CGRectMake(13, 12, 22, 20)
             icon_img!.image = UIImage(named: "icon_home")
-        } else if indexPath.row == 1 {
-            name = "Bookmarks"
-            icon_img?.frame = CGRectMake(15, 12, 14, 18)
-            icon_img!.image = UIImage(named: "icon_bookmark")
-        } else {
-            name = self.menuItems[indexPath.row - 2].name!
-            icon_img?.frame = CGRectMake(15, 12, 22, 18)
-            icon_img!.image = UIImage(named: "icon_folder")
+        }
+//        else if indexPath.row == self.menuItems.count + 1 {
+//            name = "Bookmarks"
+//            icon_img?.frame = CGRectMake(15, 12, 14, 18)
+//            icon_img!.image = UIImage(named: "icon_bookmark")
+//        }
+        else {
+            
+            if self.menuItems.count == 0 {
+                name = "Bookmarks"
+                icon_img?.frame = CGRectMake(15, 12, 14, 18)
+                icon_img!.image = UIImage(named: "icon_bookmark")
+            } else {
+                name = self.menuItems[indexPath.row - 1].name!
+                icon_img?.frame = CGRectMake(15, 12, 22, 18)
+                icon_img!.image = UIImage(named: "icon_folder")
+            }
         }
         
         var menuLabel : UILabel = cell.viewWithTag(102) as! UILabel
         
-        menuLabel.font = UIFont(name: "OpenSans-Regular", size: 16.0)
-        menuLabel.textColor = UIColor(rgba: "#4A4A4A")
+//        menuLabel.font = UIFont(name: "OpenSans-Regular", size: 16.0)
+//        menuLabel.textColor = UIColor(rgba: "#4A4A4A")
         menuLabel.text = name
         
         return cell
@@ -177,18 +221,36 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         if indexPath.row == 0 {
             self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: nil)
             NSNotificationCenter.defaultCenter().postNotificationName("YourFeedNotification", object: nil)
-        } else if indexPath.row == 1 {
+        }
+//        else if ((indexPath.row == 1 && self.menuItems.count == 0) || (indexPath.row == self.menuItems.count + 1)) {
+//            self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
+//            NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
+//        }
+        else {
             self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
-            NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
-        } else {
-            self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
-            var categoryID : Int? = self.menuItems[indexPath.row - 2].id
-            var categoryName : String = self.menuItems[indexPath.row - 2].name!
+            var categoryID : Int? = self.menuItems[indexPath.row - 1].id
+            var categoryName : String = self.menuItems[indexPath.row - 1].name!
             var userInfo = ["id" : String(categoryID!),
                             "name" : categoryName]
             NSNotificationCenter.defaultCenter().postNotificationName("CategoryNotification", object: nil, userInfo: userInfo)
         }
     }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        cell.separatorInset = UIEdgeInsetsZero
+        cell.preservesSuperviewLayoutMargins = false
+        cell.layoutMargins = UIEdgeInsetsZero
+    }
+    
+    // Notication selectors
+    @objc func getMenuItemsNotificationSelector(notification: NSNotification) {
+        self.downloadMenuItems()
+    }
+    
+    func onPullToRefresh(sender:AnyObject) {
+        self.downloadMenuItems()
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

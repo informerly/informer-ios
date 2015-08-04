@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="BookmarkFeed" representedClassName="BookmarkFeed" syncable="YES">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="BookmarkEntity" representedClassName="BookmarkEntity" syncable="YES">
         <attribute name="bookmarked" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creationDateTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="feedDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="isSynced" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -18,6 +19,6 @@
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BookmarkFeed" positionX="-63" positionY="-18" width="128" height="270"/>
+        <element name="BookmarkEntity" positionX="-63" positionY="-18" width="128" height="285"/>
     </elements>
 </model>

@@ -31,7 +31,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         self.titleLabel.addGestureRecognizer(tap)
         titleLabel.userInteractionEnabled = true
         
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
         var token : String! = userDefaults.stringForKey("auth_token")
         
         if token != nil && token != "" {
@@ -65,7 +65,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             var feed : [String:AnyObject] = self.feeds[self.index] as! Dictionary
             var id : Int = feed["id"] as! Int
             
-            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
             userDefaults.setObject("\(id)", forKey: "id")
             userDefaults.synchronize()
             

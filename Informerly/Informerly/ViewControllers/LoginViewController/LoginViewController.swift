@@ -17,6 +17,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var passwordView: UIView!
+    @IBOutlet weak var forgotPasswordBtn: UIButton!
     private var indicator : UIActivityIndicatorView!
     
     override func viewDidLoad() {
@@ -170,10 +171,10 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         Utilities.sharedInstance.setBoolForKey(true, key: IS_USER_LOGGED_IN)
                         Utilities.sharedInstance.setAuthToken(User.sharedInstance.auth_token, key: AUTH_TOKEN)
                         Utilities.sharedInstance.setStringForKey(String(User.sharedInstance.id), key: USER_ID)
-                        Utilities.sharedInstance.setStringForKey(self.emailTextField.text, key: EMAIL)
+                        Utilities.sharedInstance.setStringForKey(self.emailTextField.text.lowercaseString, key: EMAIL)
                         
                         var parseInstallation : PFInstallation = PFInstallation.currentInstallation()
-                        parseInstallation["username"] = self.emailTextField.text
+                        parseInstallation["username"] = self.emailTextField.text.lowercaseString
                         parseInstallation.saveInBackgroundWithBlock(nil)
                         
                         var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -190,7 +191,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                     self.showAlert("Error !", msg: message)
             }
         } else {
-            self.showAlert("No Internet !", msg: "You are not connected to internet, Please check your connection.")
+            self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")
         }
     
     }
@@ -218,7 +219,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

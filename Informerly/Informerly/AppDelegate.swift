@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             else if let url = options[UIApplicationLaunchOptionsURLKey] as? NSURL {
                 Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
             } else {
-                var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+                var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
                 var linkID : String = userDefaults.stringForKey("id")!
                 Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             }
@@ -135,15 +135,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        PFPush.handlePush(userInfo)
+//        PFPush.handlePush(userInfo)
         println("app recieved notification from remote \(userInfo)");
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             
-            var linkID : String = String(userInfo["link_id"] as! Int)
-            Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            if userInfo["link_id"] != nil {
+                var linkID : String = String(userInfo["link_id"] as! Int)
+                Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+            } else {
+                Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
+            }
+//            Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_PUSH)
             
-            self.loadFeedVC()
+//            self.loadFeedVC()
         }
         
 
@@ -156,7 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         
         if url.scheme == "TodayExtension" {
-            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.Informerly.informerWidget")!
+            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
             var linkID : String = userDefaults.stringForKey("id")!
             Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             println(linkID)
@@ -198,9 +203,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 for feed in unbookmarkedFeeds {
                     if feed.isSynced == false {
-                        self.markBookmarked(feed.id!.integerValue)
+                        self.markBookmarked(feed.id!)
                     }
                 }
+                
+                NSNotificationCenter.defaultCenter().postNotificationName("GetMenuItemsNotification", object: nil)
             }
         }
     }
