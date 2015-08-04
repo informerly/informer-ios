@@ -34,8 +34,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
-        
         // Setting Nav bar.
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.hidden = false
@@ -55,10 +53,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         // Getting screen width.
         width = UIScreen.mainScreen().bounds.width - 40
-        
-        // TableView separator full width
-//        self.tableView.separatorInset = UIEdgeInsetsZero
-//        self.tableView.layoutMargins = UIEdgeInsetsZero
         
         //TableView header
         self.createTableViewHeader()
@@ -90,14 +84,6 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         } else {
             self.feeds = Feeds.sharedInstance.getFeeds()
         }
-        
-//        if Utilities.sharedInstance.getStringForKey(DEFAULT_LIST) == "unread" {
-//            self.customSegmentedControl.selectedSegmentIndex = 1
-//            self.isUnreadTab = true
-//        } else if Utilities.sharedInstance.getStringForKey(DEFAULT_LIST) == "all" {
-//            self.customSegmentedControl.selectedSegmentIndex = 0
-//            self.isUnreadTab = false
-//        }
         
         self.tableView.reloadData()
     }
@@ -377,7 +363,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             var feed : BookmarkFeed
             feed = unreadBookmarkFeeds[indexPath.row]
             source.text = feed.source
-            source.textColor = UIColor(rgba: feed.sourceColor!)
+            if feed.sourceColor != nil {
+                source.textColor = UIColor(rgba: feed.sourceColor!)
+            }
             title.text = feed.title
             title.textColor = UIColor.blackColor()
             
@@ -402,7 +390,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             var feed : BookmarkFeed
             feed = bookmarks[indexPath.row]
             source.text = feed.source
-            source.textColor = UIColor(rgba: feed.sourceColor!)
+            if feed.sourceColor != nil {
+                source.textColor = UIColor(rgba: feed.sourceColor!)
+            }
             title.text = feed.title
             title.textColor = UIColor.blackColor()
             

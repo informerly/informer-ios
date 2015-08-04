@@ -50,16 +50,14 @@
             <objects>
                 <controller id="gdX-wl-uQE" customClass="NotificationController" customModule="Informer_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <label width="136" height="83" alignment="left" text="Title" textAlignment="left" numberOfLines="3" id="vsW-wV-euN"/>
-                        <label alignment="left" id="Xpx-zj-o3F"/>
+                        <label width="135" alignment="left" text="Title" textAlignment="left" numberOfLines="0" id="kVH-5f-QoZ"/>
                     </items>
                     <connections>
-                        <outlet property="msgLabel" destination="Xpx-zj-o3F" id="E4O-dk-003"/>
-                        <outlet property="titleLabel" destination="vsW-wV-euN" id="LDt-os-MXO"/>
+                        <outlet property="titleLabel" destination="kVH-5f-QoZ" id="OSd-G0-zvK"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="553" y="1005"/>
+            <point key="canvasLocation" x="553" y="1001"/>
         </scene>
     </scenes>
 </document>

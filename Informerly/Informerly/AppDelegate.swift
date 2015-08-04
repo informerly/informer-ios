@@ -344,28 +344,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    
+    // Registering actions for Watch Notifications
     func registerSettingsAndCategories() {
         var categories = NSMutableSet()
         
-        var acceptAction = UIMutableUserNotificationAction()
-        acceptAction.title = NSLocalizedString("Open", comment: "")
-        acceptAction.identifier = "open"
-        acceptAction.activationMode = UIUserNotificationActivationMode.Background
-        acceptAction.authenticationRequired = false
+        var openAction = UIMutableUserNotificationAction()
+        openAction.title = NSLocalizedString("Open", comment: "")
+        openAction.identifier = "open"
+        openAction.activationMode = UIUserNotificationActivationMode.Foreground
+        openAction.authenticationRequired = false
+        openAction.destructive = false
         
-        var declineAction = UIMutableUserNotificationAction()
-        declineAction.title = NSLocalizedString("Save", comment: "")
-        declineAction.identifier = "save"
-        declineAction.activationMode = UIUserNotificationActivationMode.Background
-        declineAction.authenticationRequired = false
+        var saveAction = UIMutableUserNotificationAction()
+        saveAction.title = NSLocalizedString("Save", comment: "")
+        saveAction.identifier = "save"
+        saveAction.activationMode = UIUserNotificationActivationMode.Background
+        saveAction.authenticationRequired = false
+        saveAction.destructive = false
         
-        var inviteCategory = UIMutableUserNotificationCategory()
-        inviteCategory.setActions([acceptAction, declineAction],
+        
+        var notificationCategory = UIMutableUserNotificationCategory()
+        notificationCategory.setActions([openAction, saveAction],
             forContext: UIUserNotificationActionContext.Default)
-        inviteCategory.identifier = "notification"
+        notificationCategory.identifier = "notification"
         
-        categories.addObject(inviteCategory)
+        categories.addObject(notificationCategory)
         
         // Configure other actions and categories and add them to the set...
         
@@ -374,4 +377,79 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
     }
+    
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        
+        if identifier == "open" {
+            
+        } else if identifier == "save" {
+            var token : String! = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            
+            if token != nil && token != "" {
+                var parameters : [String:AnyObject] = ["auth_token":token,
+                    "client_id":"dev-ios-informer",
+                    "link_id":userInfo["link_id"] as! Int]
+                
+                if Utilities.sharedInstance.isConnectedToNetwork() == true {
+                    NetworkManager.sharedNetworkClient().processPostRequestWithPath(BOOKMARK_URL,
+                        parameter: parameters,
+                        success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                            if requestStatus == 200 {
+                                var bookmarkDictionary : [String:AnyObject] = processedData["bookmark"] as! Dictionary
+                                var linkID = bookmarkDictionary["link_id"] as! Int
+                                self.downloadArticleData("\(linkID)",completionHandler: completionHandler)
+                            }
+                        }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                            
+                            if extraInfo != nil {
+                                
+                            }
+                            completionHandler()
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    func downloadArticleData(articleID : String,completionHandler: () -> Void) {
+        
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            var parameters = ["auth_token":auth_token,
+                "client_id":"dev-ios-informer",
+                "content":"true"]
+            
+            NetworkManager.sharedNetworkClient().processGetRequestWithPath("links/\(articleID)",
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    var data : [String:AnyObject] = processedData["link"] as! Dictionary
+                    
+                    var feed : BookmarkFeed = BookmarkFeed()
+                    feed.id = data["id"] as? Int
+                    feed.title = data["title"] as? String
+                    feed.feedDescription = data["description"] as? String
+                    feed.content = data["content"] as? String
+                    feed.readingTime = data["reading_time"] as? Int
+                    feed.source = data["source"] as? String
+                    feed.sourceColor = data["source_color"] as? String
+                    feed.url = data["url"] as? String
+                    feed.read = data["read"] as? Bool
+                    feed.bookmarked = true
+                    feed.publishedAt = data["published_at"] as? String
+                    feed.originalDate = data["original_date"] as? String
+                    feed.shortLink = data["shortLink"] as? String
+                    feed.slug = data["slug"] as? String
+                    
+                    CoreDataManager.addBookmarkFeed(feed, isSynced: true)
+                    completionHandler()
+                    
+                }, failure: { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    completionHandler()
+            })
+            
+        }
+    }
+    
 }

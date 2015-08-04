@@ -13,7 +13,8 @@ import Foundation
 class NotificationController: WKUserNotificationInterfaceController {
 
     @IBOutlet weak var titleLabel: WKInterfaceLabel!
-    @IBOutlet weak var msgLabel: WKInterfaceLabel!
+    
+    var link_id : Int!
     override init() {
         // Initialize variables here.
         super.init()
@@ -54,19 +55,7 @@ class NotificationController: WKUserNotificationInterfaceController {
         var titleStr : String = apsDict["alert"] as! String
         self.titleLabel.setText(titleStr)
         
-        println(remoteNotification)
-        
-        
         completionHandler(.Custom)
-    }
-    
-    override func handleActionWithIdentifier(identifier: String?, forRemoteNotification remoteNotification: [NSObject : AnyObject]) {
-        
-        if identifier == "open" {
-            
-        } else if identifier == "save" {
-            
-        }
     }
 
 }

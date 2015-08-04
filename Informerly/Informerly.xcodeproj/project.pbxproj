@@ -101,6 +101,17 @@
 		189F27501B60D2C8000513C2 /* UpdateInterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DEC7431AE6517500F8F661 /* UpdateInterestViewController.swift */; };
 		189F27531B60F19C000513C2 /* LeftMenuViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189F27521B60F19C000513C2 /* LeftMenuViewControllerTest.swift */; };
 		189F27541B60F1D5000513C2 /* LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2ED1ACD6D2F00D6C1DE /* LeftMenuViewController.swift */; };
+		18A2BA501B70CF51003670E2 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9DF1A7F8F9D00172610 /* NetworkManager.m */; };
+		18A2BA511B70CF75003670E2 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5681A973B0B0044C86B /* AFHTTPRequestOperation.m */; };
+		18A2BA521B70CF7A003670E2 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD56A1A973B0B0044C86B /* AFHTTPRequestOperationManager.m */; };
+		18A2BA531B70CF7D003670E2 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD56C1A973B0B0044C86B /* AFHTTPSessionManager.m */; };
+		18A2BA541B70CF82003670E2 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD56F1A973B0B0044C86B /* AFNetworkReachabilityManager.m */; };
+		18A2BA551B70CF86003670E2 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5711A973B0B0044C86B /* AFSecurityPolicy.m */; };
+		18A2BA561B70CF8A003670E2 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5731A973B0B0044C86B /* AFURLConnectionOperation.m */; };
+		18A2BA571B70CF8D003670E2 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5751A973B0B0044C86B /* AFURLRequestSerialization.m */; };
+		18A2BA581B70CF91003670E2 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5771A973B0B0044C86B /* AFURLResponseSerialization.m */; };
+		18A2BA591B70CF94003670E2 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5791A973B0B0044C86B /* AFURLSessionManager.m */; };
+		18A2BA5B1B70D2D9003670E2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E41A7F905600172610 /* Constants.swift */; };
 		18C65E221A83568700BBA510 /* Apache License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E171A83568700BBA510 /* Apache License.txt */; };
 		18C65E231A83568700BBA510 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */; };
 		18C65E241A83568700BBA510 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E191A83568700BBA510 /* OpenSans-BoldItalic.ttf */; };
@@ -306,6 +317,8 @@
 		189F274B1B5FD66C000513C2 /* SettingViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewControllerTest.swift; sourceTree = "<group>"; };
 		189F274E1B60D25F000513C2 /* UpdateInterestViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateInterestViewControllerTest.swift; sourceTree = "<group>"; };
 		189F27521B60F19C000513C2 /* LeftMenuViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuViewControllerTest.swift; sourceTree = "<group>"; };
+		18A2BA4F1B70A320003670E2 /* Informer WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Informer WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		18A2BA5A1B70D04C003670E2 /* Bridgeing-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridgeing-Header.h"; sourceTree = "<group>"; };
 		18C65E171A83568700BBA510 /* Apache License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Apache License.txt"; sourceTree = "<group>"; };
 		18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		18C65E191A83568700BBA510 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -466,11 +479,13 @@
 		182059391B6A05C700CD7CE9 /* Informer WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				18A2BA4F1B70A320003670E2 /* Informer WatchKit Extension.entitlements */,
 				1820593D1B6A05C800CD7CE9 /* InterfaceController.swift */,
 				1820593F1B6A05C800CD7CE9 /* NotificationController.swift */,
 				182059411B6A05C800CD7CE9 /* GlanceController.swift */,
 				182059431B6A05C800CD7CE9 /* Images.xcassets */,
 				1820593A1B6A05C700CD7CE9 /* Supporting Files */,
+				18A2BA5A1B70D04C003670E2 /* Bridgeing-Header.h */,
 			);
 			path = "Informer WatchKit Extension";
 			sourceTree = "<group>";
@@ -1053,6 +1068,11 @@
 					182059371B6A05C700CD7CE9 = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = 653KM7FAVC;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					182059461B6A05C800CD7CE9 = {
 						CreatedOnToolsVersion = 6.4;
@@ -1198,8 +1218,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18A2BA501B70CF51003670E2 /* NetworkManager.m in Sources */,
+				18A2BA551B70CF86003670E2 /* AFSecurityPolicy.m in Sources */,
 				182059401B6A05C800CD7CE9 /* NotificationController.swift in Sources */,
+				18A2BA521B70CF7A003670E2 /* AFHTTPRequestOperationManager.m in Sources */,
+				18A2BA561B70CF8A003670E2 /* AFURLConnectionOperation.m in Sources */,
+				18A2BA511B70CF75003670E2 /* AFHTTPRequestOperation.m in Sources */,
 				1820593E1B6A05C800CD7CE9 /* InterfaceController.swift in Sources */,
+				18A2BA571B70CF8D003670E2 /* AFURLRequestSerialization.m in Sources */,
+				18A2BA531B70CF7D003670E2 /* AFHTTPSessionManager.m in Sources */,
+				18A2BA541B70CF82003670E2 /* AFNetworkReachabilityManager.m in Sources */,
+				18A2BA581B70CF91003670E2 /* AFURLResponseSerialization.m in Sources */,
+				18A2BA5B1B70D2D9003670E2 /* Constants.swift in Sources */,
+				18A2BA591B70CF94003670E2 /* AFURLSessionManager.m in Sources */,
 				182059421B6A05C800CD7CE9 /* GlanceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1376,8 +1407,9 @@
 		182059561B6A05C800CD7CE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
+				CODE_SIGN_ENTITLEMENTS = "Informer WatchKit Extension/Informer WatchKit Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1388,16 +1420,18 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "aecd960b-988a-4e18-b563-61976567506e";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Informer WatchKit Extension/Bridgeing-Header.h";
 			};
 			name = Debug;
 		};
 		182059571B6A05C800CD7CE9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
+				CODE_SIGN_ENTITLEMENTS = "Informer WatchKit Extension/Informer WatchKit Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1405,8 +1439,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "aecd960b-988a-4e18-b563-61976567506e";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Informer WatchKit Extension/Bridgeing-Header.h";
 			};
 			name = Release;
 		};
