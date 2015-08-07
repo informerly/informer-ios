@@ -26,12 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
         }
         
-        if Utilities.sharedInstance.getBoolForKey(PUSH_ALLOWED) == false {
-            var appLaunchCounter = Utilities.sharedInstance.getIntForKey(APP_LAUNCH_COUNTER)
-            appLaunchCounter++
-            Utilities.sharedInstance.setIntForKey(appLaunchCounter, key: APP_LAUNCH_COUNTER)
-        }
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"checkForReachability:", name: kReachabilityChangedNotification, object: nil);
         
         self.reachability = Reachability.reachabilityForInternetConnection();

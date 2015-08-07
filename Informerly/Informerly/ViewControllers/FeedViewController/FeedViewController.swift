@@ -36,7 +36,13 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
         
-        if Utilities.sharedInstance.getIntForKey(APP_LAUNCH_COUNTER) == 5 {
+        if Utilities.sharedInstance.getBoolForKey(PUSH_ALLOWED) == false {
+            var appLaunchCounter = Utilities.sharedInstance.getIntForKey(APP_LAUNCH_COUNTER)
+            appLaunchCounter++
+            Utilities.sharedInstance.setIntForKey(appLaunchCounter, key: APP_LAUNCH_COUNTER)
+        }
+        
+        if Utilities.sharedInstance.getIntForKey(APP_LAUNCH_COUNTER) == 1 || Utilities.sharedInstance.getIntForKey(APP_LAUNCH_COUNTER) == 5 {
             self.createCustomPushAlert()
         }
         
@@ -1312,6 +1318,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
             Utilities.sharedInstance.setBoolForKey(false, key: PUSH_ALLOWED)
+            Utilities.sharedInstance.setIntForKey(1, key: APP_LAUNCH_COUNTER)
         }))
         alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
             Utilities.sharedInstance.setBoolForKey(true, key: PUSH_ALLOWED)
