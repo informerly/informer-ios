@@ -60,6 +60,8 @@
 		186BD5B31A9763290044C86B /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5751A973B0B0044C86B /* AFURLRequestSerialization.m */; };
 		186BD5B51A9763290044C86B /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5771A973B0B0044C86B /* AFURLResponseSerialization.m */; };
 		186BD5B71A9763290044C86B /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5791A973B0B0044C86B /* AFURLSessionManager.m */; };
+		187D926B1B74BC01003AF19F /* UnsubscribedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D926A1B74BC01003AF19F /* UnsubscribedViewController.swift */; };
+		187D926C1B74BC01003AF19F /* UnsubscribedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D926A1B74BC01003AF19F /* UnsubscribedViewController.swift */; };
 		187EAA551A8DD6A6000ED503 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187EAA541A8DD6A6000ED503 /* FeedbackViewController.swift */; };
 		187EAA581A8DFF8A000ED503 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187EAA571A8DFF8A000ED503 /* HelpViewController.swift */; };
 		188B07811AB17A6400447CD9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B07801AB17A6400447CD9 /* Reachability.m */; };
@@ -263,6 +265,7 @@
 		186BD5791A973B0B0044C86B /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		186BD58C1A97407F0044C86B /* Informerly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Informerly.entitlements; sourceTree = "<group>"; };
 		186BD58D1A97417B0044C86B /* Informerly Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Informerly Widget.entitlements"; sourceTree = "<group>"; };
+		187D926A1B74BC01003AF19F /* UnsubscribedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsubscribedViewController.swift; sourceTree = "<group>"; };
 		187EAA541A8DD6A6000ED503 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		187EAA571A8DFF8A000ED503 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		188B077F1AB17A6400447CD9 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -536,6 +539,7 @@
 		1845B9B51A7F8C4600172610 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				187D92691B74BBE5003AF19F /* UnsubscribedViewController */,
 				186867AE1B2897B3001C04DD /* SettingsVC */,
 				18DEC7421AE6513800F8F661 /* UpdateInterestVC */,
 				187EAA561A8DFF42000ED503 /* HelpViewController */,
@@ -654,6 +658,14 @@
 				186BD5791A973B0B0044C86B /* AFURLSessionManager.m */,
 			);
 			path = AFNetworking;
+			sourceTree = "<group>";
+		};
+		187D92691B74BBE5003AF19F /* UnsubscribedViewController */ = {
+			isa = PBXGroup;
+			children = (
+				187D926A1B74BC01003AF19F /* UnsubscribedViewController.swift */,
+			);
+			path = UnsubscribedViewController;
 			sourceTree = "<group>";
 		};
 		187EAA531A8DD686000ED503 /* FeedbackViewController */ = {
@@ -1067,6 +1079,7 @@
 				1803D2EE1ACD6D2F00D6C1DE /* LeftMenuViewController.swift in Sources */,
 				A874A1C31AFD0A620033903B /* Informer.xcdatamodeld in Sources */,
 				1803BC2C1B0210C9003DCB17 /* MenuItems.swift in Sources */,
+				187D926B1B74BC01003AF19F /* UnsubscribedViewController.swift in Sources */,
 				1803D2FD1ACEA42A00D6C1DE /* REMenuItem.m in Sources */,
 				18D75DD21A834EB200BFEF6E /* UIColorExtension.swift in Sources */,
 				186867AC1B271B3E001C04DD /* MGSwipeButton.m in Sources */,
@@ -1122,6 +1135,7 @@
 				189F27431B5FB204000513C2 /* AppDelegate.swift in Sources */,
 				189F27291B5F9EB3000513C2 /* LoginViewControllerTests.swift in Sources */,
 				18DAEBAA1B54F2C30030266E /* BookmarkEntity.swift in Sources */,
+				187D926C1B74BC01003AF19F /* UnsubscribedViewController.swift in Sources */,
 				18DAEBA91B54F0A70030266E /* BookmarkFeed.swift in Sources */,
 				189F27351B5FA910000513C2 /* AFHTTPRequestOperation.m in Sources */,
 				18DAEBB31B550E060030266E /* MenuItems.swift in Sources */,
@@ -1283,8 +1297,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Informerly/Informerly.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Informerly, Inc";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Informerly, Inc";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1295,7 +1309,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Informerly/Third\\ Party\\ Libs/Crittercism";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b152ac98-3695-4a72-9c08-2360d03880f9";
+				PROVISIONING_PROFILE = "8bc27b90-b426-483a-996a-8c1b572d9bed";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Debug;
@@ -1306,8 +1320,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Informerly/Informerly.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Informerly, Inc";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Informerly, Inc";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1318,7 +1332,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Informerly/Third\\ Party\\ Libs/Crittercism";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b152ac98-3695-4a72-9c08-2360d03880f9";
+				PROVISIONING_PROFILE = "8bc27b90-b426-483a-996a-8c1b572d9bed";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Release;
@@ -1365,14 +1379,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Informerly Widget/Informerly Widget.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Informerly, Inc";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_IS_EXTENSION;
 				INFOPLIST_FILE = "Informerly Widget/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ebb55653-5019-4e0d-8f1a-b70c8a399849";
+				PROVISIONING_PROFILE = "758590b5-728d-44c6-b672-49dbdb429cf7";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly Widget/Bridging-Header.h";
 			};
@@ -1382,14 +1396,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "Informerly Widget/Informerly Widget.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Informerly, Inc";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (KEC39J69SA)";
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_IS_EXTENSION;
 				INFOPLIST_FILE = "Informerly Widget/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ebb55653-5019-4e0d-8f1a-b70c8a399849";
+				PROVISIONING_PROFILE = "758590b5-728d-44c6-b672-49dbdb429cf7";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly Widget/Bridging-Header.h";
 			};

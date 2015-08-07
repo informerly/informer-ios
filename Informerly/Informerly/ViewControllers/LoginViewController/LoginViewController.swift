@@ -159,7 +159,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             self.indicator.startAnimating()
             var parameters = ["login":emailTextField.text,
                 "password":passwordTextField.text,
-                "device_token":Utilities.sharedInstance.getStringForKey(DEVICE_TOKEN)]
+                "device_token":""/*Utilities.sharedInstance.getStringForKey(DEVICE_TOKEN)*/]
             
             NetworkManager.sharedNetworkClient().processPostRequestWithPath(LOGIN_URL,
                 parameter: parameters,
@@ -167,18 +167,27 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                     self.indicator.stopAnimating()
                     var data : [String:AnyObject] = processedData as! Dictionary
                     if (data["success"] as! Bool == true) {
-                        User.sharedInstance.populateUser(processedData as! Dictionary)
-                        Utilities.sharedInstance.setBoolForKey(true, key: IS_USER_LOGGED_IN)
-                        Utilities.sharedInstance.setAuthToken(User.sharedInstance.auth_token, key: AUTH_TOKEN)
-                        Utilities.sharedInstance.setStringForKey(String(User.sharedInstance.id), key: USER_ID)
-                        Utilities.sharedInstance.setStringForKey(self.emailTextField.text.lowercaseString, key: EMAIL)
                         
-                        var parseInstallation : PFInstallation = PFInstallation.currentInstallation()
-                        parseInstallation["username"] = self.emailTextField.text.lowercaseString
-                        parseInstallation.saveInBackgroundWithBlock(nil)
-                        
-                        var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                        appDelegate.loadFeedVC()
+                        var user :[String:AnyObject] = data["user"] as! Dictionary
+                        if (user["subscribed"] as! Bool == false) {
+                            self.resetFields()
+                            var unsubscribedVC = self.storyboard?.instantiateViewControllerWithIdentifier("UnsubscribedVC") as! UnsubscribedViewController
+                            self.showViewController(unsubscribedVC, sender: self)
+                        } else {
+                            self.createCustomPushAlert()
+                            User.sharedInstance.populateUser(processedData as! Dictionary)
+                            Utilities.sharedInstance.setBoolForKey(true, key: IS_USER_LOGGED_IN)
+                            Utilities.sharedInstance.setAuthToken(User.sharedInstance.auth_token, key: AUTH_TOKEN)
+                            Utilities.sharedInstance.setStringForKey(String(User.sharedInstance.id), key: USER_ID)
+                            Utilities.sharedInstance.setStringForKey(self.emailTextField.text.lowercaseString, key: EMAIL)
+                            
+                            var parseInstallation : PFInstallation = PFInstallation.currentInstallation()
+                            parseInstallation["username"] = self.emailTextField.text.lowercaseString
+                            parseInstallation.saveInBackgroundWithBlock(nil)
+                            
+                            var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                            appDelegate.loadFeedVC()
+                        }
                     }
                     
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
@@ -217,6 +226,24 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     func showAlert(title:String, msg:String) {
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func createCustomPushAlert() {
+        
+        var title = "Please allow us to deliver you targeted, useful alerts."
+        var msg = "We take notifications seriously and guarentee they will be relevant just click 'Yes' and then 'OK'."
+        
+        var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
+            Utilities.sharedInstance.setBoolForKey(false, key: PUSH_ALLOWED)
+        }))
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
+            Utilities.sharedInstance.setBoolForKey(true, key: PUSH_ALLOWED)
+            Utilities.sharedInstance.setIntForKey(0, key: APP_LAUNCH_COUNTER)
+            var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            appDelegate.configurePushNotification()
+        }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     

@@ -26,6 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Utilities.sharedInstance.setStringForKey("", key: DEVICE_TOKEN)
         }
         
+        if Utilities.sharedInstance.getBoolForKey(PUSH_ALLOWED) == false {
+            var appLaunchCounter = Utilities.sharedInstance.getIntForKey(APP_LAUNCH_COUNTER)
+            appLaunchCounter++
+            Utilities.sharedInstance.setIntForKey(appLaunchCounter, key: APP_LAUNCH_COUNTER)
+        }
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"checkForReachability:", name: kReachabilityChangedNotification, object: nil);
         
         self.reachability = Reachability.reachabilityForInternetConnection();
@@ -74,15 +80,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        var pushSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: .Alert, categories: nil)
-        
-        application.applicationIconBadgeNumber = 0
-        var setting : UIUserNotificationSettings = UIUserNotificationSettings(forTypes:
-            UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound,
-            categories: nil)
-        
-        UIApplication.sharedApplication().registerUserNotificationSettings(setting);
-        UIApplication.sharedApplication().registerForRemoteNotifications();
+//        var pushSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: .Alert, categories: nil)
+//        
+//        application.applicationIconBadgeNumber = 0
+//        var setting : UIUserNotificationSettings = UIUserNotificationSettings(forTypes:
+//            UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound,
+//            categories: nil)
+//        
+//        UIApplication.sharedApplication().registerUserNotificationSettings(setting);
+//        UIApplication.sharedApplication().registerForRemoteNotifications();
         
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
@@ -341,6 +347,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
+    func configurePushNotification() {
+        var pushSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: .Alert, categories: nil)
+        
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        var setting : UIUserNotificationSettings = UIUserNotificationSettings(forTypes:
+            UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound,
+            categories: nil)
+        
+        UIApplication.sharedApplication().registerUserNotificationSettings(setting);
+        UIApplication.sharedApplication().registerForRemoteNotifications();
+    }
     
 }

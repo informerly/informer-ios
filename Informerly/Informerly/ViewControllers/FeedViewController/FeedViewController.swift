@@ -36,6 +36,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
         
+        if Utilities.sharedInstance.getIntForKey(APP_LAUNCH_COUNTER) == 5 {
+            self.createCustomPushAlert()
+        }
+        
         // Setting Nav bar.
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.hidden = false
@@ -1299,6 +1303,24 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
 ////            self.onPullToRefresh(self)
 //        }
 //    }
+    
+    func createCustomPushAlert() {
+        
+        var title = "Please allow us to deliver you targeted, useful alerts."
+        var msg = "We take notifications seriously and guarentee they will be relevant just click 'Yes' and then 'OK'."
+        
+        var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
+            Utilities.sharedInstance.setBoolForKey(false, key: PUSH_ALLOWED)
+        }))
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
+            Utilities.sharedInstance.setBoolForKey(true, key: PUSH_ALLOWED)
+            Utilities.sharedInstance.setIntForKey(0, key: APP_LAUNCH_COUNTER)
+            var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            appDelegate.configurePushNotification()
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

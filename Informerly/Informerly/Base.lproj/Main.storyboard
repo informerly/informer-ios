@@ -16,8 +16,11 @@
             <string>OpenSans-Bold</string>
             <string>OpenSans-Bold</string>
             <string>OpenSans-Bold</string>
+            <string>OpenSans-Bold</string>
         </mutableArray>
         <mutableArray key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+            <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
             <string>OpenSans</string>
@@ -162,6 +165,97 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1236" y="-390"/>
+        </scene>
+        <!--Unsubscribed View Controller-->
+        <scene sceneID="aYZ-nI-S5n">
+            <objects>
+                <viewController storyboardIdentifier="UnsubscribedVC" id="UZj-jm-tA2" customClass="UnsubscribedViewController" customModule="Informerly" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xxH-Ag-2b0"/>
+                        <viewControllerLayoutGuide type="bottom" id="a2R-bs-LNj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="j4d-qz-lKy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="siv-vt-hjc">
+                                <rect key="frame" x="140" y="45" width="320" height="320"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="new_logo" translatesAutoresizingMaskIntoConstraints="NO" id="bZ9-fD-BGd">
+                                        <rect key="frame" x="80" y="10" width="160" height="19"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="160" id="7i6-mX-pSj"/>
+                                            <constraint firstAttribute="height" constant="19" id="g4m-Xx-TNe"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We noticed that you don’t have a subscription. Head to informerly.com to set up your own personalized news feed." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UAv-YW-HTn">
+                                        <rect key="frame" x="10" y="91" width="300" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="CeO-o5-l27"/>
+                                            <constraint firstAttribute="height" constant="70" id="YCs-ja-Q6i"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tK6-6Q-EXp">
+                                        <rect key="frame" x="20" y="200" width="280" height="60"/>
+                                        <color key="backgroundColor" red="0.20784313725490194" green="0.5725490196078431" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="280" id="HP6-Dn-hkE"/>
+                                            <constraint firstAttribute="height" constant="60" id="Zqf-qe-b4l"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                                        <state key="normal" title="Go to Informerly.com">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onGotoInformerlyPressed:" destination="UZj-jm-tA2" eventType="touchUpInside" id="zrC-e3-jOt"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="UAv-YW-HTn" secondAttribute="centerX" id="7Dc-D1-Z3q"/>
+                                    <constraint firstItem="UAv-YW-HTn" firstAttribute="top" secondItem="bZ9-fD-BGd" secondAttribute="bottom" constant="62" id="EN6-3b-HZ6"/>
+                                    <constraint firstItem="bZ9-fD-BGd" firstAttribute="top" secondItem="siv-vt-hjc" secondAttribute="top" constant="10" id="F2i-lp-3bI"/>
+                                    <constraint firstItem="tK6-6Q-EXp" firstAttribute="top" secondItem="UAv-YW-HTn" secondAttribute="bottom" constant="39" id="Ljx-hn-fPD"/>
+                                    <constraint firstAttribute="height" constant="320" id="ctn-w8-MmK"/>
+                                    <constraint firstAttribute="width" constant="320" id="iGr-39-8Ea"/>
+                                    <constraint firstAttribute="centerX" secondItem="bZ9-fD-BGd" secondAttribute="centerX" id="lTd-U6-tpQ"/>
+                                    <constraint firstAttribute="centerX" secondItem="tK6-6Q-EXp" secondAttribute="centerX" id="wpS-sr-yIm"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hgF-ee-iyJ">
+                                <rect key="frame" x="218" y="569" width="165" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="165" id="aaM-Li-exX"/>
+                                    <constraint firstAttribute="height" constant="23" id="xrd-Te-aPM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="10"/>
+                                <state key="normal" title="Just Subscribed? Sign In Again">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onSignInAgainPressed:" destination="UZj-jm-tA2" eventType="touchUpInside" id="eb2-9z-Adb"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="siv-vt-hjc" secondAttribute="centerX" id="Kl8-Bi-oBg"/>
+                            <constraint firstItem="a2R-bs-LNj" firstAttribute="top" secondItem="hgF-ee-iyJ" secondAttribute="bottom" constant="8" id="NSj-wE-YQQ"/>
+                            <constraint firstAttribute="centerX" secondItem="hgF-ee-iyJ" secondAttribute="centerX" id="hgQ-yN-Ysj"/>
+                            <constraint firstItem="siv-vt-hjc" firstAttribute="top" secondItem="xxH-Ag-2b0" secondAttribute="bottom" constant="25" id="xx3-Yg-maL"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="gotoInformerlyBtn" destination="tK6-6Q-EXp" id="yYM-WP-jrw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qYW-rP-jg2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="570" y="983"/>
         </scene>
         <!--Side Menu Container View Controller-->
         <scene sceneID="9DG-AH-gZg">

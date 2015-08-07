@@ -23,6 +23,8 @@ let IS_FROM_CUSTOM_URL = "is_from_custom_url"
 let DEFAULT_ARTICLE_VIEW = "default_article_view"
 let DEFAULT_LIST = "default_list"
 let IS_FROM_PUSH = "isFromPush"
+let APP_LAUNCH_COUNTER = "appLaunchCounter"
+let PUSH_ALLOWED = "pushAllowed"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"

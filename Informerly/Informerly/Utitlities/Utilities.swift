@@ -26,6 +26,15 @@ class Utilities {
         return NSUserDefaults.standardUserDefaults().boolForKey(key)
     }
     
+    func setIntForKey(value:Int,key:String) {
+        NSUserDefaults.standardUserDefaults().setInteger(value, forKey: key)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    func getIntForKey(key:String)->Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey(key)
+    }
+    
     func setStringForKey(value:String,key:String) {
         NSUserDefaults.standardUserDefaults().setObject(value, forKey: key)
         NSUserDefaults.standardUserDefaults().synchronize()
