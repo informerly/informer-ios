@@ -193,7 +193,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     
                     self.indicator.stopAnimating()
-                    self.resetFields()
+                    
+                    self.passwordTextField.text = ""
+                    self.passwordTextField.alpha = 0.3
+                    self.signInBtn.enabled = false
+                    self.signInBtn.alpha = 0.3
                     
                     var error : [String:AnyObject] = extraInfo as! Dictionary
                     var message : String = error["message"] as! String
