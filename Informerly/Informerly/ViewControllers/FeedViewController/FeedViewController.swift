@@ -26,15 +26,17 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     private var isCategoryFeeds = false
     private var categoryID : Int = -1
     private var categoryName : String = ""
-    private var customURLData : InformerlyFeed!
+    private var feedData : InformerlyFeed!
     private var bookmarkBtn : MGSwipeButton!
     private var readBtn : MGSwipeButton!
     private var customSegmentedControl : UISegmentedControl!
+    private var isLinkIDMatched = false
+    private var isFromFeeds = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
         
         if Utilities.sharedInstance.getBoolForKey(PUSH_ALLOWED) == false {
             var appLaunchCounter = Utilities.sharedInstance.getIntForKey(APP_LAUNCH_COUNTER)
@@ -94,7 +96,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         UIApplication.sharedApplication().statusBarHidden = false
         self.navigationController?.navigationBar.hidden = false
-        
+        self.isFromFeeds = true
         if isBookmarked == true {
             self.bookmarks = CoreDataManager.getBookmarkFeeds()
         } else {
@@ -200,6 +202,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                                     row = row + 1
                                     var id : Int = link_id.toInt()!
                                     if feed.id == id {
+                                        self.isFromFeeds = true
+                                        self.isLinkIDMatched = true
                                         break
                                     }
                                 }
@@ -208,17 +212,22 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                             
                         self.tableView.reloadData()
                         self.tableView.layoutIfNeeded()
-                            
-                        if link_id != "-1" {
-                            
-                            if Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) == true {
+                        
+                        if self.isLinkIDMatched == false {
+                            if link_id != "-1" {
+                                // From Custom URL or from old notification
+                                self.isFromFeeds = false
                                 self.downloadArticleData(link_id)
-                            } else {
+                            }
+                        } else {
+                            if link_id != "-1" {
                                 Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
+                                self.isLinkIDMatched = false
                                 self.rowID = row
                                 self.performSegueWithIdentifier("ArticleVC", sender: self)
                             }
                         }
+                        
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     self.menu.enabled = true
@@ -265,22 +274,23 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     var data : [String:AnyObject] = processedData["link"] as! Dictionary
                     
-                    self.customURLData = InformerlyFeed()
-                    self.customURLData.id = data["id"] as? Int
-                    self.customURLData.title = data["title"] as? String
-                    self.customURLData.feedDescription = data["description"] as? String
-                    self.customURLData.content = data["content"] as? String
-                    self.customURLData.readingTime = data["reading_time"] as? Int
-                    self.customURLData.source = data["source"] as? String
-                    self.customURLData.sourceColor = data["source_color"] as? String
-                    self.customURLData.URL = data["url"] as? String
-                    self.customURLData.read = data["read"] as? Bool
-                    self.customURLData.bookmarked = data["bookmarked"] as? Bool
-                    self.customURLData.publishedAt = data["published_at"] as? String
-                    self.customURLData.originalDate = data["original_date"] as? String
-                    self.customURLData.shortLink = data["shortLink"] as? String
-                    self.customURLData.slug = data["slug"] as? String
+                    self.feedData = InformerlyFeed()
+                    self.feedData.id = data["id"] as? Int
+                    self.feedData.title = data["title"] as? String
+                    self.feedData.feedDescription = data["description"] as? String
+                    self.feedData.content = data["content"] as? String
+                    self.feedData.readingTime = data["reading_time"] as? Int
+                    self.feedData.source = data["source"] as? String
+                    self.feedData.sourceColor = data["source_color"] as? String
+                    self.feedData.URL = data["url"] as? String
+                    self.feedData.read = data["read"] as? Bool
+                    self.feedData.bookmarked = data["bookmarked"] as? Bool
+                    self.feedData.publishedAt = data["published_at"] as? String
+                    self.feedData.originalDate = data["original_date"] as? String
+                    self.feedData.shortLink = data["shortLink"] as? String
+                    self.feedData.slug = data["slug"] as? String
                     
+                    Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
                     self.performSegueWithIdentifier("ArticleVC", sender: self)
             }, failure: { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 
@@ -547,22 +557,19 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         if segue.identifier == "ArticleVC" {
             var articleVC : ArticleViewController = segue.destinationViewController as! ArticleViewController
-            
-//            if Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) == true {
-                articleVC.customURLData = self.customURLData
-//            } else {
-                articleVC.articleIndex = rowID
-                articleVC.isUnreadTab = self.isUnreadTab
-                articleVC.isBookmarked = self.isBookmarked
-                articleVC.isCategoryFeeds = self.isCategoryFeeds
-                if isUnreadTab == true && isBookmarked == false {
-                    articleVC.unreadFeeds = self.unreadFeeds
-                } else if isCategoryFeeds == true {
-                    articleVC.categoryFeeds = self.categoryFeeds!
-                } else {
-                    articleVC.unreadbookmarkedFeeds = self.unreadBookmarkFeeds
-                }
-//            }
+            articleVC.feedData = self.feedData
+            articleVC.isFromFeeds = self.isFromFeeds
+            articleVC.articleIndex = rowID
+            articleVC.isUnreadTab = self.isUnreadTab
+            articleVC.isBookmarked = self.isBookmarked
+            articleVC.isCategoryFeeds = self.isCategoryFeeds
+            if isUnreadTab == true && isBookmarked == false {
+                articleVC.unreadFeeds = self.unreadFeeds
+            } else if isCategoryFeeds == true {
+                articleVC.categoryFeeds = self.categoryFeeds!
+            } else {
+                articleVC.unreadbookmarkedFeeds = self.unreadBookmarkFeeds
+            }
         }
     }
     
@@ -1298,17 +1305,17 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     
-//    func appDidBecomeActiveCalled(){
-//        
-//        if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
-//            if ((self.navigationController?.topViewController.isKindOfClass(ArticleViewController)) == true) {
-////                self.navigationController?.popViewControllerAnimated(true)
-//
-//            }
-//            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-////            self.onPullToRefresh(self)
-//        }
-//    }
+    func appDidBecomeActiveCalled(){
+        
+        if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
+            if ((self.navigationController?.topViewController.isKindOfClass(ArticleViewController)) == true) {
+//                self.navigationController?.popViewControllerAnimated(true)
+            } else {
+                self.downloadData()
+            }
+            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        }
+    }
     
     func createCustomPushAlert() {
         

@@ -36,10 +36,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var bookmark : UIBarButtonItem!
     var leftArrow : UIBarButtonItem!
     var rightArrow : UIBarButtonItem!
-    var customURLData : InformerlyFeed!
+    var feedData : InformerlyFeed!
     var resultantHeight : CGFloat = 0.0
     var zenWebViews : [UIWebView?] = []
     var isFromNextORPrev = true
+    var isFromFeeds : Bool!
     
     let ANIMATION_DURATION = 1.0
     
@@ -58,8 +59,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         var navBarHeight = self.navigationController?.navigationBar.frame.height
         self.resultantHeight = statusBarHeight + navBarHeight!
         
-        if Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) == true {
-            self.feeds = [self.customURLData]
+        if ( Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) == true || self.isFromFeeds == false) {
+            self.feeds = [self.feedData]
             self.articleIndex = 0
         } else if (Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true){
             self.feeds = Feeds.sharedInstance.getFeeds()
@@ -97,7 +98,14 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         var count = 0
         // Load article in web and zen mode
         if isBookmarked == true {
-            count = self.bookmarkedFeeds.count
+            
+            if self.bookmarkedFeeds != nil {
+                count = self.bookmarkedFeeds.count
+            } else {
+                self.bookmarkedFeeds = CoreDataManager.getBookmarkFeeds()
+                count = self.bookmarkedFeeds.count
+            }
+            
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].url!)!))
         } else {
             count = self.feeds.count
@@ -775,7 +783,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                         if message == "Bookmark Created" {
                             
                             var data : [InformerlyFeed] = []
-                            if self.isCategoryFeeds == false {
+                            if self.isCategoryFeeds == false && self.isFromFeeds == true {
                                 data = Feeds.sharedInstance.getFeeds()
                             } else {
                                 data = self.feeds
@@ -790,7 +798,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                                     } else {
                                         CoreDataManager.addBookmarkFeed(feed, isSynced: true)
                                     }
-                                    if self.isCategoryFeeds == false {
+                                    if self.isCategoryFeeds == false && self.isFromFeeds == true {
                                         Feeds.sharedInstance.getFeeds()[counter].bookmarked = true
                                     } else {
                                         self.feeds[counter].bookmarked = true

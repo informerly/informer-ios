@@ -74,17 +74,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-//        var pushSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: .Alert, categories: nil)
-//        
-//        application.applicationIconBadgeNumber = 0
-//        var setting : UIUserNotificationSettings = UIUserNotificationSettings(forTypes:
-//            UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound,
-//            categories: nil)
-//        
-//        UIApplication.sharedApplication().registerUserNotificationSettings(setting);
-//        UIApplication.sharedApplication().registerForRemoteNotifications();
-        
-        
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             self.loadFeedVC()
         }
@@ -146,9 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
             }
-//            Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_PUSH)
-            
-//            self.loadFeedVC()
+            Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_PUSH)
         }
         
 
