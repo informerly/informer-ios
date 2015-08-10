@@ -36,7 +36,9 @@ class UnsubscribedViewController: UIViewController {
     }
     
     @IBAction func onSignInAgainPressed(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+//        self.navigationController?.popViewControllerAnimated(true)
+        var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+        self.showViewController(loginVC, sender: self)
     }
     
     
