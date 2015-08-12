@@ -4,17 +4,64 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="7701"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
-        <!--Interface Controller-->
+        <!--Informerly-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Informer_WatchKit_App" customModuleProvider="target">
+                <controller title="Informerly" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Informer_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <label alignment="center" verticalAlignment="center" text="Informerly" id="cZa-h4-jPW"/>
+                        <table alignment="left" id="OwO-L2-Off">
+                            <items>
+                                <tableRow identifier="FeedRow" id="cxC-q8-l8l" customClass="FeedRowController" customModule="Informer_WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="5NO-lD-tdv">
+                                        <items>
+                                            <label width="133" alignment="left" text="Label" numberOfLines="0" id="RPP-IV-CFs">
+                                                <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                            </label>
+                                            <label width="131" alignment="left" text="Label" id="lRl-zl-1YM">
+                                                <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                                            </label>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="feedSource" destination="lRl-zl-1YM" id="KZB-YW-cEK"/>
+                                        <outlet property="feedTitle" destination="RPP-IV-CFs" id="VB6-s3-ofN"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label alignment="center" verticalAlignment="center" text="Loading ..." textAlignment="center" numberOfLines="0" id="fKy-Fx-N9W"/>
                     </items>
+                    <connections>
+                        <outlet property="feedsTable" destination="OwO-L2-Off" id="9N2-gE-34o"/>
+                        <outlet property="loadingLabel" destination="fKy-Fx-N9W" id="yiR-0z-0nX"/>
+                    </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="235" y="347"/>
+            <point key="canvasLocation" x="34" y="345"/>
+        </scene>
+        <!--back-->
+        <scene sceneID="Oaf-Hk-1vT">
+            <objects>
+                <controller identifier="showArticle" title="back" id="bwg-DE-Xjb" customClass="ArticleInterfaceController" customModule="Informer_WatchKit_Extension">
+                    <items>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="sZy-n7-pi7">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="articleDescriptionLabel" destination="sZy-n7-pi7" id="vlg-c2-Kgy"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="225" y="345"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">
@@ -60,4 +107,5 @@
             <point key="canvasLocation" x="553" y="1001"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

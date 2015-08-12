@@ -411,6 +411,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?, reply: (([NSObject : AnyObject]!) -> Void)!) {
+        
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            
+            if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
+                var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+                var parameters = ["auth_token":auth_token,
+                    "client_id":"dev-ios-informer",
+                    "content":"true"]
+                
+                NetworkManager.sharedNetworkClient().processGetRequestWithPath(FEED_URL,
+                    parameter: parameters,
+                    success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                        
+                        if requestStatus == 200 {
+                            reply(["result" : processedData["links"] as! [AnyObject]])
+                        }
+                        
+                    }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                        
+                        if extraInfo != nil {
+                            var error : [String:AnyObject] = extraInfo as! Dictionary
+                            var message : String = error["error"] as! String
+                        }
+                        reply(["result" : ""])
+                }
+            } else {
+                reply(["error":"Please Login on your phone to proceed."])
+            }
+        }
+        
+    }
+    
+//    func downloadFeeds()->[AnyObject] {
+//        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+//            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+//            println(auth_token)
+//            var parameters = ["auth_token":auth_token,
+//                "client_id":"dev-ios-informer",
+//                "content":"true"]
+//            
+//            NetworkManager.sharedNetworkClient().processGetRequestWithPath(FEED_URL,
+//                parameter: parameters,
+//                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+//                    
+//                    if requestStatus == 200 {
+//                        
+////                        return processedData["links"] as! [AnyObject]
+//                    }
+//                
+//                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+//                    
+//                    if extraInfo != nil {
+//                        var error : [String:AnyObject] = extraInfo as! Dictionary
+//                        var message : String = error["error"] as! String
+//                    }
+//                    
+////                    return [:]
+//                }
+//        }
+//    }
     
     func downloadArticleData(articleID : String,completionHandler: () -> Void) {
         

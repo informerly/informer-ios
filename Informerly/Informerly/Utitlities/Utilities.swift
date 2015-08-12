@@ -26,6 +26,17 @@ class Utilities {
         return NSUserDefaults.standardUserDefaults().boolForKey(key)
     }
     
+    func setBoolForAppGroupKey(value:Bool,key:String) {
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
+        userDefaults.setBool(value, forKey: key)
+        userDefaults.synchronize()
+    }
+    
+    func getBoolForAppGroupKey(key:String)->Bool {
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
+        return userDefaults.boolForKey(key)
+    }
+    
     func setStringForKey(value:String,key:String) {
         NSUserDefaults.standardUserDefaults().setObject(value, forKey: key)
         NSUserDefaults.standardUserDefaults().synchronize()

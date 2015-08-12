@@ -123,6 +123,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                 parameter: parameters,
                 success: { (requestStatus : Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                    Utilities.sharedInstance.setBoolForAppGroupKey(false, key: IS_USER_LOGGED_IN)
                     Utilities.sharedInstance.setAuthToken("", key: AUTH_TOKEN)
                     Utilities.sharedInstance.setBoolForKey(false, key: FROM_MENU_VC)
                     

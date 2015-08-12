@@ -6,7 +6,7 @@
 //
 
 #import "NetworkManager.h"
-#define BASE_URL @"http://informerly.com/api/v1/"
+#define BASE_URL @"https://informerly.com/api/v1/"
 
 @implementation NetworkManager
 
