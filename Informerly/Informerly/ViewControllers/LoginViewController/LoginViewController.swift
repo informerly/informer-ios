@@ -183,6 +183,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                             
                             var parseInstallation : PFInstallation = PFInstallation.currentInstallation()
                             parseInstallation["username"] = self.emailTextField.text.lowercaseString
+                            parseInstallation["id"] = User.sharedInstance.id
                             parseInstallation.saveInBackgroundWithBlock(nil)
                             
                             var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate

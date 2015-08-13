@@ -12,8 +12,10 @@ class User {
 
     var auth_token: String!
     var id: Int!
-    var user_name: String!
-    var full_name : String!
+    var user_name: String?
+    var full_name : String?
+    var email : String!
+    var subsricbed : Bool!
     
     class var sharedInstance :User {
         struct Singleton {
@@ -28,8 +30,10 @@ class User {
         var user : [String:AnyObject] = data["user"] as! Dictionary
         self.auth_token = data["auth_token"] as! String
         self.id = user["id"] as! Int
-        self.user_name = user["username"] as! String
-        self.full_name = user["full_name"] as! String
+        self.user_name = user["username"] as? String
+        self.full_name = user["full_name"] as? String
+        self.email = user["email"] as! String
+        self.subsricbed = user["subscribed"] as! Bool
     }
     
     func getUser()->User {
