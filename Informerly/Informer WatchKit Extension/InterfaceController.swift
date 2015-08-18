@@ -16,13 +16,13 @@ class InterfaceController: WKInterfaceController {
     var interfaceImage : WKInterfaceImage!
     var feeds : [AnyObject]!
     @IBOutlet weak var loadingLabel: WKInterfaceLabel!
+    var link_id : Int = 0
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
     }
     
     func downloadData() {
-        
         WKInterfaceController.openParentApplication(["action":"getFeeds"], reply: { (replyInfo, error) -> Void in
             self.feeds = replyInfo["result"] as! [AnyObject]
             self.loadingLabel.setHidden(true)
@@ -37,6 +37,20 @@ class InterfaceController: WKInterfaceController {
             row?.feedTitle.setText(feed["title"] as? String)
             row?.feedSource.setText(feed["source"] as? String)
             row?.feedSource.setTextColor(UIColor(rgba: feed["source_color"] as! String))
+            
+            if feed["id"] as! Int == self.link_id {
+                self.link_id = 0
+                self.pushControllerWithName("showArticle", context: feed["description"])
+            }
+        }
+    }
+    
+    override func handleActionWithIdentifier(identifier: String?, forRemoteNotification remoteNotification: [NSObject : AnyObject]) {
+        if identifier == "open" {
+            
+            if remoteNotification["link_id"] != nil {
+                self.link_id = remoteNotification["link_id"] as! Int
+            }
         }
     }
     
