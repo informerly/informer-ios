@@ -503,15 +503,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         var url : NSURL!
         if isBookmarked == true {
             sharingItems.append(self.bookmarkedFeeds[articleIndex].title!)
-            sharingItems.append(self.bookmarkedFeeds[articleIndex].url!)
             url = NSURL(string: bookmarkedFeeds[articleIndex].url!)
         } else if isCategoryFeeds == true {
             sharingItems.append(self.categoryFeeds![articleIndex].title!)
-            sharingItems.append(self.categoryFeeds![articleIndex].URL!)
             url = NSURL(string: self.categoryFeeds![articleIndex].URL!)
         } else {
             sharingItems.append(feeds[articleIndex].title!)
-            sharingItems.append(feeds[articleIndex].URL!)
             url = NSURL(string: feeds[articleIndex].URL!)
         }
         

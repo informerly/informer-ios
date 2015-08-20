@@ -798,39 +798,37 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             
             if isUnreadTab == true {
                 sharingItems.append(self.unreadBookmarkFeeds[indexPath].title!)
-                sharingItems.append(self.unreadBookmarkFeeds[indexPath].url!)
                 url = NSURL(string: unreadBookmarkFeeds[indexPath].url!)
+                sharingItems.append(url)
             } else {
                 sharingItems.append(self.bookmarks[indexPath].title!)
-                sharingItems.append(self.bookmarks[indexPath].url!)
                 url = NSURL(string: bookmarks[indexPath].url!)
+                sharingItems.append(url)
             }
             
         } else if isCategoryFeeds == true {
             
             if isUnreadTab == true {
                 sharingItems.append(self.unreadFeeds[indexPath].title!)
-                sharingItems.append(self.unreadFeeds[indexPath].URL!)
                 url = NSURL(string: self.unreadFeeds[indexPath].URL!)
+                sharingItems.append(url)
             } else {
                 sharingItems.append(self.categoryFeeds![indexPath].title!)
-                sharingItems.append(self.categoryFeeds![indexPath].URL!)
                 url = NSURL(string: self.categoryFeeds![indexPath].URL!)
+                sharingItems.append(url)
             }
         } else {
             
             if isUnreadTab == true {
                 sharingItems.append(self.unreadFeeds[indexPath].title!)
-                sharingItems.append(self.unreadFeeds[indexPath].URL!)
                 url = NSURL(string: self.unreadFeeds[indexPath].URL!)
+                sharingItems.append(url)
             } else {
                 sharingItems.append(feeds[indexPath].title!)
-                sharingItems.append(feeds[indexPath].URL!)
                 url = NSURL(string: feeds[indexPath].URL!)
+                sharingItems.append(url)
             }
         }
-        
-        sharingItems.append(url)
         
         let activity = ARSafariActivity()
         let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
