@@ -65,6 +65,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         } else if (Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true){
             self.feeds = Feeds.sharedInstance.getFeeds()
             Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_PUSH)
+        } else if (Utilities.sharedInstance.getBoolForAppGroupKey(FROM_TODAY_WIDGET)) {
+            self.feeds = Feeds.sharedInstance.getFeeds()
+            Utilities.sharedInstance.setBoolAppGroupForKey(false, key: FROM_TODAY_WIDGET)
         } else {
             if isUnreadTab == true && isBookmarked == false {
                 self.feeds = unreadFeeds

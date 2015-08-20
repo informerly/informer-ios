@@ -25,6 +25,7 @@ let DEFAULT_LIST = "default_list"
 let IS_FROM_PUSH = "isFromPush"
 let APP_LAUNCH_COUNTER = "appLaunchCounter"
 let PUSH_ALLOWED = "pushAllowed"
+let FROM_TODAY_WIDGET = "fromTodayWidget"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"
@@ -56,3 +57,6 @@ let ICON_SHARE = "share_btn"
 // Cell colors
 let CELL_TITLE_COLOR = "#9B9B9B"
 let SWIPE_CELL_BACKGROUND = "#F7F7F7"
+
+//App Groups
+let APP_GROUP_TODAY_WIDGET = "group.com.informerly.informer-app-today-widget"

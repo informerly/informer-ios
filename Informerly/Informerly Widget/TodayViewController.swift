@@ -12,7 +12,9 @@ import NotificationCenter
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var openStoryBtn: UIButton!
     @IBOutlet weak var nextStoryBtn: UIButton!
+    @IBOutlet weak var saveStoryBtn: UIButton!
     var feeds : [AnyObject]!
     var index : Int!
     
@@ -21,18 +23,20 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // Do any additional setup after loading the view from its nib.
         
         index = 0
-        self.nextStoryBtn.layer.borderColor = UIColor(rgba: "#64ACFF").CGColor
-        self.nextStoryBtn.layer.borderWidth = 2.0
-        self.nextStoryBtn.layer.cornerRadius = 5.0
+        self.feeds = []
+        
+        // Apply border on buttons
+        applyBorder(self.saveStoryBtn)
+        applyBorder(self.openStoryBtn)
+        applyBorder(self.nextStoryBtn)
         
         
         //Article Web View Gestures
-        var tap = UITapGestureRecognizer(target: self, action: "onTitleTap")
-        self.titleLabel.addGestureRecognizer(tap)
-        titleLabel.userInteractionEnabled = true
+//        var tap = UITapGestureRecognizer(target: self, action: "onTitleTap")
+//        self.titleLabel.addGestureRecognizer(tap)
+//        titleLabel.userInteractionEnabled = true
         
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
-        var token : String! = userDefaults.stringForKey("auth_token")
+        var token : String! = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
         
         if token != nil && token != "" {
             var parameters = ["auth_token":token,
@@ -43,11 +47,18 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 parameter: parameters,
                 success: { (requestStatus : Int32, processedData : AnyObject!, extraInfo : AnyObject!) -> Void in
                     if requestStatus == 200 {
-                        self.feeds = processedData["links"] as! Array
-                        var feed : [String:AnyObject] = self.feeds[self.index] as! Dictionary
-                        var title : String = feed["title"] as! String
-                        println(title)
-                        self.titleLabel.text = title
+                        var data : [AnyObject] = processedData["links"] as! Array
+                        
+                        var feed : [String:AnyObject]!
+                        for feed in data {
+                            if feed["read"] as! Bool == false && feed["bookmarked"] as! Bool == false {
+                                self.feeds.append(feed)
+                            }
+                        }
+                        
+                        self.titleLabel.text = self.feeds[self.index]["title"] as? String
+                        self.saveStoryBtn.hidden = false
+                        self.openStoryBtn.hidden = false
                         self.nextStoryBtn.hidden = false
                     }
                 }) { (status : Int32, error : NSError!, extraInfo:AnyObject!) -> Void in
@@ -59,22 +70,28 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
     }
     
-    func onTitleTap() {
-        
-        if self.feeds != nil {
-            var feed : [String:AnyObject] = self.feeds[self.index] as! Dictionary
-            var id : Int = feed["id"] as! Int
-            
-            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
-            userDefaults.setObject("\(id)", forKey: "id")
-            userDefaults.synchronize()
-            
-            var url =  NSURL(string:"TodayExtension://home")
-            self.extensionContext?.openURL(url!, completionHandler:{(success: Bool) -> Void in
-                println("task done!")
-            })
-        }
+    func applyBorder(button:UIButton) {
+        button.layer.borderColor = UIColor(rgba: "#64ACFF").CGColor
+        button.layer.borderWidth = 2.0
+        button.layer.cornerRadius = 5.0
     }
+    
+//    func onTitleTap() {
+//        
+//        if self.feeds != nil {
+//            var feed : [String:AnyObject] = self.feeds[self.index] as! Dictionary
+//            var id : Int = feed["id"] as! Int
+//            
+//            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+//            userDefaults.setObject("\(id)", forKey: "id")
+//            userDefaults.synchronize()
+//            
+//            var url =  NSURL(string:"TodayExtension://home")
+//            self.extensionContext?.openURL(url!, completionHandler:{(success: Bool) -> Void in
+//                println("task done!")
+//            })
+//        }
+//    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -101,8 +118,56 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
         var feed : [String:AnyObject] = feeds[self.index] as! Dictionary
         var title : String = feed["title"] as! String
-        println(title)
         self.titleLabel.text = title
         
     }
+    
+    @IBAction func onOpenBtnPressed(sender: AnyObject) {
+        if self.feeds != nil {
+            var feed : [String:AnyObject] = self.feeds[self.index] as! Dictionary
+            var id : Int = self.feeds[self.index]["id"] as! Int
+            
+            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+            userDefaults.setObject("\(id)", forKey: "id")
+            userDefaults.setBool(true, forKey: FROM_TODAY_WIDGET)
+            userDefaults.synchronize()
+            
+            var url =  NSURL(string:"TodayExtension://home")
+            self.extensionContext?.openURL(url!, completionHandler:{(success: Bool) -> Void in
+                println("task done!")
+            })
+        }
+    }
+    
+    
+    @IBAction func onSaveBtnPressed(sender: AnyObject) {
+        
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            var link_id = self.feeds[self.index]["id"] as! Int
+            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+                "client_id":"dev-ios-informer",
+                "link_id":"\(link_id)"]
+            
+            NetworkManager.sharedNetworkClient().processPostRequestWithPath(BOOKMARK_URL,
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    if requestStatus == 200 {
+                        println("saved")
+                        self.feeds.removeAtIndex(self.index)
+                        if self.index != 0 {
+                            self.index = self.index - 1
+                        }
+                        self.onNextBtnPressed("")
+                    }
+                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    
+                    if extraInfo != nil {
+                        var error : [String:AnyObject] = extraInfo as! Dictionary
+                        var message : String = error["error"] as! String
+                    }
+            }
+        }
+    }
+    
 }

@@ -19,7 +19,6 @@ class Utilities {
     func setBoolForKey(value:Bool,key:String) {
         NSUserDefaults.standardUserDefaults().setBool(value, forKey: key)
         NSUserDefaults.standardUserDefaults().synchronize()
-        
     }
     
     func getBoolForKey(key:String)->Bool {
@@ -65,16 +64,27 @@ class Utilities {
         return unarchivedData!
     }
     
-    
+    // App Group Utilities
     func setAuthToken(value:String,key:String) {
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
         userDefaults.setObject(value, forKey: AUTH_TOKEN)
         userDefaults.synchronize()
     }
     
     func getAuthToken(key:String)->String {
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
         return userDefaults.stringForKey(key)!
+    }
+    
+    func setBoolAppGroupForKey(value:Bool,key:String) {
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+        userDefaults.setBool(value, forKey: key)
+        userDefaults.synchronize()
+    }
+    
+    func getBoolForAppGroupKey(key:String)->Bool {
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+        return userDefaults.boolForKey(key)
     }
     
     func isConnectedToNetwork() -> Bool {
