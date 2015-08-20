@@ -1319,8 +1319,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func createCustomPushAlert() {
         
-        var title = "Please allow us to deliver you targeted, useful alerts."
-        var msg = "We take notifications seriously and guarentee they will be relevant just click 'Yes' and then 'OK'."
+        var title = "Our notifications are the best you'll receive. Guaranteed."
+        var msg = "We put a lot of work into making sure our alerts are targeted and useful. Please tap 'Yes!' then 'OK'."
         
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
