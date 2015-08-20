@@ -180,8 +180,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     func onTextShare(sender:AnyObject){
         
-        var selectedText = self.zenWebViews[self.articleIndex]?.stringByEvaluatingJavaScriptFromString("window.getSelection().toString()")
-        
+        var selectedText : String?
         var sharingItems = [AnyObject]()
         var url : String!
         var subject : String!
@@ -196,13 +195,33 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             url = self.feeds[articleIndex].URL!
         }
         
-        sharingItems.append("\(selectedText!) \n \n")
-        sharingItems.append(url)
-        
-        let activity = ARSafariActivity()
-        let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
-        activityVC.setValue(subject, forKey: "subject")
-        self.presentViewController(activityVC, animated: true, completion: nil)
+        if self.isZenMode == true {
+            selectedText = self.zenWebViews[self.articleIndex]?.stringByEvaluatingJavaScriptFromString("window.getSelection().toString()")
+            
+            if selectedText != nil {
+                sharingItems.append("\(selectedText!) \n \n")
+            }
+            sharingItems.append(url)
+            
+            let activity = ARSafariActivity()
+            let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
+            activityVC.setValue(subject, forKey: "subject")
+            self.presentViewController(activityVC, animated: true, completion: nil)
+        } else {
+            self.articleWebView.evaluateJavaScript("window.getSelection().toString()", completionHandler: { (seletectString, error) -> Void in
+                selectedText = seletectString as? String
+                
+                if selectedText != nil {
+                    sharingItems.append("\(selectedText!) \n \n")
+                }
+                sharingItems.append(url)
+                
+                let activity = ARSafariActivity()
+                let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
+                activityVC.setValue(subject, forKey: "subject")
+                self.presentViewController(activityVC, animated: true, completion: nil)
+            })
+        }
     }
     
     // Creates bar button for navbar
@@ -503,7 +522,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     // Web view delegate
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         println("finish")
-        webView.evaluateJavaScript("document.documentElement.style.webkitUserSelect='none';", completionHandler: nil)
+//        webView.evaluateJavaScript("document.documentElement.style.webkitUserSelect='none';", completionHandler: nil)
         self.zenModeBtnView.hidden = true
         articleWebView.alpha = 1.0
         toolbar.alpha = 1.0
