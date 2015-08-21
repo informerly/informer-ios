@@ -49,10 +49,10 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhs-Mr-a9D">
-                                <rect key="frame" x="174" y="46" width="60" height="30"/>
+                                <rect key="frame" x="130" y="46" width="60" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="E5R-GM-xKK"/>
-                                    <constraint firstAttribute="height" constant="30" id="Noi-zr-vwP"/>
+                                    <constraint firstAttribute="width" constant="60" id="g3R-kA-VH4"/>
+                                    <constraint firstAttribute="height" constant="30" id="g5Y-tQ-AcB"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="14"/>
                                 <state key="normal" title="Open">
@@ -64,10 +64,10 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9rf-cH-rNR">
-                                <rect key="frame" x="104" y="46" width="60" height="30"/>
+                                <rect key="frame" x="16" y="46" width="60" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="gxc-WP-Z17"/>
-                                    <constraint firstAttribute="width" constant="60" id="n01-1d-eSn"/>
+                                    <constraint firstAttribute="width" constant="60" id="GIB-pI-mOo"/>
+                                    <constraint firstAttribute="height" constant="30" id="uOV-Iy-J7U"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="14"/>
                                 <state key="normal" title="Save">
@@ -81,15 +81,15 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="GZX-MS-a72" secondAttribute="bottom" constant="9" id="4c3-dR-6d1"/>
-                            <constraint firstItem="yhs-Mr-a9D" firstAttribute="top" secondItem="Lr0-eV-h29" secondAttribute="bottom" constant="13" id="6gJ-5L-NrH"/>
                             <constraint firstAttribute="trailingMargin" secondItem="GZX-MS-a72" secondAttribute="trailing" id="IUI-9E-Ncr"/>
+                            <constraint firstItem="9rf-cH-rNR" firstAttribute="top" secondItem="Lr0-eV-h29" secondAttribute="bottom" constant="13" id="OWe-WA-VdK"/>
                             <constraint firstItem="Lr0-eV-h29" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" id="PhJ-EM-xmx"/>
                             <constraint firstItem="GZX-MS-a72" firstAttribute="top" secondItem="Lr0-eV-h29" secondAttribute="bottom" constant="13" id="S97-sh-Hme"/>
+                            <constraint firstAttribute="centerX" secondItem="yhs-Mr-a9D" secondAttribute="centerX" id="WFk-q4-ld7"/>
+                            <constraint firstItem="9rf-cH-rNR" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" id="YrT-So-BE4"/>
                             <constraint firstItem="Lr0-eV-h29" firstAttribute="trailing" secondItem="S3S-Oj-5AN" secondAttribute="trailingMargin" id="abK-e6-lA2"/>
-                            <constraint firstItem="9rf-cH-rNR" firstAttribute="top" secondItem="Lr0-eV-h29" secondAttribute="bottom" constant="13" id="dHe-zr-Opt"/>
                             <constraint firstItem="Lr0-eV-h29" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" constant="3" id="fCv-2H-cq3"/>
-                            <constraint firstItem="GZX-MS-a72" firstAttribute="leading" secondItem="yhs-Mr-a9D" secondAttribute="trailing" constant="10" id="hGb-R2-ndB"/>
-                            <constraint firstItem="yhs-Mr-a9D" firstAttribute="leading" secondItem="9rf-cH-rNR" secondAttribute="trailing" constant="10" id="qMt-Uf-KZH"/>
+                            <constraint firstItem="yhs-Mr-a9D" firstAttribute="top" secondItem="Lr0-eV-h29" secondAttribute="bottom" constant="13" id="kQc-s1-9Fm"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
