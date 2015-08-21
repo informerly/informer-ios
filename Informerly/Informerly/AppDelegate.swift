@@ -77,6 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             self.loadFeedVC()
         }
+        self.registerSettingsAndCategories()
         return true
     }
 
@@ -163,6 +164,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
+    /* Method to check if the internet is connected or not.
+        marks read locally saved feeds on server.
+        bookmark locally saved feeds on server.
+    */
+    
     func checkForReachability(notification:NSNotification)
     {
         let networkReachability = notification.object as! Reachability;
@@ -207,6 +213,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    // Method to mark read articles on server.
     func markRead(articleID:Int) {
         var path : String = "links/\(articleID)/read"
         var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
@@ -226,6 +233,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    // method to bookmark locally saved feeds.
     func markBookmarked(feedID:Int){
         var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
         
@@ -248,6 +256,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    
+    // Method load suitable controller
     func loadFeedVC(){
         var storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         
@@ -267,7 +277,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - Core Data stack
-    
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.mycompany.test" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
@@ -329,6 +338,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    
+    // Configures push notification for the user.
     func configurePushNotification() {
         var pushSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: .Alert, categories: nil)
         
@@ -339,6 +350,120 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.sharedApplication().registerUserNotificationSettings(setting);
         UIApplication.sharedApplication().registerForRemoteNotifications();
+    }
+    
+    
+    // Registering actions for Watch/Mobile Notifications
+    func registerSettingsAndCategories() {
+        var categories = NSMutableSet()
+        
+        var openAction = UIMutableUserNotificationAction()
+        openAction.title = NSLocalizedString("Open", comment: "")
+        openAction.identifier = "open"
+        openAction.activationMode = UIUserNotificationActivationMode.Foreground
+        openAction.authenticationRequired = false
+        openAction.destructive = false
+        
+        var saveAction = UIMutableUserNotificationAction()
+        saveAction.title = NSLocalizedString("Save", comment: "")
+        saveAction.identifier = "save"
+        saveAction.activationMode = UIUserNotificationActivationMode.Background
+        saveAction.authenticationRequired = false
+        saveAction.destructive = false
+        
+        
+        var notificationCategory = UIMutableUserNotificationCategory()
+        notificationCategory.setActions([openAction, saveAction],
+            forContext: UIUserNotificationActionContext.Default)
+        notificationCategory.identifier = "notification"
+        
+        categories.addObject(notificationCategory)
+        
+        // Configure other actions and categories and add them to the set...
+        
+        var settings = UIUserNotificationSettings(forTypes: (.Alert | .Badge | .Sound),
+            categories: categories as Set<NSObject>)
+        
+        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+    }
+    
+    
+    // Method to handle notification actions.
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        
+        if identifier == "open" {
+            var link_id = userInfo["link_id"] as! Int
+            Utilities.sharedInstance.setStringForKey("\(link_id)", key: LINK_ID)
+            Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_PUSH)
+            completionHandler()
+        } else if identifier == "save" {
+            var token : String! = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            
+            if token != nil && token != "" {
+                var parameters : [String:AnyObject] = ["auth_token":token,
+                    "client_id":"dev-ios-informer",
+                    "link_id":userInfo["link_id"] as! Int]
+                
+                if Utilities.sharedInstance.isConnectedToNetwork() == true {
+                    NetworkManager.sharedNetworkClient().processPostRequestWithPath(BOOKMARK_URL,
+                        parameter: parameters,
+                        success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                            if requestStatus == 200 {
+                                var bookmarkDictionary : [String:AnyObject] = processedData["bookmark"] as! Dictionary
+                                var linkID = bookmarkDictionary["link_id"] as! Int
+                                self.downloadArticleData("\(linkID)",completionHandler: completionHandler)
+                            }
+                        }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                            
+                            if extraInfo != nil {
+                                
+                            }
+                            completionHandler()
+                    }
+                }
+            }
+        }
+    }
+    
+    // Method to fetch article data.
+    func downloadArticleData(articleID : String,completionHandler: () -> Void) {
+        
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            var parameters = ["auth_token":auth_token,
+                "client_id":"dev-ios-informer",
+                "content":"true"]
+            
+            NetworkManager.sharedNetworkClient().processGetRequestWithPath("links/\(articleID)",
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    var data : [String:AnyObject] = processedData["link"] as! Dictionary
+                    
+                    var feed : BookmarkFeed = BookmarkFeed()
+                    feed.id = data["id"] as? Int
+                    feed.title = data["title"] as? String
+                    feed.feedDescription = data["description"] as? String
+                    feed.content = data["content"] as? String
+                    feed.readingTime = data["reading_time"] as? Int
+                    feed.source = data["source"] as? String
+                    feed.sourceColor = data["source_color"] as? String
+                    feed.url = data["url"] as? String
+                    feed.read = data["read"] as? Bool
+                    feed.bookmarked = true
+                    feed.publishedAt = data["published_at"] as? String
+                    feed.originalDate = data["original_date"] as? String
+                    feed.shortLink = data["shortLink"] as? String
+                    feed.slug = data["slug"] as? String
+                    
+                    CoreDataManager.addBookmarkFeed(feed, isSynced: true)
+                    completionHandler()
+                    
+                }, failure: { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    completionHandler()
+            })
+            
+        }
     }
     
 }
