@@ -1317,15 +1317,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func createCustomPushAlert() {
         
-        var title = "Our notifications are the best you'll receive. Guaranteed."
-        var msg = "We put a lot of work into making sure our alerts are targeted and useful. Please tap 'Yes!' then 'OK'."
+        var title = "Stay ahead in your industry."
+        var msg = "Receive alerts for breaking industry news."
         
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
+        alert.addAction(UIAlertAction(title: "Not Now", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
             Utilities.sharedInstance.setBoolForKey(false, key: PUSH_ALLOWED)
             Utilities.sharedInstance.setIntForKey(1, key: APP_LAUNCH_COUNTER)
         }))
-        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
+        alert.addAction(UIAlertAction(title: "Enable", style: UIAlertActionStyle.Cancel, handler: { (sender) -> Void in
             Utilities.sharedInstance.setBoolForKey(true, key: PUSH_ALLOWED)
             Utilities.sharedInstance.setIntForKey(0, key: APP_LAUNCH_COUNTER)
             var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
