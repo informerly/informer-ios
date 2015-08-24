@@ -97,21 +97,19 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         UIApplication.sharedApplication().statusBarHidden = false
         self.navigationController?.navigationBar.hidden = false
         self.isFromFeeds = true
-        if isBookmarked == true {
-            self.bookmarks = CoreDataManager.getBookmarkFeeds()
+        
+        if Utilities.sharedInstance.getBoolForKey(FROM_PUSH_AND_FROM_ARTICLE_VIEW) {
+            downloadData()
+            Utilities.sharedInstance.setBoolForKey(false, key: FROM_PUSH_AND_FROM_ARTICLE_VIEW)
         } else {
-            self.feeds = Feeds.sharedInstance.getFeeds()
+            if isBookmarked == true {
+                self.bookmarks = CoreDataManager.getBookmarkFeeds()
+            } else {
+                self.feeds = Feeds.sharedInstance.getFeeds()
+            }
+            
+            self.tableView.reloadData()
         }
-        
-//        if Utilities.sharedInstance.getStringForKey(DEFAULT_LIST) == "unread" {
-//            self.customSegmentedControl.selectedSegmentIndex = 1
-//            self.isUnreadTab = true
-//        } else if Utilities.sharedInstance.getStringForKey(DEFAULT_LIST) == "all" {
-//            self.customSegmentedControl.selectedSegmentIndex = 0
-//            self.isUnreadTab = false
-//        }
-        
-        self.tableView.reloadData()
     }
     
     func createNavTitle() {
@@ -1306,11 +1304,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func appDidBecomeActiveCalled(){
         
         if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
-            if ((self.navigationController?.topViewController.isKindOfClass(ArticleViewController)) == true) {
-//                self.navigationController?.popViewControllerAnimated(true)
-            } else {
-                self.downloadData()
-            }
+            self.downloadData()
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         }
     }
@@ -1321,11 +1315,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var msg = "Receive alerts for breaking industry news."
         
         var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Not Now", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
+        alert.addAction(UIAlertAction(title: "Not Now", style: UIAlertActionStyle.Cancel, handler: { (sender) -> Void in
             Utilities.sharedInstance.setBoolForKey(false, key: PUSH_ALLOWED)
             Utilities.sharedInstance.setIntForKey(1, key: APP_LAUNCH_COUNTER)
         }))
-        alert.addAction(UIAlertAction(title: "Enable", style: UIAlertActionStyle.Cancel, handler: { (sender) -> Void in
+        alert.addAction(UIAlertAction(title: "Enable", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
             Utilities.sharedInstance.setBoolForKey(true, key: PUSH_ALLOWED)
             Utilities.sharedInstance.setIntForKey(0, key: APP_LAUNCH_COUNTER)
             var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate

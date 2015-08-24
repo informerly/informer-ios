@@ -26,6 +26,7 @@ let IS_FROM_PUSH = "isFromPush"
 let APP_LAUNCH_COUNTER = "appLaunchCounter"
 let PUSH_ALLOWED = "pushAllowed"
 let FROM_TODAY_WIDGET = "fromTodayWidget"
+let FROM_PUSH_AND_FROM_ARTICLE_VIEW = "fromPush&FromArticleView"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"

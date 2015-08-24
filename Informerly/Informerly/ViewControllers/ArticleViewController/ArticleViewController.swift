@@ -48,6 +48,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         super.viewDidLoad()
         
+        // Application did become active
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
+        
         // Setting up Nav bar
         self.navigationController?.navigationBar.translucent = false
         self.navigationItem.hidesBackButton = true
@@ -1002,6 +1005,17 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
+    
+    func appDidBecomeActiveCalled(){
+        
+        if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
+            Utilities.sharedInstance.setBoolForKey(true, key: FROM_PUSH_AND_FROM_ARTICLE_VIEW)
+            self.onBackPressed()
+            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        }
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
