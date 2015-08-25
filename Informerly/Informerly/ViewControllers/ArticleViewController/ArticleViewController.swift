@@ -66,7 +66,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             self.feeds = [self.feedData]
             self.articleIndex = 0
         } else if (Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true){
-            self.feeds = Feeds.sharedInstance.getFeeds()
+            if self.isCategoryFeeds == true {
+                self.feeds = self.categoryFeeds
+            } else {
+                self.feeds = Feeds.sharedInstance.getFeeds()
+            }
             Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_PUSH)
         } else if (Utilities.sharedInstance.getBoolForAppGroupKey(FROM_TODAY_WIDGET)) {
             self.feeds = Feeds.sharedInstance.getFeeds()

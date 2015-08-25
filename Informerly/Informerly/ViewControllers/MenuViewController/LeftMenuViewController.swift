@@ -67,6 +67,15 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                         self.refreshCntrl.endRefreshing()
                         MenuItems.sharedInstance.populateItems(processedData["feeds"] as! [AnyObject])
                         self.menuItems = MenuItems.sharedInstance.getItems()
+                        var menuItem : Item!
+                        for menuItem in self.menuItems {
+                            if menuItem.id == Utilities.sharedInstance.getStringForKey(FEED_ID)?.toInt() {
+                                var userInfo = ["id" : String(menuItem.id!),
+                                    "name" : menuItem.name!]
+                                NSNotificationCenter.defaultCenter().postNotificationName("CategoryNotification", object: nil, userInfo: userInfo)
+                            }
+                        }
+                        
                         self.tableView.reloadData()
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
@@ -189,13 +198,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
             name = "Your Feed"
             icon_img?.frame = CGRectMake(13, 12, 22, 20)
             icon_img!.image = UIImage(named: "icon_home")
-        }
-//        else if indexPath.row == self.menuItems.count + 1 {
-//            name = "Bookmarks"
-//            icon_img?.frame = CGRectMake(15, 12, 14, 18)
-//            icon_img!.image = UIImage(named: "icon_bookmark")
-//        }
-        else {
+        } else {
             
             if self.menuItems.count == 0 {
                 name = "Bookmarks"
@@ -209,9 +212,6 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         }
         
         var menuLabel : UILabel = cell.viewWithTag(102) as! UILabel
-        
-//        menuLabel.font = UIFont(name: "OpenSans-Regular", size: 16.0)
-//        menuLabel.textColor = UIColor(rgba: "#4A4A4A")
         menuLabel.text = name
         
         return cell
@@ -222,12 +222,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         if indexPath.row == 0 {
             self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: nil)
             NSNotificationCenter.defaultCenter().postNotificationName("YourFeedNotification", object: nil)
-        }
-//        else if ((indexPath.row == 1 && self.menuItems.count == 0) || (indexPath.row == self.menuItems.count + 1)) {
-//            self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
-//            NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
-//        }
-        else {
+        } else {
             self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
             var categoryID : Int? = self.menuItems[indexPath.row - 1].id
             var categoryName : String = self.menuItems[indexPath.row - 1].name!

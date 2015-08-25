@@ -39,6 +39,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 else {
                     Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
                 }
+                
+                if let feedID = notification["id"] as? NSNumber {
+                    Utilities.sharedInstance.setStringForKey(feedID.stringValue, key: FEED_ID)
+                } else {
+                    Utilities.sharedInstance.setStringForKey("-1", key: FEED_ID)
+                }
             }
             else if let url = options[UIApplicationLaunchOptionsURLKey] as? NSURL {
                 Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
@@ -136,6 +142,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
             }
+            
+            if userInfo["id"] != nil {
+                var feedID = String(userInfo["id"] as! Int)
+                Utilities.sharedInstance.setStringForKey(feedID, key: FEED_ID)
+            }
+            
             Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_PUSH)
         }
         

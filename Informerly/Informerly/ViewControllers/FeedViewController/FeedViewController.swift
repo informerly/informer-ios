@@ -38,6 +38,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
         
+        SVProgressHUD.showWithMaskType(SVProgressHUDMaskType.Gradient)
         if Utilities.sharedInstance.getBoolForKey(PUSH_ALLOWED) == false {
             var appLaunchCounter = Utilities.sharedInstance.getIntForKey(APP_LAUNCH_COUNTER)
             appLaunchCounter++
@@ -81,7 +82,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.tableView.addSubview(self.refreshCntrl)
         
         self.fetchUserPreferences()
-        self.downloadData()
+        
+        if Utilities.sharedInstance.getStringForKey(FEED_ID) == "-1" || Utilities.sharedInstance.getStringForKey(FEED_ID) == nil {
+            self.downloadData()
+        }
+        
         self.downloadBookmark { (result) -> Void in}
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "yourFeedNotificationSelector:", name:"YourFeedNotification", object: nil)
@@ -99,7 +104,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.isFromFeeds = true
         
         if Utilities.sharedInstance.getBoolForKey(FROM_PUSH_AND_FROM_ARTICLE_VIEW) {
-            downloadData()
+            if Utilities.sharedInstance.getStringForKey(FEED_ID) != "-1" {
+                loadNewCategory()
+            } else {
+                downloadData()
+            }
+            
             Utilities.sharedInstance.setBoolForKey(false, key: FROM_PUSH_AND_FROM_ARTICLE_VIEW)
         } else {
             if isBookmarked == true {
@@ -109,6 +119,21 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             }
             
             self.tableView.reloadData()
+        }
+    }
+    
+    func appDidBecomeActiveCalled(){
+        
+        if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
+            if (self.navigationController?.topViewController.isKindOfClass(FeedViewController) == true) {
+                if Utilities.sharedInstance.getStringForKey(FEED_ID) == "-1" {
+                    self.downloadData()
+                }
+                else {
+                    loadNewCategory()
+                }
+            }
+            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         }
     }
     
@@ -686,7 +711,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.isCategoryFeeds = false
         self.navTitle.text = "Your Feed"
         self.navTitle.frame = CGRectMake(0, 0, 80, 30)
-        self.tableView.reloadData()
+        
+        if self.feeds.count == 0 {
+            self.downloadData()
+        } else {
+            self.tableView.reloadData()
+        }
     }
     
     @objc func bookmarkNotificationSelector(notification: NSNotification){
@@ -698,6 +728,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         self.isBookmarked = false
         self.isCategoryFeeds = true
+        
+        if Utilities.sharedInstance.getStringForKey(FEED_ID) != "-1" {
+            Utilities.sharedInstance.setStringForKey("-1", key: FEED_ID)
+        }
         
         var dict  = notification.userInfo as! Dictionary<String,String>
         self.categoryID = dict["id"]!.toInt()!
@@ -1300,13 +1334,21 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         }
     }
     
-    
-    func appDidBecomeActiveCalled(){
+    func loadNewCategory() {
+        self.isBookmarked = false
+        self.isCategoryFeeds = true
         
-        if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
-            self.downloadData()
-            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        var menuItems : [Item] = MenuItems.sharedInstance.getItems()
+        var item : Item!
+        var name = ""
+        for item in menuItems {
+            if item.id == Utilities.sharedInstance.getStringForKey(FEED_ID)!.toInt() {
+                name = item.name!
+            }
         }
+        
+        self.downloadCategory(Utilities.sharedInstance.getStringForKey(FEED_ID)!.toInt()!,categoryName: name)
+        Utilities.sharedInstance.setStringForKey("-1", key: FEED_ID)
     }
     
     func createCustomPushAlert() {
