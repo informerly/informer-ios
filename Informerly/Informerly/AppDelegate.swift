@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
                 }
                 
-                if let feedID = notification["id"] as? NSNumber {
+                if let feedID = notification["feed_id"] as? NSNumber {
                     Utilities.sharedInstance.setStringForKey(feedID.stringValue, key: FEED_ID)
                 } else {
                     Utilities.sharedInstance.setStringForKey("-1", key: FEED_ID)
@@ -143,8 +143,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
             }
             
-            if userInfo["id"] != nil {
-                var feedID = String(userInfo["id"] as! Int)
+            if userInfo["feed_id"] != nil {
+                var feedID = String(userInfo["feed_id"] as! Int)
                 Utilities.sharedInstance.setStringForKey(feedID, key: FEED_ID)
             }
             
