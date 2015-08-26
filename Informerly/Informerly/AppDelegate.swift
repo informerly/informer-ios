@@ -57,6 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         else {
             Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
+            Utilities.sharedInstance.setStringForKey("-1", key: FEED_ID)
         }
         
         // Emily adding Parse details - for Junaid's review.
