@@ -83,7 +83,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             self.loadFeedVC()
         }
-        self.registerSettingsAndCategories()
         return true
     }
 
@@ -353,20 +352,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Configures push notification for the user.
     func configurePushNotification() {
-        var pushSettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: .Alert, categories: nil)
-        
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-        var setting : UIUserNotificationSettings = UIUserNotificationSettings(forTypes:
-            UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound,
-            categories: nil)
-        
-        UIApplication.sharedApplication().registerUserNotificationSettings(setting);
-        UIApplication.sharedApplication().registerForRemoteNotifications();
-    }
-    
-    
-    // Registering actions for Watch/Mobile Notifications
-    func registerSettingsAndCategories() {
         var categories = NSMutableSet()
         
         var openAction = UIMutableUserNotificationAction()
@@ -393,13 +378,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Configure other actions and categories and add them to the set...
         
-        var settings = UIUserNotificationSettings(forTypes: (.Alert | .Badge | .Sound),
-            categories: categories as Set<NSObject>)
-        
+        var settings = UIUserNotificationSettings(forTypes: (.Alert | .Badge | .Sound), categories: categories as Set<NSObject>)
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
+        UIApplication.sharedApplication().registerForRemoteNotifications();
     }
-    
-    
+
     // Method to handle notification actions.
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
         
