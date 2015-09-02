@@ -132,6 +132,7 @@
 		18DAEBB61B5510E30030266E /* CategoryFeeds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803BC2F1B033238003DCB17 /* CategoryFeeds.swift */; };
 		18DEC7441AE6517500F8F661 /* UpdateInterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DEC7431AE6517500F8F661 /* UpdateInterestViewController.swift */; };
 		18DEC7601AE6D3D900F8F661 /* libCrittercism_v5_1_3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DEC75E1AE6D3D900F8F661 /* libCrittercism_v5_1_3.a */; };
+		18E46F1C1B970A5200BB979F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9981A7F8A5F00172610 /* Images.xcassets */; };
 		18ECA3DA1A979EA90009DFA6 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */; };
 		18ECA3DB1A979EBB0009DFA6 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E1F1A83568700BBA510 /* OpenSans-Regular.ttf */; };
 		18ECA3DC1A97A59E0009DFA6 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DD11A834EB200BFEF6E /* UIColorExtension.swift */; };
@@ -1028,6 +1029,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18ECA3DB1A979EBB0009DFA6 /* OpenSans-Regular.ttf in Resources */,
+				18E46F1C1B970A5200BB979F /* Images.xcassets in Resources */,
 				18ECA3DA1A979EA90009DFA6 /* OpenSans-Bold.ttf in Resources */,
 				186BD5441A9711FE0044C86B /* MainInterface.storyboard in Resources */,
 			);

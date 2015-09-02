@@ -443,7 +443,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     feed.feedDescription = data["description"] as? String
                     feed.content = data["content"] as? String
                     feed.readingTime = data["reading_time"] as? Int
-                    feed.source = data["source"] as? String
+//                    feed.source = data["source"] as? String
                     feed.sourceColor = data["source_color"] as? String
                     feed.url = data["url"] as? String
                     feed.read = data["read"] as? Bool
