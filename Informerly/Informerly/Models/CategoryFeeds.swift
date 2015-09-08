@@ -24,10 +24,8 @@ class CategoryFeeds {
         for feedData in feeds {
             var feed : InformerlyFeed = InformerlyFeed()
             feed.populateFeed(feedData as! [String: AnyObject])
-                
             self.feeds.append(feed)
         }
-        
         self.categoriesData[categoryID] = self.feeds
     }
     

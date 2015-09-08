@@ -82,8 +82,17 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.tableView.addSubview(self.refreshCntrl)
         
         self.fetchUserPreferences()
-        
-        if Utilities.sharedInstance.getStringForKey(FEED_ID) == "-1" || Utilities.sharedInstance.getStringForKey(FEED_ID) == nil {
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+        if userDefaults.boolForKey(IS_CATEGORY_FEED) == true {
+            self.isCategoryFeeds = true
+            self.categoryID = userDefaults.integerForKey(CATEGORY_FEED_ID)
+            self.categoryName = userDefaults.objectForKey(CATEGORY_FEED_NAME) as! String
+            self.downloadCategory(self.categoryID, categoryName: self.categoryName)
+            userDefaults.setBool(false, forKey: IS_CATEGORY_FEED)
+            userDefaults.setInteger(-1, forKey: CATEGORY_FEED_ID)
+            userDefaults.setObject("", forKey: CATEGORY_FEED_NAME)
+            userDefaults.synchronize()
+        } else if Utilities.sharedInstance.getStringForKey(FEED_ID) == "-1" || Utilities.sharedInstance.getStringForKey(FEED_ID) == nil {
             self.downloadData()
         }
         
@@ -114,7 +123,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         } else {
             if isBookmarked == true {
                 self.bookmarks = CoreDataManager.getBookmarkFeeds()
-            } else {
+            } else if isCategoryFeeds == true {
+                if self.categoryFeeds == nil {
+                    self.categoryFeeds = []
+                }
+            }
+            else {
                 self.feeds = Feeds.sharedInstance.getFeeds()
             }
             
@@ -782,6 +796,20 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                             
                             CategoryFeeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject], categoryID: categoryID)
                             self.categoryFeeds = CategoryFeeds.sharedInstance.getCategoryFeeds(categoryID)
+                            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+                            var feed : InformerlyFeed
+                            var row = -1
+                            for feed in self.categoryFeeds! {
+                                row = row + 1
+                                if feed.id == userDefaults.integerForKey(CATEGORY_FEED_ARTICLE_ID) {
+                                    self.rowID = row
+                                    userDefaults.setInteger(-1, forKey: CATEGORY_FEED_ARTICLE_ID)
+                                    userDefaults.synchronize()
+                                    self.tableView.reloadData()
+                                    self.performSegueWithIdentifier("ArticleVC", sender: self)
+                                }
+                            }
+                            
                             self.tableView.reloadData()
                         }
                     }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
@@ -1296,6 +1324,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                 println("Successfully marked as unread.")
+                
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 println("Failure marking article as unread")
                 

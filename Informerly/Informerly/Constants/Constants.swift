@@ -28,6 +28,10 @@ let APP_LAUNCH_COUNTER = "appLaunchCounter"
 let PUSH_ALLOWED = "pushAllowed"
 let FROM_TODAY_WIDGET = "fromTodayWidget"
 let FROM_PUSH_AND_FROM_ARTICLE_VIEW = "fromPush&FromArticleView"
+let IS_CATEGORY_FEED = "isCategoryFeed"
+let CATEGORY_FEED_ID = "categoryFeedID"
+let CATEGORY_FEED_NAME = "categoryFeedName"
+let CATEGORY_FEED_ARTICLE_ID = "categoryFeedArticleID"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"

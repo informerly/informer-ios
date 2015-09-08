@@ -11,49 +11,53 @@ import NotificationCenter
 
 class TodayViewController: UIViewController, NCWidgetProviding {
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var feedLabelContainingView: UIView!
+    @IBOutlet weak var feedLabel: UILabel!
     @IBOutlet weak var containingView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var prevFeedBtn: UIButton!
+    @IBOutlet weak var nextFeedBtn: UIButton!
     @IBOutlet weak var prevStoryBtn: UIButton!
     @IBOutlet weak var nextStoryBtn: UIButton!
     @IBOutlet weak var saveStoryBtn: UIButton!
     @IBOutlet weak var readStoryBtn: UIButton!
-    @IBOutlet weak var constraintNextBtnHorizontalSpacing: NSLayoutConstraint!
-    @IBOutlet weak var constarintSaveBtnHorizontalSpacing: NSLayoutConstraint!
     var feeds : [AnyObject]!
+    var informerlyfeeds : [InformerlyFeed]!
+    var menuItems : [Item] = []
     var index : Int!
+    var feedIndex : Int!
+    var categoryFeeds : [InformerlyFeed]? = []
+    var isCategoryFeeds : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view from its nib.
         
-        if (self.view.frame.size.width == 320) {
-            self.constraintNextBtnHorizontalSpacing.constant = self.constraintNextBtnHorizontalSpacing.constant - 10
-            self.constarintSaveBtnHorizontalSpacing.constant = self.constraintNextBtnHorizontalSpacing.constant - 5
-        } else if (self.view.frame.size.width == 375) {
-            self.constraintNextBtnHorizontalSpacing.constant = self.constraintNextBtnHorizontalSpacing.constant + 5
-            self.constarintSaveBtnHorizontalSpacing.constant = self.constraintNextBtnHorizontalSpacing.constant + 5
-        } else {
-            self.constraintNextBtnHorizontalSpacing.constant = self.constraintNextBtnHorizontalSpacing.constant + 10
-            self.constarintSaveBtnHorizontalSpacing.constant = self.constraintNextBtnHorizontalSpacing.constant + 10
-        }
-        
         index = 0
+        feedIndex = -1
         self.feeds = []
+        self.informerlyfeeds = []
         
-        containingView.layer.borderColor = UIColor(rgba: "#64ACFF").CGColor
+        containingView.layer.borderColor = UIColor(rgba: BORDER_COLOR).CGColor
         containingView.layer.borderWidth = 1.0
         
-        // Apply border on buttons
+        feedLabel.layer.borderColor = UIColor(rgba: BORDER_COLOR).CGColor
+        feedLabel.layer.borderWidth = 1.0
+        
+        // Apply border
         applyBorder(self.prevStoryBtn)
         applyBorder(self.nextStoryBtn)
         applyBorder(self.saveStoryBtn)
         applyBorder(self.readStoryBtn)
         
-        
-        //Article Web View Gestures
+        // Gesture
         var tap = UITapGestureRecognizer(target: self, action: "onTitleTap")
         self.titleLabel.addGestureRecognizer(tap)
         titleLabel.userInteractionEnabled = true
+        
+        self.activityIndicator.stopAnimating()
+        self.downloadMenuItems()
         
         var token : String! = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
         
@@ -74,10 +78,15 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                                 self.feeds.append(feed)
                             }
                         }
+                        Feeds.sharedInstance.populateFeeds(self.feeds)
+                        self.informerlyfeeds = Feeds.sharedInstance.getFeeds()
                         
-                        self.titleLabel.text = self.feeds[self.index]["title"] as? String
-                        if self.feeds[self.index]["bookmarked"] as? Bool == true {
-                            self.saveStoryBtn.setImage(UIImage(named: ICON_BOOKMARK_FILLED)!, forState: UIControlState.Normal)
+                        self.feedLabelContainingView.hidden = false
+                        self.prevFeedBtn.enabled = false
+                        self.titleLabel.text = self.informerlyfeeds[self.index].title!
+                        if self.informerlyfeeds[self.index].bookmarked! == true {
+                            self.saveStoryBtn.backgroundColor = UIColor(rgba: BORDER_COLOR)
+                            self.saveStoryBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                         }
                         self.prevStoryBtn.hidden = false
                         self.prevStoryBtn.enabled = false
@@ -94,27 +103,57 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
     }
     
+    
+    func downloadMenuItems(){
+        if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            var parameters = ["auth_token":auth_token]
+            
+            NetworkManager.sharedNetworkClient().processGetRequestWithPath(MENU_FEED_URL,
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    if requestStatus == 200 {
+                        MenuItems.sharedInstance.populateItems(processedData["feeds"] as! [AnyObject])
+                        self.menuItems = MenuItems.sharedInstance.getItems()
+                        self.feedLabel.text = "Your Feed"
+                    }
+                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+            }
+        } else {
+        }
+    }
+    
     func applyBorder(button:UIButton) {
-        button.layer.borderColor = UIColor(rgba: "#64ACFF").CGColor
+        button.layer.borderColor = UIColor(rgba: BORDER_COLOR).CGColor
         button.layer.borderWidth = 1.0
-        button.layer.cornerRadius = 20.0
     }
     
     func onTitleTap() {
         
-        if self.feeds != nil {
-            var feed : [String:AnyObject] = self.feeds[self.index] as! Dictionary
-            var id : Int = feed["id"] as! Int
-            
-            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
-            userDefaults.setObject("\(id)", forKey: "id")
+        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+        
+        var feeds : [InformerlyFeed] = []
+        if (isCategoryFeeds == true) {
+            feeds = self.categoryFeeds!
+            userDefaults.setBool(true, forKey: IS_CATEGORY_FEED)
+            userDefaults.setInteger(self.menuItems[self.feedIndex].id!, forKey: CATEGORY_FEED_ID)
+            userDefaults.setObject(self.menuItems[self.feedIndex].name!, forKey: CATEGORY_FEED_NAME)
+            userDefaults.setInteger(feeds[self.index].id!, forKey: CATEGORY_FEED_ARTICLE_ID)
+        } else {
+            userDefaults.setBool(false, forKey: IS_CATEGORY_FEED)
+            feeds = self.informerlyfeeds
+        }
+        
+//        if feeds != nil {
+        
+            userDefaults.setObject("\(feeds[self.index].id!)", forKey: "id")
             userDefaults.synchronize()
             
             var url =  NSURL(string:"TodayExtension://home")
             self.extensionContext?.openURL(url!, completionHandler:{(success: Bool) -> Void in
                 println("task done!")
             })
-        }
+//        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -134,8 +173,14 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     
     @IBAction func onPrevBtnPressed(sender: AnyObject) {
-        self.index = self.index - 1
+        var feeds : [InformerlyFeed] = []
+        if (self.isCategoryFeeds == true) {
+            feeds = self.categoryFeeds!
+        } else {
+            feeds = self.informerlyfeeds
+        }
         
+        self.index = self.index - 1
         if self.index == 0 {
             self.prevStoryBtn.enabled = false
         } else {
@@ -143,38 +188,43 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             self.nextStoryBtn.enabled = true
         }
         
-        var feed : [String:AnyObject] = feeds[self.index] as! Dictionary
-        var title : String = feed["title"] as! String
-        self.titleLabel.text = title
+        self.titleLabel.text = feeds[self.index].title!
         
-        if self.feeds[self.index]["bookmarked"] as? Bool == true {
-            self.saveStoryBtn.setImage(UIImage(named: ICON_BOOKMARK_FILLED)!, forState: UIControlState.Normal)
+        if feeds[self.index].bookmarked! == true {
+            self.saveStoryBtn.backgroundColor = UIColor(rgba: BORDER_COLOR)
+            self.saveStoryBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         } else {
-            self.saveStoryBtn.setImage(UIImage(named: ICON_BOOKMARK_BLUE)!, forState: UIControlState.Normal)
+            self.saveStoryBtn.backgroundColor = UIColor.clearColor()
+            self.saveStoryBtn.setTitleColor(UIColor(rgba: BORDER_COLOR), forState: UIControlState.Normal)
         }
         
     }
     
     @IBAction func onNextBtnPressed(sender: AnyObject) {
-        self.index = self.index + 1
+        var feeds : [InformerlyFeed] = []
+        if (self.isCategoryFeeds == true) {
+            feeds = self.categoryFeeds!
+        } else {
+            feeds = self.informerlyfeeds
+        }
         
+        self.index = self.index + 1
         if self.index == feeds.count {
             self.nextStoryBtn.enabled = false
         } else {
             self.nextStoryBtn.enabled = true
             self.prevStoryBtn.enabled = true
             
-            var feed : [String:AnyObject] = feeds[self.index] as! Dictionary
-            var title : String = feed["title"] as! String
-            self.titleLabel.text = title
+            self.titleLabel.text = feeds[self.index].title!
             
-            if self.feeds[self.index]["bookmarked"] as? Bool == true {
-                self.saveStoryBtn.setImage(UIImage(named: ICON_BOOKMARK_FILLED)!, forState: UIControlState.Normal)
+            if feeds[self.index].bookmarked! == true {
+                self.saveStoryBtn.backgroundColor = UIColor(rgba: BORDER_COLOR)
+                self.saveStoryBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             } else {
-                self.saveStoryBtn.setImage(UIImage(named: ICON_BOOKMARK_BLUE)!, forState: UIControlState.Normal)
+                self.saveStoryBtn.backgroundColor = UIColor.clearColor()
+                self.saveStoryBtn.setTitleColor(UIColor(rgba: BORDER_COLOR), forState: UIControlState.Normal)
             }
         }
-        
     }
     
 //    @IBAction func onOpenBtnPressed(sender: AnyObject) {
@@ -198,7 +248,18 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             
-            var articleID = self.feeds[self.index]["id"] as! Int
+            self.activityIndicator.startAnimating()
+            
+            var articleID = -1
+            var feeds : [InformerlyFeed] = []
+            if (self.isCategoryFeeds == true) {
+                feeds = self.categoryFeeds!
+                articleID = feeds[self.index].id!
+            } else {
+                feeds = self.informerlyfeeds
+                articleID = feeds[self.index].id!
+            }
+            
             var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
                 "client_id":"",
                 "link_id": articleID]
@@ -208,21 +269,22 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     println("Successfully marked as read.")
-                    self.feeds.removeAtIndex(self.index)
+                    self.activityIndicator.stopAnimating()
+                    feeds.removeAtIndex(self.index)
                     self.index = self.index - 1
                     if self.index <= 0 {
                         self.index = 0
                         self.prevStoryBtn.enabled = false
                     }
                     
-                    var feed : [String:AnyObject] = self.feeds[self.index] as! Dictionary
-                    var title : String = feed["title"] as! String
-                    self.titleLabel.text = title
+                    self.titleLabel.text = feeds[self.index].title!
                     
-                    if self.feeds[self.index]["bookmarked"] as? Bool == true {
-                        self.saveStoryBtn.setImage(UIImage(named: ICON_BOOKMARK_FILLED)!, forState: UIControlState.Normal)
+                    if feeds[self.index].bookmarked! == true {
+                        self.saveStoryBtn.backgroundColor = UIColor(rgba: BORDER_COLOR)
+                        self.saveStoryBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                     } else {
-                        self.saveStoryBtn.setImage(UIImage(named: ICON_BOOKMARK_BLUE)!, forState: UIControlState.Normal)
+                        self.saveStoryBtn.backgroundColor = UIColor.clearColor()
+                        self.saveStoryBtn.setTitleColor(UIColor(rgba: BORDER_COLOR), forState: UIControlState.Normal)
                     }
 
                     
@@ -236,8 +298,16 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     @IBAction func onSaveBtnPressed(sender: AnyObject) {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
+            self.activityIndicator.startAnimating()
+            var feeds : [InformerlyFeed] = []
+            if (self.isCategoryFeeds == true) {
+                feeds = self.categoryFeeds!
+            } else {
+                feeds = self.informerlyfeeds
+            }
+            
             var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            var link_id = self.feeds[self.index]["id"] as! Int
+            var link_id = feeds[self.index].id!
             var parameters : [String:AnyObject] = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "link_id":"\(link_id)"]
@@ -247,12 +317,15 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     if requestStatus == 200 {
                         println("saved")
-                        self.saveStoryBtn.setImage(UIImage(named: ICON_BOOKMARK_FILLED)!, forState: UIControlState.Normal)
-//                        self.feeds.removeAtIndex(self.index)
-//                        if self.index != 0 {
-//                            self.index = self.index - 1
-//                        }
-//                        self.onNextBtnPressed("")
+                        self.activityIndicator.stopAnimating()
+                        if (feeds[self.index].bookmarked! == false) {
+                            feeds[self.index].bookmarked! = true
+                            self.saveStoryBtn.backgroundColor = UIColor(rgba: BORDER_COLOR)
+                            self.saveStoryBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                        } else {
+                            self.saveStoryBtn.backgroundColor = UIColor.clearColor()
+                            self.saveStoryBtn.setTitleColor(UIColor(rgba: BORDER_COLOR), forState: UIControlState.Normal)
+                        }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     
@@ -262,6 +335,120 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                     }
             }
         }
+    }
+    
+    @IBAction func onNextFeedPressed(sender: AnyObject) {
+        self.index = 0
+        self.feedIndex = self.feedIndex + 1
+        
+        if self.feedIndex + 1 == self.menuItems.count {
+            self.nextFeedBtn.enabled = false
+            self.feedLabel.text = self.menuItems[self.feedIndex].name!
+        } else {
+            self.feedLabel.text = self.menuItems[self.feedIndex].name!
+        }
+        
+        self.prevFeedBtn.enabled = true
+        self.isCategoryFeeds = true
+        self.downloadCategory(self.menuItems[self.feedIndex].id!)
+    }
+    
+    @IBAction func onPrevFeedPressed(sender: AnyObject) {
+        self.index = 0
+        self.feedIndex = self.feedIndex - 1
+        
+        if (self.feedIndex == -1) {
+            self.feedLabel.text = "Your Feed"
+            self.prevFeedBtn.enabled = false
+            self.isCategoryFeeds = false
+            self.titleLabel.text = self.informerlyfeeds[self.index].title!
+        } else if (self.feedIndex >= 0) {
+            self.feedLabel.text = self.menuItems[self.feedIndex].name!
+            self.downloadCategory(self.menuItems[self.feedIndex].id!)
+        } else {
+            self.prevFeedBtn.enabled = false
+        }
+        
+        self.nextFeedBtn.enabled = true
+    }
+    
+    
+    func downloadCategory(feedID : Int){
+        
+        self.categoryFeeds = CategoryFeeds.sharedInstance.getCategoryFeeds(feedID)
+        
+        if  (self.categoryFeeds == nil || self.categoryFeeds!.isEmpty) {
+            if (Utilities.sharedInstance.isConnectedToNetwork() == true) {
+                self.activityIndicator.startAnimating()
+                self.disableView()
+                var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+                var parameters = ["auth_token":auth_token,
+                    "content":"true"]
+                var URL = "\(FEED_URL)/\(feedID)"
+                
+                NetworkManager.sharedNetworkClient().processGetRequestWithPath(URL,
+                    parameter: parameters,
+                    success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                        
+                        if requestStatus == 200 {
+                            self.activityIndicator.stopAnimating()
+                            self.enableView()
+                            CategoryFeeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject], categoryID: feedID)
+                            self.categoryFeeds = CategoryFeeds.sharedInstance.getCategoryFeeds(feedID)
+                            
+                            if self.categoryFeeds == nil || self.categoryFeeds!.isEmpty {
+                                self.titleLabel.text = "Unable to load ... "
+                            } else {
+                                var feed : InformerlyFeed
+                                var tempFeeds : [InformerlyFeed] = []
+                                for feed in self.categoryFeeds! {
+                                    if feed.read == false {
+                                        tempFeeds.append(feed)
+                                    }
+                                }
+                                self.categoryFeeds = tempFeeds
+                                self.titleLabel.text = self.categoryFeeds![self.index].title!
+                                
+                                if self.categoryFeeds![self.index].bookmarked! == true {
+                                    self.saveStoryBtn.backgroundColor = UIColor(rgba: BORDER_COLOR)
+                                    self.saveStoryBtn.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+                                } else {
+                                    self.saveStoryBtn.backgroundColor = UIColor.clearColor()
+                                    self.saveStoryBtn.setTitleColor(UIColor(rgba: BORDER_COLOR), forState: UIControlState.Normal)
+                                }
+                            }
+                        }
+                    }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                        self.activityIndicator.stopAnimating()
+                        if extraInfo != nil {
+                            var error : [String:AnyObject] = extraInfo as! Dictionary
+                            var message : String = error["error"] as! String
+                        }
+                }
+            }
+        } else {
+            self.titleLabel.text = self.categoryFeeds![self.index].title!
+        }
+    }
+    
+    func disableView() {
+        self.nextFeedBtn.enabled = false
+        self.prevFeedBtn.enabled = false
+        self.nextStoryBtn.enabled = false
+        self.prevStoryBtn.enabled = false
+        self.readStoryBtn.enabled = false
+        self.saveStoryBtn.enabled = false
+        self.titleLabel.userInteractionEnabled = false
+    }
+    
+    func enableView() {
+        self.nextFeedBtn.enabled = true
+        self.prevFeedBtn.enabled = true
+        self.nextStoryBtn.enabled = true
+        self.prevStoryBtn.enabled = false
+        self.readStoryBtn.enabled = true
+        self.saveStoryBtn.enabled = true
+        self.titleLabel.userInteractionEnabled = true
     }
     
 }
