@@ -90,6 +90,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                         }
                         self.prevStoryBtn.hidden = false
                         self.prevStoryBtn.enabled = false
+                        self.prevStoryBtn.alpha = 0.3
                         self.nextStoryBtn.hidden = false
                         self.saveStoryBtn.hidden = false
                         self.readStoryBtn.hidden = false
@@ -183,9 +184,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         self.index = self.index - 1
         if self.index == 0 {
             self.prevStoryBtn.enabled = false
+            self.prevStoryBtn.alpha = 0.3
         } else {
             self.prevStoryBtn.enabled = true
+            self.prevStoryBtn.alpha = 1
             self.nextStoryBtn.enabled = true
+            self.nextStoryBtn.alpha = 1
         }
         
         self.titleLabel.text = feeds[self.index].title!
@@ -211,9 +215,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         self.index = self.index + 1
         if self.index == feeds.count {
             self.nextStoryBtn.enabled = false
+            self.nextStoryBtn.alpha = 0.3
+            self.index = self.index - 1
         } else {
             self.nextStoryBtn.enabled = true
+            self.nextStoryBtn.alpha = 1
             self.prevStoryBtn.enabled = true
+            self.prevStoryBtn.alpha = 1
             
             self.titleLabel.text = feeds[self.index].title!
             
@@ -275,6 +283,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                     if self.index <= 0 {
                         self.index = 0
                         self.prevStoryBtn.enabled = false
+                        self.prevStoryBtn.alpha = 0.3
                     }
                     
                     self.titleLabel.text = feeds[self.index].title!
@@ -439,6 +448,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         self.readStoryBtn.enabled = false
         self.saveStoryBtn.enabled = false
         self.titleLabel.userInteractionEnabled = false
+        
+        self.nextStoryBtn.alpha = 0.3
+        self.prevStoryBtn.alpha = 0.3
+        self.readStoryBtn.alpha = 0.3
+        self.saveStoryBtn.alpha = 0.3
+        self.nextFeedBtn.alpha = 0.3
+        self.prevFeedBtn.alpha = 0.3
     }
     
     func enableView() {
@@ -449,6 +465,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         self.readStoryBtn.enabled = true
         self.saveStoryBtn.enabled = true
         self.titleLabel.userInteractionEnabled = true
+        
+        self.nextStoryBtn.alpha = 1
+        self.readStoryBtn.alpha = 1
+        self.saveStoryBtn.alpha = 1
+        self.nextFeedBtn.alpha = 1
+        self.prevFeedBtn.alpha = 1
     }
     
 }

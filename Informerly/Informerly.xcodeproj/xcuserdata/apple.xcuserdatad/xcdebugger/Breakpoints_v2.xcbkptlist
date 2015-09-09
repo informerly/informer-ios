@@ -63,13 +63,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Informerly Widget/TodayViewController.swift"
-            timestampString = "463423576.046034"
+            filePath = "Informerly/ViewControllers/FeedViewController/FeedViewController.swift"
+            timestampString = "463424352.59248"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
-            landmarkName = "onNextBtnPressed(_:)"
+            startingLineNumber = "1304"
+            endingLineNumber = "1304"
+            landmarkName = "markAsUnread(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -79,13 +79,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Informerly/ViewControllers/FeedViewController/FeedViewController.swift"
-            timestampString = "463424352.59248"
+            filePath = "Informerly Widget/TodayViewController.swift"
+            timestampString = "463491308.320904"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1304"
-            endingLineNumber = "1304"
-            landmarkName = "markAsUnread(_:)"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "onPrevBtnPressed(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
