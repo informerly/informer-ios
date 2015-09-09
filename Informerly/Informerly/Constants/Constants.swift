@@ -66,4 +66,4 @@ let CELL_TITLE_COLOR = "#9B9B9B"
 let SWIPE_CELL_BACKGROUND = "#F7F7F7"
 
 //App Groups
-let APP_GROUP_TODAY_WIDGET = "group.com.informerly.informer-app-today-widget"
+let APP_GROUP_TODAY_WIDGET = "group.com.Informerly.informerWidget"
