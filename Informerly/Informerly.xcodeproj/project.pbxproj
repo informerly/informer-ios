@@ -69,6 +69,18 @@
 		186BD5B31A9763290044C86B /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5751A973B0B0044C86B /* AFURLRequestSerialization.m */; };
 		186BD5B51A9763290044C86B /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5771A973B0B0044C86B /* AFURLResponseSerialization.m */; };
 		186BD5B71A9763290044C86B /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 186BD5791A973B0B0044C86B /* AFURLSessionManager.m */; };
+		186BF5191BA94E9000F8BE16 /* FirstInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BF5181BA94E9000F8BE16 /* FirstInterfaceController.swift */; };
+		186BF51A1BA9592C00F8BE16 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */; };
+		186BF51B1BA9593500F8BE16 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E1F1A83568700BBA510 /* OpenSans-Regular.ttf */; };
+		186BF51E1BA95AD200F8BE16 /* SecondInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BF51D1BA95AD200F8BE16 /* SecondInterfaceController.swift */; };
+		186BF5201BA975FC00F8BE16 /* ThirdInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BF51F1BA975FC00F8BE16 /* ThirdInterfaceController.swift */; };
+		186BF5221BA9767A00F8BE16 /* FourthInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BF5211BA9767A00F8BE16 /* FourthInterfaceController.swift */; };
+		186BF5241BA976A400F8BE16 /* FifthInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BF5231BA976A400F8BE16 /* FifthInterfaceController.swift */; };
+		186BF5261BA9AECB00F8BE16 /* SixthInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BF5251BA9AECB00F8BE16 /* SixthInterfaceController.swift */; };
+		186BF5281BA9AEFC00F8BE16 /* SeventhInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BF5271BA9AEFC00F8BE16 /* SeventhInterfaceController.swift */; };
+		186BF52A1BA9AF2B00F8BE16 /* EighthInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BF5291BA9AF2B00F8BE16 /* EighthInterfaceController.swift */; };
+		186BF52C1BA9AF4D00F8BE16 /* NinthInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BF52B1BA9AF4D00F8BE16 /* NinthInterfaceController.swift */; };
+		186BF52E1BA9AF6D00F8BE16 /* TenthInferfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186BF52D1BA9AF6D00F8BE16 /* TenthInferfaceController.swift */; };
 		187EAA551A8DD6A6000ED503 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187EAA541A8DD6A6000ED503 /* FeedbackViewController.swift */; };
 		187EAA581A8DFF8A000ED503 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187EAA571A8DFF8A000ED503 /* HelpViewController.swift */; };
 		188B07811AB17A6400447CD9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B07801AB17A6400447CD9 /* Reachability.m */; };
@@ -313,6 +325,16 @@
 		186BD5791A973B0B0044C86B /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		186BD58C1A97407F0044C86B /* Informerly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Informerly.entitlements; sourceTree = "<group>"; };
 		186BD58D1A97417B0044C86B /* Informerly Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Informerly Widget.entitlements"; sourceTree = "<group>"; };
+		186BF5181BA94E9000F8BE16 /* FirstInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FirstInterfaceController.swift; path = ../FirstInterfaceController.swift; sourceTree = "<group>"; };
+		186BF51D1BA95AD200F8BE16 /* SecondInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondInterfaceController.swift; sourceTree = "<group>"; };
+		186BF51F1BA975FC00F8BE16 /* ThirdInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdInterfaceController.swift; sourceTree = "<group>"; };
+		186BF5211BA9767A00F8BE16 /* FourthInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FourthInterfaceController.swift; sourceTree = "<group>"; };
+		186BF5231BA976A400F8BE16 /* FifthInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FifthInterfaceController.swift; sourceTree = "<group>"; };
+		186BF5251BA9AECB00F8BE16 /* SixthInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SixthInterfaceController.swift; sourceTree = "<group>"; };
+		186BF5271BA9AEFC00F8BE16 /* SeventhInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeventhInterfaceController.swift; sourceTree = "<group>"; };
+		186BF5291BA9AF2B00F8BE16 /* EighthInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EighthInterfaceController.swift; sourceTree = "<group>"; };
+		186BF52B1BA9AF4D00F8BE16 /* NinthInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NinthInterfaceController.swift; sourceTree = "<group>"; };
+		186BF52D1BA9AF6D00F8BE16 /* TenthInferfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TenthInferfaceController.swift; sourceTree = "<group>"; };
 		187EAA541A8DD6A6000ED503 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		187EAA571A8DFF8A000ED503 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		188B077F1AB17A6400447CD9 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -485,6 +507,7 @@
 		182059391B6A05C700CD7CE9 /* Informer WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				186BF51C1BA95AAB00F8BE16 /* InterfaceControllers */,
 				18A2BA4F1B70A320003670E2 /* Informer WatchKit Extension.entitlements */,
 				18EBD1991B7B3266007BD08E /* ArticleInterfaceController.swift */,
 				1861A7BF1B739F7C00C4063C /* FeedRowController.swift */,
@@ -761,6 +784,23 @@
 				186BD5791A973B0B0044C86B /* AFURLSessionManager.m */,
 			);
 			path = AFNetworking;
+			sourceTree = "<group>";
+		};
+		186BF51C1BA95AAB00F8BE16 /* InterfaceControllers */ = {
+			isa = PBXGroup;
+			children = (
+				186BF5181BA94E9000F8BE16 /* FirstInterfaceController.swift */,
+				186BF51D1BA95AD200F8BE16 /* SecondInterfaceController.swift */,
+				186BF51F1BA975FC00F8BE16 /* ThirdInterfaceController.swift */,
+				186BF5211BA9767A00F8BE16 /* FourthInterfaceController.swift */,
+				186BF5231BA976A400F8BE16 /* FifthInterfaceController.swift */,
+				186BF5251BA9AECB00F8BE16 /* SixthInterfaceController.swift */,
+				186BF5271BA9AEFC00F8BE16 /* SeventhInterfaceController.swift */,
+				186BF5291BA9AF2B00F8BE16 /* EighthInterfaceController.swift */,
+				186BF52B1BA9AF4D00F8BE16 /* NinthInterfaceController.swift */,
+				186BF52D1BA9AF6D00F8BE16 /* TenthInferfaceController.swift */,
+			);
+			path = InterfaceControllers;
 			sourceTree = "<group>";
 		};
 		187EAA531A8DD686000ED503 /* FeedbackViewController */ = {
@@ -1147,6 +1187,8 @@
 			files = (
 				182059501B6A05C800CD7CE9 /* Interface.storyboard in Resources */,
 				182059521B6A05C800CD7CE9 /* Images.xcassets in Resources */,
+				186BF51B1BA9593500F8BE16 /* OpenSans-Regular.ttf in Resources */,
+				186BF51A1BA9592C00F8BE16 /* OpenSans-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1226,24 +1268,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				186BF52A1BA9AF2B00F8BE16 /* EighthInterfaceController.swift in Sources */,
 				18EBD19B1B7B38CC007BD08E /* UIColorExtension.swift in Sources */,
 				18A2BA501B70CF51003670E2 /* NetworkManager.m in Sources */,
 				18A2BA551B70CF86003670E2 /* AFSecurityPolicy.m in Sources */,
 				182059401B6A05C800CD7CE9 /* NotificationController.swift in Sources */,
+				186BF5201BA975FC00F8BE16 /* ThirdInterfaceController.swift in Sources */,
 				18A2BA521B70CF7A003670E2 /* AFHTTPRequestOperationManager.m in Sources */,
 				18A2BA561B70CF8A003670E2 /* AFURLConnectionOperation.m in Sources */,
 				18EBD19C1B7B55C1007BD08E /* Utilities.swift in Sources */,
 				18A2BA511B70CF75003670E2 /* AFHTTPRequestOperation.m in Sources */,
+				186BF5191BA94E9000F8BE16 /* FirstInterfaceController.swift in Sources */,
+				186BF5241BA976A400F8BE16 /* FifthInterfaceController.swift in Sources */,
+				186BF5281BA9AEFC00F8BE16 /* SeventhInterfaceController.swift in Sources */,
 				1820593E1B6A05C800CD7CE9 /* InterfaceController.swift in Sources */,
+				186BF52C1BA9AF4D00F8BE16 /* NinthInterfaceController.swift in Sources */,
 				1861A7C01B739F7C00C4063C /* FeedRowController.swift in Sources */,
 				18EBD19A1B7B3266007BD08E /* ArticleInterfaceController.swift in Sources */,
 				18A2BA571B70CF8D003670E2 /* AFURLRequestSerialization.m in Sources */,
 				18A2BA531B70CF7D003670E2 /* AFHTTPSessionManager.m in Sources */,
 				18A2BA541B70CF82003670E2 /* AFNetworkReachabilityManager.m in Sources */,
+				186BF51E1BA95AD200F8BE16 /* SecondInterfaceController.swift in Sources */,
 				18A2BA581B70CF91003670E2 /* AFURLResponseSerialization.m in Sources */,
 				18A2BA5B1B70D2D9003670E2 /* Constants.swift in Sources */,
+				186BF52E1BA9AF6D00F8BE16 /* TenthInferfaceController.swift in Sources */,
 				18A2BA591B70CF94003670E2 /* AFURLSessionManager.m in Sources */,
 				182059421B6A05C800CD7CE9 /* GlanceController.swift in Sources */,
+				186BF5261BA9AECB00F8BE16 /* SixthInterfaceController.swift in Sources */,
+				186BF5221BA9767A00F8BE16 /* FourthInterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

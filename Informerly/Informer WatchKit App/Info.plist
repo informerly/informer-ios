@@ -27,6 +27,11 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-Bold.ttf</string>
+	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
 	<string>com.informerly.informer-app</string>
 	<key>WKWatchKitApp</key>
