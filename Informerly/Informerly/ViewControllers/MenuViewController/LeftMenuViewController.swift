@@ -39,16 +39,16 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         self.applyTopBorder(self.helpView)
         self.applyTopBorder(self.logoutView)
         
-        var bookmarkTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onBookmarkTap:"))
+        let bookmarkTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onBookmarkTap:"))
         self.bookmarkView.addGestureRecognizer(bookmarkTapGesture)
         
-        var settingTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onSettingTap:"))
+        let settingTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onSettingTap:"))
         self.settingsView.addGestureRecognizer(settingTapGesture)
         
-        var helpTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onHelpTap:"))
+        let helpTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onHelpTap:"))
         self.helpView.addGestureRecognizer(helpTapGesture)
         
-        var logoutTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onLogoutTap:"))
+        let logoutTapGesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("onLogoutTap:"))
         self.logoutView.addGestureRecognizer(logoutTapGesture)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "getMenuItemsNotificationSelector:", name:"GetMenuItemsNotification", object: nil)
@@ -57,25 +57,24 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     
     func downloadMenuItems(){
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            var parameters = ["auth_token":auth_token]
-            
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let parameters = ["auth_token":auth_token]
+
             NetworkManager.sharedNetworkClient().processGetRequestWithPath(MENU_FEED_URL,
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     if requestStatus == 200 {
                         self.refreshCntrl.endRefreshing()
-                        MenuItems.sharedInstance.populateItems(processedData["feeds"] as! [AnyObject])
+                        MenuItems.sharedInstance.populateItems(processedData.objectForKey("feeds") as! [AnyObject])
                         self.menuItems = MenuItems.sharedInstance.getItems()
-                        var menuItem : Item!
-                        for menuItem in self.menuItems {
-                            if menuItem.id == Utilities.sharedInstance.getStringForKey(FEED_ID)?.toInt() {
-                                var userInfo = ["id" : String(menuItem.id!),
-                                    "name" : menuItem.name!]
-                                NSNotificationCenter.defaultCenter().postNotificationName("CategoryNotification", object: nil, userInfo: userInfo)
+
+                        for menuItem : Item in self.menuItems {
+                            if (menuItem.id! == Int(Utilities.sharedInstance.getStringForKey(FEED_ID)!)!) {
+                                let userInfo = ["id":String(menuItem.id!),"name" : menuItem.name!]
+                                NSNotificationCenter.defaultCenter().postNotificationName("CategoryNotification", object: nil, userInfo:userInfo)
                             }
                         }
-                        
+
                         self.tableView.reloadData()
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
@@ -87,7 +86,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     }
     
     func applyTopBorder(view:UIView) {
-        var topBorder : CALayer = CALayer()
+        let topBorder : CALayer = CALayer()
         topBorder.borderWidth = 0.5
         topBorder.borderColor = UIColor(rgba: "#E6E7E8").CGColor
         topBorder.frame = CGRectMake(0, 0, view.frame.size.width, 1)
@@ -95,7 +94,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     }
     
     func applyBottomBorder(view:UIView) {
-        var bottomBorder : CALayer = CALayer()
+        let bottomBorder : CALayer = CALayer()
         bottomBorder.borderWidth = 0.5
         bottomBorder.borderColor = UIColor(rgba: "#E6E7E8").CGColor
         bottomBorder.frame = CGRectMake(0, view.frame.size.height - 1, view.frame.size.width, 1)
@@ -104,9 +103,9 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     
     func onSettingTap(gesture:UIGestureRecognizer){
         self.settingsView.backgroundColor = UIColor.lightGrayColor()
-        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: { () -> Void in
+        self.mm_drawerController.closeDrawerAnimated(true) { (closed) -> Void in
             self.settingsView.backgroundColor = UIColor.whiteColor()
-        })
+        }
         NSNotificationCenter.defaultCenter().postNotificationName("SettingsNotification", object: nil)
     }
 
@@ -118,15 +117,15 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     
     func onBookmarkTap(gesture:UIGestureRecognizer){
         self.bookmarkView.backgroundColor = UIColor.lightGrayColor()
-        self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: { () -> Void in
+        self.mm_drawerController.closeDrawerAnimated(true) { (closed) -> Void in
             self.bookmarkView.backgroundColor = UIColor.whiteColor()
             NSNotificationCenter.defaultCenter().postNotificationName("BookmarkNotification", object: nil)
-        })
+        }
     }
     
     func onLogoutTap(gesture:UIGestureRecognizer){
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var parameters = ["auth_token":Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
+            let parameters = ["auth_token":Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
                 "client_id":"dev-ios-informer"]
             NetworkManager.sharedNetworkClient().processDeleteRequestWithPath(LOGOUT_URL,
                 parameter: parameters,
@@ -139,11 +138,11 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                     NSUserDefaults.standardUserDefaults().setObject([], forKey: READ_ARTICLES)
                     NSUserDefaults.standardUserDefaults().synchronize()
                     
-                    var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                    let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                     self.showViewController(loginVC, sender: self)
                     
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                    println(error.localizedDescription)
+                    print(error.localizedDescription)
             }
         } else {
             self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")
@@ -151,11 +150,11 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     }
     
     func openMailComposer(){
-        var emailTitle = "Help / Feedback"
-        var messageBody = "Enter your questions, problems, or comments here. We’ll respond as soon as we can:"
-        var toRecipents = ["support@informerly.com"]
+        let emailTitle = "Help / Feedback"
+        let messageBody = "Enter your questions, problems, or comments here. We’ll respond as soon as we can:"
+        let toRecipents = ["support@informerly.com"]
         
-        var mailComposer: MFMailComposeViewController = MFMailComposeViewController()
+        let mailComposer: MFMailComposeViewController = MFMailComposeViewController()
         mailComposer.mailComposeDelegate = self
         mailComposer.setSubject(emailTitle)
         mailComposer.setToRecipients(toRecipents)
@@ -164,13 +163,13 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         self.presentViewController(mailComposer, animated: true, completion: nil)
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         self.dismissViewControllerAnimated(true, completion: nil)
         self.helpView.backgroundColor = UIColor.clearColor()
     }
     
     func showAlert(title:String, msg:String) {
-        var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -183,8 +182,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell")as! UITableViewCell
-        
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
         var icon_img : UIImageView? = cell.viewWithTag(101) as? UIImageView
         
         if icon_img == nil {
@@ -211,7 +209,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
             }
         }
         
-        var menuLabel : UILabel = cell.viewWithTag(102) as! UILabel
+        let menuLabel : UILabel = cell.viewWithTag(102) as! UILabel
         menuLabel.text = name
         
         return cell
@@ -220,13 +218,13 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.tableView.deselectRowAtIndexPath(indexPath, animated: false)
         if indexPath.row == 0 {
-            self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion: nil)
+            self.mm_drawerController.closeDrawerAnimated(true, completion: nil)
             NSNotificationCenter.defaultCenter().postNotificationName("YourFeedNotification", object: nil)
         } else {
-            self.menuContainerViewController.setMenuState(MFSideMenuStateClosed, completion:nil)
-            var categoryID : Int? = self.menuItems[indexPath.row - 1].id
-            var categoryName : String = self.menuItems[indexPath.row - 1].name!
-            var userInfo = ["id" : String(categoryID!),
+            self.mm_drawerController.closeDrawerAnimated(true, completion: nil)
+            let categoryID : Int? = self.menuItems[indexPath.row - 1].id
+            let categoryName : String = self.menuItems[indexPath.row - 1].name!
+            let userInfo = ["id" : String(categoryID!),
                             "name" : categoryName]
             NSNotificationCenter.defaultCenter().postNotificationName("CategoryNotification", object: nil, userInfo: userInfo)
         }

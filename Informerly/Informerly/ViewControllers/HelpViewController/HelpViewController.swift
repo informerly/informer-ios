@@ -50,10 +50,10 @@ class HelpViewController: UIViewController,MFMailComposeViewControllerDelegate {
     
     @IBAction func onSupportBtnPress(sender: AnyObject) {
         
-        var emailTitle = "iOS Support: \(Utilities.sharedInstance.getStringForKey(USER_ID))"
-        var toRecipents = ["support@informerly.com"]
+        let emailTitle = "iOS Support: \(Utilities.sharedInstance.getStringForKey(USER_ID))"
+        let toRecipents = ["support@informerly.com"]
         
-        var mailComposer: MFMailComposeViewController = MFMailComposeViewController()
+        let mailComposer: MFMailComposeViewController = MFMailComposeViewController()
         mailComposer.mailComposeDelegate = self
         mailComposer.setSubject(emailTitle)
         mailComposer.setToRecipients(toRecipents)
@@ -61,7 +61,7 @@ class HelpViewController: UIViewController,MFMailComposeViewControllerDelegate {
         self.presentViewController(mailComposer, animated: true, completion: nil)
     }
     
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

@@ -52,17 +52,17 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         applyBorder(self.readStoryBtn)
         
         // Gesture
-        var tap = UITapGestureRecognizer(target: self, action: "onTitleTap")
+        let tap = UITapGestureRecognizer(target: self, action: "onTitleTap")
         self.titleLabel.addGestureRecognizer(tap)
         titleLabel.userInteractionEnabled = true
         
         self.activityIndicator.stopAnimating()
         self.downloadMenuItems()
         
-        var token : String! = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+        let token : String! = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
         
         if token != nil && token != "" {
-            var parameters = ["auth_token":token,
+            let parameters = ["auth_token":token,
                 "client_id":"dev-ios-informer",
                 "content":"true"]
             
@@ -70,9 +70,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 parameter: parameters,
                 success: { (requestStatus : Int32, processedData : AnyObject!, extraInfo : AnyObject!) -> Void in
                     if requestStatus == 200 {
-                        var data : [AnyObject] = processedData["links"] as! Array
+                        let data : [AnyObject] = processedData["links"] as! Array
                         
-                        var feed : [String:AnyObject]!
+//                        var feed : [String:AnyObject]!
                         for feed in data {
                             if feed["read"] as! Bool == false {
                                 self.feeds.append(feed)
@@ -96,7 +96,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                         self.readStoryBtn.hidden = false
                     }
                 }) { (status : Int32, error : NSError!, extraInfo:AnyObject!) -> Void in
-                    println("error")
+                    print("error")
             }
         } else {
             self.titleLabel.text = "Unable to load title."
@@ -107,8 +107,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     func downloadMenuItems(){
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            var parameters = ["auth_token":auth_token]
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let parameters = ["auth_token":auth_token]
             
             NetworkManager.sharedNetworkClient().processGetRequestWithPath(MENU_FEED_URL,
                 parameter: parameters,
@@ -131,7 +131,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     func onTitleTap() {
         
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+        let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
         
         var feeds : [InformerlyFeed] = []
         if (isCategoryFeeds == true) {
@@ -150,9 +150,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             userDefaults.setObject("\(feeds[self.index].id!)", forKey: "id")
             userDefaults.synchronize()
             
-            var url =  NSURL(string:"TodayExtension://home")
+            let url =  NSURL(string:"TodayExtension://home")
             self.extensionContext?.openURL(url!, completionHandler:{(success: Bool) -> Void in
-                println("task done!")
+                print("task done!")
             })
 //        }
     }
@@ -162,13 +162,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // Dispose of any resources that can be recreated.
     }
     
-    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)!) {
+    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
         // Perform any setup necessary in order to update the view.
         completionHandler(NCUpdateResult.NewData)
     }
     
     func widgetMarginInsetsForProposedMarginInsets(defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets {
-        var newMargins : UIEdgeInsets = UIEdgeInsets(top: defaultMarginInsets.top, left: defaultMarginInsets.left, bottom: 10.0, right: 15.0)
+        let newMargins : UIEdgeInsets = UIEdgeInsets(top: defaultMarginInsets.top, left: defaultMarginInsets.left, bottom: 10.0, right: 15.0)
         return newMargins
     }
     
@@ -268,15 +268,15 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 articleID = feeds[self.index].id!
             }
             
-            var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
+            let parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
                 "client_id":"",
                 "link_id": articleID]
             
-            var path = "links/\(articleID)/read"
+            let path = "links/\(articleID)/read"
             NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
-                    println("Successfully marked as read.")
+                    print("Successfully marked as read.")
                     self.activityIndicator.stopAnimating()
                     feeds.removeAtIndex(self.index)
                     self.index = self.index - 1
@@ -298,7 +298,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
                     
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                    println("Failure marking article as read")
+                    print("Failure marking article as read")
             }
         }
         
@@ -315,9 +315,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 feeds = self.informerlyfeeds
             }
             
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            var link_id = feeds[self.index].id!
-            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let link_id = feeds[self.index].id!
+            let parameters : [String:AnyObject] = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "link_id":"\(link_id)"]
             
@@ -325,7 +325,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     if requestStatus == 200 {
-                        println("saved")
+                        print("saved")
                         self.activityIndicator.stopAnimating()
                         if (feeds[self.index].bookmarked! == false) {
                             feeds[self.index].bookmarked! = true
@@ -339,8 +339,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     
                     if extraInfo != nil {
-                        var error : [String:AnyObject] = extraInfo as! Dictionary
-                        var message : String = error["error"] as! String
+//                        var error : [String:AnyObject] = extraInfo as! Dictionary
+//                        var message : String = error["error"] as! String
                     }
             }
         }
@@ -390,10 +390,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             if (Utilities.sharedInstance.isConnectedToNetwork() == true) {
                 self.activityIndicator.startAnimating()
                 self.disableView()
-                var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-                var parameters = ["auth_token":auth_token,
+                let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+                let parameters = ["auth_token":auth_token,
                     "content":"true"]
-                var URL = "\(FEED_URL)/\(feedID)"
+                let URL = "\(FEED_URL)/\(feedID)"
                 
                 NetworkManager.sharedNetworkClient().processGetRequestWithPath(URL,
                     parameter: parameters,
@@ -408,9 +408,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                             if self.categoryFeeds == nil || self.categoryFeeds!.isEmpty {
                                 self.titleLabel.text = "Unable to load ... "
                             } else {
-                                var feed : InformerlyFeed
                                 var tempFeeds : [InformerlyFeed] = []
-                                for feed in self.categoryFeeds! {
+                                for feed : InformerlyFeed in self.categoryFeeds! {
                                     if feed.read == false {
                                         tempFeeds.append(feed)
                                     }
@@ -430,8 +429,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                     }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                         self.activityIndicator.stopAnimating()
                         if extraInfo != nil {
-                            var error : [String:AnyObject] = extraInfo as! Dictionary
-                            var message : String = error["error"] as! String
+//                            var error : [String:AnyObject] = extraInfo as! Dictionary
+//                            var message : String = error["error"] as! String
                         }
                 }
             }

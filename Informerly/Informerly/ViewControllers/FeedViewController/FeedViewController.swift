@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FeedViewController : UITableViewController, UITableViewDelegate, UITableViewDataSource, MGSwipeTableCellDelegate {
+class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
     
     private var feeds : [InformerlyFeed] = []
     private var bookmarks : [BookmarkFeed] = []
@@ -62,7 +62,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.navigationItem.leftBarButtonItem = menu
         
         // Adds interest icon on nav bar.
-        var interestBtn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: ICON_INTERESTS), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onUpdateYourInterest"))
+        let interestBtn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: ICON_INTERESTS), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onUpdateYourInterest"))
         interestBtn.tintColor = UIColor.grayColor()
         self.navigationItem.rightBarButtonItem = interestBtn
         
@@ -82,7 +82,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.tableView.addSubview(self.refreshCntrl)
         
         self.fetchUserPreferences()
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+        let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
         if userDefaults.boolForKey(IS_CATEGORY_FEED) == true {
             self.isCategoryFeeds = true
             self.categoryID = userDefaults.integerForKey(CATEGORY_FEED_ID)
@@ -139,7 +139,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func appDidBecomeActiveCalled(){
         
         if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
-            if (self.navigationController?.topViewController.isKindOfClass(FeedViewController) == true) {
+            if (self.navigationController?.topViewController!.isKindOfClass(FeedViewController) == true) {
                 if Utilities.sharedInstance.getStringForKey(FEED_ID) == "-1" {
                     self.downloadData()
                 }
@@ -154,7 +154,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func createNavTitle() {
         
         if isBookmarked == false {
-            var navTitleView : UIView = UIView(frame: CGRectMake(0, 0, 90, 30))
+            let navTitleView : UIView = UIView(frame: CGRectMake(0, 0, 90, 30))
             
             navTitle = UILabel(frame: CGRectMake(0, 0, 80, 30))
             navTitle.text = "Your Feed"
@@ -171,9 +171,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func createTableViewHeader(){
-        var headerView : UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, 75))
+        let headerView : UIView = UIView(frame: CGRectMake(0, 0, self.view.frame.size.width, 75))
         
-        var font = UIFont(name: "OpenSans", size: 12.0)
+        let font = UIFont(name: "OpenSans", size: 12.0)
         
         customSegmentedControl = UISegmentedControl (items: ["ALL NEWS","UNREAD"])
         customSegmentedControl.setTitleTextAttributes([NSFontAttributeName:font!], forState: UIControlState.Normal)
@@ -206,9 +206,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         }
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            println(auth_token)
-            var parameters = ["auth_token":auth_token,
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            print(auth_token)
+            let parameters = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "content":"true"]
             
@@ -220,7 +220,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         self.isPullToRefresh = false
                         SVProgressHUD.dismiss()
                         self.refreshCntrl.endRefreshing()
-                        Feeds.sharedInstance.populateFeeds(processedData["links"]as! [AnyObject])
+                        Feeds.sharedInstance.populateFeeds(processedData.objectForKey("links") as! [AnyObject])
                         self.feeds.removeAll(keepCapacity: false)
                         self.unreadFeeds.removeAll(keepCapacity: false)
                         
@@ -230,15 +230,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         
                         self.feeds = Feeds.sharedInstance.getFeeds()
                         
-                        var link_id : String! = Utilities.sharedInstance.getStringForKey(LINK_ID)
+                        let link_id : String! = Utilities.sharedInstance.getStringForKey(LINK_ID)
                         var row = -1
                         if link_id != "-1" {
-                            var feed : InformerlyFeed!
                             if  link_id != nil {
-                                for feed in self.feeds {
+                                for feed : InformerlyFeed! in self.feeds {
                                     row = row + 1
-                                    var id : Int = link_id.toInt()!
-                                    if feed.id == id {
+                                    let id = Int(link_id)!
+                                    
+                                    if feed?.id == id {
                                         self.isFromFeeds = true
                                         self.isLinkIDMatched = true
                                         break
@@ -246,10 +246,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                                 }
                             }
                         }
-                            
+                    
                         self.tableView.reloadData()
                         self.tableView.layoutIfNeeded()
-                        
+
                         if self.isLinkIDMatched == false {
                             if link_id != "-1" {
                                 // From Custom URL or from old notification
@@ -273,12 +273,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     
                     if extraInfo != nil {
                         var error : [String:AnyObject] = extraInfo as! Dictionary
-                        var message : String = error["error"] as! String
+                        let message : String = error["error"] as! String
                         
                         if message == "Invalid authentication token." {
-                            var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                            let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                                let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                 self.showViewController(loginVC, sender: self)
                             }))
                             self.presentViewController(alert, animated: true, completion: nil)
@@ -301,15 +301,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            var parameters = ["auth_token":auth_token,
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let parameters = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "content":"true"]
             
             NetworkManager.sharedNetworkClient().processGetRequestWithPath("links/\(articleID)",
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
-                    var data : [String:AnyObject] = processedData["link"] as! Dictionary
+                    var data : [String:AnyObject] = processedData.objectForKey("link") as! Dictionary
                     
                     self.feedData = InformerlyFeed()
                     self.feedData.id = data["id"] as? Int
@@ -397,11 +397,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         var imgName = ICON_BOOKMARK
         var tickImgName = ICON_CHECK_CIRCLE_GREY
         
-        var source = cell.viewWithTag(1) as! UILabel
-        var title = cell.viewWithTag(2) as! UILabel
-        var readingTime = cell.viewWithTag(3) as! UILabel
-        var tick = cell.viewWithTag(4) as! UIImageView
-        var bookmarkImg = cell.viewWithTag(5) as! UIImageView
+        let source = cell.viewWithTag(1) as! UILabel
+        let title = cell.viewWithTag(2) as! UILabel
+        let readingTime = cell.viewWithTag(3) as! UILabel
+        let tick = cell.viewWithTag(4) as! UIImageView
+        let bookmarkImg = cell.viewWithTag(5) as! UIImageView
         bookmarkImg.alpha = 0.0
         
         var feed : InformerlyFeed;
@@ -534,15 +534,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         }
         
         // Create Cell Swipe view
-        var bookmarkimage = UIImage(named: imgName)
-        var tickImage = UIImage(named: tickImgName)
+        let bookmarkimage = UIImage(named: imgName)
+        let tickImage = UIImage(named: tickImgName)
         self.bookmarkBtn = MGSwipeButton(title: "",icon: bookmarkimage,backgroundColor:UIColor(rgba:SWIPE_CELL_BACKGROUND),callback:nil)
         bookmarkBtn.buttonWidth = self.view.frame.size.width/3
         
         self.readBtn = MGSwipeButton(title: "",icon: tickImage, backgroundColor: UIColor(rgba:SWIPE_CELL_BACKGROUND), callback: nil)
         self.readBtn.buttonWidth = self.view.frame.size.width/3
         
-        var shareBtn = MGSwipeButton(title: "", icon: UIImage(named: ICON_SHARE)!, backgroundColor: UIColor(rgba:SWIPE_CELL_BACKGROUND),callback: nil)
+        let shareBtn = MGSwipeButton(title: "", icon: UIImage(named: ICON_SHARE)!, backgroundColor: UIColor(rgba:SWIPE_CELL_BACKGROUND),callback: nil)
         shareBtn.buttonWidth = self.view.frame.size.width/3
         
         cell.rightButtons = [shareBtn,bookmarkBtn,readBtn]
@@ -555,13 +555,13 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         self.rowID = indexPath.row
         let cell : UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
         
-        var title = cell.viewWithTag(2)as! UILabel
+        let title = cell.viewWithTag(2)as! UILabel
         title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
         
-        var read = cell.viewWithTag(3) as! UILabel
+        let read = cell.viewWithTag(3) as! UILabel
         read.text = "Read"
         
-        var tick = cell.viewWithTag(4) as! UIImageView
+        let tick = cell.viewWithTag(4) as! UIImageView
         tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
         
         if isBookmarked == true {
@@ -582,18 +582,20 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func getTextHeight(pString: String, width: CGFloat) -> CGFloat {
-        var font : UIFont = UIFont(name: "OpenSans", size: 18.0)!
-        var constrainedSize: CGSize = CGSizeMake(width, 9999);
-        var attributesDictionary = NSDictionary(objectsAndKeys: font, NSFontAttributeName)
-        var string = NSMutableAttributedString(string: pString, attributes: attributesDictionary as [NSObject : AnyObject])
-        var requiredHeight: CGRect = string.boundingRectWithSize(constrainedSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let font : UIFont = UIFont(name: "OpenSans", size: 18.0)!
+        let constrainedSize: CGSize = CGSizeMake(width, 9999);
+        let attributesDictionary = NSDictionary(object: font, forKey: NSFontAttributeName)
+        
+        let string = NSMutableAttributedString(string: pString, attributes: attributesDictionary as? [String : AnyObject])
+        
+        let requiredHeight: CGRect = string.boundingRectWithSize(constrainedSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         return requiredHeight.size.height
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "ArticleVC" {
-            var articleVC : ArticleViewController = segue.destinationViewController as! ArticleViewController
+            let articleVC : ArticleViewController = segue.destinationViewController as! ArticleViewController
             articleVC.feedData = self.feedData
             articleVC.isFromFeeds = self.isFromFeeds
             articleVC.articleIndex = rowID
@@ -611,7 +613,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func onMenuPressed() {
-        self.menuContainerViewController.toggleLeftSideMenuCompletion(nil)
+//        self.menuContainerViewController.toggleLeftSideMenuCompletion(nil)
+        self.mm_drawerController.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
     }
     
     func onPullToRefresh(sender:AnyObject) {
@@ -633,8 +636,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func downloadBookmark(completion: (result: Bool) -> Void){
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let parameters : [String:AnyObject] = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "content":"true"]
             
@@ -645,7 +648,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     if requestStatus == 200 {
                         self.refreshCntrl.endRefreshing()
                         
-                        CoreDataManager.addBookmarkFeeds(processedData["links"] as! [AnyObject], isSynced: true)
+                        CoreDataManager.addBookmarkFeeds(processedData.objectForKey("links") as! [AnyObject], isSynced: true)
                         self.bookmarks = CoreDataManager.getBookmarkFeeds()
                         
                         completion(result: true)
@@ -676,27 +679,28 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     
     func fetchUserPreferences(){
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            var parameters : [String:AnyObject] = ["auth_token":auth_token]
-            
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let parameters : [String:AnyObject] = ["auth_token":auth_token]
+
             NetworkManager.sharedNetworkClient().processGetRequestWithPath(USER_PREFERENCE_URL,
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
                         self.refreshCntrl.endRefreshing()
-                        println(processedData["preferences"])
-                        var preferencesArray : [AnyObject]? = processedData["preferences"] as? [AnyObject]
+                        print(processedData["preferences"])
+                        let preferencesArray : [AnyObject]? = processedData.objectForKey("preferences") as? [AnyObject]
                         if preferencesArray != nil && preferencesArray?.count > 0 {
-                            
-                            var object : AnyObject!
-                            for object in preferencesArray! {
+
+                            for object : AnyObject in preferencesArray! {
                                 var preferences : [String:AnyObject] = object as! [String:AnyObject]
+
                                 if preferences["name"]! as! String == DEFAULT_ARTICLE_VIEW {
                                     Utilities.sharedInstance.setStringForKey(preferences["value"]! as! String, key: DEFAULT_ARTICLE_VIEW)
-                                } else if preferences["name"]! as! String == DEFAULT_LIST {
+                                }
+                                else if preferences["name"]! as! String == DEFAULT_LIST {
                                     Utilities.sharedInstance.setStringForKey(preferences["value"]! as! String, key: DEFAULT_LIST)
-                                    
+
                                     if preferences["value"]! as! String == "unread" {
                                         self.isUnreadTab = true
                                         self.customSegmentedControl.selectedSegmentIndex = 1
@@ -709,7 +713,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         }
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                    println("Error")
+                    print("Error")
             }
         }
     }
@@ -748,14 +752,14 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         }
         
         var dict  = notification.userInfo as! Dictionary<String,String>
-        self.categoryID = dict["id"]!.toInt()!
+        self.categoryID = Int(dict["id"]!)!
         self.categoryName = dict["name"]!
         
         self.downloadCategory(categoryID,categoryName: categoryName)
     }
     
     @objc func settingsNotificationSelector(notification: NSNotification) {
-        var settingsVC: SettingsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsVC") as! SettingsViewController
+        let settingsVC: SettingsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SettingsVC") as! SettingsViewController
         self.navigationController?.showViewController(settingsVC, sender: self)
     }
     
@@ -780,10 +784,10 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 
                 isPullToRefresh = false
                 
-                var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-                var parameters = ["auth_token":auth_token,
+                let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+                let parameters = ["auth_token":auth_token,
                 "content":"true"]
-                var URL = "\(FEED_URL)/\(categoryID)"
+                let URL = "\(FEED_URL)/\(categoryID)"
                 
                 NetworkManager.sharedNetworkClient().processGetRequestWithPath(URL,
                     parameter: parameters,
@@ -794,12 +798,11 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                             self.refreshCntrl.endRefreshing()
                             self.navTitle.text = categoryName
                             
-                            CategoryFeeds.sharedInstance.populateFeeds(processedData["links"] as! [AnyObject], categoryID: categoryID)
+                            CategoryFeeds.sharedInstance.populateFeeds(processedData.objectForKey("links") as! [AnyObject], categoryID: categoryID)
                             self.categoryFeeds = CategoryFeeds.sharedInstance.getCategoryFeeds(categoryID)
-                            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
-                            var feed : InformerlyFeed
+                            let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
                             var row = -1
-                            for feed in self.categoryFeeds! {
+                            for feed : InformerlyFeed in self.categoryFeeds! {
                                 row = row + 1
                                 if feed.id == userDefaults.integerForKey(CATEGORY_FEED_ARTICLE_ID) {
                                     self.rowID = row
@@ -819,12 +822,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                         
                         if extraInfo != nil {
                             var error : [String:AnyObject] = extraInfo as! Dictionary
-                            var message : String = error["error"] as! String
+                            let message : String = error["error"] as! String
                             
                             if message == "Invalid authentication token." {
-                                var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                                let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                                    var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                                    let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                     self.showViewController(loginVC, sender: self)
                                 }))
                                 self.presentViewController(alert, animated: true, completion: nil)
@@ -846,7 +849,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     }
     
     func showAlert(title:String, msg:String){
-        var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -898,7 +901,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func onBookmarkPressed(indexPath:NSIndexPath,bookmarkBtn:MGSwipeButton) {
         
         let cell : MGSwipeTableCell = self.tableView.cellForRowAtIndexPath(indexPath) as! MGSwipeTableCell
-        var bookmarkImg = cell.viewWithTag(5) as! UIImageView
+        let bookmarkImg = cell.viewWithTag(5) as! UIImageView
         
         if isBookmarked == true {
             if isUnreadTab == true {
@@ -1007,9 +1010,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func markAsBookmarked(articleID:Int, feed:AnyObject,indexPath:NSIndexPath) {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             
-            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+            let parameters : [String:AnyObject] = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "link_id":articleID]
             
@@ -1017,9 +1020,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     if requestStatus == 200 {
-                        var message = processedData["message"] as! String
-                        var bookmarkDictionary : [String:AnyObject] = processedData["bookmark"] as! Dictionary
-                        var linkID = bookmarkDictionary["link_id"] as! Int
+                        let message = processedData.objectForKey("message") as! String
+//                        var bookmarkDictionary : [String:AnyObject] = processedData["bookmark"] as! Dictionary
                         
                         if message == "Bookmark Created" {
                             
@@ -1045,9 +1047,8 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                             if self.isBookmarked == true {
                                 self.bookmarks = CoreDataManager.getBookmarkFeeds()
                                 
-                                var feed : InformerlyFeed
                                 var counter = 0
-                                for feed in self.feeds {
+                                for feed : InformerlyFeed in self.feeds {
                                     if feed.id == articleID {
                                         self.feeds[counter].bookmarked = false
                                         break
@@ -1063,7 +1064,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                     
                     if extraInfo != nil {
                         var error : [String:AnyObject] = extraInfo as! Dictionary
-                        var message : String = error["error"] as! String
+                        let message : String = error["error"] as! String
                         self.showAlert("Error !", msg: message)
                     }
             }
@@ -1071,7 +1072,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             // Offline mode
             
             if isBookmarked == false {
-                var tempFeed : InformerlyFeed = feed as! InformerlyFeed
+                let tempFeed : InformerlyFeed = feed as! InformerlyFeed
                 if tempFeed.bookmarked == false {
                     CoreDataManager.removeBookmarkFeedOfID(tempFeed.id!)
                 } else {
@@ -1088,9 +1089,9 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func onMarkReadPressed(indexPath:NSIndexPath,readBtn:MGSwipeButton) {
         
         let cell : MGSwipeTableCell = self.tableView.cellForRowAtIndexPath(indexPath) as! MGSwipeTableCell
-        var title = cell.viewWithTag(2) as! UILabel
-        var readingTime = cell.viewWithTag(3) as! UILabel
-        var tick = cell.viewWithTag(4) as! UIImageView
+        let title = cell.viewWithTag(2) as! UILabel
+        let readingTime = cell.viewWithTag(3) as! UILabel
+        let tick = cell.viewWithTag(4) as! UIImageView
         
         if isBookmarked == true {
             if isUnreadTab == true {
@@ -1248,15 +1249,15 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             }
         }
         
-        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
+        let parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
             "client_id":"",
             "link_id": articleID]
         NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
-                println("Successfully marked as read.")
+                print("Successfully marked as read.")
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                println("Failure marking article as read")
+                print("Failure marking article as read")
                 
                 var readArticles:[Int]!
                 if NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) == nil {
@@ -1286,12 +1287,12 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
                 
                 if extraInfo != nil {
                     var error : [String:AnyObject] = extraInfo as! Dictionary
-                    var message : String = error["error"] as! String
+                    let message : String = error["error"] as! String
                     
                     if message == "Invalid authentication token." {
-                        var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                            var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                            let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                             self.showViewController(loginVC, sender: self)
                         }))
                         self.presentViewController(alert, animated: true, completion: nil)
@@ -1318,24 +1319,24 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
             articleID = feeds[indexPath.row].id!
         }
         
-        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
+        let parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
             "link_id": articleID]
         NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
-                println("Successfully marked as unread.")
+                print("Successfully marked as unread.")
                 
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                println("Failure marking article as unread")
+                print("Failure marking article as unread")
                 
                 if extraInfo != nil {
                     var error : [String:AnyObject] = extraInfo as! Dictionary
-                    var message : String = error["error"] as! String
+                    let message : String = error["error"] as! String
                     
                     if message == "Invalid authentication token." {
-                        var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                            var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                            let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                             self.showViewController(loginVC, sender: self)
                         }))
                         self.presentViewController(alert, animated: true, completion: nil)
@@ -1348,16 +1349,16 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     // Swipe Cell delegates
     func swipeTableCell(cell: MGSwipeTableCell!, tappedButtonAtIndex index: Int, direction: MGSwipeDirection, fromExpansion: Bool) -> Bool {
         
-        var indexPath : NSIndexPath = self.tableView.indexPathForCell(cell)!
+        let indexPath : NSIndexPath = self.tableView.indexPathForCell(cell)!
         if index == 0 {
             self.onSharePressed(indexPath.row)
             return true
         } else if index == 1 {
-            var btn = cell.rightButtons[1] as! MGSwipeButton
+            let btn = cell.rightButtons[1] as! MGSwipeButton
             self.onBookmarkPressed(indexPath,bookmarkBtn: btn)
             return true
         } else {
-            var btn = cell.rightButtons[2] as! MGSwipeButton
+            let btn = cell.rightButtons[2] as! MGSwipeButton
             self.onMarkReadPressed(indexPath, readBtn: btn)
             return true
         }
@@ -1366,26 +1367,25 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
     func loadNewCategory() {
         self.isBookmarked = false
         self.isCategoryFeeds = true
-        
-        var menuItems : [Item] = MenuItems.sharedInstance.getItems()
-        var item : Item!
+
+        let menuItems : [Item] = MenuItems.sharedInstance.getItems()
         var name = ""
-        for item in menuItems {
-            if item.id == Utilities.sharedInstance.getStringForKey(FEED_ID)!.toInt() {
+        for item : Item in menuItems {
+            if item.id == Int(Utilities.sharedInstance.getStringForKey(FEED_ID)!) {
                 name = item.name!
             }
         }
         
-        self.downloadCategory(Utilities.sharedInstance.getStringForKey(FEED_ID)!.toInt()!,categoryName: name)
+        self.downloadCategory(Int(Utilities.sharedInstance.getStringForKey(FEED_ID)!)!,categoryName: name)
         Utilities.sharedInstance.setStringForKey("-1", key: FEED_ID)
     }
     
     func createCustomPushAlert() {
         
-        var title = "Stay ahead in your industry."
-        var msg = "Receive alerts for breaking industry news."
+        let title = "Stay ahead in your industry."
+        let msg = "Receive alerts for breaking industry news."
         
-        var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Not Now", style: UIAlertActionStyle.Cancel, handler: { (sender) -> Void in
             Utilities.sharedInstance.setBoolForKey(false, key: PUSH_ALLOWED)
             Utilities.sharedInstance.setIntForKey(1, key: APP_LAUNCH_COUNTER)
@@ -1393,7 +1393,7 @@ class FeedViewController : UITableViewController, UITableViewDelegate, UITableVi
         alert.addAction(UIAlertAction(title: "Enable", style: UIAlertActionStyle.Default, handler: { (sender) -> Void in
             Utilities.sharedInstance.setBoolForKey(true, key: PUSH_ALLOWED)
             Utilities.sharedInstance.setIntForKey(0, key: APP_LAUNCH_COUNTER)
-            var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             appDelegate.configurePushNotification()
         }))
         self.presentViewController(alert, animated: true, completion: nil)

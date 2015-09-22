@@ -49,8 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             else if let url = options[UIApplicationLaunchOptionsURLKey] as? NSURL {
                 Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
             } else {
-                var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
-                var linkID : String = userDefaults.stringForKey("id")!
+                let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+                let linkID : String = userDefaults.stringForKey("id")!
                 Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             }
             
@@ -119,32 +119,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Send parsed token to Rails via API
         var token : String = deviceToken.description.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "<>"))
         token = token.stringByReplacingOccurrencesOfString(" ", withString: "")
-        println(token)
+        print(token)
         Utilities.sharedInstance.setStringForKey(token, key: DEVICE_TOKEN)
         
         // Send deviceToken to Parse
-        var currentInstallation: PFInstallation = PFInstallation.currentInstallation()
+        let currentInstallation: PFInstallation = PFInstallation.currentInstallation()
         currentInstallation.setDeviceTokenFromData(deviceToken)
-        currentInstallation.save()
-        println("Success")
+        
+        try! currentInstallation.save()
+        print("Success")
     }
   
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
 //        PFPush.handlePush(userInfo)
-        println("app recieved notification from remote \(userInfo)");
+        print("app recieved notification from remote \(userInfo)");
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             
             if userInfo["link_id"] != nil {
-                var linkID : String = String(userInfo["link_id"] as! Int)
+                let linkID : String = String(userInfo["link_id"] as! Int)
                 Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             } else {
                 Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
             }
             
             if userInfo["feed_id"] != nil {
-                var feedID = String(userInfo["feed_id"] as! Int)
+                let feedID = String(userInfo["feed_id"] as! Int)
                 Utilities.sharedInstance.setStringForKey(feedID, key: FEED_ID)
             }
             
@@ -155,16 +156,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if application.applicationState == UIApplicationState.Inactive {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayloadInBackground(userInfo, block: nil)
         }
-        println("Push sent/opened?")
+        print("Push sent/opened?")
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         
         if url.scheme == "TodayExtension" {
-            var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
-            var linkID : String = userDefaults.stringForKey("id")!
+            let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+            let linkID : String = userDefaults.stringForKey("id")!
             Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
-            println(linkID)
+            print(linkID)
             self.loadFeedVC()
         } else if url.scheme == "informerly" {
             Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
@@ -184,15 +185,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func checkForReachability(notification:NSNotification)
     {
         let networkReachability = notification.object as! Reachability;
-        var remoteHostStatus = networkReachability.currentReachabilityStatus()
+        let remoteHostStatus = networkReachability.currentReachabilityStatus()
         
-        if (remoteHostStatus.value == NotReachable.value)
+        if (remoteHostStatus.rawValue == NotReachable.rawValue)
         {
-            println("Not Reachable")
+            print("Not Reachable")
         }
         else
         {
-            println("Reachable")
+            print("Reachable")
             
             if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
                 
@@ -204,7 +205,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
                 
-                var unbookmarkedFeeds:[BookmarkFeed] = CoreDataManager.getBookmarkFeeds()
+                let unbookmarkedFeeds:[BookmarkFeed] = CoreDataManager.getBookmarkFeeds()
                 
                 for feed in unbookmarkedFeeds {
                     if feed.isSynced == false {
@@ -227,29 +228,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Method to mark read articles on server.
     func markRead(articleID:Int) {
-        var path : String = "links/\(articleID)/read"
-        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
+        let path : String = "links/\(articleID)/read"
+        let parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
             "client_id":"",
             "link_id": articleID]
         NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
-                println("Successfully marked as read.")
+                print("Successfully marked as read.")
                 
-                self.readArticles.removeAtIndex(find(self.readArticles, articleID)!)
+                self.readArticles.removeAtIndex(self.readArticles.indexOf(articleID)!)
                 NSUserDefaults.standardUserDefaults().setObject(self.readArticles, forKey: READ_ARTICLES)
                 NSUserDefaults.standardUserDefaults().synchronize()
                 
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                println("Failure marking article as read")
+                print("Failure marking article as read")
         }
     }
     
     // method to bookmark locally saved feeds.
     func markBookmarked(feedID:Int){
-        var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+        let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
         
-        var parameters : [String:AnyObject] = ["auth_token":auth_token,
+        let parameters : [String:AnyObject] = ["auth_token":auth_token,
             "client_id":"dev-ios-informer",
             "link_id":feedID]
         
@@ -258,33 +259,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                 
                 if requestStatus == 200 {
-                    var bookmarkDictionary : [String:AnyObject] = processedData["bookmark"] as! Dictionary
-                    var linkID = bookmarkDictionary["link_id"] as! Int
+                    var bookmarkDictionary : [String:AnyObject] = processedData.objectForKey("bookmark") as! Dictionary
+                    let linkID = bookmarkDictionary["link_id"] as! Int
                     CoreDataManager.updateSyncStatusForFeedID(linkID, syncStatus: true)
-                    println("Marked ...")
+                    print("Marked ...")
                 }
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                println("Failed to bookmark ...")
+                print("Failed to bookmark ...")
         }
     }
     
     
     // Method load suitable controller
     func loadFeedVC(){
-        var storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         
-        var container = storyboard.instantiateViewControllerWithIdentifier("MFSideMenuContainerViewController") as! MFSideMenuContainerViewController
+        var container = storyboard.instantiateViewControllerWithIdentifier("MMDrawerController") as! MMDrawerController
+        let leftSideMenuViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("LeftMenuViewController") 
         
-        var leftSideMenuViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("LeftMenuViewController") as! UIViewController
+        let rootVC = storyboard.instantiateViewControllerWithIdentifier("FeedVC") as! FeedViewController
+        let navigationVC: UINavigationController = UINavigationController(rootViewController: rootVC)
         
-        var rootVC = storyboard.instantiateViewControllerWithIdentifier("FeedVC") as! FeedViewController
-        var navigationVC: UINavigationController = UINavigationController(rootViewController: rootVC)
-        
-        container.panMode = MFSideMenuPanModeSideMenu
-        container.leftMenuViewController = leftSideMenuViewController
-        container.rightMenuViewController = nil
-        container.centerViewController = navigationVC
-        
+        container = MMDrawerController(centerViewController: navigationVC, leftDrawerViewController: leftSideMenuViewController)
+        container.restorationIdentifier = "MMDrawer"
+        container.openDrawerGestureModeMask = MMOpenDrawerGestureMode.PanningCenterView
+        container.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.PanningDrawerView
+        container.showsStatusBarBackgroundView = true
+        container.statusBarViewBackgroundColor = UIColor.whiteColor()
+        container.maximumLeftDrawerWidth = 220
         self.window?.rootViewController = container
     }
     
@@ -292,7 +294,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.mycompany.test" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as! NSURL
+        return urls[urls.count-1] 
         }()
     
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -308,7 +310,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("Informer.sqlite")
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
-        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
+        do {
+            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+        } catch var error1 as NSError {
+            error = error1
             coordinator = nil
             // Report any error we got.
             var dict = [String: AnyObject]()
@@ -320,6 +325,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog("Unresolved error \(error), \(error!.userInfo)")
             abort()
+        } catch {
+            fatalError()
         }
         
         return coordinator
@@ -341,11 +348,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func saveContext () {
         if let moc = self.managedObjectContext {
             var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
-                abort()
+            if moc.hasChanges {
+                do {
+                    try moc.save()
+                } catch let error1 as NSError {
+                    error = error1
+                    // Replace this implementation with code to handle the error appropriately.
+                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    NSLog("Unresolved error \(error), \(error!.userInfo)")
+                    abort()
+                }
             }
         }
     }
@@ -353,16 +365,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // Configures push notification for the user.
     func configurePushNotification() {
-        var categories = NSMutableSet()
         
-        var openAction = UIMutableUserNotificationAction()
+        let openAction = UIMutableUserNotificationAction()
         openAction.title = NSLocalizedString("Open", comment: "")
         openAction.identifier = "open"
         openAction.activationMode = UIUserNotificationActivationMode.Foreground
         openAction.authenticationRequired = false
         openAction.destructive = false
         
-        var saveAction = UIMutableUserNotificationAction()
+        let saveAction = UIMutableUserNotificationAction()
         saveAction.title = NSLocalizedString("Save", comment: "")
         saveAction.identifier = "save"
         saveAction.activationMode = UIUserNotificationActivationMode.Background
@@ -370,16 +381,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         saveAction.destructive = false
         
         
-        var notificationCategory = UIMutableUserNotificationCategory()
+        let notificationCategory = UIMutableUserNotificationCategory()
         notificationCategory.setActions([openAction, saveAction],
             forContext: UIUserNotificationActionContext.Default)
         notificationCategory.identifier = "notification"
         
-        categories.addObject(notificationCategory)
+        
+        let categories = Set<UIUserNotificationCategory>(arrayLiteral: notificationCategory)
         
         // Configure other actions and categories and add them to the set...
         
-        var settings = UIUserNotificationSettings(forTypes: (.Alert | .Badge | .Sound), categories: categories as Set<NSObject>)
+        let settings = UIUserNotificationSettings(forTypes: [UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound], categories: categories)
+        
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
         UIApplication.sharedApplication().registerForRemoteNotifications();
@@ -389,15 +402,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
         
         if identifier == "open" {
-            var link_id = userInfo["link_id"] as! Int
+            let link_id = userInfo["link_id"] as! Int
             Utilities.sharedInstance.setStringForKey("\(link_id)", key: LINK_ID)
             Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_PUSH)
             completionHandler()
         } else if identifier == "save" {
-            var token : String! = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let token : String! = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             
             if token != nil && token != "" {
-                var parameters : [String:AnyObject] = ["auth_token":token,
+                let parameters : [String:AnyObject] = ["auth_token":token,
                     "client_id":"dev-ios-informer",
                     "link_id":userInfo["link_id"] as! Int]
                 
@@ -406,8 +419,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         parameter: parameters,
                         success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                             if requestStatus == 200 {
-                                var bookmarkDictionary : [String:AnyObject] = processedData["bookmark"] as! Dictionary
-                                var linkID = bookmarkDictionary["link_id"] as! Int
+                                var bookmarkDictionary : [String:AnyObject] = processedData.objectForKey("bookmark") as! Dictionary
+                                let linkID = bookmarkDictionary["link_id"] as! Int
                                 self.downloadArticleData("\(linkID)",completionHandler: completionHandler)
                             }
                         }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
@@ -427,17 +440,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            var parameters = ["auth_token":auth_token,
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let parameters = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "content":"true"]
             
             NetworkManager.sharedNetworkClient().processGetRequestWithPath("links/\(articleID)",
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
-                    var data : [String:AnyObject] = processedData["link"] as! Dictionary
+                    var data : [String:AnyObject] = processedData.objectForKey("link") as! Dictionary
                     
-                    var feed : BookmarkFeed = BookmarkFeed()
+                    let feed : BookmarkFeed = BookmarkFeed()
                     feed.id = data["id"] as? Int
                     feed.title = data["title"] as? String
                     feed.feedDescription = data["description"] as? String

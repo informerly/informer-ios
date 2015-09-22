@@ -59,7 +59,7 @@ class MenuItemsTests: XCTestCase {
 
     func testGetItemsHasCorrectData(){
         MenuItems.sharedInstance.populateItems(items)
-        var id = MenuItems.sharedInstance.getItems().first?.id!
+        let id = MenuItems.sharedInstance.getItems().first?.id!
         XCTAssertEqual(id!, 79, "Items does not have the same data")
     }
 }

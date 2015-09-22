@@ -1,33 +1,44 @@
-//
-//  PFQuery.h
-//
-//  Copyright 2011-present Parse Inc. All rights reserved.
-//
+/**
+ * Copyright (c) 2015-present, Parse, LLC.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
 
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_IPHONE
+#import <Bolts/BFTask.h>
+
 #import <Parse/PFConstants.h>
 #import <Parse/PFGeoPoint.h>
 #import <Parse/PFObject.h>
 #import <Parse/PFUser.h>
-#else
-#import <ParseOSX/PFConstants.h>
-#import <ParseOSX/PFGeoPoint.h>
-#import <ParseOSX/PFObject.h>
-#import <ParseOSX/PFUser.h>
-#endif
 
-@class BFTask;
+PF_ASSUME_NONNULL_BEGIN
 
 /*!
  The `PFQuery` class defines a query that is used to query for <PFObject>s.
  */
-@interface PFQuery : NSObject <NSCopying>
+@interface PFQuery PF_GENERIC(PFGenericObject : PFObject *) : NSObject<NSCopying>
+
+///--------------------------------------
+/// @name Blocks
+///--------------------------------------
+
+typedef void (^PFQueryArrayResultBlock)(NSArray PF_GENERIC(PFGenericObject) * PF_NULLABLE_S objects, NSError * PF_NULLABLE_S error);
 
 ///--------------------------------------
 /// @name Creating a Query for a Class
 ///--------------------------------------
+
+/*!
+ @abstract Initializes the query with a class name.
+
+ @param className The class name.
+ */
+- (instancetype)initWithClassName:(NSString *)className;
 
 /*!
  @abstract Returns a `PFQuery` for a given class.
@@ -60,16 +71,10 @@
  @param className The class to query on.
  @param predicate The predicate to create conditions from.
  */
-+ (instancetype)queryWithClassName:(NSString *)className predicate:(NSPredicate *)predicate;
++ (instancetype)queryWithClassName:(NSString *)className predicate:(PF_NULLABLE NSPredicate *)predicate;
 
 /*!
- Initializes the query with a class name.
- @param newClassName The class name.
- */
-- (instancetype)initWithClassName:(NSString *)newClassName;
-
-/*!
- The class name to query for
+ The class name to query for.
  */
 @property (nonatomic, strong) NSString *parseClassName;
 
@@ -246,7 +251,9 @@
 
  @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
  */
-- (instancetype)whereKey:(NSString *)key nearGeoPoint:(PFGeoPoint *)geopoint withinMiles:(double)maxDistance;
+- (instancetype)whereKey:(NSString *)key
+            nearGeoPoint:(PFGeoPoint *)geopoint
+             withinMiles:(double)maxDistance;
 
 /*!
  @abstract Add a constraint to the query that requires a particular key's coordinates (specified via <PFGeoPoint>)
@@ -261,7 +268,9 @@
 
  @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
  */
-- (instancetype)whereKey:(NSString *)key nearGeoPoint:(PFGeoPoint *)geopoint withinKilometers:(double)maxDistance;
+- (instancetype)whereKey:(NSString *)key
+            nearGeoPoint:(PFGeoPoint *)geopoint
+        withinKilometers:(double)maxDistance;
 
 /*!
  Add a constraint to the query that requires a particular key's coordinates (specified via <PFGeoPoint>) be near
@@ -274,7 +283,9 @@
 
  @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
  */
-- (instancetype)whereKey:(NSString *)key nearGeoPoint:(PFGeoPoint *)geopoint withinRadians:(double)maxDistance;
+- (instancetype)whereKey:(NSString *)key
+            nearGeoPoint:(PFGeoPoint *)geopoint
+           withinRadians:(double)maxDistance;
 
 /*!
  @abstract Add a constraint to the query that requires a particular key's coordinates (specified via <PFGeoPoint>) be
@@ -317,7 +328,9 @@
 
  @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
  */
-- (instancetype)whereKey:(NSString *)key matchesRegex:(NSString *)regex modifiers:(NSString *)modifiers;
+- (instancetype)whereKey:(NSString *)key
+            matchesRegex:(NSString *)regex
+               modifiers:(PF_NULLABLE NSString *)modifiers;
 
 /*!
  @abstract Add a constraint for finding string values that contain a provided substring.
@@ -329,7 +342,7 @@
 
  @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
  */
-- (instancetype)whereKey:(NSString *)key containsString:(NSString *)substring;
+- (instancetype)whereKey:(NSString *)key containsString:(PF_NULLABLE NSString *)substring;
 
 /*!
  @abstract Add a constraint for finding string values that start with a provided prefix.
@@ -341,7 +354,7 @@
 
  @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
  */
-- (instancetype)whereKey:(NSString *)key hasPrefix:(NSString *)prefix;
+- (instancetype)whereKey:(NSString *)key hasPrefix:(PF_NULLABLE NSString *)prefix;
 
 /*!
  @abstract Add a constraint for finding string values that end with a provided suffix.
@@ -353,7 +366,7 @@
 
  @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
  */
-- (instancetype)whereKey:(NSString *)key hasSuffix:(NSString *)suffix;
+- (instancetype)whereKey:(NSString *)key hasSuffix:(PF_NULLABLE NSString *)suffix;
 
 ///--------------------------------------
 /// @name Adding Subqueries
@@ -378,7 +391,9 @@
 
  @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
  */
-- (instancetype)whereKey:(NSString *)key matchesKey:(NSString *)otherKey inQuery:(PFQuery *)query;
+- (instancetype)whereKey:(NSString *)key
+              matchesKey:(NSString *)otherKey
+                 inQuery:(PFQuery *)query;
 
 /*!
  @abstract Adds a constraint that requires that a key's value `NOT` match a value in another key
@@ -390,7 +405,9 @@
 
  @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
  */
-- (instancetype)whereKey:(NSString *)key doesNotMatchKey:(NSString *)otherKey inQuery:(PFQuery *)query;
+- (instancetype)whereKey:(NSString *)key
+         doesNotMatchKey:(NSString *)otherKey
+                 inQuery:(PFQuery *)query;
 
 /*!
  @abstract Add a constraint that requires that a key's value matches a `PFQuery` constraint.
@@ -459,6 +476,8 @@
 /*!
  @abstract Sort the results using a given sort descriptor.
 
+ @warning If a `sortDescriptor` has custom `selector` or `comparator` - they aren't going to be used.
+
  @param sortDescriptor The `NSSortDescriptor` to use to sort the results of the query.
 
  @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
@@ -468,11 +487,13 @@
 /*!
  @abstract Sort the results using a given array of sort descriptors.
 
+ @warning If a `sortDescriptor` has custom `selector` or `comparator` - they aren't going to be used.
+
  @param sortDescriptors An array of `NSSortDescriptor` objects to use to sort the results of the query.
 
  @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
  */
-- (instancetype)orderBySortDescriptors:(NSArray *)sortDescriptors;
+- (instancetype)orderBySortDescriptors:(PF_NULLABLE NSArray *)sortDescriptors;
 
 ///--------------------------------------
 /// @name Getting Objects by ID
@@ -486,8 +507,8 @@
 
  @returns The <PFObject> if found. Returns `nil` if the object isn't found, or if there was an error.
  */
-+ (PFObject *)getObjectOfClass:(NSString *)objectClass
-                      objectId:(NSString *)objectId;
++ (PF_NULLABLE PFGenericObject)getObjectOfClass:(NSString *)objectClass
+                                       objectId:(NSString *)objectId PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract Returns a <PFObject> with a given class and id and sets an error if necessary.
@@ -498,9 +519,9 @@
 
  @returns The <PFObject> if found. Returns `nil` if the object isn't found, or if there was an `error`.
  */
-+ (PFObject *)getObjectOfClass:(NSString *)objectClass
-                      objectId:(NSString *)objectId
-                         error:(NSError **)error;
++ (PF_NULLABLE PFGenericObject)getObjectOfClass:(NSString *)objectClass
+                                       objectId:(NSString *)objectId
+                                          error:(NSError **)error;
 
 /*!
  @abstract Returns a <PFObject> with the given id.
@@ -512,7 +533,7 @@
 
  @returns The <PFObject> if found. Returns nil if the object isn't found, or if there was an error.
  */
-- (PFObject *)getObjectWithId:(NSString *)objectId;
+- (PF_NULLABLE PFGenericObject)getObjectWithId:(NSString *)objectId PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract Returns a <PFObject> with the given id and sets an error if necessary.
@@ -525,7 +546,7 @@
 
  @returns The <PFObject> if found. Returns nil if the object isn't found, or if there was an error.
  */
-- (PFObject *)getObjectWithId:(NSString *)objectId error:(NSError **)error;
+- (PF_NULLABLE PFGenericObject)getObjectWithId:(NSString *)objectId error:(NSError **)error;
 
 /*!
  @abstract Gets a <PFObject> asynchronously and calls the given block with the result.
@@ -537,7 +558,7 @@
 
  @returns The task, that encapsulates the work being done.
  */
-- (BFTask *)getObjectInBackgroundWithId:(NSString *)objectId;
+- (BFTask PF_GENERIC(PFGenericObject) *)getObjectInBackgroundWithId:(NSString *)objectId;
 
 /*!
  @abstract Gets a <PFObject> asynchronously and calls the given block with the result.
@@ -550,7 +571,7 @@
  The block should have the following argument signature: `^(NSArray *object, NSError *error)`
  */
 - (void)getObjectInBackgroundWithId:(NSString *)objectId
-                              block:(PFObjectResultBlock)block;
+                              block:(PF_NULLABLE void(^)(PFGenericObject PF_NULLABLE_S object, NSError *PF_NULLABLE_S error))block;
 
 /*
  @abstract Gets a <PFObject> asynchronously.
@@ -564,8 +585,8 @@
  Result will be `nil` if error is set and vice versa.
  */
 - (void)getObjectInBackgroundWithId:(NSString *)objectId
-                             target:(id)target
-                           selector:(SEL)selector;
+                             target:(PF_NULLABLE_S id)target
+                           selector:(PF_NULLABLE_S SEL)selector;
 
 ///--------------------------------------
 /// @name Getting User Objects
@@ -578,7 +599,7 @@
 
  @returns The PFUser if found. Returns nil if the object isn't found, or if there was an error.
  */
-+ (PFUser *)getUserObjectWithId:(NSString *)objectId;
++ (PF_NULLABLE PFUser *)getUserObjectWithId:(NSString *)objectId PF_SWIFT_UNAVAILABLE;
 
 /*!
  Returns a PFUser with a given class and id and sets an error if necessary.
@@ -586,8 +607,8 @@
  @param error Pointer to an NSError that will be set if necessary.
  @result The PFUser if found. Returns nil if the object isn't found, or if there was an error.
  */
-+ (PFUser *)getUserObjectWithId:(NSString *)objectId
-                          error:(NSError **)error;
++ (PF_NULLABLE PFUser *)getUserObjectWithId:(NSString *)objectId
+                                      error:(NSError **)error;
 
 /*!
  @deprecated Please use [PFUser query] instead.
@@ -603,7 +624,7 @@
 
  @returns Returns an array of <PFObject> objects that were found.
  */
-- (NSArray *)findObjects;
+- (PF_NULLABLE NSArray PF_GENERIC(PFGenericObject) *)findObjects PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract Finds objects *synchronously* based on the constructed query and sets an error if there was one.
@@ -612,14 +633,14 @@
 
  @returns Returns an array of <PFObject> objects that were found.
  */
-- (NSArray *)findObjects:(NSError **)error;
+- (PF_NULLABLE NSArray PF_GENERIC(PFGenericObject) *)findObjects:(NSError **)error;
 
 /*!
  @abstract Finds objects *asynchronously* and sets the `NSArray` of <PFObject> objects as a result of the task.
 
  @returns The task, that encapsulates the work being done.
  */
-- (BFTask *)findObjectsInBackground;
+- (BFTask PF_GENERIC(NSArray<PFGenericObject> *)*)findObjectsInBackground;
 
 /*!
  @abstract Finds objects *asynchronously* and calls the given block with the results.
@@ -627,7 +648,7 @@
  @param block The block to execute.
  It should have the following argument signature: `^(NSArray *objects, NSError *error)`
  */
-- (void)findObjectsInBackgroundWithBlock:(PFArrayResultBlock)block;
+- (void)findObjectsInBackgroundWithBlock:(PF_NULLABLE PFQueryArrayResultBlock)block;
 
 /*
  @abstract Finds objects *asynchronously* and calls the given callback with the results.
@@ -637,7 +658,7 @@
  It should have the following signature: `(void)callbackWithResult:(id)result error:(NSError *)error`.
  Result will be `nil` if error is set and vice versa.
  */
-- (void)findObjectsInBackgroundWithTarget:(id)target selector:(SEL)selector;
+- (void)findObjectsInBackgroundWithTarget:(PF_NULLABLE_S id)target selector:(PF_NULLABLE_S SEL)selector;
 
 ///--------------------------------------
 /// @name Getting the First Match in a Query
@@ -650,7 +671,7 @@
 
  @returns Returns a <PFObject>, or `nil` if none was found.
  */
-- (PFObject *)getFirstObject;
+- (PF_NULLABLE PFGenericObject)getFirstObject PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract Gets an object *synchronously* based on the constructed query and sets an error if any occurred.
@@ -661,7 +682,7 @@
 
  @returns Returns a <PFObject>, or `nil` if none was found.
  */
-- (PFObject *)getFirstObject:(NSError **)error;
+- (PF_NULLABLE PFGenericObject)getFirstObject:(NSError **)error;
 
 /*!
  @abstract Gets an object *asynchronously* and sets it as a result of the task.
@@ -670,7 +691,7 @@
 
  @returns The task, that encapsulates the work being done.
  */
-- (BFTask *)getFirstObjectInBackground;
+- (BFTask PF_GENERIC(PFGenericObject) *)getFirstObjectInBackground;
 
 /*!
  @abstract Gets an object *asynchronously* and calls the given block with the result.
@@ -682,7 +703,7 @@
  `result` will be `nil` if `error` is set OR no object was found matching the query.
  `error` will be `nil` if `result` is set OR if the query succeeded, but found no results.
  */
-- (void)getFirstObjectInBackgroundWithBlock:(PFObjectResultBlock)block;
+- (void)getFirstObjectInBackgroundWithBlock:(PF_NULLABLE void(^)(PFGenericObject PF_NULLABLE_S object, NSError *PF_NULLABLE_S error))block;
 
 /*
  @abstract Gets an object *asynchronously* and calls the given callback with the results.
@@ -695,7 +716,7 @@
  `result` will be `nil` if `error` is set OR no object was found matching the query.
  `error` will be `nil` if `result` is set OR if the query succeeded, but found no results.
  */
-- (void)getFirstObjectInBackgroundWithTarget:(id)target selector:(SEL)selector;
+- (void)getFirstObjectInBackgroundWithTarget:(PF_NULLABLE_S id)target selector:(PF_NULLABLE_S SEL)selector;
 
 ///--------------------------------------
 /// @name Counting the Matches in a Query
@@ -706,7 +727,7 @@
 
  @returns Returns the number of <PFObject> objects that match the query, or `-1` if there is an error.
  */
-- (NSInteger)countObjects;
+- (NSInteger)countObjects PF_SWIFT_UNAVAILABLE;
 
 /*!
  @abstract Counts objects *synchronously* based on the constructed query and sets an error if there was one.
@@ -722,7 +743,7 @@
 
  @returns The task, that encapsulates the work being done.
  */
-- (BFTask *)countObjectsInBackground;
+- (BFTask PF_GENERIC(NSNumber *)*)countObjectsInBackground;
 
 /*!
  @abstract Counts objects *asynchronously* and calls the given block with the counts.
@@ -730,7 +751,7 @@
  @param block The block to execute.
  It should have the following argument signature: `^(int count, NSError *error)`
  */
-- (void)countObjectsInBackgroundWithBlock:(PFIntegerResultBlock)block;
+- (void)countObjectsInBackgroundWithBlock:(PF_NULLABLE PFIntegerResultBlock)block;
 
 /*
  @abstract Counts objects *asynchronously* and calls the given callback with the count.
@@ -739,7 +760,7 @@
  @param selector The selector to call.
  It should have the following signature: `(void)callbackWithResult:(NSNumber *)result error:(NSError *)error`.
  */
-- (void)countObjectsInBackgroundWithTarget:(id)target selector:(SEL)selector;
+- (void)countObjectsInBackgroundWithTarget:(PF_NULLABLE_S id)target selector:(PF_NULLABLE_S SEL)selector;
 
 ///--------------------------------------
 /// @name Cancelling a Query
@@ -782,7 +803,7 @@
  */
 @property (assign, readwrite) PFCachePolicy cachePolicy;
 
-/* !
+/*!
  @abstract The age after which a cached value will be ignored
  */
 @property (assign, readwrite) NSTimeInterval maxCacheAge;
@@ -843,7 +864,18 @@
  @see PFObjectDefaultPin
  @see cachePolicy
  */
-- (instancetype)fromPinWithName:(NSString *)name;
+- (instancetype)fromPinWithName:(PF_NULLABLE NSString *)name;
+
+/*!
+ @abstract Ignore ACLs when querying from the Local Datastore.
+
+ @discussion This is particularly useful when querying for objects with Role based ACLs set on them.
+
+ @warning Requires Local Datastore to be enabled.
+
+ @returns The same instance of `PFQuery` as the receiver. This allows method chaining.
+ */
+- (instancetype)ignoreACLs;
 
 ///--------------------------------------
 /// @name Advanced Settings
@@ -857,3 +889,5 @@
 @property (nonatomic, assign) BOOL trace;
 
 @end
+
+PF_ASSUME_NONNULL_END

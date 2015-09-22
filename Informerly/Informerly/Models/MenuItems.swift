@@ -22,7 +22,7 @@ class MenuItems {
         self.items.removeAll(keepCapacity: false)
         
         for itemData in items {
-            var item : Item = Item()
+            let item : Item = Item()
             item.populateItem(itemData as! [String: AnyObject])
             
             self.items.append(item)

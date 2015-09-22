@@ -98,7 +98,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-        let newLength = count(textField.text!) + count(string) - range.length
+        let newLength = (textField.text!).characters.count + string.characters.count - range.length
         
         if newLength == 0 {
             textField.alpha = 0.3
@@ -106,7 +106,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             textField.alpha = 1.0
         }
         
-        if textField === passwordTextField && count(emailTextField.text) > 0 {
+        if textField === passwordTextField && emailTextField.text!.characters.count > 0 {
             
             if newLength >= 1 {
                 signInBtn.enabled = true
@@ -118,7 +118,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
             
         }
         
-        if textField === emailTextField && count(passwordTextField.text) > 0 {
+        if textField === emailTextField && passwordTextField.text!.characters.count > 0 {
             
             if newLength >= 1 {
                 signInBtn.enabled = true
@@ -157,8 +157,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             self.indicator.startAnimating()
-            var parameters = ["login":emailTextField.text,
-                "password":passwordTextField.text,
+            let parameters = ["login":emailTextField.text!,
+                "password":passwordTextField.text!,
                 "device_token":""/*Utilities.sharedInstance.getStringForKey(DEVICE_TOKEN)*/]
             
             NetworkManager.sharedNetworkClient().processPostRequestWithPath(LOGIN_URL,
@@ -171,7 +171,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                         var user :[String:AnyObject] = data["user"] as! Dictionary
                         if (user["subscribed"] as! Bool == false) {
                             self.resetFields()
-                            var unsubscribedVC = self.storyboard?.instantiateViewControllerWithIdentifier("UnsubscribedVC") as! UnsubscribedViewController
+                            let unsubscribedVC = self.storyboard?.instantiateViewControllerWithIdentifier("UnsubscribedVC") as! UnsubscribedViewController
                             self.showViewController(unsubscribedVC, sender: self)
                         } else {
                             
@@ -179,14 +179,14 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                             Utilities.sharedInstance.setBoolForKey(true, key: IS_USER_LOGGED_IN)
                             Utilities.sharedInstance.setAuthToken(User.sharedInstance.auth_token, key: AUTH_TOKEN)
                             Utilities.sharedInstance.setStringForKey(String(User.sharedInstance.id), key: USER_ID)
-                            Utilities.sharedInstance.setStringForKey(self.emailTextField.text.lowercaseString, key: EMAIL)
+                            Utilities.sharedInstance.setStringForKey(self.emailTextField.text!.lowercaseString, key: EMAIL)
                             
-                            var parseInstallation : PFInstallation = PFInstallation.currentInstallation()
-                            parseInstallation["username"] = self.emailTextField.text.lowercaseString
+                            let parseInstallation : PFInstallation = PFInstallation.currentInstallation()
+                            parseInstallation["username"] = self.emailTextField.text!.lowercaseString
                             parseInstallation["id"] = User.sharedInstance.id
                             parseInstallation.saveInBackgroundWithBlock(nil)
                             
-                            var appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                            let appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                             appDelegate.loadFeedVC()
                         }
                     }
@@ -201,7 +201,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                     self.signInBtn.alpha = 0.3
                     
                     var error : [String:AnyObject] = extraInfo as! Dictionary
-                    var message : String = error["message"] as! String
+                    let message : String = error["message"] as! String
                     self.showAlert("Error !", msg: message)
             }
         } else {
@@ -210,7 +210,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
     
@@ -229,7 +229,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     }
     
     func showAlert(title:String, msg:String) {
-        var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }

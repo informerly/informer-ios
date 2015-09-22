@@ -14,7 +14,8 @@
 #import <ParseCrashReporting/ParseCrashReporting.h>
 #import "Reachability.h"
 #import "UINavigationController+SGProgress.h"
-#import "MFSideMenu.h"
+#import "MMDrawerController.h"
+#import "UIViewController+MMDrawerController.h"
 #import "REMenu.h"
 #import "Crittercism.h"
 #import "SVProgressHUD.h"

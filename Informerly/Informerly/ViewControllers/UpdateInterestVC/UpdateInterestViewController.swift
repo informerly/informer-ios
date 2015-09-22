@@ -42,7 +42,7 @@ class UpdateInterestViewController : UIViewController,UITextViewDelegate {
     
     func createNavTitle() {
 
-        var navTitle : UILabel = UILabel(frame: CGRectMake(0, 0, 80, 30))
+        let navTitle : UILabel = UILabel(frame: CGRectMake(0, 0, 80, 30))
         navTitle.text = "Update Your Interests"
         navTitle.font = UIFont(name: "OpenSans", size: 16.0)
         
@@ -75,7 +75,7 @@ class UpdateInterestViewController : UIViewController,UITextViewDelegate {
         overlay.addSubview(indicator)
         
         // Creates alert view
-        var rect:CGRect = CGRectMake((self.view.frame.size.width - 280)/2, (self.view.frame.size.height - 280 - 64)/2, 280, 230)
+        let rect:CGRect = CGRectMake((self.view.frame.size.width - 280)/2, (self.view.frame.size.height - 280 - 64)/2, 280, 230)
         alert = UIView(frame: rect)
         alert.hidden = true
         alert.layer.cornerRadius = 5.0
@@ -83,22 +83,22 @@ class UpdateInterestViewController : UIViewController,UITextViewDelegate {
         overlay.addSubview(alert)
         
         // Check cirle image view
-        var imageViewRect = CGRectMake((alert.frame.size.width - 36)/2, 20, 36, 36)
-        var checkCirleImgView : UIImageView = UIImageView(frame: imageViewRect)
+        let imageViewRect = CGRectMake((alert.frame.size.width - 36)/2, 20, 36, 36)
+        let checkCirleImgView : UIImageView = UIImageView(frame: imageViewRect)
         checkCirleImgView.image = UIImage(named: "icon_check_circle")
         alert.addSubview(checkCirleImgView)
         
         // Updated Interests label
-        var updatedInterestLabelRect = CGRectMake((alert.frame.size.width - 220)/2, 20+36, 220, 40)
-        var updatedInterestLabel : UILabel = UILabel(frame: updatedInterestLabelRect)
+        let updatedInterestLabelRect = CGRectMake((alert.frame.size.width - 220)/2, 20+36, 220, 40)
+        let updatedInterestLabel : UILabel = UILabel(frame: updatedInterestLabelRect)
         updatedInterestLabel.text = "Updated Interests Sent!"
         updatedInterestLabel.font = UIFont(name: "OpenSans-Bold", size: 18.0)
         updatedInterestLabel.textColor = UIColor(rgba: "#3592FF")
         alert.addSubview(updatedInterestLabel)
         
         // sub label
-        var subLabelRect = CGRectMake((alert.frame.size.width - 280)/2, 20+36+40+5, 280, 60)
-        var subLabel : UILabel = UILabel(frame: subLabelRect)
+        let subLabelRect = CGRectMake((alert.frame.size.width - 280)/2, 20+36+40+5, 280, 60)
+        let subLabel : UILabel = UILabel(frame: subLabelRect)
         subLabel.numberOfLines = 3
         subLabel.textAlignment = NSTextAlignment.Center
         subLabel.text = "One of our team members will personally tailor your news feed to include your new interests."
@@ -107,7 +107,7 @@ class UpdateInterestViewController : UIViewController,UITextViewDelegate {
         
         
         // Adds button
-        var okBtn : UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        let okBtn : UIButton = UIButton(type: UIButtonType.System)
         okBtn.frame = CGRectMake(0,180,280,50)
         okBtn.backgroundColor = UIColor(rgba: "#3592FF")
         okBtn.setTitle("OK", forState: UIControlState.Normal)
@@ -129,17 +129,17 @@ class UpdateInterestViewController : UIViewController,UITextViewDelegate {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             if (self.interestsTextView.text != "") {
-                var interests : PFObject = PFObject(className: "Interests")
+                let interests : PFObject = PFObject(className: "Interests")
                 interests["interest"] = self.interestsTextView.text
                 interests["email"] = Utilities.sharedInstance.getStringForKey(EMAIL)
                 interests["userID"] = Utilities.sharedInstance.getStringForKey(USER_ID)
-                interests.saveInBackgroundWithBlock { (success:Bool, error:NSError!) -> Void in
+                interests.saveInBackgroundWithBlock({ (success, error) -> Void in
                     if (success) {
                         self.alert.hidden = false
                     } else {
                         self.showAlert("Error !", msg: "Unable to save feedback. Please try again")
                     }
-                }
+                })
             }
         } else {
             self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")
@@ -162,7 +162,7 @@ class UpdateInterestViewController : UIViewController,UITextViewDelegate {
         }
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
     
@@ -187,7 +187,7 @@ class UpdateInterestViewController : UIViewController,UITextViewDelegate {
     }
     
     func showAlert(title:String, msg:String) {
-        var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }

@@ -62,7 +62,7 @@
 }
 
 
-- (void)processPostRequestWithPath:(NSString *)path parameter:(id)parameter
+- (void)processPostRequestWithPath:(NSString *)path parameter:(NSDictionary*)parameter
                            success: (NetworkClientSuccessBlock) successBlock
                            failure:(NetworkClientFailureBlock) failureBlock {
     
@@ -81,9 +81,9 @@
     
     path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
-    NSMutableDictionary *param = parameter==nil? [NSMutableDictionary dictionary] : [NSMutableDictionary dictionaryWithDictionary:parameter];
+//    NSMutableDictionary *param = parameter==nil? [NSMutableDictionary dictionary] : [NSMutableDictionary dictionaryWithDictionary:parameter];
     
-    [self.requestOperationManager POST:path parameters:param success:success failure:failure];
+    [self.requestOperationManager POST:path parameters:parameter success:success failure:failure];
 }
 
 - (void)processDeleteRequestWithPath:(NSString *)path parameter:(id)parameter

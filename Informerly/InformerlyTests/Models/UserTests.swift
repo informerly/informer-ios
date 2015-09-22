@@ -37,12 +37,12 @@ class UserTests: XCTestCase {
     
     func testAuthTokenPopulatedCorrectly(){
         User.sharedInstance.auth_token = testData["auth_token"] as! String
-        XCTAssertEqual(User.sharedInstance.auth_token, testData["auth_token"] as! String, "Auth token is not correctly populated")
+        XCTAssertEqual(User.sharedInstance.auth_token, testData["auth_token"] as? String, "Auth token is not correctly populated")
     }
     
     func testUserIDPopulatedCorrectly(){
         User.sharedInstance.id = testData["id"] as! Int
-        XCTAssertEqual(User.sharedInstance.id, testData["id"] as! Int, "ID is not correctly populated")
+        XCTAssertEqual(User.sharedInstance.id, testData["id"] as? Int, "ID is not correctly populated")
     }
     
 //    func testUserNamePopulatedCorrectly(){
@@ -66,10 +66,10 @@ class UserTests: XCTestCase {
 //        User.sharedInstance.user_name = testData["username"] as! String
 //        User.sharedInstance.full_name = testData["full_name"] as! String
         
-        var user = User.sharedInstance.getUser()
+        let user = User.sharedInstance.getUser()
         
-        XCTAssertEqual(user.auth_token, testData["auth_token"] as! String, "GetUser does not have correct value to auth_token")
-        XCTAssertEqual(user.id, testData["id"] as! Int, "GetUser does not have correct value to id")
+        XCTAssertEqual(user.auth_token, testData["auth_token"] as? String, "GetUser does not have correct value to auth_token")
+        XCTAssertEqual(user.id, testData["id"] as? Int, "GetUser does not have correct value to id")
 //        XCTAssertEqual(user.user_name, testData["username"] as! String, "GetUser does not have correct value to username")
 //        XCTAssertEqual(user.full_name, testData["full_name"] as! String, "GetUser does not have correct value to full_name")
     }

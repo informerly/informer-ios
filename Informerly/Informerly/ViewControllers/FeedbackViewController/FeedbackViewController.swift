@@ -70,31 +70,31 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
                 self.feedbackTextView.text != "")
             {
                 indicator.startAnimating()
-                var feedback : PFObject = PFObject(className: "Feedback")
+                let feedback : PFObject = PFObject(className: "Feedback")
                 feedback["feedback"] = self.feedbackTextView.text
                 feedback["email"] = Utilities.sharedInstance.getStringForKey(EMAIL)
                 feedback["userID"] = Utilities.sharedInstance.getStringForKey(USER_ID)
-                feedback.saveInBackgroundWithBlock { (success:Bool, error:NSError!) -> Void in
+                feedback.saveInBackgroundWithBlock({ (success, error) -> Void in
                     if (success) {
                         self.indicator.stopAnimating()
                         self.backBtn.hidden = true
                         self.feedbackLabel.hidden = true
                         self.feedbackView.hidden = true
                         
-                        var rect : CGRect = CGRectMake(self.view.frame.size.width/3, self.view.frame.size.height/3, 110, 40)
-                        var thanksLabel : UILabel = UILabel(frame:rect)
+                        let rect : CGRect = CGRectMake(self.view.frame.size.width/3, self.view.frame.size.height/3, 110, 40)
+                        let thanksLabel : UILabel = UILabel(frame:rect)
                         thanksLabel.font = UIFont(name: "OpenSans-Bold", size: 28)
                         thanksLabel.text = "Thanks!"
                         thanksLabel.textColor = UIColor.whiteColor()
                         self.view.addSubview(thanksLabel)
                         
-                        var timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("animateView"), userInfo: nil, repeats: false)
+                        NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("animateView"), userInfo: nil, repeats: false)
                         
                     } else {
                         self.indicator.stopAnimating()
                         self.showAlert("Error !", msg: "Unable to save feedback. Please try again")
                     }
-                }
+                })
             } else {
                 self.showAlert("No Feedback !", msg: "Please add some feedback.")
             }
@@ -125,12 +125,12 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
         }
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
     
     func showAlert(title:String, msg:String) {
-        var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
