@@ -17,7 +17,7 @@
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
 #import "REMenu.h"
-#import "Crittercism.h"
+#import <Crittercism/Crittercism.h>
 #import "SVProgressHUD.h"
 #import "MGSwipeTableCell.h"
 #import "MGSwipeButton.h"

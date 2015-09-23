@@ -21,6 +21,8 @@
 		1803D2FC1ACEA42A00D6C1DE /* REMenuContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F51ACEA42A00D6C1DE /* REMenuContainerView.m */; };
 		1803D2FD1ACEA42A00D6C1DE /* REMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F71ACEA42A00D6C1DE /* REMenuItem.m */; };
 		1803D2FE1ACEA42A00D6C1DE /* REMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */; };
+		1825EE5C1BB2C0BE00658163 /* Crittercism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1825EE5B1BB2C0BE00658163 /* Crittercism.framework */; settings = {ASSET_TAGS = (); }; };
+		1825EE5D1BB2C0BE00658163 /* Crittercism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1825EE5B1BB2C0BE00658163 /* Crittercism.framework */; settings = {ASSET_TAGS = (); }; };
 		18383F341B0B44FE00498B35 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18383F331B0B44FE00498B35 /* BookmarkEntity.swift */; };
 		183B34561BB036B200BF780B /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 183B34441BB036B200BF780B /* AFHTTPRequestOperation.m */; settings = {ASSET_TAGS = (); }; };
 		183B34571BB036B200BF780B /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 183B34441BB036B200BF780B /* AFHTTPRequestOperation.m */; settings = {ASSET_TAGS = (); }; };
@@ -135,7 +137,6 @@
 		18DAEBB51B5510DA0030266E /* CategoryFeedsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DAEBB41B5510DA0030266E /* CategoryFeedsTests.swift */; };
 		18DAEBB61B5510E30030266E /* CategoryFeeds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803BC2F1B033238003DCB17 /* CategoryFeeds.swift */; };
 		18DEC7441AE6517500F8F661 /* UpdateInterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DEC7431AE6517500F8F661 /* UpdateInterestViewController.swift */; };
-		18DEC7601AE6D3D900F8F661 /* libCrittercism_v5_1_3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18DEC75E1AE6D3D900F8F661 /* libCrittercism_v5_1_3.a */; };
 		18E124AF1BB136770064C18F /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E124A71BB136770064C18F /* MMDrawerBarButtonItem.m */; settings = {ASSET_TAGS = (); }; };
 		18E124B01BB136770064C18F /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E124A71BB136770064C18F /* MMDrawerBarButtonItem.m */; settings = {ASSET_TAGS = (); }; };
 		18E124B11BB136770064C18F /* MMDrawerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E124AA1BB136770064C18F /* MMDrawerController.m */; settings = {ASSET_TAGS = (); }; };
@@ -227,6 +228,7 @@
 		1803D2F71ACEA42A00D6C1DE /* REMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMenuItem.m; sourceTree = "<group>"; };
 		1803D2F81ACEA42A00D6C1DE /* REMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REMenuItemView.h; sourceTree = "<group>"; };
 		1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMenuItemView.m; sourceTree = "<group>"; };
+		1825EE5B1BB2C0BE00658163 /* Crittercism.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crittercism.framework; sourceTree = "<group>"; };
 		18383F331B0B44FE00498B35 /* BookmarkEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkEntity.swift; sourceTree = "<group>"; };
 		183B34431BB036B200BF780B /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		183B34441BB036B200BF780B /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
@@ -313,12 +315,6 @@
 		18DAEBB11B550DC10030266E /* MenuItemsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItemsTests.swift; sourceTree = "<group>"; };
 		18DAEBB41B5510DA0030266E /* CategoryFeedsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryFeedsTests.swift; sourceTree = "<group>"; };
 		18DEC7431AE6517500F8F661 /* UpdateInterestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateInterestViewController.swift; sourceTree = "<group>"; };
-		18DEC7591AE6D3D900F8F661 /* CRFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRFilter.h; sourceTree = "<group>"; };
-		18DEC75A1AE6D3D900F8F661 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
-		18DEC75B1AE6D3D900F8F661 /* CrittercismConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismConfig.h; sourceTree = "<group>"; };
-		18DEC75C1AE6D3D900F8F661 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
-		18DEC75D1AE6D3D900F8F661 /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
-		18DEC75E1AE6D3D900F8F661 /* libCrittercism_v5_1_3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v5_1_3.a; sourceTree = "<group>"; };
 		18E124A61BB136770064C18F /* MMDrawerBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDrawerBarButtonItem.h; sourceTree = "<group>"; };
 		18E124A71BB136770064C18F /* MMDrawerBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMDrawerBarButtonItem.m; sourceTree = "<group>"; };
 		18E124A81BB136770064C18F /* MMDrawerController+Subclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MMDrawerController+Subclass.h"; sourceTree = "<group>"; };
@@ -353,7 +349,6 @@
 			files = (
 				A1E79B741A8AE0F800DED86C /* libstdc++.6.dylib in Frameworks */,
 				A12D43B41A8ACB1D0066E2F3 /* libsqlite3.dylib in Frameworks */,
-				18DEC7601AE6D3D900F8F661 /* libCrittercism_v5_1_3.a in Frameworks */,
 				A12D43B51A8ACB1D0066E2F3 /* libz.dylib in Frameworks */,
 				A12D43AF1A8ACAF50066E2F3 /* Security.framework in Frameworks */,
 				A12D43B01A8ACAF50066E2F3 /* StoreKit.framework in Frameworks */,
@@ -362,6 +357,7 @@
 				A12D43AB1A8ACAE30066E2F3 /* QuartzCore.framework in Frameworks */,
 				A12D43A91A8ACADD0066E2F3 /* MobileCoreServices.framework in Frameworks */,
 				A12D43A51A8ACACA0066E2F3 /* CFNetwork.framework in Frameworks */,
+				1825EE5C1BB2C0BE00658163 /* Crittercism.framework in Frameworks */,
 				A12D43A61A8ACACA0066E2F3 /* CoreGraphics.framework in Frameworks */,
 				A12D43A71A8ACACA0066E2F3 /* CoreLocation.framework in Frameworks */,
 				A12D43A11A8ACABB0066E2F3 /* AudioToolbox.framework in Frameworks */,
@@ -387,6 +383,7 @@
 				183B34741BB0448B00BF780B /* Parse.framework in Frameworks */,
 				183B34781BB0449900BF780B /* ParseCrashReporting.framework in Frameworks */,
 				186BD53D1A9711FE0044C86B /* NotificationCenter.framework in Frameworks */,
+				1825EE5D1BB2C0BE00658163 /* Crittercism.framework in Frameworks */,
 				183B347C1BB0451500BF780B /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -537,7 +534,6 @@
 				186867B81B2AC416001C04DD /* ARSafariActivity */,
 				186867A71B271B33001C04DD /* SGSwipeTableCell */,
 				1803BC3C1B0386EB003DCB17 /* SVProgressHUD */,
-				18DEC7581AE6D3C100F8F661 /* Crittercism */,
 				1803D2EF1ACEA41A00D6C1DE /* TopMenu */,
 				1803D2B31ACD187900D6C1DE /* SGNavigationProgressBar */,
 				188B077E1AB17A5A00447CD9 /* Reachability */,
@@ -834,19 +830,6 @@
 			path = UpdateInterestVC;
 			sourceTree = "<group>";
 		};
-		18DEC7581AE6D3C100F8F661 /* Crittercism */ = {
-			isa = PBXGroup;
-			children = (
-				18DEC7591AE6D3D900F8F661 /* CRFilter.h */,
-				18DEC75A1AE6D3D900F8F661 /* Crittercism.h */,
-				18DEC75B1AE6D3D900F8F661 /* CrittercismConfig.h */,
-				18DEC75C1AE6D3D900F8F661 /* CrittercismDelegate.h */,
-				18DEC75D1AE6D3D900F8F661 /* dsym_upload.sh */,
-				18DEC75E1AE6D3D900F8F661 /* libCrittercism_v5_1_3.a */,
-			);
-			path = Crittercism;
-			sourceTree = "<group>";
-		};
 		18E124A51BB136770064C18F /* MMDrawerController */ = {
 			isa = PBXGroup;
 			children = (
@@ -874,6 +857,7 @@
 		A1E79B711A8AE00700DED86C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1825EE5B1BB2C0BE00658163 /* Crittercism.framework */,
 				183B34791BB0451500BF780B /* Bolts.framework */,
 				183B34751BB0449900BF780B /* ParseCrashReporting.framework */,
 				183B34711BB0448B00BF780B /* Parse.framework */,
@@ -979,6 +963,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 						};
 					};
 					1845B9A01A7F8A5F00172610 = {
@@ -1072,7 +1059,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APP_ID=\"553120c07365f84f7d3d6e79\"\nAPI_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\nsource \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
+			shellScript = "APP_ID=\"553120c07365f84f7d3d6e79\"\nAPI_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\n#source \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
 		};
 		18DEC7621AE7BB5B00F8F661 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1341,7 +1328,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Informerly/Informerly.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1350,10 +1337,10 @@
 				INFOPLIST_FILE = Informerly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Informerly/Third\\ Party\\ Libs/Crittercism";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.informerly.informer-app";
+				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "81410045-1282-49d6-a47d-81b2778538c6";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Debug;
@@ -1365,7 +1352,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Informerly/Informerly.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1374,10 +1361,10 @@
 				INFOPLIST_FILE = Informerly/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Informerly/Third\\ Party\\ Libs/Crittercism";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.informerly.informer-app";
+				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "81410045-1282-49d6-a47d-81b2778538c6";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Release;
@@ -1387,7 +1374,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
@@ -1409,7 +1395,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
@@ -1428,15 +1413,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "Informerly Widget/Informerly Widget.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_IS_EXTENSION;
 				INFOPLIST_FILE = "Informerly Widget/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.informerly.informer-app.today-widget";
+				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.informerly.informer.Informerly-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6d00af9a-83b6-4d7d-98f7-9d2194c5790b";
+				PROVISIONING_PROFILE = "80150326-bad0-4920-bf4d-885edbb8ae25";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly Widget/Bridging-Header.h";
 			};
@@ -1448,15 +1438,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "Informerly Widget/Informerly Widget.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = TARGET_IS_EXTENSION;
 				INFOPLIST_FILE = "Informerly Widget/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.informerly.informer-app.today-widget";
+				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.informerly.informer.Informerly-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6d00af9a-83b6-4d7d-98f7-9d2194c5790b";
+				PROVISIONING_PROFILE = "80150326-bad0-4920-bf4d-885edbb8ae25";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly Widget/Bridging-Header.h";
 			};

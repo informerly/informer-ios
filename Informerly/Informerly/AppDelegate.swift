@@ -126,14 +126,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let currentInstallation: PFInstallation = PFInstallation.currentInstallation()
         currentInstallation.setDeviceTokenFromData(deviceToken)
         
-        try! currentInstallation.save()
+        currentInstallation.saveInBackground()
         print("Success")
     }
   
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
 //        PFPush.handlePush(userInfo)
-        print("app recieved notification from remote \(userInfo)");
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             
@@ -274,13 +273,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func loadFeedVC(){
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         
-        var container = storyboard.instantiateViewControllerWithIdentifier("MMDrawerController") as! MMDrawerController
-        let leftSideMenuViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("LeftMenuViewController") 
+//        var container = storyboard.instantiateViewControllerWithIdentifier("MMDrawerController") as! MMDrawerController
+        let leftSideMenuViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("LeftMenuViewController")
         
         let rootVC = storyboard.instantiateViewControllerWithIdentifier("FeedVC") as! FeedViewController
         let navigationVC: UINavigationController = UINavigationController(rootViewController: rootVC)
         
-        container = MMDrawerController(centerViewController: navigationVC, leftDrawerViewController: leftSideMenuViewController)
+        let container = MMDrawerController(centerViewController: navigationVC, leftDrawerViewController: leftSideMenuViewController)
         container.restorationIdentifier = "MMDrawer"
         container.openDrawerGestureModeMask = MMOpenDrawerGestureMode.PanningCenterView
         container.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.PanningDrawerView
