@@ -32,6 +32,7 @@ let IS_CATEGORY_FEED = "isCategoryFeed"
 let CATEGORY_FEED_ID = "categoryFeedID"
 let CATEGORY_FEED_NAME = "categoryFeedName"
 let CATEGORY_FEED_ARTICLE_ID = "categoryFeedArticleID"
+let IS_FROM_TODAY_WIDGET = "isFromTodayWidget"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"

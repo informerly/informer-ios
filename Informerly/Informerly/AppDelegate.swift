@@ -161,6 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         
         if url.scheme == "TodayExtension" {
+            Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_TODAY_WIDGET)
             let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
             let linkID : String = userDefaults.stringForKey("id")!
             Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)

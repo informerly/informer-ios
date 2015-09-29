@@ -282,6 +282,8 @@
 		186BD58C1A97407F0044C86B /* Informerly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Informerly.entitlements; sourceTree = "<group>"; };
 		186BD58D1A97417B0044C86B /* Informerly Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Informerly Widget.entitlements"; sourceTree = "<group>"; };
 		187D926A1B74BC01003AF19F /* UnsubscribedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsubscribedViewController.swift; sourceTree = "<group>"; };
+		187E1F411BBAA19F00595678 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		187E1F431BBAA1A700595678 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		187EAA541A8DD6A6000ED503 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		187EAA571A8DFF8A000ED503 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		188B077F1AB17A6400447CD9 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -615,6 +617,8 @@
 		186BD53B1A9711FE0044C86B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				187E1F431BBAA1A700595678 /* Accelerate.framework */,
+				187E1F411BBAA19F00595678 /* CoreTelephony.framework */,
 				186BD53C1A9711FE0044C86B /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
@@ -897,7 +901,7 @@
 				1845B9891A7F8A5F00172610 /* Frameworks */,
 				1845B98A1A7F8A5F00172610 /* Resources */,
 				186BD54B1A9711FE0044C86B /* Embed App Extensions */,
-				18DEC7611AE7AE8500F8F661 /* ShellScript */,
+				18DEC7611AE7AE8500F8F661 /* Run Script */,
 				18DEC7621AE7BB5B00F8F661 /* ShellScript */,
 			);
 			buildRules = (
@@ -1048,13 +1052,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		18DEC7611AE7AE8500F8F661 /* ShellScript */ = {
+		18DEC7611AE7AE8500F8F661 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

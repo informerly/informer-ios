@@ -1010,8 +1010,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     func appDidBecomeActiveCalled(){
         
-        if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
+        if(Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true || Utilities.sharedInstance.getBoolForKey(IS_FROM_TODAY_WIDGET) == true){
             Utilities.sharedInstance.setBoolForKey(true, key: FROM_PUSH_AND_FROM_ARTICLE_VIEW)
+            Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_TODAY_WIDGET)
             self.onBackPressed()
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         }
