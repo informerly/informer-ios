@@ -94,7 +94,6 @@
 		189F27341B5FA8F8000513C2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B07801AB17A6400447CD9 /* Reachability.m */; };
 		189F273E1B5FA962000513C2 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DCE1A834C0200BFEF6E /* Utilities.swift */; };
 		189F273F1B5FB00C000513C2 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9DF1A7F8F9D00172610 /* NetworkManager.m */; };
-		189F27431B5FB204000513C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9911A7F8A5F00172610 /* AppDelegate.swift */; };
 		189F27441B5FB26D000513C2 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A874A1F81AFD0C840033903B /* CoreDataManager.swift */; };
 		189F27451B5FB298000513C2 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DC61A8224CB00BFEF6E /* FeedViewController.swift */; };
 		189F27461B5FB2CE000513C2 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */; };
@@ -156,6 +155,7 @@
 		18F0EC7E1AF77B5500E6D055 /* InformerlyFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0EC7D1AF77B5500E6D055 /* InformerlyFeed.swift */; };
 		18F0EC7F1AF77B5500E6D055 /* InformerlyFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F0EC7D1AF77B5500E6D055 /* InformerlyFeed.swift */; };
 		18F71CA11A821A8600F74910 /* Feeds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18F71CA01A821A8600F74910 /* Feeds.swift */; };
+		83DFF59989EB477873D765AF /* libPods-Informerly.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4611DCB09F154725CEF55B60 /* libPods-Informerly.a */; };
 		A12D43A11A8ACABB0066E2F3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A12D43A01A8ACABB0066E2F3 /* AudioToolbox.framework */; };
 		A12D43A51A8ACACA0066E2F3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A12D43A21A8ACACA0066E2F3 /* CFNetwork.framework */; };
 		A12D43A61A8ACACA0066E2F3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A12D43A31A8ACACA0066E2F3 /* CoreGraphics.framework */; };
@@ -328,6 +328,8 @@
 		18E124AE1BB136770064C18F /* UIViewController+MMDrawerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MMDrawerController.m"; sourceTree = "<group>"; };
 		18F0EC7D1AF77B5500E6D055 /* InformerlyFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformerlyFeed.swift; sourceTree = "<group>"; };
 		18F71CA01A821A8600F74910 /* Feeds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feeds.swift; sourceTree = "<group>"; };
+		252BD9A9690826F651052231 /* Pods-Informerly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Informerly.release.xcconfig"; path = "Pods/Target Support Files/Pods-Informerly/Pods-Informerly.release.xcconfig"; sourceTree = "<group>"; };
+		4611DCB09F154725CEF55B60 /* libPods-Informerly.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Informerly.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A12D43A01A8ACABB0066E2F3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A12D43A21A8ACACA0066E2F3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		A12D43A31A8ACACA0066E2F3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -342,6 +344,7 @@
 		A1E79B721A8AE0A800DED86C /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		A874A1C21AFD0A620033903B /* Informer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Informer.xcdatamodel; sourceTree = "<group>"; };
 		A874A1F81AFD0C840033903B /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		E08789DDF897191C2EEF4E01 /* Pods-Informerly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Informerly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Informerly/Pods-Informerly.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -365,6 +368,7 @@
 				A12D43A11A8ACABB0066E2F3 /* AudioToolbox.framework in Frameworks */,
 				183B34761BB0449900BF780B /* ParseCrashReporting.framework in Frameworks */,
 				183B347A1BB0451500BF780B /* Bolts.framework in Frameworks */,
+				83DFF59989EB477873D765AF /* libPods-Informerly.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,6 +446,7 @@
 				186BD53E1A9711FE0044C86B /* Informerly Widget */,
 				186BD53B1A9711FE0044C86B /* Frameworks */,
 				1845B98D1A7F8A5F00172610 /* Products */,
+				DAC2F5547462D3EB39D216FE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -620,6 +625,7 @@
 				187E1F431BBAA1A700595678 /* Accelerate.framework */,
 				187E1F411BBAA19F00595678 /* CoreTelephony.framework */,
 				186BD53C1A9711FE0044C86B /* NotificationCenter.framework */,
+				4611DCB09F154725CEF55B60 /* libPods-Informerly.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -890,6 +896,15 @@
 			path = "CoreData Manager";
 			sourceTree = "<group>";
 		};
+		DAC2F5547462D3EB39D216FE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E08789DDF897191C2EEF4E01 /* Pods-Informerly.debug.xcconfig */,
+				252BD9A9690826F651052231 /* Pods-Informerly.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -897,12 +912,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1845B9AB1A7F8A5F00172610 /* Build configuration list for PBXNativeTarget "Informerly" */;
 			buildPhases = (
+				6EE5275FFEF0D3AA88D19BB5 /* Check Pods Manifest.lock */,
 				1845B9881A7F8A5F00172610 /* Sources */,
 				1845B9891A7F8A5F00172610 /* Frameworks */,
 				1845B98A1A7F8A5F00172610 /* Resources */,
 				186BD54B1A9711FE0044C86B /* Embed App Extensions */,
 				18DEC7611AE7AE8500F8F661 /* Run Script */,
 				18DEC7621AE7BB5B00F8F661 /* ShellScript */,
+				240E942F227A90B1791855B1 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1079,6 +1096,36 @@
 			shellPath = /bin/sh;
 			shellScript = "export PATH=/usr/local/bin:$PATH\ncd ${SRCROOT}/parse\n\nparse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
 		};
+		240E942F227A90B1791855B1 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Informerly/Pods-Informerly-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6EE5275FFEF0D3AA88D19BB5 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1159,7 +1206,6 @@
 				189F27311B5FA83C000513C2 /* UIColorExtension.swift in Sources */,
 				18E124B21BB136770064C18F /* MMDrawerController.m in Sources */,
 				18DAEBA21B53A0B20030266E /* UserTests.swift in Sources */,
-				189F27431B5FB204000513C2 /* AppDelegate.swift in Sources */,
 				18E124B61BB136770064C18F /* UIViewController+MMDrawerController.m in Sources */,
 				183B34661BB036B200BF780B /* AFURLConnectionOperation.m in Sources */,
 				189F27291B5F9EB3000513C2 /* LoginViewControllerTests.swift in Sources */,
@@ -1328,6 +1374,7 @@
 		};
 		1845B9AC1A7F8A5F00172610 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E08789DDF897191C2EEF4E01 /* Pods-Informerly.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1352,6 +1399,7 @@
 		};
 		1845B9AD1A7F8A5F00172610 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 252BD9A9690826F651052231 /* Pods-Informerly.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

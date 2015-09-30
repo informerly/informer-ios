@@ -68,3 +68,6 @@ let SWIPE_CELL_BACKGROUND = "#F7F7F7"
 
 //App Groups
 let APP_GROUP_TODAY_WIDGET = "group.com.Informerly.informerWidget"
+
+//Mixpanel token
+let MIXPANEL_TOKEN = "7784e21fe3b89be538bfa7959a484f9e"

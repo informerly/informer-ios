@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch
+        Mixpanel.sharedInstanceWithToken(MIXPANEL_TOKEN)
         
         // Adds crittercism sdk for crash logs
         Crittercism.enableWithAppID("553120c07365f84f7d3d6e79")
