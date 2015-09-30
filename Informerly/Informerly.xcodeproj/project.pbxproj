@@ -82,28 +82,22 @@
 		187307A31B860F9D00FF2459 /* BookmarkFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C7AC4F1B26D1C200E05595 /* BookmarkFeed.swift */; };
 		187307A41B860FAC00FF2459 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18383F331B0B44FE00498B35 /* BookmarkEntity.swift */; };
 		187D926B1B74BC01003AF19F /* UnsubscribedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D926A1B74BC01003AF19F /* UnsubscribedViewController.swift */; };
-		187D926C1B74BC01003AF19F /* UnsubscribedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187D926A1B74BC01003AF19F /* UnsubscribedViewController.swift */; };
 		187EAA551A8DD6A6000ED503 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187EAA541A8DD6A6000ED503 /* FeedbackViewController.swift */; };
 		187EAA581A8DFF8A000ED503 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187EAA571A8DFF8A000ED503 /* HelpViewController.swift */; };
 		188B07811AB17A6400447CD9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B07801AB17A6400447CD9 /* Reachability.m */; };
 		188B07821AB17A6400447CD9 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B07801AB17A6400447CD9 /* Reachability.m */; };
 		189F27291B5F9EB3000513C2 /* LoginViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189F27281B5F9EB3000513C2 /* LoginViewControllerTests.swift */; };
 		189F272B1B5FA089000513C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E41A7F905600172610 /* Constants.swift */; };
-		189F27301B5FA7C9000513C2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9BA1A7F8CFE00172610 /* LoginViewController.swift */; };
 		189F27311B5FA83C000513C2 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DD11A834EB200BFEF6E /* UIColorExtension.swift */; };
 		189F27341B5FA8F8000513C2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B07801AB17A6400447CD9 /* Reachability.m */; };
 		189F273E1B5FA962000513C2 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DCE1A834C0200BFEF6E /* Utilities.swift */; };
 		189F273F1B5FB00C000513C2 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9DF1A7F8F9D00172610 /* NetworkManager.m */; };
-		189F27441B5FB26D000513C2 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A874A1F81AFD0C840033903B /* CoreDataManager.swift */; };
-		189F27451B5FB298000513C2 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DC61A8224CB00BFEF6E /* FeedViewController.swift */; };
-		189F27461B5FB2CE000513C2 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DC91A823FC600BFEF6E /* ArticleViewController.swift */; };
 		189F27471B5FB2D6000513C2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186867AF1B2897EA001C04DD /* SettingsViewController.swift */; };
 		189F27491B5FC18E000513C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9951A7F8A5F00172610 /* Main.storyboard */; };
 		189F274C1B5FD66C000513C2 /* SettingViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189F274B1B5FD66C000513C2 /* SettingViewControllerTest.swift */; };
 		189F274F1B60D25F000513C2 /* UpdateInterestViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189F274E1B60D25F000513C2 /* UpdateInterestViewControllerTest.swift */; };
 		189F27501B60D2C8000513C2 /* UpdateInterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DEC7431AE6517500F8F661 /* UpdateInterestViewController.swift */; };
 		189F27531B60F19C000513C2 /* LeftMenuViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189F27521B60F19C000513C2 /* LeftMenuViewControllerTest.swift */; };
-		189F27541B60F1D5000513C2 /* LeftMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2ED1ACD6D2F00D6C1DE /* LeftMenuViewController.swift */; };
 		18C65E221A83568700BBA510 /* Apache License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E171A83568700BBA510 /* Apache License.txt */; };
 		18C65E231A83568700BBA510 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E181A83568700BBA510 /* OpenSans-Bold.ttf */; };
 		18C65E241A83568700BBA510 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18C65E191A83568700BBA510 /* OpenSans-BoldItalic.ttf */; };
@@ -1081,7 +1075,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APP_ID=\"553120c07365f84f7d3d6e79\"\nAPI_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\n#source \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
+			shellScript = "#APP_ID=\"553120c07365f84f7d3d6e79\"\n#API_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\n#source \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
 		};
 		18DEC7621AE7BB5B00F8F661 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1094,7 +1088,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=/usr/local/bin:$PATH\ncd ${SRCROOT}/parse\n\nparse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
+			shellScript = "#export PATH=/usr/local/bin:$PATH\n#cd ${SRCROOT}/parse\n\n#parse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
 		};
 		240E942F227A90B1791855B1 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1190,12 +1184,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				189F27301B5FA7C9000513C2 /* LoginViewController.swift in Sources */,
-				189F27541B60F1D5000513C2 /* LeftMenuViewController.swift in Sources */,
 				18DAEBAE1B54FB300030266E /* Item.swift in Sources */,
 				183B346F1BB036B200BF780B /* AFURLSessionManager.m in Sources */,
 				183B345D1BB036B200BF780B /* AFHTTPSessionManager.m in Sources */,
-				189F27461B5FB2CE000513C2 /* ArticleViewController.swift in Sources */,
 				18E124B01BB136770064C18F /* MMDrawerBarButtonItem.m in Sources */,
 				189F27501B60D2C8000513C2 /* UpdateInterestViewController.swift in Sources */,
 				18DAEBB21B550DC10030266E /* MenuItemsTests.swift in Sources */,
@@ -1210,19 +1201,16 @@
 				183B34661BB036B200BF780B /* AFURLConnectionOperation.m in Sources */,
 				189F27291B5F9EB3000513C2 /* LoginViewControllerTests.swift in Sources */,
 				18DAEBAA1B54F2C30030266E /* BookmarkEntity.swift in Sources */,
-				187D926C1B74BC01003AF19F /* UnsubscribedViewController.swift in Sources */,
 				18DAEBA91B54F0A70030266E /* BookmarkFeed.swift in Sources */,
 				18DAEBB31B550E060030266E /* MenuItems.swift in Sources */,
 				189F274C1B5FD66C000513C2 /* SettingViewControllerTest.swift in Sources */,
 				18DAEBB51B5510DA0030266E /* CategoryFeedsTests.swift in Sources */,
 				18DAEBA81B54F0760030266E /* BookmarkFeedTests.swift in Sources */,
 				18DAEBAC1B54F40B0030266E /* FeedsTests.swift in Sources */,
-				189F27441B5FB26D000513C2 /* CoreDataManager.swift in Sources */,
 				189F273F1B5FB00C000513C2 /* NetworkManager.m in Sources */,
 				189F27531B60F19C000513C2 /* LeftMenuViewControllerTest.swift in Sources */,
 				18E124B41BB136770064C18F /* MMDrawerVisualState.m in Sources */,
 				189F27341B5FA8F8000513C2 /* Reachability.m in Sources */,
-				189F27451B5FB298000513C2 /* FeedViewController.swift in Sources */,
 				189F274F1B60D25F000513C2 /* UpdateInterestViewControllerTest.swift in Sources */,
 				18DAEBA51B53BC660030266E /* InformerlyFeedTests.swift in Sources */,
 				18DAEBA31B53A3930030266E /* User.swift in Sources */,
