@@ -186,6 +186,9 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                             parseInstallation["id"] = User.sharedInstance.id
                             parseInstallation.saveInBackgroundWithBlock(nil)
                             
+                            // MixPanel tracking
+                            Mixpanel.sharedInstance().identify(String(User.sharedInstance.id))
+                            
                             let appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                             appDelegate.loadFeedVC()
                         }

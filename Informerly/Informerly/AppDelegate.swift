@@ -18,7 +18,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch
+        let appVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
         Mixpanel.sharedInstanceWithToken(MIXPANEL_TOKEN)
+        let appCount = Utilities.sharedInstance.getIntForKey(LAUNCH_COUNT)
+        if (appCount == 0) {
+            Utilities.sharedInstance.setIntForKey(appCount + 1, key: LAUNCH_COUNT)
+            Utilities.sharedInstance.setStringForKey(appVersion, key: APP_VERSION)
+            Mixpanel.sharedInstance().track("App Download")
+        } else {
+            Mixpanel.sharedInstance().track("App Launch")
+        }
+        
+        if (appVersion != Utilities.sharedInstance.getStringForKey(APP_VERSION)) {
+            Mixpanel.sharedInstance().track("App Update")
+        }
         
         // Adds crittercism sdk for crash logs
         Crittercism.enableWithAppID("553120c07365f84f7d3d6e79")
