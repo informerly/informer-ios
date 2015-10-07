@@ -92,7 +92,6 @@
 		189F27341B5FA8F8000513C2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 188B07801AB17A6400447CD9 /* Reachability.m */; };
 		189F273E1B5FA962000513C2 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DCE1A834C0200BFEF6E /* Utilities.swift */; };
 		189F273F1B5FB00C000513C2 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9DF1A7F8F9D00172610 /* NetworkManager.m */; };
-		189F27471B5FB2D6000513C2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186867AF1B2897EA001C04DD /* SettingsViewController.swift */; };
 		189F27491B5FC18E000513C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1845B9951A7F8A5F00172610 /* Main.storyboard */; };
 		189F274C1B5FD66C000513C2 /* SettingViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189F274B1B5FD66C000513C2 /* SettingViewControllerTest.swift */; };
 		189F274F1B60D25F000513C2 /* UpdateInterestViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189F274E1B60D25F000513C2 /* UpdateInterestViewControllerTest.swift */; };
@@ -1222,7 +1221,6 @@
 				183B345A1BB036B200BF780B /* AFHTTPRequestOperationManager.m in Sources */,
 				183B346C1BB036B200BF780B /* AFURLResponseSerialization.m in Sources */,
 				183B34571BB036B200BF780B /* AFHTTPRequestOperation.m in Sources */,
-				189F27471B5FB2D6000513C2 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

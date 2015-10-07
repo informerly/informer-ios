@@ -91,6 +91,14 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             }
         }
         
+        if (isBookmarked == true) {
+            //Mixpanel track
+            Mixpanel.sharedInstance().track("Open Feed", properties: ["Feed ID":self.bookmarkedFeeds[articleIndex].id!])
+        } else {
+            //Mixpanel track
+            Mixpanel.sharedInstance().track("Open Feed", properties: ["Feed ID":self.feeds[articleIndex].id!])
+        }
+        
         // Creates Article web view
         let frame : CGRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
         articleWebView = WKWebView(frame: frame, configuration: WKWebViewConfiguration())

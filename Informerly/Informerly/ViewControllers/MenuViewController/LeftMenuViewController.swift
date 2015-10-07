@@ -64,6 +64,9 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     if requestStatus == 200 {
+                        // Mixpanel track
+                        Mixpanel.sharedInstance().track("Pull to Refresh Menu")
+                        
                         self.refreshCntrl.endRefreshing()
                         MenuItems.sharedInstance.populateItems(processedData.objectForKey("feeds") as! [AnyObject])
                         self.menuItems = MenuItems.sharedInstance.getItems()
@@ -124,12 +127,16 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     }
     
     func onLogoutTap(gesture:UIGestureRecognizer){
+        
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             let parameters = ["auth_token":Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
                 "client_id":"dev-ios-informer"]
             NetworkManager.sharedNetworkClient().processDeleteRequestWithPath(LOGOUT_URL,
                 parameter: parameters,
                 success: { (requestStatus : Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    
+                    //Mixpanel track
+                    Mixpanel.sharedInstance().track("Logout - Informer App")
                     
                     Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
                     Utilities.sharedInstance.setAuthToken("", key: AUTH_TOKEN)

@@ -613,7 +613,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
     }
     
     func onMenuPressed() {
-//        self.menuContainerViewController.toggleLeftSideMenuCompletion(nil)
+        //Mixpanel track
+        Mixpanel.sharedInstance().track("Menu Press")
         self.mm_drawerController.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
     }
     

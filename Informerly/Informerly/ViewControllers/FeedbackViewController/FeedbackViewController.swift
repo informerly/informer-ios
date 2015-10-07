@@ -76,6 +76,10 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
                 feedback["userID"] = Utilities.sharedInstance.getStringForKey(USER_ID)
                 feedback.saveInBackgroundWithBlock({ (success, error) -> Void in
                     if (success) {
+                        
+                        //Mixpanel track
+                        Mixpanel.sharedInstance().track("Submit 'Ask Your Informer'")
+                        
                         self.indicator.stopAnimating()
                         self.backBtn.hidden = true
                         self.feedbackLabel.hidden = true

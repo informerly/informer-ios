@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 class SettingsViewController : UIViewController {
     
     @IBOutlet weak var articleViewSwitch: UISwitch!
@@ -51,6 +52,10 @@ class SettingsViewController : UIViewController {
     }
     
     @IBAction func onDefaultZenViewSwtichValueChanged(sender: UISwitch) {
+        
+        //Mixpanel track
+        Mixpanel.sharedInstance().track("Change Zen Setting")
+        
         var mode = ""
         if sender.on == true {
             mode = "zen"
@@ -77,6 +82,10 @@ class SettingsViewController : UIViewController {
     }
     
     @IBAction func onDefaultListSwitchValueChanged(sender: UISwitch) {
+        
+        //Mixpanel track
+        Mixpanel.sharedInstance().track("Change Unread Setting")
+        
         var mode = ""
         if sender.on == true {
             mode = "unread"
