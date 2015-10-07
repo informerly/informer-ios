@@ -207,7 +207,6 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            print(auth_token)
             let parameters = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "content":"true"]
@@ -622,9 +621,19 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             isPullToRefresh = true
             if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
+                
+                // MixPanel track
+                Mixpanel.sharedInstance().track("In Feed - Pull to Refresh", properties: ["Feed Name": "Your Feed"])
+                
                 self.downloadData()
+                
             } else if isBookmarked == false && isCategoryFeeds == false {
+                
+                // MixPanel track
+                Mixpanel.sharedInstance().track("In Feed - Pull to Refresh", properties: ["Feed Name": "Your Feed"])
+                
                 self.downloadData()
+                
             } else if isBookmarked == true {
                 self.onBookmark()
             } else if isCategoryFeeds == true {
@@ -665,6 +674,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         
         if isPullToRefresh == true {
             self.downloadBookmark({ (result) -> Void in
+                //Mixpanel track
+                Mixpanel.sharedInstance().track("In Feed - Pull to Refresh", properties: ["Feed Name":"Bookmarked"])
                 self.bookmarks = CoreDataManager.getBookmarkFeeds()
                 self.tableView.reloadData()
             })
@@ -795,6 +806,11 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                         
                         if requestStatus == 200 {
+                            
+                            //MixPanel track
+                            let properties : [NSObject : AnyObject] = ["Feed ID":categoryID,"Feed Name": categoryName]
+                            Mixpanel.sharedInstance().track("In Feed - Pull to Refresh", properties: properties)
+                            
                             SVProgressHUD.dismiss()
                             self.refreshCntrl.endRefreshing()
                             self.navTitle.text = categoryName
@@ -1022,23 +1038,11 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     if requestStatus == 200 {
                         let message = processedData.objectForKey("message") as! String
-//                        var bookmarkDictionary : [String:AnyObject] = processedData["bookmark"] as! Dictionary
-                        
                         if message == "Bookmark Created" {
                             
+                            //Mixpanel track
+                            Mixpanel.sharedInstance().track("Swipe In-Feed - Save")
                             if self.isBookmarked == true {
-//                                CoreDataManager.addBookmarkFeed(feed as! BookmarkFeed, isSynced: true)
-//                                self.bookmarks = CoreDataManager.getBookmarkFeeds()
-//                                
-//                                var feed : InformerlyFeed
-//                                var counter = 0
-//                                for feed in self.feeds {
-//                                    if feed.id == articleID {
-//                                        self.feeds[counter].bookmarked = true
-//                                        break
-//                                    }
-//                                    counter++
-//                                }
                                 
                             } else {
                                 CoreDataManager.addBookmarkFeed(feed as! InformerlyFeed, isSynced: true)
@@ -1257,6 +1261,10 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                 print("Successfully marked as read.")
+                
+                //Mixpanel track
+                Mixpanel.sharedInstance().track("Swipe In-Feed - Read")
+                
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 print("Failure marking article as read")
                 
@@ -1352,6 +1360,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         
         let indexPath : NSIndexPath = self.tableView.indexPathForCell(cell)!
         if index == 0 {
+            //Mixpanel track
+            Mixpanel.sharedInstance().track("Swipe In-Feed - Share")
             self.onSharePressed(indexPath.row)
             return true
         } else if index == 1 {

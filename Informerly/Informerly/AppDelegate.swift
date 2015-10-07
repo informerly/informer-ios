@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch
+        
         let appVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
         Mixpanel.sharedInstanceWithToken(MIXPANEL_TOKEN)
         let appCount = Utilities.sharedInstance.getIntForKey(LAUNCH_COUNT)

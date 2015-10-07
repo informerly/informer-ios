@@ -65,7 +65,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     if requestStatus == 200 {
                         // Mixpanel track
-                        Mixpanel.sharedInstance().track("Pull to Refresh Menu")
+                        Mixpanel.sharedInstance().track("Menu - Pull to Refresh")
                         
                         self.refreshCntrl.endRefreshing()
                         MenuItems.sharedInstance.populateItems(processedData.objectForKey("feeds") as! [AnyObject])
