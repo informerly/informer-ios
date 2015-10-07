@@ -48,6 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let options = launchOptions {
             if let notification = options[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
+                
+                //Mixpanel track
+                Mixpanel.sharedInstance().track("Notification - Click")
+                
                 if let linkID = notification["link_id"] as? NSNumber {
                     Utilities.sharedInstance.setStringForKey(linkID.stringValue, key: LINK_ID)
                 }
@@ -150,6 +154,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        PFPush.handlePush(userInfo)
         
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
+            
+            //Mixpanel track
+            Mixpanel.sharedInstance().track("Notification - Click")
             
             if userInfo["link_id"] != nil {
                 let linkID : String = String(userInfo["link_id"] as! Int)
@@ -417,11 +424,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
         
         if identifier == "open" {
+            
+            //Mixpanel track
+            Mixpanel.sharedInstance().track("Notification - Open")
+            
             let link_id = userInfo["link_id"] as! Int
             Utilities.sharedInstance.setStringForKey("\(link_id)", key: LINK_ID)
             Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_PUSH)
             completionHandler()
         } else if identifier == "save" {
+            
+            //Mixpanel track
+            Mixpanel.sharedInstance().track("Notification - Save")
+            
             let token : String! = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             
             if token != nil && token != "" {
