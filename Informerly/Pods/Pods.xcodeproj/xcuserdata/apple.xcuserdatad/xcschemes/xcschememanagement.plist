@@ -4,7 +4,17 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Mixpanel.xcscheme</key>
+		<key>Pods-Informerly Widget-Mixpanel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Informerly Widget.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Informerly-Mixpanel.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -17,12 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>16D59F02D5D030D9E890E697DCF38F5D</key>
+		<key>2FFCB44B792C1C5F947C38AD01D8A1D1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F6344C36A2803833334EF1E233D6EE76</key>
+		<key>491CEABF89AAC3AE34BB4B1DE901CB03</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7BEDB6DAC94E2E86E7FF9DF02566B488</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8D0740C3A92F9D708B60DD2D0DB4F99B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

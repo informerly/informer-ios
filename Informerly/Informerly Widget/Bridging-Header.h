@@ -12,4 +12,5 @@
 
 #import "NetworkManager.h"
 #import "Reachability.h"
+#import <Mixpanel/Mixpanel.h>
 #endif

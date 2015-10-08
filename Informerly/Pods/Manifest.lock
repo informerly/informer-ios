@@ -1,10 +1,12 @@
 PODS:
   - Mixpanel (2.8.3):
     - Mixpanel/Mixpanel (= 2.8.3)
+  - Mixpanel/AppExtension (2.8.3)
   - Mixpanel/Mixpanel (2.8.3)
 
 DEPENDENCIES:
   - Mixpanel (~> 2.8)
+  - Mixpanel/AppExtension
 
 SPEC CHECKSUMS:
   Mixpanel: fd52e097ae0d27295d0595b2261c60b94d191fda

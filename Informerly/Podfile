@@ -10,6 +10,6 @@ target 'InformerlyTests' do
 end
 
 target 'Informerly Widget' do
-
+pod 'Mixpanel/AppExtension'
 end
 

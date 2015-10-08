@@ -34,6 +34,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         super.viewDidLoad()
         // Do any additional setup after loading the view from its nib.
         
+        if IS_DEV_ENV {
+            Mixpanel.sharedInstanceWithToken(MIXPANEL_DEV_TOKEN)
+        } else {
+            Mixpanel.sharedInstanceWithToken(MIXPANEL_PROD_TOKEN)
+        }
+        
         index = 0
         feedIndex = -1
         self.feeds = []
@@ -153,6 +159,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             let url =  NSURL(string:"TodayExtension://home")
             self.extensionContext?.openURL(url!, completionHandler:{(success: Bool) -> Void in
                 print("task done!")
+                
+                //Mixpanel track
+                Mixpanel.sharedInstance().track("Today Widget - Open Article")
             })
 //        }
     }
@@ -174,6 +183,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     
     @IBAction func onPrevBtnPressed(sender: AnyObject) {
+        
+        //Mixpanel track
+        Mixpanel.sharedInstance().track("Today Widget - Previous Article")
+        
         var feeds : [InformerlyFeed] = []
         if (self.isCategoryFeeds == true) {
             feeds = self.categoryFeeds!
@@ -205,6 +218,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     @IBAction func onNextBtnPressed(sender: AnyObject) {
+        
+        //Mixpanel track
+        Mixpanel.sharedInstance().track("Today Widget - Next Article")
+        
         var feeds : [InformerlyFeed] = []
         if (self.isCategoryFeeds == true) {
             feeds = self.categoryFeeds!
@@ -277,6 +294,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 parameter: parameters,
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     print("Successfully marked as read.")
+                    
+                    //Mixpanel track
+                    Mixpanel.sharedInstance().track("Today Widget - Read")
+                    
                     self.activityIndicator.stopAnimating()
                     feeds.removeAtIndex(self.index)
                     self.index = self.index - 1
@@ -326,6 +347,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     if requestStatus == 200 {
                         print("saved")
+                        
+                        //Mixpanel track
+                        Mixpanel.sharedInstance().track("Today Widget - Save")
+                        
                         self.activityIndicator.stopAnimating()
                         if (feeds[self.index].bookmarked! == false) {
                             feeds[self.index].bookmarked! = true
@@ -347,6 +372,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     @IBAction func onNextFeedPressed(sender: AnyObject) {
+        
+        //Mixpanel track
+        Mixpanel.sharedInstance().track("Today Widget - Next Feed")
+        
         self.index = 0
         self.feedIndex = self.feedIndex + 1
         
@@ -363,6 +392,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     @IBAction func onPrevFeedPressed(sender: AnyObject) {
+        
+        //Mixpanel track
+        Mixpanel.sharedInstance().track("Today Widget - Previous Feed")
+        
         self.index = 0
         self.feedIndex = self.feedIndex - 1
         

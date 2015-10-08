@@ -23,6 +23,11 @@
 		1803D2FE1ACEA42A00D6C1DE /* REMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */; };
 		1825EE5C1BB2C0BE00658163 /* Crittercism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1825EE5B1BB2C0BE00658163 /* Crittercism.framework */; settings = {ASSET_TAGS = (); }; };
 		1825EE5D1BB2C0BE00658163 /* Crittercism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1825EE5B1BB2C0BE00658163 /* Crittercism.framework */; settings = {ASSET_TAGS = (); }; };
+		183205821BC648FC00BDAED4 /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 183205811BC648FC00BDAED4 /* libstdc++.6.tbd */; };
+		183205841BC6492C00BDAED4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 183205831BC6492C00BDAED4 /* libsqlite3.tbd */; };
+		183205851BC6498200BDAED4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A12D43AD1A8ACAF50066E2F3 /* StoreKit.framework */; };
+		183205861BC6499F00BDAED4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A12D43A41A8ACACA0066E2F3 /* CoreLocation.framework */; };
+		183205871BC649C700BDAED4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A12D43A01A8ACABB0066E2F3 /* AudioToolbox.framework */; };
 		18383F341B0B44FE00498B35 /* BookmarkEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18383F331B0B44FE00498B35 /* BookmarkEntity.swift */; };
 		183B34561BB036B200BF780B /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 183B34441BB036B200BF780B /* AFHTTPRequestOperation.m */; settings = {ASSET_TAGS = (); }; };
 		183B34571BB036B200BF780B /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 183B34441BB036B200BF780B /* AFHTTPRequestOperation.m */; settings = {ASSET_TAGS = (); }; };
@@ -163,6 +168,7 @@
 		A1E79B741A8AE0F800DED86C /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E79B721A8AE0A800DED86C /* libstdc++.6.dylib */; };
 		A874A1C31AFD0A620033903B /* Informer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A874A1C11AFD0A620033903B /* Informer.xcdatamodeld */; };
 		A874A1F91AFD0C840033903B /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A874A1F81AFD0C840033903B /* CoreDataManager.swift */; };
+		F7C013B8B7EA43F33EB9EFE3 /* libPods-Informerly Widget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C37BB6B9E4E4809D5D57FD8 /* libPods-Informerly Widget.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,6 +228,8 @@
 		1803D2F81ACEA42A00D6C1DE /* REMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REMenuItemView.h; sourceTree = "<group>"; };
 		1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMenuItemView.m; sourceTree = "<group>"; };
 		1825EE5B1BB2C0BE00658163 /* Crittercism.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crittercism.framework; sourceTree = "<group>"; };
+		183205811BC648FC00BDAED4 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
+		183205831BC6492C00BDAED4 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		18383F331B0B44FE00498B35 /* BookmarkEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkEntity.swift; sourceTree = "<group>"; };
 		183B34431BB036B200BF780B /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		183B34441BB036B200BF780B /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
@@ -322,6 +330,8 @@
 		18F0EC7D1AF77B5500E6D055 /* InformerlyFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformerlyFeed.swift; sourceTree = "<group>"; };
 		18F71CA01A821A8600F74910 /* Feeds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feeds.swift; sourceTree = "<group>"; };
 		252BD9A9690826F651052231 /* Pods-Informerly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Informerly.release.xcconfig"; path = "Pods/Target Support Files/Pods-Informerly/Pods-Informerly.release.xcconfig"; sourceTree = "<group>"; };
+		2C37BB6B9E4E4809D5D57FD8 /* libPods-Informerly Widget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Informerly Widget.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4202DFDC4B7EB58302AA1DB4 /* Pods-Informerly Widget.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Informerly Widget.release.xcconfig"; path = "Pods/Target Support Files/Pods-Informerly Widget/Pods-Informerly Widget.release.xcconfig"; sourceTree = "<group>"; };
 		4611DCB09F154725CEF55B60 /* libPods-Informerly.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Informerly.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A12D43A01A8ACABB0066E2F3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A12D43A21A8ACACA0066E2F3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -337,6 +347,7 @@
 		A1E79B721A8AE0A800DED86C /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		A874A1C21AFD0A620033903B /* Informer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Informer.xcdatamodel; sourceTree = "<group>"; };
 		A874A1F81AFD0C840033903B /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		DC52920389FD780C493540B3 /* Pods-Informerly Widget.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Informerly Widget.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Informerly Widget/Pods-Informerly Widget.debug.xcconfig"; sourceTree = "<group>"; };
 		E08789DDF897191C2EEF4E01 /* Pods-Informerly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Informerly.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Informerly/Pods-Informerly.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -379,11 +390,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				183205871BC649C700BDAED4 /* AudioToolbox.framework in Frameworks */,
+				183205861BC6499F00BDAED4 /* CoreLocation.framework in Frameworks */,
+				183205851BC6498200BDAED4 /* StoreKit.framework in Frameworks */,
+				183205841BC6492C00BDAED4 /* libsqlite3.tbd in Frameworks */,
+				183205821BC648FC00BDAED4 /* libstdc++.6.tbd in Frameworks */,
 				183B34741BB0448B00BF780B /* Parse.framework in Frameworks */,
 				183B34781BB0449900BF780B /* ParseCrashReporting.framework in Frameworks */,
 				186BD53D1A9711FE0044C86B /* NotificationCenter.framework in Frameworks */,
 				1825EE5D1BB2C0BE00658163 /* Crittercism.framework in Frameworks */,
 				183B347C1BB0451500BF780B /* Bolts.framework in Frameworks */,
+				F7C013B8B7EA43F33EB9EFE3 /* libPods-Informerly Widget.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,10 +632,13 @@
 		186BD53B1A9711FE0044C86B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				183205831BC6492C00BDAED4 /* libsqlite3.tbd */,
+				183205811BC648FC00BDAED4 /* libstdc++.6.tbd */,
 				187E1F431BBAA1A700595678 /* Accelerate.framework */,
 				187E1F411BBAA19F00595678 /* CoreTelephony.framework */,
 				186BD53C1A9711FE0044C86B /* NotificationCenter.framework */,
 				4611DCB09F154725CEF55B60 /* libPods-Informerly.a */,
+				2C37BB6B9E4E4809D5D57FD8 /* libPods-Informerly Widget.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -894,6 +914,8 @@
 			children = (
 				E08789DDF897191C2EEF4E01 /* Pods-Informerly.debug.xcconfig */,
 				252BD9A9690826F651052231 /* Pods-Informerly.release.xcconfig */,
+				DC52920389FD780C493540B3 /* Pods-Informerly Widget.debug.xcconfig */,
+				4202DFDC4B7EB58302AA1DB4 /* Pods-Informerly Widget.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -946,9 +968,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 186BD5481A9711FE0044C86B /* Build configuration list for PBXNativeTarget "Informerly Widget" */;
 			buildPhases = (
+				6627E612BDA71E6188C5BAD2 /* Check Pods Manifest.lock */,
 				186BD5361A9711FE0044C86B /* Sources */,
 				186BD5371A9711FE0044C86B /* Frameworks */,
 				186BD5381A9711FE0044C86B /* Resources */,
+				11738394D6A833456F36608E /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1062,6 +1086,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		11738394D6A833456F36608E /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Informerly Widget/Pods-Informerly Widget-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		18DEC7611AE7AE8500F8F661 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1102,6 +1141,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Informerly/Pods-Informerly-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6627E612BDA71E6188C5BAD2 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		6EE5275FFEF0D3AA88D19BB5 /* Check Pods Manifest.lock */ = {
@@ -1448,6 +1502,7 @@
 		};
 		186BD5491A9711FE0044C86B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC52920389FD780C493540B3 /* Pods-Informerly Widget.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1473,6 +1528,7 @@
 		};
 		186BD54A1A9711FE0044C86B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4202DFDC4B7EB58302AA1DB4 /* Pods-Informerly Widget.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
