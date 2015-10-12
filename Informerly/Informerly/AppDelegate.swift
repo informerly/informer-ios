@@ -186,7 +186,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        
         if url.scheme == "TodayExtension" {
             Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_TODAY_WIDGET)
             let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
@@ -194,12 +193,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
             print(linkID)
             self.loadFeedVC()
-        } else if url.scheme == "informerly" {
-            Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
-            Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_CUSTOM_URL)
-            self.loadFeedVC()
         }
-        
+        else if url.scheme == "informerly" {
+            if (url.lastPathComponent != nil) {
+                print(url.lastPathComponent!)
+                Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
+                Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_CUSTOM_URL)
+                self.loadFeedVC()
+            }
+        }
         return true
     }
     
@@ -509,6 +511,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
             
         }
+    }
+    
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+        
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+            let webpageURL = userActivity.webpageURL! // Always exists
+            if !handleUniversalLink(URL: webpageURL) {
+                UIApplication.sharedApplication().openURL(webpageURL)
+            }
+        }
+        return true
+    }
+    
+    private func handleUniversalLink(URL url: NSURL) -> Bool {
+        
+        if let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true), let host = components.host {
+            switch host {
+            case "informerly.com":
+                if (url.lastPathComponent != nil) {
+                    print("\(url.lastPathComponent!)")
+                    Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
+//                    Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_CUSTOM_URL)
+                    self.loadFeedVC()
+                    return true
+                } else {
+                    return false
+                }
+            default:
+                return false
+            }
+            
+        }
+        return false
     }
     
 }

@@ -233,11 +233,12 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                         var row = -1
                         if link_id != "-1" {
                             if  link_id != nil {
-                                for feed : InformerlyFeed! in self.feeds {
+                                
+                                for feed : InformerlyFeed in self.feeds {
                                     row = row + 1
                                     let id = Int(link_id)!
                                     
-                                    if feed?.id == id {
+                                    if feed.id == id {
                                         self.isFromFeeds = true
                                         self.isLinkIDMatched = true
                                         break
