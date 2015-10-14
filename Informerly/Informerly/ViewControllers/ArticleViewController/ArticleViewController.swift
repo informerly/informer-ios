@@ -1023,6 +1023,10 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_TODAY_WIDGET)
             self.onBackPressed()
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        } else if (Utilities.sharedInstance.getStringForKey(LINK_ID) == "-2") {
+//            if (self.navigationController?.topViewController!.isKindOfClass(ArticleViewController) == true) {
+//                self.onBackPressed()
+//            }
         }
     }
     

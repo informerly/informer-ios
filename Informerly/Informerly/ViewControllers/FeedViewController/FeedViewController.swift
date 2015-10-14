@@ -254,7 +254,12 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                             if link_id != "-1" {
                                 // From Custom URL or from old notification
                                 self.isFromFeeds = false
-                                self.downloadArticleData(link_id)
+                                if link_id == "-2" {
+                                    self.downloadArticleData(Utilities.sharedInstance.getStringForKey(SLUG)!)
+                                } else {
+                                    self.downloadArticleData(link_id)
+                                }
+                                
                             }
                         } else {
                             if link_id != "-1" {

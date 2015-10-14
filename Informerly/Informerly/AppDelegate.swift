@@ -303,7 +303,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func loadFeedVC(){
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         
-//        var container = storyboard.instantiateViewControllerWithIdentifier("MMDrawerController") as! MMDrawerController
+        if Utilities.sharedInstance.getStringForKey(LINK_ID) == "-2" {
+            let root = self.window?.rootViewController as! MMDrawerController
+            let nav = root.centerViewController as? UINavigationController
+            
+            if (nav != nil) {
+                if nav!.topViewController?.isKindOfClass(ArticleViewController) == true {
+                    nav!.popViewControllerAnimated(true)
+                }
+            }
+        }
+        
         let leftSideMenuViewController : UIViewController = storyboard.instantiateViewControllerWithIdentifier("LeftMenuViewController")
         
         let rootVC = storyboard.instantiateViewControllerWithIdentifier("FeedVC") as! FeedViewController
@@ -529,15 +539,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true), let host = components.host {
             switch host {
             case "informerly.com":
-                if (url.lastPathComponent != nil) {
-                    print("\(url.lastPathComponent!)")
-                    Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
-//                    Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_CUSTOM_URL)
-                    self.loadFeedVC()
-                    return true
+                
+                if let lastComponent = Int(url.lastPathComponent!) {
+                    Utilities.sharedInstance.setStringForKey(String(lastComponent), key: LINK_ID)
                 } else {
-                    return false
+                    Utilities.sharedInstance.setStringForKey("-2", key: LINK_ID)
+                    Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: SLUG)
                 }
+                self.loadFeedVC()
+                return true
+                
             default:
                 return false
             }
