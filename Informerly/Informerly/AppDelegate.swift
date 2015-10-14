@@ -53,17 +53,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let options = launchOptions {
             if let notification = options[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
-                
+
                 //Mixpanel track
                 Mixpanel.sharedInstance().track("Notification - Click")
-                
+
                 if let linkID = notification["link_id"] as? NSNumber {
                     Utilities.sharedInstance.setStringForKey(linkID.stringValue, key: LINK_ID)
                 }
                 else {
                     Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
                 }
-                
+
                 if let feedID = notification["feed_id"] as? NSNumber {
                     Utilities.sharedInstance.setStringForKey(feedID.stringValue, key: FEED_ID)
                 } else {
@@ -74,8 +74,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
             } else {
                 let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
-                let linkID : String = userDefaults.stringForKey("id")!
-                Utilities.sharedInstance.setStringForKey(linkID, key: LINK_ID)
+                let linkID = userDefaults.stringForKey("id")
+                if linkID != nil {
+                    Utilities.sharedInstance.setStringForKey(linkID!, key: LINK_ID)
+                }
             }
             
         }
@@ -83,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
             Utilities.sharedInstance.setStringForKey("-1", key: FEED_ID)
         }
-        
+    
         // Emily adding Parse details - for Junaid's review.
         
         // Enable Crash Reporting

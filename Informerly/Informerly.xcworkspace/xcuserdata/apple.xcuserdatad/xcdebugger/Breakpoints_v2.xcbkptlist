@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Informerly/AppDelegate.swift"
-            timestampString = "466530952.523977"
+            timestampString = "466533450.725083"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "306"
-            endingLineNumber = "306"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
             landmarkName = "loadFeedVC()"
             landmarkType = "5">
          </BreakpointContent>
