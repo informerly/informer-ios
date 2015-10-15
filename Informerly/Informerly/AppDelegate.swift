@@ -13,7 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    private var reachability:Reachability?;
+    private var reachability:Reachability?
     var readArticles : [Int]!
  
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -70,9 +70,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     Utilities.sharedInstance.setStringForKey("-1", key: FEED_ID)
                 }
             }
-            else if let url = options[UIApplicationLaunchOptionsURLKey] as? NSURL {
-                Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
-            } else {
+//            else if let url = options[UIApplicationLaunchOptionsURLKey] as? NSURL {
+//                Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: LINK_ID)
+//            }
+            else {
                 let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
                 let linkID = userDefaults.stringForKey("id")
                 if linkID != nil {
