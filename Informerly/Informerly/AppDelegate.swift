@@ -306,7 +306,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func loadFeedVC(){
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         
-        if Utilities.sharedInstance.getStringForKey(LINK_ID) == "-2" {
+        if Utilities.sharedInstance.getStringForKey(LINK_ID) != "-1" {
             let root = self.window?.rootViewController as! MMDrawerController
             let nav = root.centerViewController as? UINavigationController
             
@@ -543,13 +543,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             switch host {
             case "informerly.com":
                 
-                if let lastComponent = Int(url.lastPathComponent!) {
-                    Utilities.sharedInstance.setStringForKey(String(lastComponent), key: LINK_ID)
-                } else {
-                    Utilities.sharedInstance.setStringForKey("-2", key: LINK_ID)
-                    Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: SLUG)
+                if (Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) == true) {
+                    if let lastComponent = Int(url.lastPathComponent!) {
+                        Utilities.sharedInstance.setStringForKey(String(lastComponent), key: LINK_ID)
+                    } else {
+                        Utilities.sharedInstance.setStringForKey("-2", key: LINK_ID)
+                        Utilities.sharedInstance.setStringForKey(url.lastPathComponent!, key: SLUG)
+                    }
+                    self.loadFeedVC()
                 }
-                self.loadFeedVC()
+                
                 return true
                 
             default:
