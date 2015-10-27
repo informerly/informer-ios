@@ -55,72 +55,72 @@ class BookmarkFeedTests: XCTestCase {
     
     func testArticleIdPopulatedCorrectly(){
         bookmarkFeed.id = testData["id"] as? Int
-        XCTAssertEqual(bookmarkFeed.id!, testData["id"] as! Int, "Artcle ID is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.id!, testData["id"] as? Int, "Artcle ID is not correctly populated")
     }
     
     func testArticleTitlePopulatedCorrectly(){
         bookmarkFeed.title = testData["title"] as? String
-        XCTAssertEqual(bookmarkFeed.title!, testData["title"] as! String, "Title is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.title!, testData["title"] as? String, "Title is not correctly populated")
     }
     
     func testDescriptionPopulatedCorrectly(){
         bookmarkFeed.feedDescription = testData["description"] as? String
-        XCTAssertEqual(bookmarkFeed.feedDescription!, testData["description"] as! String, "Description is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.feedDescription!, testData["description"] as? String, "Description is not correctly populated")
     }
     
     func testContentPopulatedCorrectly(){
         bookmarkFeed.content = testData["content"] as? String
-        XCTAssertEqual(bookmarkFeed.content!, testData["content"] as! String, "Content is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.content!, testData["content"] as? String, "Content is not correctly populated")
     }
     
     func testReadingTimePopulatedCorrectly(){
         bookmarkFeed.readingTime = testData["reading_time"] as? Int
-        XCTAssertEqual(bookmarkFeed.readingTime!, testData["reading_time"] as! Int, "ReadingTime is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.readingTime!, testData["reading_time"] as? Int, "ReadingTime is not correctly populated")
     }
     
     func testSourcePopulatedCorrectly(){
         bookmarkFeed.source = testData["source"] as? String
-        XCTAssertEqual(bookmarkFeed.source!, testData["source"] as! String, "Source is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.source!, testData["source"] as? String, "Source is not correctly populated")
     }
     
     func testSourceColorPopulatedCorrectly(){
         bookmarkFeed.sourceColor = testData["source_color"] as? String
-        XCTAssertEqual(bookmarkFeed.sourceColor!, testData["source_color"] as! String, "source_color is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.sourceColor!, testData["source_color"] as? String, "source_color is not correctly populated")
     }
     
     func testPublishedAtPopulatedCorrectly(){
         bookmarkFeed.publishedAt = testData["published_at"] as? String
-        XCTAssertEqual(bookmarkFeed.publishedAt!, testData["published_at"] as! String, "published_at is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.publishedAt!, testData["published_at"] as? String, "published_at is not correctly populated")
     }
     
     func testOriginalDatePopulatedCorrectly(){
         bookmarkFeed.originalDate = testData["original_date"] as? String
-        XCTAssertEqual(bookmarkFeed.originalDate!, testData["original_date"] as! String, "original_date is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.originalDate!, testData["original_date"] as? String, "original_date is not correctly populated")
     }
     
     func testShortLinkPopulatedCorrectly(){
         bookmarkFeed.shortLink = testData["shortLink"] as? String
-        XCTAssertEqual(bookmarkFeed.shortLink!, testData["shortLink"] as! String, "shortLink is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.shortLink!, testData["shortLink"] as? String, "shortLink is not correctly populated")
     }
     
     func testSlugPopulatedCorrectly(){
         bookmarkFeed.slug = testData["slug"] as? String
-        XCTAssertEqual(bookmarkFeed.slug!, testData["slug"] as! String, "slug is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.slug!, testData["slug"] as? String, "slug is not correctly populated")
     }
     
     func testURLPopulatedCorrectly(){
         bookmarkFeed.url = testData["url"] as? String
-        XCTAssertEqual(bookmarkFeed.url!, testData["url"] as! String, "url is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.url!, testData["url"] as? String, "url is not correctly populated")
     }
     
     func testReadPopulatedCorrectly(){
         bookmarkFeed.read = testData["read"] as? Bool
-        XCTAssertEqual(bookmarkFeed.read!, testData["read"] as! Bool, "read is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.read!, testData["read"] as? Bool, "read is not correctly populated")
     }
     
     func testBookmarkedPopulatedCorrectly(){
         bookmarkFeed.bookmarked = testData["bookmarked"] as? Bool
-        XCTAssertEqual(bookmarkFeed.bookmarked!, testData["bookmarked"] as! Bool, "bookmarked is not correctly populated")
+        XCTAssertEqual(bookmarkFeed.bookmarked!, testData["bookmarked"] as? Bool, "bookmarked is not correctly populated")
     }
     
     func testIsSyncPopulatedCorrectly() {

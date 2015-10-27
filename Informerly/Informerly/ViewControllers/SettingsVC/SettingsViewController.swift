@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 class SettingsViewController : UIViewController {
     
     @IBOutlet weak var articleViewSwitch: UISwitch!
@@ -18,7 +19,7 @@ class SettingsViewController : UIViewController {
         self.navigationController?.navigationBar.translucent = false
         self.navigationItem.hidesBackButton = true
         
-        var title : UILabel = UILabel(frame: CGRectMake(0, 0, 70, 30))
+        let title : UILabel = UILabel(frame: CGRectMake(0, 0, 70, 30))
         title.textAlignment = NSTextAlignment.Center
         title.text = "Settings"
         title.font = UIFont(name: "OpenSans", size: 16.0)
@@ -38,7 +39,7 @@ class SettingsViewController : UIViewController {
     }
     
     func createNavButtons() {
-        var doneBtn : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onDonePress:"))
+        let doneBtn : UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onDonePress:"))
         
         doneBtn.setTitleTextAttributes([NSFontAttributeName:UIFont(name: "OpenSans", size: 16.0)!], forState: UIControlState.Normal)
         
@@ -51,6 +52,10 @@ class SettingsViewController : UIViewController {
     }
     
     @IBAction func onDefaultZenViewSwtichValueChanged(sender: UISwitch) {
+        
+        //Mixpanel track
+        Mixpanel.sharedInstance().track("Change Zen Setting")
+        
         var mode = ""
         if sender.on == true {
             mode = "zen"
@@ -59,8 +64,8 @@ class SettingsViewController : UIViewController {
         }
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let parameters : [String:AnyObject] = ["auth_token":auth_token,
                 "preferences":["default_article_view":mode]]
             
             NetworkManager.sharedNetworkClient().processPostRequestWithPath(UPDATE_USER_PREFERENCES_URL,
@@ -70,13 +75,17 @@ class SettingsViewController : UIViewController {
                         Utilities.sharedInstance.setStringForKey(mode, key: DEFAULT_ARTICLE_VIEW)
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                    println("Error")
+                    print("Error")
             }
             
         }
     }
     
     @IBAction func onDefaultListSwitchValueChanged(sender: UISwitch) {
+        
+        //Mixpanel track
+        Mixpanel.sharedInstance().track("Change Unread Setting")
+        
         var mode = ""
         if sender.on == true {
             mode = "unread"
@@ -85,8 +94,8 @@ class SettingsViewController : UIViewController {
         }
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
-            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let parameters : [String:AnyObject] = ["auth_token":auth_token,
                 "preferences":["default_list":mode]]
             
             NetworkManager.sharedNetworkClient().processPostRequestWithPath(UPDATE_USER_PREFERENCES_URL,
@@ -96,7 +105,7 @@ class SettingsViewController : UIViewController {
                         Utilities.sharedInstance.setStringForKey(mode, key: DEFAULT_LIST)
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                    println("Error")
+                    print("Error")
             }
         }
     }

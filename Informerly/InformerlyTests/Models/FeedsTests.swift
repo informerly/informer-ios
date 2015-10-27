@@ -70,7 +70,7 @@ class FeedsTests: XCTestCase {
     
     func testGetFeedsHasCorrectData(){
         Feeds.sharedInstance.populateFeeds(feeds)
-        var id = Feeds.sharedInstance.getFeeds().first?.id!
+        let id = Feeds.sharedInstance.getFeeds().first?.id!
         XCTAssertEqual(id!, 38150, "Feeds does not have the same data")
     }
 

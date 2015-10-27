@@ -36,16 +36,20 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var bookmark : UIBarButtonItem!
     var leftArrow : UIBarButtonItem!
     var rightArrow : UIBarButtonItem!
-    var customURLData : InformerlyFeed!
+    var feedData : InformerlyFeed!
     var resultantHeight : CGFloat = 0.0
     var zenWebViews : [UIWebView?] = []
     var isFromNextORPrev = true
+    var isFromFeeds : Bool!
     
     let ANIMATION_DURATION = 1.0
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        // Application did become active
+        NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
         
         // Setting up Nav bar
         self.navigationController?.navigationBar.translucent = false
@@ -54,16 +58,23 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         self.createSegmentedControl()
         
         // Calculating origin for webview
-        var statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
-        var navBarHeight = self.navigationController?.navigationBar.frame.height
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.height
+        let navBarHeight = self.navigationController?.navigationBar.frame.height
         self.resultantHeight = statusBarHeight + navBarHeight!
         
-        if Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) == true {
-            self.feeds = [self.customURLData]
+        if ( Utilities.sharedInstance.getBoolForKey(IS_FROM_CUSTOM_URL) == true || self.isFromFeeds == false) {
+            self.feeds = [self.feedData]
             self.articleIndex = 0
         } else if (Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true){
-            self.feeds = Feeds.sharedInstance.getFeeds()
+            if self.isCategoryFeeds == true {
+                self.feeds = self.categoryFeeds
+            } else {
+                self.feeds = Feeds.sharedInstance.getFeeds()
+            }
             Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_PUSH)
+        } else if (Utilities.sharedInstance.getBoolForAppGroupKey(FROM_TODAY_WIDGET)) {
+            self.feeds = Feeds.sharedInstance.getFeeds()
+            Utilities.sharedInstance.setBoolAppGroupForKey(false, key: FROM_TODAY_WIDGET)
         } else {
             if isUnreadTab == true && isBookmarked == false {
                 self.feeds = unreadFeeds
@@ -80,8 +91,16 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             }
         }
         
+        if (isBookmarked == true) {
+            //Mixpanel track
+            Mixpanel.sharedInstance().track("Open Feed", properties: ["Feed ID":self.bookmarkedFeeds[articleIndex].id!])
+        } else {
+            //Mixpanel track
+            Mixpanel.sharedInstance().track("Open Feed", properties: ["Feed ID":self.feeds[articleIndex].id!])
+        }
+        
         // Creates Article web view
-        var frame : CGRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
+        let frame : CGRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.height - resultantHeight)
         articleWebView = WKWebView(frame: frame, configuration: WKWebViewConfiguration())
         articleWebView.navigationDelegate = self
         articleWebView.scrollView.delegate = self
@@ -97,7 +116,14 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         var count = 0
         // Load article in web and zen mode
         if isBookmarked == true {
-            count = self.bookmarkedFeeds.count
+            
+            if self.bookmarkedFeeds != nil {
+                count = self.bookmarkedFeeds.count
+            } else {
+                self.bookmarkedFeeds = CoreDataManager.getBookmarkFeeds()
+                count = self.bookmarkedFeeds.count
+            }
+            
             articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].url!)!))
         } else {
             count = self.feeds.count
@@ -113,7 +139,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         self.markRead()
         
         // Create Zen mode ScrollView
-        var rect : CGRect = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - resultantHeight)
+        let rect : CGRect = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - resultantHeight)
         self.zenModeScrollView = UIScrollView(frame: rect)
         self.zenModeScrollView.contentSize = CGSizeMake(self.view.frame.width * CGFloat(count) , self.view.frame.height - resultantHeight)
         self.zenModeScrollView.pagingEnabled = true
@@ -154,52 +180,71 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        var shareMenu : UIMenuItem = UIMenuItem(title: "Share", action: Selector("onTextShare:"))
-        UIMenuController.sharedMenuController().menuItems = [shareMenu]
-    }
-    
-    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        
-        if action == Selector("onTextShare:") {
-            return true
-        }
-        
-        return super.canPerformAction(action, withSender: sender)
-    }
-    
-    func onTextShare(sender:AnyObject){
-        
-        var selectedText = self.zenWebViews[self.articleIndex]?.stringByEvaluatingJavaScriptFromString("window.getSelection().toString()")
-        
-        var sharingItems = [AnyObject]()
-        var url : String!
-        var subject : String!
-        if isBookmarked == true {
-            subject = self.bookmarkedFeeds[articleIndex].title!
-            url = self.bookmarkedFeeds[articleIndex].url!
-        } else if isCategoryFeeds == true {
-            subject = self.categoryFeeds![articleIndex].title!
-            url = self.categoryFeeds![articleIndex].URL!
-        } else {
-            subject = feeds[articleIndex].title!
-            url = self.feeds[articleIndex].URL!
-        }
-        
-        sharingItems.append("\(selectedText!) \n \n")
-        sharingItems.append(url)
-        
-        let activity = ARSafariActivity()
-        let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
-        activityVC.setValue(subject, forKey: "subject")
-        self.presentViewController(activityVC, animated: true, completion: nil)
-    }
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+////
+////        let shareMenu : UIMenuItem = UIMenuItem(title: "Share", action: Selector("onTextShare:"))
+////        UIMenuController.sharedMenuController().menuItems = [shareMenu]
+//    }
+//
+//    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+////        print(UIMenuController.sharedMenuController().menuItems?.first?)
+//        if action == Selector("share:") {
+//            return true
+//        }
+//        
+//        return super.canPerformAction(action, withSender: sender)
+//    }
+//    
+//    func share(sender:AnyObject?){
+//        
+//        var selectedText : String?
+//        var sharingItems = [AnyObject]()
+//        var url : String!
+//        var subject : String!
+//        if isBookmarked == true {
+//            subject = self.bookmarkedFeeds[articleIndex].title!
+//            url = self.bookmarkedFeeds[articleIndex].url!
+//        } else if isCategoryFeeds == true {
+//            subject = self.categoryFeeds![articleIndex].title!
+//            url = self.categoryFeeds![articleIndex].URL!
+//        } else {
+//            subject = feeds[articleIndex].title!
+//            url = self.feeds[articleIndex].URL!
+//        }
+//        
+//        if self.isZenMode == true {
+//            selectedText = self.zenWebViews[self.articleIndex]?.stringByEvaluatingJavaScriptFromString("window.getSelection().toString()")
+//            
+//            if selectedText != nil {
+//                sharingItems.append("\(selectedText!) \n \n")
+//            }
+//            sharingItems.append(url)
+//            
+//            let activity = ARSafariActivity()
+//            let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
+//            activityVC.setValue(subject, forKey: "subject")
+//            self.presentViewController(activityVC, animated: true, completion: nil)
+//        } else {
+//            self.articleWebView.evaluateJavaScript("window.getSelection().toString()", completionHandler: { (seletectString, error) -> Void in
+//                selectedText = seletectString as? String
+//                
+//                if selectedText != nil {
+//                    sharingItems.append("\(selectedText!) \n \n")
+//                }
+//                sharingItems.append(url)
+//                
+//                let activity = ARSafariActivity()
+//                let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
+//                activityVC.setValue(subject, forKey: "subject")
+//                self.presentViewController(activityVC, animated: true, completion: nil)
+//            })
+//        }
+//    }
     
     // Creates bar button for navbar
     func createNavBarButtons() {
-        var back_btn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onBackPressed"))
+        let back_btn : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "back_btn"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onBackPressed"))
         
         back_btn.tintColor = UIColor.grayColor()
         self.navigationItem.leftBarButtonItem = back_btn
@@ -253,17 +298,17 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     // create zenModeButton
     func createZenModeButton(){
-        var zenModeBtnViewRect : CGRect = CGRectMake(self.view.frame.size.width/2-100, self.view.frame.size.height/2-110,
+        let zenModeBtnViewRect : CGRect = CGRectMake(self.view.frame.size.width/2-100, self.view.frame.size.height/2-110,
             200, 100)
         self.zenModeBtnView = UIView(frame: zenModeBtnViewRect)
         self.view.addSubview(zenModeBtnView)
         
-        var zenCloudImageView : UIImageView = UIImageView(image: UIImage(named: "zen_cloud"))
+        let zenCloudImageView : UIImageView = UIImageView(image: UIImage(named: "zen_cloud"))
         zenCloudImageView.frame = CGRectMake(zenModeBtnView.frame.size.width/2 - zenCloudImageView.frame.size.width/2,
             0, zenCloudImageView.frame.size.width, zenCloudImageView.frame.size.height)
         zenModeBtnView.addSubview(zenCloudImageView)
         
-        var zenModeBtn : UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        let zenModeBtn : UIButton = UIButton(type: UIButtonType.System)
         zenModeBtn.setImage(UIImage(named: "zen_btn"), forState: UIControlState.Normal)
         zenModeBtn.frame = CGRectMake(zenModeBtnView.frame.size.width/2 - 85,zenCloudImageView.frame.size.height + 10, 170,55)
         zenModeBtn.addTarget(self, action: Selector("onZenModeBtnPress:"), forControlEvents: UIControlEvents.TouchUpInside)
@@ -276,8 +321,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         if index >= 0 && index < self.zenWebViews.count && self.zenWebViews[index] == nil {
             // Creates Zen mode Web view
             self.zenModeWebViewX = CGFloat(index) * self.view.frame.width
-            var frame : CGRect = CGRectMake(self.zenModeWebViewX, 0, self.view.frame.size.width, self.view.frame.height)
-            var articleZenView : UIWebView = UIWebView()
+            let frame : CGRect = CGRectMake(self.zenModeWebViewX, 0, self.view.frame.size.width, self.view.frame.height)
+            let articleZenView : UIWebView = UIWebView()
             articleZenView.delegate = self
             articleZenView.frame = frame
             articleZenView.scrollView.delegate = self
@@ -285,13 +330,13 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             
             if isBookmarked == true {
                 if bookmarkedFeeds[index].content != nil {
-                    var content : String = bookmarkedFeeds[index].content!
+                    let content : String = bookmarkedFeeds[index].content!
                     articleZenView.loadHTMLString(content, baseURL: nil)
                 }
                 
             } else {
                 if feeds[index].content != nil {
-                    var content : String = feeds[index].content!
+                    let content : String = feeds[index].content!
                     articleZenView.loadHTMLString(content, baseURL: nil)
                 }
             }
@@ -304,7 +349,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     func removeZenWebView(index:Int){
         
         if  index >= 0 && index < self.zenWebViews.count && self.zenWebViews[index] != nil {
-            var webView : UIWebView = self.zenWebViews[index]!
+            let webView : UIWebView = self.zenWebViews[index]!
             webView.removeFromSuperview()
             self.zenWebViews[index] = nil
         }
@@ -324,7 +369,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             
-            var percentage : Float = Float(self.articleWebView.estimatedProgress)
+            let percentage : Float = Float(self.articleWebView.estimatedProgress)
             if percentage == 1.0 {
                 self.navigationController?.cancelSGProgress()
                 self.progressTimer.invalidate()
@@ -345,11 +390,11 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         leftArrow = UIBarButtonItem(image: UIImage(named: "icon_left_arrow"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onPrev"))
         
-        var flexibleItem1 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
+        let flexibleItem1 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
         
         rightArrow = UIBarButtonItem(image: UIImage(named: "icon_right_arrow"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNext"))
         
-        var flexibleItem2 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
+        let flexibleItem2 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
         var img : UIImage? = UIImage(named: ICON_BOOKMARK)
         
@@ -370,9 +415,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         bookmark = UIBarButtonItem(image: img, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onBookmark"))
         
-        var flexibleItem3 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
+        let flexibleItem3 : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
 
-        var share : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: ICON_SHARE), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onSharePressed"))
+        let share : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: ICON_SHARE), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onSharePressed"))
         
         toolbar.tintColor = UIColor(rgba: "#A6A8AB")
         
@@ -416,19 +461,19 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             articleID = feeds[articleIndex].id!
         }
         
-        var parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
+        let parameters : [String:AnyObject] = [AUTH_TOKEN:Utilities.sharedInstance.getAuthToken(AUTH_TOKEN),
             "client_id":"",
             "link_id": articleID]
         NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
             parameter: parameters,
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
-                println("Successfully marked as read.")
+                print("Successfully marked as read.")
                 
                 if self.isBookmarked == true {
                     CoreDataManager.updateReadStatusForFeedID(self.bookmarkedFeeds[self.articleIndex].id!, readStatus: true)
                 }
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                println("Failure marking article as read")
+                print("Failure marking article as read")
                 
                 var readArticles:[Int]!
                 if NSUserDefaults.standardUserDefaults().objectForKey(READ_ARTICLES) == nil {
@@ -447,12 +492,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 
                 if extraInfo != nil {
                     var error : [String:AnyObject] = extraInfo as! Dictionary
-                    var message : String = error["error"] as! String
+                    let message : String = error["error"] as! String
                     
                     if message == "Invalid authentication token." {
-                        var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                            var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                            let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                             self.showViewController(loginVC, sender: self)
                         }))
                         self.presentViewController(alert, animated: true, completion: nil)
@@ -473,15 +518,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         var url : NSURL!
         if isBookmarked == true {
             sharingItems.append(self.bookmarkedFeeds[articleIndex].title!)
-            sharingItems.append(self.bookmarkedFeeds[articleIndex].url!)
             url = NSURL(string: bookmarkedFeeds[articleIndex].url!)
         } else if isCategoryFeeds == true {
             sharingItems.append(self.categoryFeeds![articleIndex].title!)
-            sharingItems.append(self.categoryFeeds![articleIndex].URL!)
             url = NSURL(string: self.categoryFeeds![articleIndex].URL!)
         } else {
             sharingItems.append(feeds[articleIndex].title!)
-            sharingItems.append(feeds[articleIndex].URL!)
             url = NSURL(string: feeds[articleIndex].URL!)
         }
         
@@ -494,8 +536,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     // Web view delegate
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
-        println("finish")
-        webView.evaluateJavaScript("document.documentElement.style.webkitUserSelect='none';", completionHandler: nil)
+        print("finish")
+//        webView.evaluateJavaScript("document.documentElement.style.webkitUserSelect='none';", completionHandler: nil)
         self.zenModeBtnView.hidden = true
         articleWebView.alpha = 1.0
         toolbar.alpha = 1.0
@@ -758,9 +800,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 }
             }
             
-            var auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
             
-            var parameters : [String:AnyObject] = ["auth_token":auth_token,
+            let parameters : [String:AnyObject] = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "link_id":articleID]
             
@@ -769,20 +811,20 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     if requestStatus == 200 {
-                        var message = processedData["message"] as! String
-                        var bookmarkDictionary : [String:AnyObject] = processedData["bookmark"] as! Dictionary
-                        var linkID = bookmarkDictionary["link_id"] as! Int
+                        let message = processedData.objectForKey("message") as! String
+                        var bookmarkDictionary = processedData.objectForKey("bookmark") as! [String:AnyObject]
+                        let linkID = bookmarkDictionary["link_id"] as! Int
                         if message == "Bookmark Created" {
                             
                             var data : [InformerlyFeed] = []
-                            if self.isCategoryFeeds == false {
+                            if self.isCategoryFeeds == false && self.isFromFeeds == true {
                                 data = Feeds.sharedInstance.getFeeds()
                             } else {
                                 data = self.feeds
                             }
-                            var feed : InformerlyFeed
+                            
                             var counter = 0
-                            for feed in data {
+                            for feed : InformerlyFeed in data {
                                 if feed.id == linkID {
                                     if self.isBookmarked == true {
                                         self.bookmarkedFeeds[self.articleIndex].bookmarked = true
@@ -790,7 +832,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                                     } else {
                                         CoreDataManager.addBookmarkFeed(feed, isSynced: true)
                                     }
-                                    if self.isCategoryFeeds == false {
+                                    if self.isCategoryFeeds == false && self.isFromFeeds == true {
                                         Feeds.sharedInstance.getFeeds()[counter].bookmarked = true
                                     } else {
                                         self.feeds[counter].bookmarked = true
@@ -808,10 +850,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                             }else {
                                 data = self.feeds
                             }
-                            var feed : InformerlyFeed
                             var counter = 0
                             var isMatched = false
-                            for feed in data {
+                            for feed : InformerlyFeed in data {
                                 if feed.id == linkID {
                                     isMatched = true
                                     CoreDataManager.removeBookmarkFeedOfID(feed.id!)
@@ -841,12 +882,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                     
                     if extraInfo != nil {
                         var error : [String:AnyObject] = extraInfo as! Dictionary
-                        var message : String = error["error"] as! String
+                        let message : String = error["error"] as! String
                         
                         if message == "Invalid authentication token." {
-                            var alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                            let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
-                                var loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                                let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                 self.showViewController(loginVC, sender: self)
                             }))
                             self.presentViewController(alert, animated: true, completion: nil)
@@ -863,10 +904,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                     self.bookmark.image = UIImage(named: ICON_BOOKMARK)
                     self.bookmarkedFeeds[articleIndex].bookmarked = false
                     
-                    var feed : InformerlyFeed
                     var counter = 0
-                    var linkID = self.bookmarkedFeeds[articleIndex].id
-                    for feed in self.feeds {
+                    let linkID = self.bookmarkedFeeds[articleIndex].id
+                    for feed : InformerlyFeed in self.feeds {
                         if feed.id == linkID {
                             self.feeds[counter].bookmarked = false
                             break
@@ -879,10 +919,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                     self.bookmark.image = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                     self.bookmarkedFeeds[articleIndex].bookmarked = true
                     
-                    var feed : InformerlyFeed
                     var counter = 0
-                    var linkID = self.bookmarkedFeeds[articleIndex].id
-                    for feed in self.feeds {
+                    let linkID = self.bookmarkedFeeds[articleIndex].id
+                    for feed : InformerlyFeed in self.feeds {
                         if feed.id == linkID {
                             self.feeds[counter].bookmarked = true
                             break
@@ -971,10 +1010,26 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     }
         
     func showAlert(title:String, msg:String){
-        var alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
+    
+    func appDidBecomeActiveCalled(){
+        
+        if(Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true || Utilities.sharedInstance.getBoolForKey(IS_FROM_TODAY_WIDGET) == true){
+            Utilities.sharedInstance.setBoolForKey(true, key: FROM_PUSH_AND_FROM_ARTICLE_VIEW)
+            Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_TODAY_WIDGET)
+            self.onBackPressed()
+            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        } else if (Utilities.sharedInstance.getStringForKey(LINK_ID) == "-2") {
+//            if (self.navigationController?.topViewController!.isKindOfClass(ArticleViewController) == true) {
+//                self.onBackPressed()
+//            }
+        }
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

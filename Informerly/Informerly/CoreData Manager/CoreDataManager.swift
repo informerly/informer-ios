@@ -30,7 +30,7 @@ class CoreDataManager
         //get the context from AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
-        var feedItem : BookmarkEntity = NSEntityDescription.insertNewObjectForEntityForName("BookmarkEntity", inManagedObjectContext: managedContext) as! BookmarkEntity
+        let feedItem : BookmarkEntity = NSEntityDescription.insertNewObjectForEntityForName("BookmarkEntity", inManagedObjectContext: managedContext) as! BookmarkEntity
         
         feedItem.id = feedDict["id"] as? Int
         feedItem.title = feedDict["title"] as? String
@@ -50,8 +50,11 @@ class CoreDataManager
         feedItem.creationDateTime = NSDate()
         
         var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
+        do {
+            try managedContext.save()
+        } catch let error1 as NSError {
+            error = error1
+            print("Could not save \(error), \(error?.userInfo)")
         }
     }
     
@@ -67,7 +70,7 @@ class CoreDataManager
         //get the context from AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
-        var feedItem : BookmarkEntity = NSEntityDescription.insertNewObjectForEntityForName("BookmarkEntity", inManagedObjectContext: managedContext) as! BookmarkEntity
+        let feedItem : BookmarkEntity = NSEntityDescription.insertNewObjectForEntityForName("BookmarkEntity", inManagedObjectContext: managedContext) as! BookmarkEntity
         
         feedItem.id = feed.id
         feedItem.title = feed.title
@@ -87,8 +90,11 @@ class CoreDataManager
         feedItem.creationDateTime = NSDate()
         
         var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
+        do {
+            try managedContext.save()
+        } catch let error1 as NSError {
+            error = error1
+            print("Could not save \(error), \(error?.userInfo)")
         }
     }
     
@@ -104,7 +110,7 @@ class CoreDataManager
         //get the context from AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
-        var feedItem : BookmarkEntity = NSEntityDescription.insertNewObjectForEntityForName("BookmarkEntity", inManagedObjectContext: managedContext) as! BookmarkEntity
+        let feedItem : BookmarkEntity = NSEntityDescription.insertNewObjectForEntityForName("BookmarkEntity", inManagedObjectContext: managedContext) as! BookmarkEntity
         
         feedItem.id = feed.id
         feedItem.title = feed.title
@@ -124,8 +130,11 @@ class CoreDataManager
         feedItem.creationDateTime = NSDate()
         
         var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
+        do {
+            try managedContext.save()
+        } catch let error1 as NSError {
+            error = error1
+            print("Could not save \(error), \(error?.userInfo)")
         }
     }
     
@@ -137,20 +146,20 @@ class CoreDataManager
         //get the context from AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
-        var request: NSFetchRequest = NSFetchRequest()
+        let request: NSFetchRequest = NSFetchRequest()
         request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
         request.sortDescriptors = [NSSortDescriptor(key: "creationDateTime", ascending: false)]
         
-        var error: NSError?
-        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
+        let error: NSError? = nil
+        let result: Array = (try! managedContext.executeFetchRequest(request)) as! [BookmarkEntity]
         
         if(error != nil) {
-            println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
+            print("Error in fetching Bookmarks \(error), \(error?.userInfo)")
         }
         
         var bookmarkFeeds : [BookmarkFeed] = []
         for feed in result {
-            var bookmarkfeed : BookmarkFeed = BookmarkFeed()
+            let bookmarkfeed : BookmarkFeed = BookmarkFeed()
             bookmarkfeed.populateBookmarkFeed(feed)
             bookmarkFeeds.append(bookmarkfeed)
         }
@@ -166,21 +175,24 @@ class CoreDataManager
         //get the context from AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
-        var request: NSFetchRequest = NSFetchRequest()
+        let request: NSFetchRequest = NSFetchRequest()
         request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
         request.predicate = NSPredicate(format: "id=\(feedID)", argumentArray: nil)
         
-        var error: NSError?
-        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
+        let error: NSError? = nil
+        var result: Array = (try! managedContext.executeFetchRequest(request)) as! [BookmarkEntity]
         
         if(error == nil) {
             if result.count > 0 {
                 managedContext.deleteObject(result[0])
-                managedContext.save(nil)
+                do {
+                    try managedContext.save()
+                } catch _ {
+                }
             }
         }
         else {
-            println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
+            print("Error in fetching Bookmarks \(error), \(error?.userInfo)")
         }
     }
     
@@ -192,22 +204,25 @@ class CoreDataManager
         //get the context from AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
-        var request: NSFetchRequest = NSFetchRequest()
+        let request: NSFetchRequest = NSFetchRequest()
         request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
         
-        var error: NSError?
-        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
+        let error: NSError? = nil
+        let result: Array = (try! managedContext.executeFetchRequest(request)) as! [BookmarkEntity]
         
         if(error == nil) {
             if result.count > 0 {
                 for feedItem in result {
                     managedContext.deleteObject(feedItem)
                 }
-                managedContext.save(nil)
+                do {
+                    try managedContext.save()
+                } catch _ {
+                }
             }
         }
         else {
-            println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
+            print("Error in fetching Bookmarks \(error), \(error?.userInfo)")
         }
     }
     
@@ -219,20 +234,23 @@ class CoreDataManager
         //get the context from AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
-        var request: NSFetchRequest = NSFetchRequest()
+        let request: NSFetchRequest = NSFetchRequest()
         request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
         request.predicate = NSPredicate(format: "id=\(feedID)", argumentArray: nil)
         
-        var error: NSError?
-        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
+        let error: NSError? = nil
+        var result: Array = (try! managedContext.executeFetchRequest(request)) as! [BookmarkEntity]
         
         if(error == nil) {
-            var bookmarkFeed: BookmarkEntity = result[0] as BookmarkEntity
+            let bookmarkFeed: BookmarkEntity = result[0] as BookmarkEntity
             bookmarkFeed.isSynced = syncStatus
-            managedContext.save(nil)
+            do {
+                try managedContext.save()
+            } catch _ {
+            }
         }
         else {
-            println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
+            print("Error in fetching Bookmarks \(error), \(error?.userInfo)")
         }
     }
     
@@ -244,20 +262,23 @@ class CoreDataManager
         //get the context from AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
-        var request: NSFetchRequest = NSFetchRequest()
+        let request: NSFetchRequest = NSFetchRequest()
         request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
         request.predicate = NSPredicate(format: "id=\(feedID)", argumentArray: nil)
         
-        var error: NSError?
-        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
+        let error: NSError? = nil
+        var result: Array = (try! managedContext.executeFetchRequest(request)) as! [BookmarkEntity]
         
         if(error == nil) {
-            var bookmarkFeed: BookmarkEntity = result[0] as BookmarkEntity
+            let bookmarkFeed: BookmarkEntity = result[0] as BookmarkEntity
             bookmarkFeed.read = readStatus
-            managedContext.save(nil)
+            do {
+                try managedContext.save()
+            } catch _ {
+            }
         }
         else {
-            println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
+            print("Error in fetching Bookmarks \(error), \(error?.userInfo)")
         }
     }
     
@@ -269,19 +290,19 @@ class CoreDataManager
         //get the context from AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
-        var request: NSFetchRequest = NSFetchRequest()
+        let request: NSFetchRequest = NSFetchRequest()
         request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
         request.predicate = NSPredicate(format: "id=\(feedID)", argumentArray: nil)
         
-        var error: NSError?
-        var result: Array = managedContext.executeFetchRequest(request, error: &error) as! [BookmarkEntity]
+        let error: NSError? = nil
+        let result: Array = (try! managedContext.executeFetchRequest(request)) as! [BookmarkEntity]
         if(error == nil) {
             if (result.count == 1) {
                 return true
             }
         }
         else {
-            println("Error in fetching Bookmarks \(error), \(error?.userInfo)")
+            print("Error in fetching Bookmarks \(error), \(error?.userInfo)")
         }
         
         return false

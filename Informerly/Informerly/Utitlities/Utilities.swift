@@ -19,11 +19,19 @@ class Utilities {
     func setBoolForKey(value:Bool,key:String) {
         NSUserDefaults.standardUserDefaults().setBool(value, forKey: key)
         NSUserDefaults.standardUserDefaults().synchronize()
-        
     }
     
     func getBoolForKey(key:String)->Bool {
         return NSUserDefaults.standardUserDefaults().boolForKey(key)
+    }
+    
+    func setIntForKey(value:Int,key:String) {
+        NSUserDefaults.standardUserDefaults().setInteger(value, forKey: key)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    func getIntForKey(key:String)->Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey(key)
     }
     
     func setStringForKey(value:String,key:String) {
@@ -56,37 +64,44 @@ class Utilities {
         return unarchivedData!
     }
     
-    
+    // App Group Utilities
     func setAuthToken(value:String,key:String) {
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
+        let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
         userDefaults.setObject(value, forKey: AUTH_TOKEN)
         userDefaults.synchronize()
     }
     
     func getAuthToken(key:String)->String {
-        var userDefaults : NSUserDefaults = NSUserDefaults(suiteName: "group.com.informerly.informer-app-today-widget")!
+        let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
         return userDefaults.stringForKey(key)!
+    }
+    
+    func setBoolAppGroupForKey(value:Bool,key:String) {
+        let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+        userDefaults.setBool(value, forKey: key)
+        userDefaults.synchronize()
+    }
+    
+    func getBoolForAppGroupKey(key:String)->Bool {
+        let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+        return userDefaults.boolForKey(key)
     }
     
     func isConnectedToNetwork() -> Bool {
         
-        var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
+        var zeroAddress = sockaddr_in()
         zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
         zeroAddress.sin_family = sa_family_t(AF_INET)
-        
         let defaultRouteReachability = withUnsafePointer(&zeroAddress) {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0)).takeRetainedValue()
+            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
         }
-        
-        var flags: SCNetworkReachabilityFlags = 0
-        if SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) == 0 {
+        var flags = SCNetworkReachabilityFlags.ConnectionAutomatic
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
             return false
         }
-        
-        let isReachable = (flags & UInt32(kSCNetworkFlagsReachable)) != 0
-        let needsConnection = (flags & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
-        
-        return (isReachable && !needsConnection) ? true : false
+        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        return (isReachable && !needsConnection)
     }
     
 }

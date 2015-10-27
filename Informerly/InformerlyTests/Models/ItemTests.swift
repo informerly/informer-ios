@@ -44,27 +44,27 @@ class ItemTests: XCTestCase {
     
     func testIDIsPopulatedCorrectly(){
         item.id = testData["id"] as? Int
-        XCTAssertEqual(item.id!, testData["id"] as! Int, "Id is not assigned correctly")
+        XCTAssertEqual(item.id!, testData["id"] as? Int, "Id is not assigned correctly")
     }
     
     func testMagicPopulatedCorrectly(){
         item.magic = testData["magic"] as? String
-        XCTAssertEqual(item.magic!, testData["magic"] as! String, "Magic is not assigned correctly")
+        XCTAssertEqual(item.magic!, testData["magic"] as? String, "Magic is not assigned correctly")
     }
     
     func testNamePopulatedCorrectly(){
         item.name = testData["name"] as? String
-        XCTAssertEqual(item.name!, testData["name"] as! String, "Name is not populated correctly")
+        XCTAssertEqual(item.name!, testData["name"] as? String, "Name is not populated correctly")
     }
     
     func testPrimaryPopulatedCorrectly(){
         item.primary = testData["primary"] as? Int
-        XCTAssertEqual(item.primary!, testData["primary"] as! Int, "Primary is not assigned correctly")
+        XCTAssertEqual(item.primary!, testData["primary"] as? Int, "Primary is not assigned correctly")
     }
     
     func testUserIDPopulatedCorrectly(){
         item.user_id = testData["user_id"] as? Int
-        XCTAssertEqual(item.user_id!, testData["user_id"] as! Int, "User id is not assigned correctly")
+        XCTAssertEqual(item.user_id!, testData["user_id"] as? Int, "User id is not assigned correctly")
     }
     
 

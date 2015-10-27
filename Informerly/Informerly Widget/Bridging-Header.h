@@ -10,8 +10,7 @@
 #define Informerly_Bridging_Header_h
 //#ifndef TARGET_IS_EXTENSION
 
-//#import "AFNetworking.h"
 #import "NetworkManager.h"
-
-//#endif
+#import "Reachability.h"
+#import <Mixpanel/Mixpanel.h>
 #endif

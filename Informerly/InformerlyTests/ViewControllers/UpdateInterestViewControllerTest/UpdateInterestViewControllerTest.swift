@@ -17,7 +17,7 @@ class UpdateInterestViewControllerTest: XCTestCase {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
-        var storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
         updateInterestVC = storyboard.instantiateViewControllerWithIdentifier("UpdateInterestVC") as! UpdateInterestViewController
         updateInterestVC.loadView()
     }
@@ -38,7 +38,7 @@ class UpdateInterestViewControllerTest: XCTestCase {
     
     func testSendBtnRespondsToIBAction(){
         updateInterestVC.createNavBarButtons()
-        var action = updateInterestVC.send_btn.action
+        let action = updateInterestVC.send_btn.action
         
         XCTAssertTrue(action == "onSendPress", "Send button does not respond to IBAction.")
     }

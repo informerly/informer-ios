@@ -1,0 +1,15 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, '6.0'
+
+target 'Informerly' do
+pod 'Mixpanel', '~> 2.8'
+end
+
+target 'InformerlyTests' do
+
+end
+
+target 'Informerly Widget' do
+pod 'Mixpanel/AppExtension'
+end
+

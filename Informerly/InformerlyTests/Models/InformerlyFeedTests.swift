@@ -54,71 +54,71 @@ class InformerlyFeedTests: XCTestCase {
     
     func testArticleIdPopulatedCorrectly(){
         feed.id = testData["id"] as? Int
-        XCTAssertEqual(feed.id!, testData["id"] as! Int, "Artcle ID is not correctly populated")
+        XCTAssertEqual(feed.id!, testData["id"] as? Int, "Artcle ID is not correctly populated")
     }
     
     func testArticleTitlePopulatedCorrectly(){
         feed.title = testData["title"] as? String
-        XCTAssertEqual(feed.title!, testData["title"] as! String, "Title is not correctly populated")
+        XCTAssertEqual(feed.title!, testData["title"] as? String, "Title is not correctly populated")
     }
     
     func testDescriptionPopultedCorrectly(){
         feed.feedDescription = testData["description"] as? String
-        XCTAssertEqual(feed.feedDescription!, testData["description"] as! String, "Description is not correctly populated")
+        XCTAssertEqual(feed.feedDescription!, testData["description"] as? String, "Description is not correctly populated")
     }
     
     func testContentPopultedCorrectly(){
         feed.content = testData["content"] as? String
-        XCTAssertEqual(feed.content!, testData["content"] as! String, "Content is not correctly populated")
+        XCTAssertEqual(feed.content!, testData["content"] as? String, "Content is not correctly populated")
     }
     
     func testReadingTimePopultedCorrectly(){
         feed.readingTime = testData["reading_time"] as? Int
-        XCTAssertEqual(feed.readingTime!, testData["reading_time"] as! Int, "ReadingTime is not correctly populated")
+        XCTAssertEqual(feed.readingTime!, testData["reading_time"] as? Int, "ReadingTime is not correctly populated")
     }
     
     func testSourcePopultedCorrectly(){
         feed.source = testData["source"] as? String
-        XCTAssertEqual(feed.source!, testData["source"] as! String, "Source is not correctly populated")
+        XCTAssertEqual(feed.source!, testData["source"] as? String, "Source is not correctly populated")
     }
     
     func testSourceColorPopultedCorrectly(){
         feed.sourceColor = testData["source_color"] as? String
-        XCTAssertEqual(feed.sourceColor!, testData["source_color"] as! String, "source_color is not correctly populated")
+        XCTAssertEqual(feed.sourceColor!, testData["source_color"] as? String, "source_color is not correctly populated")
     }
     
     func testPublishedAtPopultedCorrectly(){
         feed.publishedAt = testData["published_at"] as? String
-        XCTAssertEqual(feed.publishedAt!, testData["published_at"] as! String, "published_at is not correctly populated")
+        XCTAssertEqual(feed.publishedAt!, testData["published_at"] as? String, "published_at is not correctly populated")
     }
 
     func testOriginalDatePopultedCorrectly(){
         feed.originalDate = testData["original_date"] as? String
-        XCTAssertEqual(feed.originalDate!, testData["original_date"] as! String, "original_date is not correctly populated")
+        XCTAssertEqual(feed.originalDate!, testData["original_date"] as? String, "original_date is not correctly populated")
     }
     
     func testShortLinkPopultedCorrectly(){
         feed.shortLink = testData["shortLink"] as? String
-        XCTAssertEqual(feed.shortLink!, testData["shortLink"] as! String, "shortLink is not correctly populated")
+        XCTAssertEqual(feed.shortLink!, testData["shortLink"] as? String, "shortLink is not correctly populated")
     }
     
     func testSlugPopultedCorrectly(){
         feed.slug = testData["slug"] as? String
-        XCTAssertEqual(feed.slug!, testData["slug"] as! String, "slug is not correctly populated")
+        XCTAssertEqual(feed.slug!, testData["slug"] as? String, "slug is not correctly populated")
     }
     
     func testURLPopultedCorrectly(){
         feed.URL = testData["url"] as? String
-        XCTAssertEqual(feed.URL!, testData["url"] as! String, "url is not correctly populated")
+        XCTAssertEqual(feed.URL!, testData["url"] as? String, "url is not correctly populated")
     }
     
     func testReadPopultedCorrectly(){
         feed.read = testData["read"] as? Bool
-        XCTAssertEqual(feed.read!, testData["read"] as! Bool, "read is not correctly populated")
+        XCTAssertEqual(feed.read!, testData["read"] as? Bool, "read is not correctly populated")
     }
     
     func testBookmarkedPopultedCorrectly(){
         feed.bookmarked = testData["bookmarked"] as? Bool
-        XCTAssertEqual(feed.bookmarked!, testData["bookmarked"] as! Bool, "bookmarked is not correctly populated")
+        XCTAssertEqual(feed.bookmarked!, testData["bookmarked"] as? Bool, "bookmarked is not correctly populated")
     }
 }
