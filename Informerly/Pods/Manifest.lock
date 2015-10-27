@@ -1,14 +1,14 @@
 PODS:
-  - Mixpanel (2.8.3):
-    - Mixpanel/Mixpanel (= 2.8.3)
-  - Mixpanel/AppExtension (2.8.3)
-  - Mixpanel/Mixpanel (2.8.3)
+  - Mixpanel (2.9.0):
+    - Mixpanel/Mixpanel (= 2.9.0)
+  - Mixpanel/AppExtension (2.9.0)
+  - Mixpanel/Mixpanel (2.9.0)
 
 DEPENDENCIES:
   - Mixpanel (~> 2.8)
   - Mixpanel/AppExtension
 
 SPEC CHECKSUMS:
-  Mixpanel: fd52e097ae0d27295d0595b2261c60b94d191fda
+  Mixpanel: 42ae6168effc48481d957f7883dd8514a398738d
 
 COCOAPODS: 0.38.2
