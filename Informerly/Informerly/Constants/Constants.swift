@@ -72,7 +72,9 @@ let SWIPE_CELL_BACKGROUND = "#F7F7F7"
 //App Groups
 let APP_GROUP_TODAY_WIDGET = "group.com.Informerly.informerWidget"
 
-//Mixpanel token
-let IS_DEV_ENV = true
-let MIXPANEL_DEV_TOKEN = "7784e21fe3b89be538bfa7959a484f9e"
-let MIXPANEL_PROD_TOKEN = "acbb0e9d474075ef19c759196e6ddeb4"
+#if DEBUG
+let MIXPANEL_TOKEN = "7784e21fe3b89be538bfa7959a484f9e"
+#else
+let MIXPANEL_TOKEN = "acbb0e9d474075ef19c759196e6ddeb4"
+#endif
+

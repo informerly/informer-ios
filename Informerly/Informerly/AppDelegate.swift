@@ -20,11 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch
         
         let appVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
-        if IS_DEV_ENV {
-            Mixpanel.sharedInstanceWithToken(MIXPANEL_DEV_TOKEN)
-        } else {
-            Mixpanel.sharedInstanceWithToken(MIXPANEL_PROD_TOKEN)
-        }
+        
+        Mixpanel.sharedInstanceWithToken(MIXPANEL_TOKEN)
         
         let appCount = Utilities.sharedInstance.getIntForKey(LAUNCH_COUNT)
         if (appCount == 0) {

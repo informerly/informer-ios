@@ -34,11 +34,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         super.viewDidLoad()
         // Do any additional setup after loading the view from its nib.
         
-        if IS_DEV_ENV {
-            Mixpanel.sharedInstanceWithToken(MIXPANEL_DEV_TOKEN)
-        } else {
-            Mixpanel.sharedInstanceWithToken(MIXPANEL_PROD_TOKEN)
-        }
+        Mixpanel.sharedInstanceWithToken(MIXPANEL_TOKEN)
         
         index = 0
         feedIndex = -1
