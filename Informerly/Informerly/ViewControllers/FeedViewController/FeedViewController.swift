@@ -138,7 +138,12 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
     
     func appDidBecomeActiveCalled(){
         
+        if self.mm_drawerController.openSide == MMDrawerSide.Left {
+            self.mm_drawerController.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
+        }
+        
         if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
+            
             if (self.navigationController?.topViewController!.isKindOfClass(FeedViewController) == true) {
                 if Utilities.sharedInstance.getStringForKey(FEED_ID) == "-1" {
                     self.downloadData()

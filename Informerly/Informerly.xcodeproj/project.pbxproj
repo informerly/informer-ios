@@ -1113,7 +1113,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "APP_ID=\"553120c07365f84f7d3d6e79\"\nAPI_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\n#source \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
+			shellScript = "#APP_ID=\"553120c07365f84f7d3d6e79\"\n#API_KEY=\"i8bqFvSGs2KXJJoz4RpA46Zv4yhsm7hg\"\n#source \"${SRCROOT}/Informerly/Third Party Libs/Crittercism/dsym_upload.sh\"";
 		};
 		18DEC7621AE7BB5B00F8F661 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1126,7 +1126,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=/usr/local/bin:$PATH\ncd ${SRCROOT}/parse\n\nparse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
+			shellScript = "#export PATH=/usr/local/bin:$PATH\n#cd ${SRCROOT}/parse\n\n#parse symbols -p \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"";
 		};
 		240E942F227A90B1791855B1 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1419,8 +1419,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Informerly/Informerly.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1433,7 +1433,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "147be4df-3239-4607-a956-e22cbadf2e3e";
+				PROVISIONING_PROFILE = "e5fa14ea-da9e-4960-baf1-57c4945ffecb";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Debug;
@@ -1445,8 +1445,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Informerly/Informerly.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1459,7 +1459,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "147be4df-3239-4607-a956-e22cbadf2e3e";
+				PROVISIONING_PROFILE = "e5fa14ea-da9e-4960-baf1-57c4945ffecb";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Release;
@@ -1509,8 +1509,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "Informerly Widget/Informerly Widget.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1525,7 +1525,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.informerly.informer.Informerly-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "58ce888a-7497-4b56-b786-406ea34c607a";
+				PROVISIONING_PROFILE = "80150326-bad0-4920-bf4d-885edbb8ae25";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly Widget/Bridging-Header.h";
 			};
@@ -1538,8 +1538,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "Informerly Widget/Informerly Widget.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1554,7 +1554,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.informerly.informer.Informerly-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "58ce888a-7497-4b56-b786-406ea34c607a";
+				PROVISIONING_PROFILE = "80150326-bad0-4920-bf4d-885edbb8ae25";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly Widget/Bridging-Header.h";
 			};
