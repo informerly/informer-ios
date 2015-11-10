@@ -21,6 +21,29 @@
 		1803D2FC1ACEA42A00D6C1DE /* REMenuContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F51ACEA42A00D6C1DE /* REMenuContainerView.m */; };
 		1803D2FD1ACEA42A00D6C1DE /* REMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F71ACEA42A00D6C1DE /* REMenuItem.m */; };
 		1803D2FE1ACEA42A00D6C1DE /* REMenuItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */; };
+		180E7DD91BF1D0E3001D751B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 180E7DD81BF1D0E3001D751B /* Assets.xcassets */; };
+		180E7DDE1BF1D0E4001D751B /* Informer WatchKit 1 App.app in Resources */ = {isa = PBXBuildFile; fileRef = 180E7DDD1BF1D0E4001D751B /* Informer WatchKit 1 App.app */; };
+		180E7DE61BF1D0E4001D751B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 180E7DE51BF1D0E4001D751B /* Assets.xcassets */; };
+		180E7DEA1BF1D0E4001D751B /* Informer WatchKit 1 Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 180E7DCE1BF1D0E2001D751B /* Informer WatchKit 1 Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		180E7DFB1BF1D39E001D751B /* EighthInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7DF21BF1D39E001D751B /* EighthInterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7DFC1BF1D39E001D751B /* FifthInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7DF31BF1D39E001D751B /* FifthInterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7DFD1BF1D39E001D751B /* FourthInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7DF41BF1D39E001D751B /* FourthInterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7DFE1BF1D39E001D751B /* NinthInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7DF51BF1D39E001D751B /* NinthInterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7DFF1BF1D39E001D751B /* SecondInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7DF61BF1D39E001D751B /* SecondInterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E001BF1D39E001D751B /* SeventhInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7DF71BF1D39E001D751B /* SeventhInterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E011BF1D39E001D751B /* SixthInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7DF81BF1D39E001D751B /* SixthInterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E021BF1D39E001D751B /* TenthInferfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7DF91BF1D39E001D751B /* TenthInferfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E031BF1D39E001D751B /* ThirdInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7DFA1BF1D39E001D751B /* ThirdInterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E071BF1D3B2001D751B /* FeedRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7E041BF1D3B2001D751B /* FeedRowController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E081BF1D3B2001D751B /* GlanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7E051BF1D3B2001D751B /* GlanceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E091BF1D3B2001D751B /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7E061BF1D3B2001D751B /* InterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E0B1BF1D3BC001D751B /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7E0A1BF1D3BC001D751B /* NotificationController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E0D1BF1D3C6001D751B /* ArticleInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7E0C1BF1D3C6001D751B /* ArticleInterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E0F1BF1D463001D751B /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 180E7E0E1BF1D463001D751B /* Interface.storyboard */; settings = {ASSET_TAGS = (); }; };
+		180E7E151BF1D7E1001D751B /* FirstInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E7E141BF1D7E1001D751B /* FirstInterfaceController.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E161BF1D947001D751B /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DD11A834EB200BFEF6E /* UIColorExtension.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E171BF1D96D001D751B /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D75DCE1A834C0200BFEF6E /* Utilities.swift */; settings = {ASSET_TAGS = (); }; };
+		180E7E181BF1D9BC001D751B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1845B9E41A7F905600172610 /* Constants.swift */; settings = {ASSET_TAGS = (); }; };
 		1825EE5C1BB2C0BE00658163 /* Crittercism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1825EE5B1BB2C0BE00658163 /* Crittercism.framework */; settings = {ASSET_TAGS = (); }; };
 		1825EE5D1BB2C0BE00658163 /* Crittercism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1825EE5B1BB2C0BE00658163 /* Crittercism.framework */; settings = {ASSET_TAGS = (); }; };
 		183205821BC648FC00BDAED4 /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 183205811BC648FC00BDAED4 /* libstdc++.6.tbd */; };
@@ -172,6 +195,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		180E7DDF1BF1D0E4001D751B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1845B9841A7F8A5F00172610 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 180E7DDC1BF1D0E4001D751B;
+			remoteInfo = "Informer WatchKit 1 App";
+		};
+		180E7DE81BF1D0E4001D751B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1845B9841A7F8A5F00172610 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 180E7DCD1BF1D0E2001D751B;
+			remoteInfo = "Informer WatchKit 1 Extension";
+		};
 		1845B9A21A7F8A5F00172610 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1845B9841A7F8A5F00172610 /* Project object */;
@@ -195,6 +232,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				180E7DEA1BF1D0E4001D751B /* Informer WatchKit 1 Extension.appex in Embed App Extensions */,
 				186BD5471A9711FE0044C86B /* Informerly Widget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -227,6 +265,31 @@
 		1803D2F71ACEA42A00D6C1DE /* REMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMenuItem.m; sourceTree = "<group>"; };
 		1803D2F81ACEA42A00D6C1DE /* REMenuItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REMenuItemView.h; sourceTree = "<group>"; };
 		1803D2F91ACEA42A00D6C1DE /* REMenuItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMenuItemView.m; sourceTree = "<group>"; };
+		180E7DCE1BF1D0E2001D751B /* Informer WatchKit 1 Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Informer WatchKit 1 Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		180E7DD11BF1D0E3001D751B /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		180E7DD81BF1D0E3001D751B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		180E7DDA1BF1D0E3001D751B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		180E7DDD1BF1D0E4001D751B /* Informer WatchKit 1 App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Informer WatchKit 1 App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		180E7DE51BF1D0E4001D751B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		180E7DE71BF1D0E4001D751B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		180E7DF21BF1D39E001D751B /* EighthInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EighthInterfaceController.swift; sourceTree = "<group>"; };
+		180E7DF31BF1D39E001D751B /* FifthInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FifthInterfaceController.swift; sourceTree = "<group>"; };
+		180E7DF41BF1D39E001D751B /* FourthInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FourthInterfaceController.swift; sourceTree = "<group>"; };
+		180E7DF51BF1D39E001D751B /* NinthInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NinthInterfaceController.swift; sourceTree = "<group>"; };
+		180E7DF61BF1D39E001D751B /* SecondInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecondInterfaceController.swift; sourceTree = "<group>"; };
+		180E7DF71BF1D39E001D751B /* SeventhInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeventhInterfaceController.swift; sourceTree = "<group>"; };
+		180E7DF81BF1D39E001D751B /* SixthInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SixthInterfaceController.swift; sourceTree = "<group>"; };
+		180E7DF91BF1D39E001D751B /* TenthInferfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TenthInferfaceController.swift; sourceTree = "<group>"; };
+		180E7DFA1BF1D39E001D751B /* ThirdInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdInterfaceController.swift; sourceTree = "<group>"; };
+		180E7E041BF1D3B2001D751B /* FeedRowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRowController.swift; sourceTree = "<group>"; };
+		180E7E051BF1D3B2001D751B /* GlanceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlanceController.swift; sourceTree = "<group>"; };
+		180E7E061BF1D3B2001D751B /* InterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		180E7E0A1BF1D3BC001D751B /* NotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		180E7E0C1BF1D3C6001D751B /* ArticleInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleInterfaceController.swift; sourceTree = "<group>"; };
+		180E7E0E1BF1D463001D751B /* Interface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Interface.storyboard; sourceTree = "<group>"; };
+		180E7E101BF1D4C2001D751B /* Informer WatchKit 1 Extension-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Informer WatchKit 1 Extension-Bridging-Header.h"; sourceTree = "<group>"; };
+		180E7E131BF1D573001D751B /* Informer WatchKit 1 Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Informer WatchKit 1 Extension.entitlements"; sourceTree = "<group>"; };
+		180E7E141BF1D7E1001D751B /* FirstInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstInterfaceController.swift; sourceTree = "<group>"; };
 		1825EE5B1BB2C0BE00658163 /* Crittercism.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crittercism.framework; sourceTree = "<group>"; };
 		183205811BC648FC00BDAED4 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
 		183205831BC6492C00BDAED4 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -352,6 +415,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		180E7DCB1BF1D0E2001D751B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1845B9891A7F8A5F00172610 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -448,12 +518,67 @@
 			path = TopMenu;
 			sourceTree = "<group>";
 		};
+		180E7DCF1BF1D0E2001D751B /* Informer WatchKit 1 Extension */ = {
+			isa = PBXGroup;
+			children = (
+				180E7E131BF1D573001D751B /* Informer WatchKit 1 Extension.entitlements */,
+				180E7E0C1BF1D3C6001D751B /* ArticleInterfaceController.swift */,
+				180E7E041BF1D3B2001D751B /* FeedRowController.swift */,
+				180E7E051BF1D3B2001D751B /* GlanceController.swift */,
+				180E7E061BF1D3B2001D751B /* InterfaceController.swift */,
+				180E7E0A1BF1D3BC001D751B /* NotificationController.swift */,
+				180E7DF11BF1D39E001D751B /* InterfaceControllers */,
+				180E7DD81BF1D0E3001D751B /* Assets.xcassets */,
+				180E7DDA1BF1D0E3001D751B /* Info.plist */,
+				180E7DD01BF1D0E3001D751B /* Supporting Files */,
+				180E7E101BF1D4C2001D751B /* Informer WatchKit 1 Extension-Bridging-Header.h */,
+			);
+			path = "Informer WatchKit 1 Extension";
+			sourceTree = "<group>";
+		};
+		180E7DD01BF1D0E3001D751B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				180E7DD11BF1D0E3001D751B /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		180E7DE11BF1D0E4001D751B /* Informer WatchKit 1 App */ = {
+			isa = PBXGroup;
+			children = (
+				180E7E0E1BF1D463001D751B /* Interface.storyboard */,
+				180E7DE51BF1D0E4001D751B /* Assets.xcassets */,
+				180E7DE71BF1D0E4001D751B /* Info.plist */,
+			);
+			path = "Informer WatchKit 1 App";
+			sourceTree = "<group>";
+		};
+		180E7DF11BF1D39E001D751B /* InterfaceControllers */ = {
+			isa = PBXGroup;
+			children = (
+				180E7E141BF1D7E1001D751B /* FirstInterfaceController.swift */,
+				180E7DF21BF1D39E001D751B /* EighthInterfaceController.swift */,
+				180E7DF61BF1D39E001D751B /* SecondInterfaceController.swift */,
+				180E7DF31BF1D39E001D751B /* FifthInterfaceController.swift */,
+				180E7DF41BF1D39E001D751B /* FourthInterfaceController.swift */,
+				180E7DF51BF1D39E001D751B /* NinthInterfaceController.swift */,
+				180E7DF71BF1D39E001D751B /* SeventhInterfaceController.swift */,
+				180E7DF81BF1D39E001D751B /* SixthInterfaceController.swift */,
+				180E7DF91BF1D39E001D751B /* TenthInferfaceController.swift */,
+				180E7DFA1BF1D39E001D751B /* ThirdInterfaceController.swift */,
+			);
+			path = InterfaceControllers;
+			sourceTree = "<group>";
+		};
 		1845B9831A7F8A5F00172610 = {
 			isa = PBXGroup;
 			children = (
 				1845B98E1A7F8A5F00172610 /* Informerly */,
 				1845B9A41A7F8A5F00172610 /* InformerlyTests */,
 				186BD53E1A9711FE0044C86B /* Informerly Widget */,
+				180E7DCF1BF1D0E2001D751B /* Informer WatchKit 1 Extension */,
+				180E7DE11BF1D0E4001D751B /* Informer WatchKit 1 App */,
 				186BD53B1A9711FE0044C86B /* Frameworks */,
 				1845B98D1A7F8A5F00172610 /* Products */,
 				DAC2F5547462D3EB39D216FE /* Pods */,
@@ -466,6 +591,8 @@
 				1845B98C1A7F8A5F00172610 /* Informerly.app */,
 				1845B9A11A7F8A5F00172610 /* InformerlyTests.xctest */,
 				186BD53A1A9711FE0044C86B /* Informerly Widget.appex */,
+				180E7DCE1BF1D0E2001D751B /* Informer WatchKit 1 Extension.appex */,
+				180E7DDD1BF1D0E4001D751B /* Informer WatchKit 1 App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -923,6 +1050,39 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		180E7DCD1BF1D0E2001D751B /* Informer WatchKit 1 Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 180E7DF01BF1D0E4001D751B /* Build configuration list for PBXNativeTarget "Informer WatchKit 1 Extension" */;
+			buildPhases = (
+				180E7DCA1BF1D0E2001D751B /* Sources */,
+				180E7DCB1BF1D0E2001D751B /* Frameworks */,
+				180E7DCC1BF1D0E2001D751B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				180E7DE01BF1D0E4001D751B /* PBXTargetDependency */,
+			);
+			name = "Informer WatchKit 1 Extension";
+			productName = "Informer WatchKit 1 Extension";
+			productReference = 180E7DCE1BF1D0E2001D751B /* Informer WatchKit 1 Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		180E7DDC1BF1D0E4001D751B /* Informer WatchKit 1 App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 180E7DEF1BF1D0E4001D751B /* Build configuration list for PBXNativeTarget "Informer WatchKit 1 App" */;
+			buildPhases = (
+				180E7DDB1BF1D0E4001D751B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Informer WatchKit 1 App";
+			productName = "Informer WatchKit 1 App";
+			productReference = 180E7DDD1BF1D0E4001D751B /* Informer WatchKit 1 App.app */;
+			productType = "com.apple.product-type.application.watchapp";
+		};
 		1845B98B1A7F8A5F00172610 /* Informerly */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1845B9AB1A7F8A5F00172610 /* Build configuration list for PBXNativeTarget "Informerly" */;
@@ -940,6 +1100,7 @@
 			);
 			dependencies = (
 				186BD5461A9711FE0044C86B /* PBXTargetDependency */,
+				180E7DE91BF1D0E4001D751B /* PBXTargetDependency */,
 			);
 			name = Informerly;
 			productName = Informerly;
@@ -994,6 +1155,18 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Informerly;
 				TargetAttributes = {
+					180E7DCD1BF1D0E2001D751B = {
+						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = A57A24JB8M;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					180E7DDC1BF1D0E4001D751B = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
 					1845B98B1A7F8A5F00172610 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = A57A24JB8M;
@@ -1037,11 +1210,31 @@
 				1845B98B1A7F8A5F00172610 /* Informerly */,
 				1845B9A01A7F8A5F00172610 /* InformerlyTests */,
 				186BD5391A9711FE0044C86B /* Informerly Widget */,
+				180E7DCD1BF1D0E2001D751B /* Informer WatchKit 1 Extension */,
+				180E7DDC1BF1D0E4001D751B /* Informer WatchKit 1 App */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		180E7DCC1BF1D0E2001D751B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				180E7DD91BF1D0E3001D751B /* Assets.xcassets in Resources */,
+				180E7DDE1BF1D0E4001D751B /* Informer WatchKit 1 App.app in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		180E7DDB1BF1D0E4001D751B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				180E7E0F1BF1D463001D751B /* Interface.storyboard in Resources */,
+				180E7DE61BF1D0E4001D751B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1845B98A1A7F8A5F00172610 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1176,6 +1369,31 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		180E7DCA1BF1D0E2001D751B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				180E7DFF1BF1D39E001D751B /* SecondInterfaceController.swift in Sources */,
+				180E7E031BF1D39E001D751B /* ThirdInterfaceController.swift in Sources */,
+				180E7E0D1BF1D3C6001D751B /* ArticleInterfaceController.swift in Sources */,
+				180E7E081BF1D3B2001D751B /* GlanceController.swift in Sources */,
+				180E7E151BF1D7E1001D751B /* FirstInterfaceController.swift in Sources */,
+				180E7DFB1BF1D39E001D751B /* EighthInterfaceController.swift in Sources */,
+				180E7DFD1BF1D39E001D751B /* FourthInterfaceController.swift in Sources */,
+				180E7E071BF1D3B2001D751B /* FeedRowController.swift in Sources */,
+				180E7E021BF1D39E001D751B /* TenthInferfaceController.swift in Sources */,
+				180E7DFC1BF1D39E001D751B /* FifthInterfaceController.swift in Sources */,
+				180E7E171BF1D96D001D751B /* Utilities.swift in Sources */,
+				180E7E011BF1D39E001D751B /* SixthInterfaceController.swift in Sources */,
+				180E7E161BF1D947001D751B /* UIColorExtension.swift in Sources */,
+				180E7E0B1BF1D3BC001D751B /* NotificationController.swift in Sources */,
+				180E7E091BF1D3B2001D751B /* InterfaceController.swift in Sources */,
+				180E7E001BF1D39E001D751B /* SeventhInterfaceController.swift in Sources */,
+				180E7DFE1BF1D39E001D751B /* NinthInterfaceController.swift in Sources */,
+				180E7E181BF1D9BC001D751B /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1845B9881A7F8A5F00172610 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1310,6 +1528,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		180E7DE01BF1D0E4001D751B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 180E7DDC1BF1D0E4001D751B /* Informer WatchKit 1 App */;
+			targetProxy = 180E7DDF1BF1D0E4001D751B /* PBXContainerItemProxy */;
+		};
+		180E7DE91BF1D0E4001D751B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 180E7DCD1BF1D0E2001D751B /* Informer WatchKit 1 Extension */;
+			targetProxy = 180E7DE81BF1D0E4001D751B /* PBXContainerItemProxy */;
+		};
 		1845B9A31A7F8A5F00172610 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1845B98B1A7F8A5F00172610 /* Informerly */;
@@ -1334,6 +1562,83 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		180E7DEB1BF1D0E4001D751B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Informer WatchKit 1 Extension/Informer WatchKit 1 Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Informer WatchKit 1 Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Informer WatchKit 1 Extension/Informer WatchKit 1 Extension-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		180E7DEC1BF1D0E4001D751B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Informer WatchKit 1 Extension/Informer WatchKit 1 Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Informer WatchKit 1 Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Informer WatchKit 1 Extension/Informer WatchKit 1 Extension-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		180E7DED1BF1D0E4001D751B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IBSC_MODULE = Informer_WatchKit_1_Extension;
+				INFOPLIST_FILE = "Informer WatchKit 1 App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		180E7DEE1BF1D0E4001D751B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				IBSC_MODULE = Informer_WatchKit_1_Extension;
+				INFOPLIST_FILE = "Informer WatchKit 1 App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
 		1845B9A91A7F8A5F00172610 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1563,6 +1868,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		180E7DEF1BF1D0E4001D751B /* Build configuration list for PBXNativeTarget "Informer WatchKit 1 App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				180E7DED1BF1D0E4001D751B /* Debug */,
+				180E7DEE1BF1D0E4001D751B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		180E7DF01BF1D0E4001D751B /* Build configuration list for PBXNativeTarget "Informer WatchKit 1 Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				180E7DEB1BF1D0E4001D751B /* Debug */,
+				180E7DEC1BF1D0E4001D751B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		1845B9871A7F8A5F00172610 /* Build configuration list for PBXProject "Informerly" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

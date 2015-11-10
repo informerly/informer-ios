@@ -485,6 +485,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func application(application: UIApplication, handleWatchKitExtensionRequest userInfo: [NSObject : AnyObject]?, reply: (([NSObject : AnyObject]?) -> Void)) {
+        
+        var bogusTask : UIBackgroundTaskIdentifier = 0
+        bogusTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({ () -> Void in
+            UIApplication.sharedApplication().endBackgroundTask(bogusTask)
+        })
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(5 * NSEC_PER_SEC)), dispatch_get_main_queue()) { () -> Void in
+            UIApplication.sharedApplication().endBackgroundTask(bogusTask)
+        }
+        
+        var realTask : UIBackgroundTaskIdentifier = 1
+        realTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({ () -> Void in
+            reply(nil)
+            UIApplication.sharedApplication().endBackgroundTask(realTask)
+        })
+        
+        let action = userInfo!["action"] as! String
+        if action == "getFeeds" {
+            if Utilities.sharedInstance.isConnectedToNetwork() == true {
+                
+                if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
+                    let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+                    let parameters = ["auth_token":auth_token,
+                        "client_id":"dev-ios-informer",
+                        "content":"true"]
+                    
+                    NetworkManager.sharedNetworkClient().processGetRequestWithPath(FEED_URL,
+                        parameter: parameters,
+                        success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                            
+                            if requestStatus == 200 {
+                                reply(["result" : processedData["links"] as! [AnyObject]])
+                            }
+                            
+                        }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                            
+                            if extraInfo != nil {
+//                                var error : [String:AnyObject] = extraInfo as! Dictionary
+//                                var message : String = error["error"] as! String
+                            }
+                            reply(["result" : ""])
+                    }
+                } else {
+                    reply(["error":"Please Login on your phone to proceed."])
+                }
+            }
+        }
+        
+        UIApplication.sharedApplication().endBackgroundTask(realTask)
+        
+    }
+    
     // Method to fetch article data.
     func downloadArticleData(articleID : String,completionHandler: () -> Void) {
         
