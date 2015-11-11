@@ -1572,7 +1572,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Informer WatchKit 1 Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -1594,7 +1594,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Informer WatchKit 1 Extension/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
@@ -1612,7 +1612,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				IBSC_MODULE = Informer_WatchKit_1_Extension;
 				INFOPLIST_FILE = "Informer WatchKit 1 App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1630,7 +1630,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				IBSC_MODULE = Informer_WatchKit_1_Extension;
 				INFOPLIST_FILE = "Informer WatchKit 1 App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1875,6 +1875,7 @@
 				180E7DEE1BF1D0E4001D751B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		180E7DF01BF1D0E4001D751B /* Build configuration list for PBXNativeTarget "Informer WatchKit 1 Extension" */ = {
 			isa = XCConfigurationList;
@@ -1883,6 +1884,7 @@
 				180E7DEC1BF1D0E4001D751B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1845B9871A7F8A5F00172610 /* Build configuration list for PBXProject "Informerly" */ = {
 			isa = XCConfigurationList;
