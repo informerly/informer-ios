@@ -212,6 +212,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            print("auth_token : \(Utilities.sharedInstance.getAuthToken(AUTH_TOKEN))")
             let parameters = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "content":"true"]
@@ -285,16 +286,20 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                         var error : [String:AnyObject] = extraInfo as! Dictionary
                         let message : String = error["error"] as! String
                         
-                        if message == "Invalid authentication token." {
+                        if message == "Invalid authentication token." || requestStatus == 401 {
+                            
+                            Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                            Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                            
                             let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                                 let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                 self.showViewController(loginVC, sender: self)
                             }))
                             self.presentViewController(alert, animated: true, completion: nil)
+                        } else {
+                            self.showAlert("Error !", msg: message)
                         }
-                        
-                        self.showAlert("Error !", msg: message)
                     } else {
 //                        self.showAlert("Error !", msg: "Try Again!")
                     }
@@ -340,6 +345,26 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
                     self.performSegueWithIdentifier("ArticleVC", sender: self)
             }, failure: { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                
+                if extraInfo != nil {
+                    var error : [String:AnyObject] = extraInfo as! Dictionary
+                    let message : String = error["error"] as! String
+                    
+                    if message == "Invalid authentication token." || requestStatus == 401 {
+                        
+                        Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                        Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                        
+                        let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                            let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                            self.showViewController(loginVC, sender: self)
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    } else {
+                        self.showAlert("Error !", msg: message)
+                    }
+                }
                 
             })
             
@@ -737,6 +762,26 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     print("Error")
+                    
+                    if extraInfo != nil {
+                        var error : [String:AnyObject] = extraInfo as! Dictionary
+                        let message : String = error["error"] as! String
+                        
+                        if message == "Invalid authentication token." || requestStatus == 401 {
+                            
+                            Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                            Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                            
+                            let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                                let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                                self.showViewController(loginVC, sender: self)
+                            }))
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        } else {
+                            self.showAlert("Error !", msg: message)
+                        }
+                    }
             }
         }
     }
@@ -852,16 +897,20 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                             var error : [String:AnyObject] = extraInfo as! Dictionary
                             let message : String = error["error"] as! String
                             
-                            if message == "Invalid authentication token." {
+                            if message == "Invalid authentication token." || requestStatus == 401 {
+                                
+                                Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                                Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                                
                                 let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                                     let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                     self.showViewController(loginVC, sender: self)
                                 }))
                                 self.presentViewController(alert, animated: true, completion: nil)
+                            } else {
+                                self.showAlert("Error !", msg: message)
                             }
-                            
-                            self.showAlert("Error !", msg: message)
                         }
                 }
             } else {
@@ -1081,7 +1130,21 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     if extraInfo != nil {
                         var error : [String:AnyObject] = extraInfo as! Dictionary
                         let message : String = error["error"] as! String
-                        self.showAlert("Error !", msg: message)
+                        
+                        if message == "Invalid authentication token." || requestStatus == 401 {
+                            
+                            Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                            Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                            
+                            let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                                let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                                self.showViewController(loginVC, sender: self)
+                            }))
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        } else {
+                            self.showAlert("Error !", msg: message)
+                        }
                     }
             }
         } else {
@@ -1309,7 +1372,10 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     var error : [String:AnyObject] = extraInfo as! Dictionary
                     let message : String = error["error"] as! String
                     
-                    if message == "Invalid authentication token." {
+                    if message == "Invalid authentication token." || requestStatus == 401 {
+                        
+                        Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                        Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
                         let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                             let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
@@ -1353,13 +1419,19 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     var error : [String:AnyObject] = extraInfo as! Dictionary
                     let message : String = error["error"] as! String
                     
-                    if message == "Invalid authentication token." {
+                    if message == "Invalid authentication token." || requestStatus == 401 {
+                        
+                        Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                        Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                        
                         let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                             let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                             self.showViewController(loginVC, sender: self)
                         }))
                         self.presentViewController(alert, animated: true, completion: nil)
+                    } else {
+                        self.showAlert("Error !", msg: message)
                     }
                 }
         }

@@ -180,67 +180,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         }
     }
     
-//    override func viewDidAppear(animated: Bool) {
-//        super.viewDidAppear(animated)
-////
-////        let shareMenu : UIMenuItem = UIMenuItem(title: "Share", action: Selector("onTextShare:"))
-////        UIMenuController.sharedMenuController().menuItems = [shareMenu]
-//    }
-//
-//    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-////        print(UIMenuController.sharedMenuController().menuItems?.first?)
-//        if action == Selector("share:") {
-//            return true
-//        }
-//        
-//        return super.canPerformAction(action, withSender: sender)
-//    }
-//    
-//    func share(sender:AnyObject?){
-//        
-//        var selectedText : String?
-//        var sharingItems = [AnyObject]()
-//        var url : String!
-//        var subject : String!
-//        if isBookmarked == true {
-//            subject = self.bookmarkedFeeds[articleIndex].title!
-//            url = self.bookmarkedFeeds[articleIndex].url!
-//        } else if isCategoryFeeds == true {
-//            subject = self.categoryFeeds![articleIndex].title!
-//            url = self.categoryFeeds![articleIndex].URL!
-//        } else {
-//            subject = feeds[articleIndex].title!
-//            url = self.feeds[articleIndex].URL!
-//        }
-//        
-//        if self.isZenMode == true {
-//            selectedText = self.zenWebViews[self.articleIndex]?.stringByEvaluatingJavaScriptFromString("window.getSelection().toString()")
-//            
-//            if selectedText != nil {
-//                sharingItems.append("\(selectedText!) \n \n")
-//            }
-//            sharingItems.append(url)
-//            
-//            let activity = ARSafariActivity()
-//            let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
-//            activityVC.setValue(subject, forKey: "subject")
-//            self.presentViewController(activityVC, animated: true, completion: nil)
-//        } else {
-//            self.articleWebView.evaluateJavaScript("window.getSelection().toString()", completionHandler: { (seletectString, error) -> Void in
-//                selectedText = seletectString as? String
-//                
-//                if selectedText != nil {
-//                    sharingItems.append("\(selectedText!) \n \n")
-//                }
-//                sharingItems.append(url)
-//                
-//                let activity = ARSafariActivity()
-//                let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
-//                activityVC.setValue(subject, forKey: "subject")
-//                self.presentViewController(activityVC, animated: true, completion: nil)
-//            })
-//        }
-//    }
     
     // Creates bar button for navbar
     func createNavBarButtons() {
@@ -494,13 +433,19 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                     var error : [String:AnyObject] = extraInfo as! Dictionary
                     let message : String = error["error"] as! String
                     
-                    if message == "Invalid authentication token." {
+                    if message == "Invalid authentication token." || requestStatus == 401 {
+                        
+                        Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                        Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                        
                         let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                             let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                             self.showViewController(loginVC, sender: self)
                         }))
                         self.presentViewController(alert, animated: true, completion: nil)
+                    } else {
+                        self.showAlert("Error !", msg: message)
                     }
                 }
         }
@@ -586,70 +531,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-//        if isZenMode == true {
-//            
-//            if lastContentOffsetX < scrollView.contentOffset.x || lastContentOffsetX > scrollView.contentOffset.x  {
-//                var pageWidth : CGFloat = self.view.frame.width
-//                var page : CGFloat = scrollView.contentOffset.x / pageWidth
-////                articleIndex = Int(page)
-//                
-//                if lastContentOffsetX < scrollView.contentOffset.x {
-//                    self.onNext()
-////                    self.removeZenWebView(self.articleIndex - 3)
-////                    self.createZenWebView(self.articleIndex + 2)
-//                } else {
-//                    self.onPrev()
-////                    self.removeZenWebView(self.articleIndex + 3)
-////                    self.createZenWebView(self.articleIndex - 2)
-//                }
-//                
-////                if articleIndex == 0 {
-////                    leftArrow.enabled = false
-////                } else {
-////                    leftArrow.enabled = true
-////                }
-////                
-////                if isBookmarked == true {
-////                    
-////                    if articleIndex == bookmarkedFeeds.count - 1 {
-////                        rightArrow.enabled = false
-////                    } else {
-////                        rightArrow.enabled = true
-////                    }
-////                    
-////                    bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-////                    // Load article in web and zen mode
-////                    articleWebView.alpha = 0.0
-////                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: bookmarkedFeeds[articleIndex].url!)!))
-////                    
-////                    //                    if self.bookmarkedFeeds[self.articleIndex].read == false {
-////                    self.markRead()
-////                    //                    }
-////                } else {
-////                    
-////                    if articleIndex == feeds.count - 1 {
-////                        rightArrow.enabled = false
-////                    } else {
-////                        rightArrow.enabled = true
-////                    }
-////                    
-////                    if feeds[articleIndex].bookmarked == true {
-////                        bookmark.image = UIImage(named: "icon_bookmark_filled")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-////                    } else {
-////                        bookmark.image = UIImage(named: "icon_bookmark")
-////                    }
-////                    
-////                    // Load article in web and zen mode
-////                    articleWebView.alpha = 0.0
-////                    articleWebView.loadRequest(NSURLRequest(URL: NSURL(string: feeds[articleIndex].URL!)!))
-////                    
-////                    //                    if self.feeds[self.articleIndex].read == false {
-////                    self.markRead()
-////                    //                    }
-////                }
-//            }
-//        }
-//        
     }
     
     func onZenModeBtnPress(sender:UIButton){
@@ -884,16 +765,20 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                         var error : [String:AnyObject] = extraInfo as! Dictionary
                         let message : String = error["error"] as! String
                         
-                        if message == "Invalid authentication token." {
+                        if message == "Invalid authentication token." || requestStatus == 401 {
+                            
+                            Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                            Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                            
                             let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                                 let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                 self.showViewController(loginVC, sender: self)
                             }))
                             self.presentViewController(alert, animated: true, completion: nil)
+                        } else {
+                            self.showAlert("Error !", msg: message)
                         }
-                        
-                        self.showAlert("Error !", msg: message)
                     }
                 }
         } else {
@@ -949,59 +834,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         }
     }
     
-//    func resetZenModeWebView() {
-//        
-//        let subViews = self.zenModeScrollView.subviews
-//        for subview in subViews{
-//            subview.removeFromSuperview()
-//        }
-//        
-//        self.bookmarkedFeeds = CoreDataManager.getBookmarkFeeds()
-//        
-//        if self.bookmarkedFeeds.isEmpty {
-//            self.onBackPressed()
-//        }
-//        
-//        if self.bookmarkedFeeds.count == 1 {
-//            self.leftArrow.enabled = false
-//            self.rightArrow.enabled = false
-//        }
-////        else if self.bookmarkedFeeds.count == 2 {
-////            if self.articleIndex + 1 == self.bookmarkedFeeds.count {
-////                self.rightArrow.enabled = false
-////            }
-////        }
-//        
-//        self.zenModeScrollView.contentSize = CGSizeMake(self.view.frame.width * CGFloat(self.bookmarkedFeeds.count) , self.view.frame.height)
-//        
-//        self.zenModeWebViewX = 0
-//        for var i=0; i<self.bookmarkedFeeds.count; i++ {
-//            // Creates Zen mode Web view
-//            var frame : CGRect = CGRectMake(self.zenModeWebViewX, 0, self.view.frame.size.width, self.view.frame.height)
-//            var articleZenView : UIWebView = UIWebView()
-//            articleZenView.delegate = self
-//            articleZenView.frame = frame
-//            articleZenView.scrollView.delegate = self
-//            self.zenModeScrollView.addSubview(articleZenView)
-//            
-//            if self.bookmarkedFeeds[i].content != nil {
-//                var content : String = self.bookmarkedFeeds[i].content!
-//                articleZenView.loadHTMLString(content, baseURL: nil)
-//            }
-//            
-//            self.zenModeWebViewX = self.zenModeWebViewX + self.view.frame.width
-//        }
-//        
-//        if self.articleIndex == self.bookmarkedFeeds.count {
-//            self.articleIndex = self.articleIndex - 1
-//        } else {
-//            self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex - 1)
-//        }
-//        
-//        UIView.animateWithDuration(0.5, animations: { () -> Void in
-//            self.zenModeScrollView.contentOffset.x = self.view.frame.width * CGFloat(self.articleIndex)
-//        })
-//    }
     
     
     // Zen web view delegate methods
