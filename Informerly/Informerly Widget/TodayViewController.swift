@@ -29,6 +29,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     var feedIndex : Int!
     var categoryFeeds : [InformerlyFeed]? = []
     var isCategoryFeeds : Bool = false
+    var userID : String!
+    var email : String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +41,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         } else {
             Mixpanel.sharedInstanceWithToken(MIXPANEL_PROD_TOKEN)
         }
+        
+        userID = Utilities.sharedInstance.getStringForAppGroupKey(USER_ID)
+        email = Utilities.sharedInstance.getStringForAppGroupKey(EMAIL)
         
         index = 0
         feedIndex = -1
@@ -97,6 +102,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                         self.prevStoryBtn.hidden = false
                         self.prevStoryBtn.enabled = false
                         self.prevStoryBtn.alpha = 0.3
+                        
                         self.nextStoryBtn.hidden = false
                         self.saveStoryBtn.hidden = false
                         self.readStoryBtn.hidden = false
@@ -122,6 +128,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                     if requestStatus == 200 {
                         MenuItems.sharedInstance.populateItems(processedData["feeds"] as! [AnyObject])
                         self.menuItems = MenuItems.sharedInstance.getItems()
+                        
+                        if self.menuItems.count == 0 {
+                            self.nextFeedBtn.enabled = false
+                        }
+                        
                         self.feedLabel.text = "Your Feed"
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
@@ -161,7 +172,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 print("task done!")
                 
                 //Mixpanel track
-                Mixpanel.sharedInstance().track("Today Widget - Open Article")
+                let properties : [String:String] = ["UserID":self.userID,"Email":self.email]
+                Mixpanel.sharedInstance().track("Today Widget - Open Article",properties: properties)
             })
 //        }
     }
@@ -185,7 +197,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     @IBAction func onPrevBtnPressed(sender: AnyObject) {
         
         //Mixpanel track
-        Mixpanel.sharedInstance().track("Today Widget - Previous Article")
+        let properties : [String:String] = ["UserID":userID,"Email":email]
+        Mixpanel.sharedInstance().track("Today Widget - Previous Article",properties: properties)
         
         var feeds : [InformerlyFeed] = []
         if (self.isCategoryFeeds == true) {
@@ -220,7 +233,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     @IBAction func onNextBtnPressed(sender: AnyObject) {
         
         //Mixpanel track
-        Mixpanel.sharedInstance().track("Today Widget - Next Article")
+        let properties : [String:String] = ["UserID":userID,"Email":email]
+        Mixpanel.sharedInstance().track("Today Widget - Next Article",properties: properties)
         
         var feeds : [InformerlyFeed] = []
         if (self.isCategoryFeeds == true) {
@@ -296,7 +310,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                     print("Successfully marked as read.")
                     
                     //Mixpanel track
-                    Mixpanel.sharedInstance().track("Today Widget - Read")
+                    let properties : [String:String] = ["UserID":self.userID,"Email":self.email]
+                    Mixpanel.sharedInstance().track("Today Widget - Read",properties: properties)
                     
                     self.activityIndicator.stopAnimating()
                     feeds.removeAtIndex(self.index)
@@ -349,7 +364,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                         print("saved")
                         
                         //Mixpanel track
-                        Mixpanel.sharedInstance().track("Today Widget - Save")
+                        let properties : [String:String] = ["UserID":self.userID,"Email":self.email]
+                        Mixpanel.sharedInstance().track("Today Widget - Save",properties: properties)
                         
                         self.activityIndicator.stopAnimating()
                         if (feeds[self.index].bookmarked! == false) {
@@ -374,7 +390,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     @IBAction func onNextFeedPressed(sender: AnyObject) {
         
         //Mixpanel track
-        Mixpanel.sharedInstance().track("Today Widget - Next Feed")
+        let properties : [String:String] = ["UserID":userID,"Email":email]
+        Mixpanel.sharedInstance().track("Today Widget - Next Feed",properties: properties)
         
         self.index = 0
         self.feedIndex = self.feedIndex + 1
@@ -394,7 +411,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     @IBAction func onPrevFeedPressed(sender: AnyObject) {
         
         //Mixpanel track
-        Mixpanel.sharedInstance().track("Today Widget - Previous Feed")
+        let properties : [String:String] = ["UserID":userID,"Email":email]
+        Mixpanel.sharedInstance().track("Today Widget - Previous Feed",properties: properties)
         
         self.index = 0
         self.feedIndex = self.feedIndex - 1

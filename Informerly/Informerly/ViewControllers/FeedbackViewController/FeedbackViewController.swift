@@ -17,11 +17,16 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
     @IBOutlet weak var feedbackLabel: UILabel!
     @IBOutlet weak var feedbackView: UIView!
     private var indicator : UIActivityIndicatorView!
+    var email:String!
+    var userID:String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         UIApplication.sharedApplication().statusBarHidden = true
+        
+        email = Utilities.sharedInstance.getStringForKey(EMAIL)!
+        userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
         
         //Apply Gradient
         self.applyGradient()
@@ -78,7 +83,8 @@ class FeedbackViewContoller: UIViewController,UITextViewDelegate {
                     if (success) {
                         
                         //Mixpanel track
-                        Mixpanel.sharedInstance().track("Submit 'Ask Your Informer'")
+                        let properties : [String:String] = ["UserID":self.userID,"Email":self.email]
+                        Mixpanel.sharedInstance().track("Submit 'Ask Your Informer'",properties: properties)
                         
                         self.indicator.stopAnimating()
                         self.backBtn.hidden = true

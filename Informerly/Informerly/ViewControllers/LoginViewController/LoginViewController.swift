@@ -184,6 +184,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                             Utilities.sharedInstance.setBoolForKey(true, key: IS_USER_LOGGED_IN)
                             Utilities.sharedInstance.setAuthToken(User.sharedInstance.auth_token, key: AUTH_TOKEN)
                             Utilities.sharedInstance.setStringForKey(String(User.sharedInstance.id), key: USER_ID)
+                            Utilities.sharedInstance.setStringAppGroupForKey(String(User.sharedInstance.id), key: USER_ID)
+                            Utilities.sharedInstance.setStringAppGroupForKey(User.sharedInstance.email!, key: EMAIL)
                             Utilities.sharedInstance.setStringForKey(self.emailTextField.text!.lowercaseString, key: EMAIL)
                             
                             let parseInstallation : PFInstallation = PFInstallation.currentInstallation()

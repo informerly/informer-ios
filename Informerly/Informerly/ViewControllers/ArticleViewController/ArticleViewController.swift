@@ -43,10 +43,15 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var isFromFeeds : Bool!
     
     let ANIMATION_DURATION = 1.0
+    var email:String!
+    var userID:String!
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        email = Utilities.sharedInstance.getStringForKey(EMAIL)!
+        userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
         
         // Application did become active
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
@@ -93,10 +98,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         if (isBookmarked == true) {
             //Mixpanel track
-            Mixpanel.sharedInstance().track("Open Feed", properties: ["Feed ID":self.bookmarkedFeeds[articleIndex].id!])
+            let properties : [String:String] = ["UserID":self.userID,"Email":self.email,"Feed ID":String(self.bookmarkedFeeds[self.articleIndex].id!)]
+            Mixpanel.sharedInstance().track("Open Feed", properties: properties)
         } else {
             //Mixpanel track
-            Mixpanel.sharedInstance().track("Open Feed", properties: ["Feed ID":self.feeds[articleIndex].id!])
+            let properties : [String:String] = ["UserID":self.userID,"Email":self.email,"Feed ID":String(self.bookmarkedFeeds[self.articleIndex].id!)]
+            Mixpanel.sharedInstance().track("Open Feed", properties: properties)
         }
         
         // Creates Article web view
