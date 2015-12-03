@@ -51,8 +51,8 @@ class NotificationController: WKUserNotificationInterfaceController {
         //
         // After populating your dynamic notification interface call the completion block.
         
-        var apsDict : NSDictionary = remoteNotification["aps"] as! NSDictionary
-        var titleStr : String = apsDict["alert"] as! String
+        let apsDict : NSDictionary = remoteNotification["aps"] as! NSDictionary
+        let titleStr : String = apsDict["alert"] as! String
         self.titleLabel.setText(titleStr)
         
         completionHandler(.Custom)
