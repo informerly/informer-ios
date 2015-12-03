@@ -102,8 +102,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
             Mixpanel.sharedInstance().track("Open Feed", properties: properties)
         } else {
             //Mixpanel track
-            let properties : [String:String] = ["UserID":self.userID,"Email":self.email,"Feed ID":String(self.bookmarkedFeeds[self.articleIndex].id!)]
-            Mixpanel.sharedInstance().track("Open Feed", properties: properties)
+//            let properties : [String:String] = ["UserID":self.userID,"Email":self.email,"Feed ID":String(self.bookmarkedFeeds[self.articleIndex].id!)]
+//            Mixpanel.sharedInstance().track("Open Feed", properties: properties)
         }
         
         // Creates Article web view
