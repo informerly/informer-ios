@@ -87,6 +87,17 @@ class Utilities {
         return userDefaults.boolForKey(key)
     }
     
+    func setStringAppGroupForKey(value:String,key:String) {
+        let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+        userDefaults.setObject(value, forKey: key)
+        userDefaults.synchronize()
+    }
+    
+    func getStringForAppGroupKey(key:String)->String {
+        let userDefaults : NSUserDefaults = NSUserDefaults(suiteName: APP_GROUP_TODAY_WIDGET)!
+        return userDefaults.stringForKey(key)!
+    }
+    
     func isConnectedToNetwork() -> Bool {
         
         var zeroAddress = sockaddr_in()

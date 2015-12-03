@@ -32,11 +32,16 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
     private var customSegmentedControl : UISegmentedControl!
     private var isLinkIDMatched = false
     private var isFromFeeds = true
+    private var email:String!
+    private var userID:String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
+        
+        email = Utilities.sharedInstance.getStringForKey(EMAIL)!
+        userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
         
         SVProgressHUD.showWithMaskType(SVProgressHUDMaskType.Gradient)
         if Utilities.sharedInstance.getBoolForKey(PUSH_ALLOWED) == false {
@@ -111,6 +116,9 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         UIApplication.sharedApplication().statusBarHidden = false
         self.navigationController?.navigationBar.hidden = false
         self.isFromFeeds = true
+        
+        email = Utilities.sharedInstance.getStringForKey(EMAIL)!
+        userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
         
         if Utilities.sharedInstance.getBoolForKey(FROM_PUSH_AND_FROM_ARTICLE_VIEW) {
             if Utilities.sharedInstance.getStringForKey(FEED_ID) != "-1" {
@@ -212,6 +220,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         
         if Utilities.sharedInstance.isConnectedToNetwork() == true {
             let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+            print("auth_token : \(Utilities.sharedInstance.getAuthToken(AUTH_TOKEN))")
             let parameters = ["auth_token":auth_token,
                 "client_id":"dev-ios-informer",
                 "content":"true"]
@@ -285,16 +294,20 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                         var error : [String:AnyObject] = extraInfo as! Dictionary
                         let message : String = error["error"] as! String
                         
-                        if message == "Invalid authentication token." {
+                        if message == "Invalid authentication token." || requestStatus == 401 {
+                            
+                            Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                            Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                            
                             let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                                 let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                 self.showViewController(loginVC, sender: self)
                             }))
                             self.presentViewController(alert, animated: true, completion: nil)
+                        } else {
+                            self.showAlert("Error !", msg: message)
                         }
-                        
-                        self.showAlert("Error !", msg: message)
                     } else {
 //                        self.showAlert("Error !", msg: "Try Again!")
                     }
@@ -340,6 +353,26 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
                     self.performSegueWithIdentifier("ArticleVC", sender: self)
             }, failure: { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                
+                if extraInfo != nil {
+                    var error : [String:AnyObject] = extraInfo as! Dictionary
+                    let message : String = error["error"] as! String
+                    
+                    if message == "Invalid authentication token." || requestStatus == 401 {
+                        
+                        Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                        Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                        
+                        let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                            let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                            self.showViewController(loginVC, sender: self)
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    } else {
+                        self.showAlert("Error !", msg: message)
+                    }
+                }
                 
             })
             
@@ -624,7 +657,9 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
     
     func onMenuPressed() {
         //Mixpanel track
-        Mixpanel.sharedInstance().track("Menu Press")
+        
+        let properties : [String:String] = ["userID":userID,"Email":email]
+        Mixpanel.sharedInstance().track("Menu Press", properties: properties)
         self.mm_drawerController.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
     }
     
@@ -633,15 +668,18 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
             isPullToRefresh = true
             if Utilities.sharedInstance.getBoolForKey(IS_FROM_PUSH) == true {
                 
+                let properties : [String:String] = ["userID":userID,"Email":email,"Feed Name": "Your Feed"]
+                
                 // MixPanel track
-                Mixpanel.sharedInstance().track("In Feed - Pull to Refresh", properties: ["Feed Name": "Your Feed"])
+                Mixpanel.sharedInstance().track("In Feed - Pull to Refresh", properties: properties)
                 
                 self.downloadData()
                 
             } else if isBookmarked == false && isCategoryFeeds == false {
                 
                 // MixPanel track
-                Mixpanel.sharedInstance().track("In Feed - Pull to Refresh", properties: ["Feed Name": "Your Feed"])
+                let properties : [String:String] = ["userID":userID,"Email":email,"Feed Name": "Your Feed"]
+                Mixpanel.sharedInstance().track("In Feed - Pull to Refresh", properties: properties)
                 
                 self.downloadData()
                 
@@ -686,7 +724,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         if isPullToRefresh == true {
             self.downloadBookmark({ (result) -> Void in
                 //Mixpanel track
-                Mixpanel.sharedInstance().track("In Feed - Pull to Refresh", properties: ["Feed Name":"Bookmarked"])
+                let properties : [String:String] = ["userID":self.userID,"Email":self.email,"Feed Name": "Bookmarked"]
+                Mixpanel.sharedInstance().track("In Feed - Pull to Refresh", properties: properties)
                 self.bookmarks = CoreDataManager.getBookmarkFeeds()
                 self.tableView.reloadData()
             })
@@ -737,6 +776,26 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     }
                 }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                     print("Error")
+                    
+                    if extraInfo != nil {
+                        var error : [String:AnyObject] = extraInfo as! Dictionary
+                        let message : String = error["error"] as! String
+                        
+                        if message == "Invalid authentication token." || requestStatus == 401 {
+                            
+                            Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                            Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                            
+                            let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                                let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                                self.showViewController(loginVC, sender: self)
+                            }))
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        } else {
+                            self.showAlert("Error !", msg: message)
+                        }
+                    }
             }
         }
     }
@@ -819,7 +878,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                         if requestStatus == 200 {
                             
                             //MixPanel track
-                            let properties : [NSObject : AnyObject] = ["Feed ID":categoryID,"Feed Name": categoryName]
+                            let properties : [NSObject : AnyObject] = ["UserID":self.userID,"Email":self.email, "Feed ID":categoryID,"Feed Name": categoryName]
                             Mixpanel.sharedInstance().track("In Feed - Pull to Refresh", properties: properties)
                             
                             SVProgressHUD.dismiss()
@@ -852,16 +911,20 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                             var error : [String:AnyObject] = extraInfo as! Dictionary
                             let message : String = error["error"] as! String
                             
-                            if message == "Invalid authentication token." {
+                            if message == "Invalid authentication token." || requestStatus == 401 {
+                                
+                                Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                                Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                                
                                 let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                                     let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                                     self.showViewController(loginVC, sender: self)
                                 }))
                                 self.presentViewController(alert, animated: true, completion: nil)
+                            } else {
+                                self.showAlert("Error !", msg: message)
                             }
-                            
-                            self.showAlert("Error !", msg: message)
                         }
                 }
             } else {
@@ -1052,7 +1115,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                         if message == "Bookmark Created" {
                             
                             //Mixpanel track
-                            Mixpanel.sharedInstance().track("Swipe In-Feed - Save")
+                            let properties : [String:String] = ["UserID":self.userID,"Email":self.email]
+                            Mixpanel.sharedInstance().track("Swipe In-Feed - Save",properties: properties)
                             if self.isBookmarked == true {
                                 
                             } else {
@@ -1081,7 +1145,21 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     if extraInfo != nil {
                         var error : [String:AnyObject] = extraInfo as! Dictionary
                         let message : String = error["error"] as! String
-                        self.showAlert("Error !", msg: message)
+                        
+                        if message == "Invalid authentication token." || requestStatus == 401 {
+                            
+                            Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                            Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                            
+                            let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+                                let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
+                                self.showViewController(loginVC, sender: self)
+                            }))
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        } else {
+                            self.showAlert("Error !", msg: message)
+                        }
                     }
             }
         } else {
@@ -1274,7 +1352,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                 print("Successfully marked as read.")
                 
                 //Mixpanel track
-                Mixpanel.sharedInstance().track("Swipe In-Feed - Read")
+                let properties : [String:String] = ["userID":self.userID,"Email":self.email]
+                Mixpanel.sharedInstance().track("Swipe In-Feed - Read",properties: properties)
                 
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 print("Failure marking article as read")
@@ -1309,7 +1388,10 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     var error : [String:AnyObject] = extraInfo as! Dictionary
                     let message : String = error["error"] as! String
                     
-                    if message == "Invalid authentication token." {
+                    if message == "Invalid authentication token." || requestStatus == 401 {
+                        
+                        Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                        Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
                         let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                             let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
@@ -1353,13 +1435,19 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     var error : [String:AnyObject] = extraInfo as! Dictionary
                     let message : String = error["error"] as! String
                     
-                    if message == "Invalid authentication token." {
+                    if message == "Invalid authentication token." || requestStatus == 401 {
+                        
+                        Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
+                        Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                        
                         let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
                         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
                             let loginVC = self.storyboard?.instantiateViewControllerWithIdentifier("LoginVC") as! LoginViewController
                             self.showViewController(loginVC, sender: self)
                         }))
                         self.presentViewController(alert, animated: true, completion: nil)
+                    } else {
+                        self.showAlert("Error !", msg: message)
                     }
                 }
         }
@@ -1372,7 +1460,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         let indexPath : NSIndexPath = self.tableView.indexPathForCell(cell)!
         if index == 0 {
             //Mixpanel track
-            Mixpanel.sharedInstance().track("Swipe In-Feed - Share")
+            let properties : [String:String] = ["userID":userID,"Email":email]
+            Mixpanel.sharedInstance().track("Swipe In-Feed - Share", properties: properties)
             self.onSharePressed(indexPath.row)
             return true
         } else if index == 1 {

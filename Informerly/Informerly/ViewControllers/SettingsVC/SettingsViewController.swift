@@ -12,12 +12,19 @@ class SettingsViewController : UIViewController {
     
     @IBOutlet weak var articleViewSwitch: UISwitch!
     @IBOutlet weak var defaultListSwitch: UISwitch!
+    
+    var email:String!
+    var userID:String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Setting up Nav bar
         self.navigationController?.navigationBar.translucent = false
         self.navigationItem.hidesBackButton = true
+        
+        email = Utilities.sharedInstance.getStringForKey(EMAIL)!
+        userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
         
         let title : UILabel = UILabel(frame: CGRectMake(0, 0, 70, 30))
         title.textAlignment = NSTextAlignment.Center
@@ -54,7 +61,8 @@ class SettingsViewController : UIViewController {
     @IBAction func onDefaultZenViewSwtichValueChanged(sender: UISwitch) {
         
         //Mixpanel track
-        Mixpanel.sharedInstance().track("Change Zen Setting")
+        let properties : [String:String] = ["UserID":self.userID,"Email":self.email]
+        Mixpanel.sharedInstance().track("Change Zen Setting",properties: properties)
         
         var mode = ""
         if sender.on == true {
@@ -84,7 +92,8 @@ class SettingsViewController : UIViewController {
     @IBAction func onDefaultListSwitchValueChanged(sender: UISwitch) {
         
         //Mixpanel track
-        Mixpanel.sharedInstance().track("Change Unread Setting")
+        let properties : [String:String] = ["UserID":self.userID,"Email":self.email]
+        Mixpanel.sharedInstance().track("Change Unread Setting",properties: properties)
         
         var mode = ""
         if sender.on == true {

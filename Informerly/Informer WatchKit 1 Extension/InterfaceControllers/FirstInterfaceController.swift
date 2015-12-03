@@ -31,7 +31,6 @@ class FirstInterfaceController: WKInterfaceController {
         
         if(FirstInterfaceController.isFirst) {
             if Utilities.sharedInstance.getBoolForAppGroupKey(IS_USER_LOGGED_IN) == true {
-                
                 if self.feeds != nil {
                     self.feeds!.removeAll(keepCapacity: false)
                 } else {

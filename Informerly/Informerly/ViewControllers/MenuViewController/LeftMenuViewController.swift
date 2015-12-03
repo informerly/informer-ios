@@ -19,6 +19,8 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
     @IBOutlet weak var tableView: UITableView!
     var menuItems : [Item] = []
     var refreshCntrl : UIRefreshControl!
+    var email:String!
+    var userID:String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,10 +29,14 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
         self.tableView.dataSource = self
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         
+        email = Utilities.sharedInstance.getStringForKey(EMAIL)!
+        userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
+        
         // Pull to Refresh
         self.refreshCntrl = UIRefreshControl()
         self.refreshCntrl.addTarget(self, action: Selector("onPullToRefresh:"), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(self.refreshCntrl)
+        
         
         self.downloadMenuItems()
         
@@ -65,7 +71,8 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                 success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     if requestStatus == 200 {
                         // Mixpanel track
-                        Mixpanel.sharedInstance().track("Menu - Pull to Refresh")
+                        let properties : [String:String] = ["UserID":self.userID,"Email":self.email]
+                        Mixpanel.sharedInstance().track("Menu - Pull to Refresh",properties: properties)
                         
                         self.refreshCntrl.endRefreshing()
                         MenuItems.sharedInstance.populateItems(processedData.objectForKey("feeds") as! [AnyObject])
@@ -136,7 +143,8 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                 success: { (requestStatus : Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                     
                     //Mixpanel track
-                    Mixpanel.sharedInstance().track("Logout - Informer App")
+                    let properties : [String:String] = ["UserID":self.userID,"Email":self.email]
+                    Mixpanel.sharedInstance().track("Logout - Informer App",properties: properties)
                     
                     Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
                     Utilities.sharedInstance.setAuthToken("", key: AUTH_TOKEN)

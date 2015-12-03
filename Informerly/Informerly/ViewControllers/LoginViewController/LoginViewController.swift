@@ -28,6 +28,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         self.navigationController?.navigationBar.hidden = true
         
+        if (mm_drawerController != nil) {
+            mm_drawerController.showsStatusBarBackgroundView = false
+//            mm_drawerController.statusBarViewBackgroundColor = UIColor.clearColor()
+        }
+        
         self.applyGradient()
         self.setCornerRadius()
         self.setTextFieldPlaceholder()
@@ -180,6 +185,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                             Utilities.sharedInstance.setBoolAppGroupForKey(true, key: IS_USER_LOGGED_IN)
                             Utilities.sharedInstance.setAuthToken(User.sharedInstance.auth_token, key: AUTH_TOKEN)
                             Utilities.sharedInstance.setStringForKey(String(User.sharedInstance.id), key: USER_ID)
+                            Utilities.sharedInstance.setStringAppGroupForKey(String(User.sharedInstance.id), key: USER_ID)
+                            Utilities.sharedInstance.setStringAppGroupForKey(User.sharedInstance.email!, key: EMAIL)
                             Utilities.sharedInstance.setStringForKey(self.emailTextField.text!.lowercaseString, key: EMAIL)
                             
                             let parseInstallation : PFInstallation = PFInstallation.currentInstallation()
