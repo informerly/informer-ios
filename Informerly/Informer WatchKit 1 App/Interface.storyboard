@@ -124,28 +124,17 @@
             <objects>
                 <glanceController spacing="0.0" id="0uZ-2p-rRc" customClass="GlanceController" customModule="Informer_WatchKit_1_App" customModuleProvider="target">
                     <items>
-                        <group alignment="left" layout="vertical" id="t8f-Gd-c4y">
-                            <items>
-                                <label alignment="left" text="Label" id="jNC-nr-zLx">
-                                    <fontDescription key="font" type="system" pointSize="13"/>
-                                </label>
-                                <label alignment="left" text="Label" numberOfLines="0" id="CtI-cb-yw8">
-                                    <fontDescription key="font" type="system" pointSize="13"/>
-                                </label>
-                            </items>
-                        </group>
+                        <group alignment="left" layout="vertical" id="t8f-Gd-c4y"/>
                         <group alignment="left" id="uCw-4Q-Ouw">
                             <items>
-                                <label alignment="left" text="Label" numberOfLines="0" id="1cm-fz-LlY">
-                                    <fontDescription key="font" type="system" pointSize="14"/>
+                                <label alignment="center" text="Label" textAlignment="left" numberOfLines="0" id="CtI-cb-yw8">
+                                    <fontDescription key="font" type="system" pointSize="15"/>
                                 </label>
                             </items>
                         </group>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
-                        <outlet property="lblDescription" destination="1cm-fz-LlY" id="1bs-Hl-Zxa"/>
-                        <outlet property="lblSource" destination="jNC-nr-zLx" id="3QR-ne-XIu"/>
                         <outlet property="lblTitle" destination="CtI-cb-yw8" id="nTx-Az-ict"/>
                     </connections>
                 </glanceController>

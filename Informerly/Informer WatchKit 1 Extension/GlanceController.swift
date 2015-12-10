@@ -14,9 +14,9 @@ class GlanceController: WKInterfaceController {
 
     var feeds : [AnyObject]!
     
-    @IBOutlet var lblSource: WKInterfaceLabel!
+//    @IBOutlet var lblSource: WKInterfaceLabel!
     @IBOutlet var lblTitle: WKInterfaceLabel!
-    @IBOutlet var lblDescription: WKInterfaceLabel!
+//    @IBOutlet var lblDescription: WKInterfaceLabel!
     
     override func awakeWithContext(context: AnyObject?) {
         super.awakeWithContext(context)
@@ -33,13 +33,13 @@ class GlanceController: WKInterfaceController {
             if self.feeds != nil {
                 self.feeds.removeAll(keepCapacity: false)
             }
-            self.lblTitle.setText("")
-            self.lblSource.setText("")
-            self.lblDescription.setText("Please Login on your phone to proceed.")
+            self.lblTitle.setText("Please Login on your phone to proceed.")
+//            self.lblSource.setText("")
+//            self.lblDescription.setText("")
         } else {
-            self.lblSource.setText("Loading ...")
-            self.lblTitle.setText("")
-            self.lblDescription.setText("")
+//            self.lblSource.setText("")
+            self.lblTitle.setText("Loading ...")
+//            self.lblDescription.setText("")
             downloadData()
         }
 
@@ -56,10 +56,10 @@ class GlanceController: WKInterfaceController {
         let index = arc4random_uniform(UInt32(self.feeds.count))
         
         var feed = self.feeds[Int(index)] as! [String:AnyObject]
-        self.lblSource.setText(feed["source"] as? String)
-        self.lblSource.setTextColor(UIColor(rgba: feed["source_color"] as! String))
+//        self.lblSource.setText(feed["source"] as? String)
+//        self.lblSource.setTextColor(UIColor(rgba: feed["source_color"] as! String))
         self.lblTitle.setText(feed["title"] as? String)
-        self.lblDescription.setText(feed["description"] as? String)
+//        self.lblDescription.setText(feed["description"] as? String)
     }
 
     override func didDeactivate() {

@@ -147,6 +147,7 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                     Mixpanel.sharedInstance().track("Logout - Informer App",properties: properties)
                     
                     Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
+                    Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
                     Utilities.sharedInstance.setAuthToken("", key: AUTH_TOKEN)
                     Utilities.sharedInstance.setBoolForKey(false, key: FROM_MENU_VC)
                     
