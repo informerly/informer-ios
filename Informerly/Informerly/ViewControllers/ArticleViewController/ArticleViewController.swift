@@ -46,6 +46,21 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     var email:String!
     var userID:String!
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let informMenuItem : UIMenuItem = UIMenuItem(title: "Inform", action: Selector("onInformSelected"))
+        UIMenuController.sharedMenuController().menuItems = [informMenuItem]
+        UIMenuController.sharedMenuController().setMenuVisible(true, animated: true)
+        
+    }
+    
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        UIMenuController.sharedMenuController().menuItems = nil
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -846,6 +861,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     // Zen web view delegate methods
     func webViewDidFinishLoad(webView: UIWebView) {
 //        webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")
+        webView.stringByEvaluatingJavaScriptFromString("window.getSelection().toString()")
     }
         
     func showAlert(title:String, msg:String){
@@ -869,6 +885,40 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         }
     }
     
+    
+    override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
+        if action == Selector("onInformSelected") {
+            return true
+        }
+        return super.canPerformAction(action, withSender: sender)
+    }
+    
+    func onInformSelected() {
+        UIApplication.sharedApplication().sendAction(Selector("copy:"), to: nil, from: self, forEvent: nil)
+        let selectedText : String = UIPasteboard.generalPasteboard().string!
+        
+        var sharingItems = [AnyObject]()
+        var url : NSURL!
+        if isBookmarked == true {
+            sharingItems.append(self.bookmarkedFeeds[articleIndex].title!)
+            sharingItems.append("\n\n \(selectedText)  \n\n")
+            url = NSURL(string: bookmarkedFeeds[articleIndex].url!)
+        } else if isCategoryFeeds == true {
+            sharingItems.append(self.categoryFeeds![articleIndex].title!)
+            sharingItems.append("\n\n \(selectedText)  \n\n")
+            url = NSURL(string: self.categoryFeeds![articleIndex].URL!)
+        } else {
+            sharingItems.append(feeds[articleIndex].title!)
+            sharingItems.append("\n\n \(selectedText) \n\n")
+            url = NSURL(string: feeds[articleIndex].URL!)
+        }
+        
+        sharingItems.append(url)
+        
+        let activity = ARSafariActivity()
+        let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
+        self.presentViewController(activityVC, animated: true, completion: nil)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
