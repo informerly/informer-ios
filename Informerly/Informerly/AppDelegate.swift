@@ -15,9 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     private var reachability:Reachability?
     var readArticles : [Int]!
+    var isFromBackground : Bool = false
  
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch
+        
+        isFromBackground = false
         
         let appVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
         if IS_DEV_ENV {
@@ -126,6 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        isFromBackground = true
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
@@ -306,7 +310,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func loadFeedVC(){
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         
-        if Utilities.sharedInstance.getStringForKey(LINK_ID) != "-1" {
+        if Utilities.sharedInstance.getStringForKey(LINK_ID) != "-1" && isFromBackground {
             let root = self.window?.rootViewController as! MMDrawerController
             let nav = root.centerViewController as? UINavigationController
             
