@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CoreSpotlight
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -114,6 +115,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if Utilities.sharedInstance.getBoolForKey(IS_USER_LOGGED_IN) {
             self.loadFeedVC()
         }
+        return true
+    }
+    
+    func application(application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
         return true
     }
 
@@ -532,12 +537,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
         
-        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            let webpageURL = userActivity.webpageURL! // Always exists
-            if !handleUniversalLink(URL: webpageURL) {
-                UIApplication.sharedApplication().openURL(webpageURL)
+        if #available(iOS 9.0, *) {
+            if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+                let webpageURL = userActivity.webpageURL! // Always exists
+                if !handleUniversalLink(URL: webpageURL) {
+                    UIApplication.sharedApplication().openURL(webpageURL)
+                }
             }
+            else {
+                print(userActivity.userInfo!)
+                Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
+            }
+//            else if userActivity.activityType == CSSearchableItemActionType {
+//                if let identifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String {
+//                    Utilities.sharedInstance.setStringForKey(userActivity.userInfo![""], key: LINK_ID)
+//                    //  Use identifier to display the correct content for this search result
+//                    
+//                    return true
+//                }
+//            }
+        } else {
+            // Fallback on earlier versions
         }
+        
         return true
     }
     

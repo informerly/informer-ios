@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreSpotlight
 
 class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
     
@@ -37,6 +38,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.addSpotlightSupport()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
         
@@ -110,6 +113,10 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
 
     }
     
+    override func updateUserActivityState(activity: NSUserActivity) {
+        print("\(activity.userInfo)")
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -161,6 +168,33 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                 }
             }
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        }
+    }
+    
+    func addSpotlightSupport() {
+        if #available(iOS 9.0, *) {
+            
+            let bookmarkedFeeds : [BookmarkFeed]? = CoreDataManager.getBookmarkFeeds()
+            if (bookmarkedFeeds != nil || bookmarkedFeeds?.count > 0) {
+                var items : [CSSearchableItem] = []
+                for feed in bookmarkedFeeds! {
+                    let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+                    attributeSet.title = feed.title!
+                    attributeSet.contentDescription = feed.feedDescription!
+                    let item = CSSearchableItem(uniqueIdentifier: String(feed.id!), domainIdentifier: USER_ACTIVITY_TYPE, attributeSet: attributeSet)
+                    items.append(item)
+                    CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(items) { (error: NSError?) -> Void in
+                        if let error =  error {
+                            print("Indexing error: \(error.localizedDescription)")
+                        } else {
+                            print("Search item successfully indexed")
+                        }
+                    }
+                }
+                
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
     
@@ -1117,6 +1151,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                             //Mixpanel track
                             let properties : [String:String] = ["UserID":self.userID,"Email":self.email]
                             Mixpanel.sharedInstance().track("Swipe In-Feed - Save",properties: properties)
+                            
                             if self.isBookmarked == true {
                                 
                             } else {
