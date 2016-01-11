@@ -40,6 +40,11 @@ class FirstInterfaceController: WKInterfaceController {
                     self.descriptionLabel.setText("Loading ...")
                     downloadData()
                 }
+            } else {
+                self.sourceLabel.setText("")
+                self.titleLabel.setText("")
+                self.separator.setHidden(true)
+                self.descriptionLabel.setText("Please Login on your phone to proceed.")
             }
             FirstInterfaceController.isFirst = false;
         }

@@ -22,6 +22,24 @@ class InterfaceController: WKInterfaceController {
         super.awakeWithContext(context)
     }
     
+    override func willActivate() {
+        // This method is called when watch view controller is about to be visible to user
+        super.willActivate()
+        
+        // Configure interface objects here.
+        if Utilities.sharedInstance.getBoolForAppGroupKey(IS_USER_LOGGED_IN) == false {
+            if self.feeds != nil {
+                self.feeds.removeAll(keepCapacity: false)
+                self.loadFeeds()
+            }
+            self.loadingLabel.setHidden(false)
+            self.loadingLabel.setText("Please Login on your phone to proceed.")
+        } else {
+            self.loadingLabel.setText("Loading ...")
+            downloadData()
+        }
+    }
+    
     func downloadData() {
         WKInterfaceController.openParentApplication(["action":"getFeeds"], reply: { (replyInfo, error) -> Void in
             self.feeds = replyInfo["result"] as! [AnyObject]
@@ -56,24 +74,6 @@ class InterfaceController: WKInterfaceController {
     
     override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
         self.pushControllerWithName("showArticle", context: self.feeds[rowIndex]["description"])
-    }
-
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
-        
-        // Configure interface objects here.
-        if Utilities.sharedInstance.getBoolForAppGroupKey(IS_USER_LOGGED_IN) == false {
-            if self.feeds != nil {
-                self.feeds.removeAll(keepCapacity: false)
-                self.loadFeeds()
-            }
-            self.loadingLabel.setHidden(false)
-            self.loadingLabel.setText("Please Login on your phone to proceed.")
-        } else {
-            self.loadingLabel.setText("Loading ...")
-            downloadData()
-        }
     }
 
     override func didDeactivate() {
