@@ -543,19 +543,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if !handleUniversalLink(URL: webpageURL) {
                     UIApplication.sharedApplication().openURL(webpageURL)
                 }
+            } else if userActivity.activityType == CSSearchableItemActionType {
+                if let identifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String {
+                    Utilities.sharedInstance.setStringForKey(identifier, key: LINK_ID)
+                    Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_SPOTLIGHT)
+                    return true
+                }
             }
-            else {
-                print(userActivity.userInfo!)
-                Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
-            }
-//            else if userActivity.activityType == CSSearchableItemActionType {
-//                if let identifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String {
-//                    Utilities.sharedInstance.setStringForKey(userActivity.userInfo![""], key: LINK_ID)
-//                    //  Use identifier to display the correct content for this search result
-//                    
-//                    return true
-//                }
-//            }
         } else {
             // Fallback on earlier versions
         }
@@ -587,6 +581,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }
         return false
+    }
+    
+    
+    //MARK: Spotlight methods
+    func addBookmarkedItemsToSpotlight() {
+        if #available(iOS 9.0, *) {
+            
+            let bookmarkedFeeds : [BookmarkFeed]? = CoreDataManager.getBookmarkFeeds()
+            if (bookmarkedFeeds != nil || bookmarkedFeeds?.count > 0) {
+                var items : [CSSearchableItem] = []
+                for feed in bookmarkedFeeds! {
+                    let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+                    attributeSet.title = feed.title!
+                    attributeSet.contentDescription = feed.feedDescription!
+                    let item = CSSearchableItem(uniqueIdentifier: String(feed.id!), domainIdentifier: USER_ACTIVITY_TYPE, attributeSet: attributeSet)
+                    items.append(item)
+                    CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(items) { (error: NSError?) -> Void in
+                        if let error =  error {
+                            print("Indexing error: \(error.localizedDescription)")
+                        } else {
+                            print("Search item successfully indexed")
+                        }
+                    }
+                }
+                
+            } else {
+                // Fallback on earlier versions
+            }
+        }
+    }
+    
+    func addItemToSpotlight(feed:InformerlyFeed) {
+        if #available(iOS 9.0, *) {
+            let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
+            attributeSet.title = feed.title!
+            attributeSet.contentDescription = feed.feedDescription!
+            let item = CSSearchableItem(uniqueIdentifier: String(feed.id!), domainIdentifier: USER_ACTIVITY_TYPE, attributeSet: attributeSet)
+            CSSearchableIndex.defaultSearchableIndex().indexSearchableItems([item]) { (error: NSError?) -> Void in
+                if let error =  error {
+                        print("Indexing error: \(error.localizedDescription)")
+                } else {
+                        print("Search item successfully indexed")
+                }
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    
+    func removeItemFromSpotlight(id:String) {
+        if #available(iOS 9.0, *) {
+            CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([id])
+                { (error: NSError?) -> Void in
+                    if let error = error {
+                        print("Remove error: \(error.localizedDescription)")
+                    } else {
+                        print("Search item successfully removed")
+                    }
+            }
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
 }

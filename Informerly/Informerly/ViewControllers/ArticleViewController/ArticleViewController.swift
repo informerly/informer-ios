@@ -45,6 +45,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     let ANIMATION_DURATION = 1.0
     var email:String!
     var userID:String!
+    var appDelegate : AppDelegate!
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -65,6 +66,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         super.viewDidLoad()
         
+        self.appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         email = Utilities.sharedInstance.getStringForKey(EMAIL)!
         userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
         
@@ -741,6 +743,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                                         self.feeds[counter].bookmarked = true
                                     }
                                     
+                                    self.appDelegate.addItemToSpotlight(feed)
                                     break
                                 }
                                 counter++
@@ -768,6 +771,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                                     if self.isBookmarked == true {
 //                                        self.resetZenModeWebView()
                                     }
+                                    self.appDelegate.removeItemFromSpotlight(String(feed.id!))
                                     break
                                 }
                                 counter++

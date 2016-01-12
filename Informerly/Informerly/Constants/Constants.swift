@@ -36,6 +36,7 @@ let CATEGORY_FEED_ARTICLE_ID = "categoryFeedArticleID"
 let IS_FROM_TODAY_WIDGET = "isFromTodayWidget"
 let LAUNCH_COUNT = "launchCount"
 let APP_VERSION = "appVersion"
+let IS_FROM_SPOTLIGHT = "isFromSpotlight"
 
 // Network Constants
 let LOGIN_URL = "users/sign_in"

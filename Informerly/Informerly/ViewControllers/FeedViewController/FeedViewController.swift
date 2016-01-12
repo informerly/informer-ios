@@ -35,11 +35,12 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
     private var isFromFeeds = true
     private var email:String!
     private var userID:String!
+    private var appDelegate : AppDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.addSpotlightSupport()
+        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
         
@@ -126,6 +127,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         
         email = Utilities.sharedInstance.getStringForKey(EMAIL)!
         userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
+        isBookmarked = Utilities.sharedInstance.getBoolForKey(IS_FROM_SPOTLIGHT)
+        Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_SPOTLIGHT)
         
         if Utilities.sharedInstance.getBoolForKey(FROM_PUSH_AND_FROM_ARTICLE_VIEW) {
             if Utilities.sharedInstance.getStringForKey(FEED_ID) != "-1" {
@@ -137,6 +140,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
             Utilities.sharedInstance.setBoolForKey(false, key: FROM_PUSH_AND_FROM_ARTICLE_VIEW)
         } else {
             if isBookmarked == true {
+                createNavTitle()
                 self.bookmarks = CoreDataManager.getBookmarkFeeds()
             } else if isCategoryFeeds == true {
                 if self.categoryFeeds == nil {
@@ -168,32 +172,36 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                 }
             }
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-        }
-    }
-    
-    func addSpotlightSupport() {
-        if #available(iOS 9.0, *) {
-            
-            let bookmarkedFeeds : [BookmarkFeed]? = CoreDataManager.getBookmarkFeeds()
-            if (bookmarkedFeeds != nil || bookmarkedFeeds?.count > 0) {
-                var items : [CSSearchableItem] = []
-                for feed in bookmarkedFeeds! {
-                    let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeText as String)
-                    attributeSet.title = feed.title!
-                    attributeSet.contentDescription = feed.feedDescription!
-                    let item = CSSearchableItem(uniqueIdentifier: String(feed.id!), domainIdentifier: USER_ACTIVITY_TYPE, attributeSet: attributeSet)
-                    items.append(item)
-                    CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(items) { (error: NSError?) -> Void in
-                        if let error =  error {
-                            print("Indexing error: \(error.localizedDescription)")
-                        } else {
-                            print("Search item successfully indexed")
+        } else if (Utilities.sharedInstance.getBoolForKey(IS_FROM_SPOTLIGHT)) {
+            if (self.navigationController?.topViewController?.isKindOfClass(FeedViewController) == true) {
+                isBookmarked = true
+                createNavTitle()
+                Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_SPOTLIGHT)
+                self.bookmarks = CoreDataManager.getBookmarkFeeds()
+                self.tableView.reloadData()
+                
+                var isMatched = false
+                var row = -1
+                let link_id : String! = Utilities.sharedInstance.getStringForKey(LINK_ID)
+                if link_id != nil && link_id != "-1" {
+                    for feed : BookmarkFeed in self.bookmarks {
+                        row = row + 1
+                        let id = Int(link_id)!
+                        if feed.id == id {
+                            isMatched = true
+                            break
                         }
                     }
                 }
                 
-            } else {
-                // Fallback on earlier versions
+                if isMatched == true {
+                    if link_id != "-1" {
+                        Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
+                        self.isLinkIDMatched = false
+                        self.rowID = row
+                        self.performSegueWithIdentifier("ArticleVC", sender: self)
+                    }
+                }
             }
         }
     }
@@ -743,6 +751,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                         
                         CoreDataManager.addBookmarkFeeds(processedData.objectForKey("links") as! [AnyObject], isSynced: true)
                         self.bookmarks = CoreDataManager.getBookmarkFeeds()
+                        self.appDelegate.addBookmarkedItemsToSpotlight()
                         
                         completion(result: true)
                     }
@@ -1157,6 +1166,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                             } else {
                                 CoreDataManager.addBookmarkFeed(feed as! InformerlyFeed, isSynced: true)
                                 self.bookmarks = CoreDataManager.getBookmarkFeeds()
+                                self.appDelegate.addItemToSpotlight(feed as! InformerlyFeed)
                             }
                         } else if message == "Bookmark Removed" {
                             if self.isBookmarked == true {
@@ -1170,7 +1180,9 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                                     }
                                     counter++
                                 }
+                                self.appDelegate.removeItemFromSpotlight(String(articleID))
                             } else {
+                                self.appDelegate.removeItemFromSpotlight(String(articleID))
                                 CoreDataManager.removeBookmarkFeedOfID(articleID)
                             }
                         }
