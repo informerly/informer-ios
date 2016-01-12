@@ -887,6 +887,9 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
 //                self.onBackPressed()
 //            }
         }
+//        else if (Utilities.sharedInstance.getBoolForKey(IS_FROM_SPOTLIGHT)) {
+//            self.onBackPressed()
+//        }
     }
     
     
@@ -922,6 +925,12 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         let activity = ARSafariActivity()
         let activityVC = UIActivityViewController(activityItems:sharingItems, applicationActivities: [activity])
         self.presentViewController(activityVC, animated: true, completion: nil)
+    }
+    
+    func resetDelegates() {
+        articleWebView.navigationDelegate = nil
+        articleWebView.scrollView.delegate = nil
+        self.navigationController?.cancelSGProgress()
     }
     
     override func didReceiveMemoryWarning() {

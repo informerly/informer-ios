@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import CoreSpotlight
+import MessageUI
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -547,6 +548,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let identifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String {
                     Utilities.sharedInstance.setStringForKey(identifier, key: LINK_ID)
                     Utilities.sharedInstance.setBoolForKey(true, key: IS_FROM_SPOTLIGHT)
+                    
+                    let root = self.window?.rootViewController as! MMDrawerController
+                    let nav = root.centerViewController as? UINavigationController
+                    
+                    if (nav != nil) {
+                        if nav!.topViewController?.isKindOfClass(ArticleViewController) == true {
+                            let articleVC : ArticleViewController = nav?.topViewController as! ArticleViewController
+                            articleVC.resetDelegates()
+                            nav!.popViewControllerAnimated(true)
+                        }
+                        else if (nav!.topViewController?.presentedViewController?.isKindOfClass(MFMailComposeViewController) == true) {
+                            (nav?.topViewController?.presentedViewController)!.dismissViewControllerAnimated(true, completion: nil)
+                        }
+                        else {
+                            nav?.popViewControllerAnimated(true)
+                        }
+                    }
+                    
                     return true
                 }
             }

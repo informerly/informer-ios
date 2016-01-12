@@ -139,15 +139,17 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
             
             Utilities.sharedInstance.setBoolForKey(false, key: FROM_PUSH_AND_FROM_ARTICLE_VIEW)
         } else {
-            if isBookmarked == true {
+            if isBookmarked == true || Utilities.sharedInstance.getBoolForKey(IS_FROM_SPOTLIGHT) {
                 createNavTitle()
                 self.bookmarks = CoreDataManager.getBookmarkFeeds()
+                loadArticle()
             } else if isCategoryFeeds == true {
                 if self.categoryFeeds == nil {
                     self.categoryFeeds = []
                 }
             }
             else {
+                createNavTitle()
                 self.feeds = Feeds.sharedInstance.getFeeds()
             }
             
@@ -173,35 +175,39 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
             }
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         } else if (Utilities.sharedInstance.getBoolForKey(IS_FROM_SPOTLIGHT)) {
+            
             if (self.navigationController?.topViewController?.isKindOfClass(FeedViewController) == true) {
                 isBookmarked = true
                 createNavTitle()
                 Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_SPOTLIGHT)
                 self.bookmarks = CoreDataManager.getBookmarkFeeds()
                 self.tableView.reloadData()
-                
-                var isMatched = false
-                var row = -1
-                let link_id : String! = Utilities.sharedInstance.getStringForKey(LINK_ID)
-                if link_id != nil && link_id != "-1" {
-                    for feed : BookmarkFeed in self.bookmarks {
-                        row = row + 1
-                        let id = Int(link_id)!
-                        if feed.id == id {
-                            isMatched = true
-                            break
-                        }
-                    }
+                loadArticle()
+            }
+        }
+    }
+    
+    func loadArticle() {
+        var isMatched = false
+        var row = -1
+        let link_id : String! = Utilities.sharedInstance.getStringForKey(LINK_ID)
+        if link_id != nil && link_id != "-1" {
+            for feed : BookmarkFeed in self.bookmarks {
+                row = row + 1
+                let id = Int(link_id)!
+                if feed.id == id {
+                    isMatched = true
+                    break
                 }
-                
-                if isMatched == true {
-                    if link_id != "-1" {
-                        Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
-                        self.isLinkIDMatched = false
-                        self.rowID = row
-                        self.performSegueWithIdentifier("ArticleVC", sender: self)
-                    }
-                }
+            }
+        }
+        
+        if isMatched == true {
+            if link_id != "-1" {
+                Utilities.sharedInstance.setStringForKey("-1", key: LINK_ID)
+                self.isLinkIDMatched = false
+                self.rowID = row
+                self.performSegueWithIdentifier("ArticleVC", sender: self)
             }
         }
     }
