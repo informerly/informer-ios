@@ -146,6 +146,9 @@ class LeftMenuViewController : UIViewController,MFMailComposeViewControllerDeleg
                     let properties : [String:String] = ["UserID":self.userID,"Email":self.email]
                     Mixpanel.sharedInstance().track("Logout - Informer App",properties: properties)
                     
+                    // Reset Intercom
+                    Intercom.reset()
+                    
                     Utilities.sharedInstance.setBoolForKey(false, key: IS_USER_LOGGED_IN)
                     Utilities.sharedInstance.setBoolAppGroupForKey(false, key: IS_USER_LOGGED_IN)
                     Utilities.sharedInstance.setAuthToken("", key: AUTH_TOKEN)

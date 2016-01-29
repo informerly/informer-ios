@@ -27,8 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let appVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
         if IS_DEV_ENV {
             Mixpanel.sharedInstanceWithToken(MIXPANEL_DEV_TOKEN)
+            Intercom.setApiKey(INTERCOM_DEV_SECRET_KEY, forAppId: INTERCOM_DEV_APP_ID)
         } else {
             Mixpanel.sharedInstanceWithToken(MIXPANEL_PROD_TOKEN)
+            Intercom.setApiKey(INTERCOM_PROD_SECRET_KEY, forAppId: INTERCOM_PROD_APP_ID)
         }
         
         let appCount = Utilities.sharedInstance.getIntForKey(LAUNCH_COUNT)

@@ -1,14 +1,17 @@
 PODS:
+  - Intercom (2.3.19)
   - Mixpanel (2.9.0):
     - Mixpanel/Mixpanel (= 2.9.0)
   - Mixpanel/AppExtension (2.9.0)
   - Mixpanel/Mixpanel (2.9.0)
 
 DEPENDENCIES:
+  - Intercom
   - Mixpanel (~> 2.8)
   - Mixpanel/AppExtension
 
 SPEC CHECKSUMS:
+  Intercom: de20d3f2eeb7798aac66b26a7a7b92979211e05c
   Mixpanel: 42ae6168effc48481d957f7883dd8514a398738d
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0

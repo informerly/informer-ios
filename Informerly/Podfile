@@ -3,6 +3,7 @@
 
 target 'Informerly' do
 pod 'Mixpanel', '~> 2.8'
+pod 'Intercom'
 end
 
 target 'InformerlyTests' do

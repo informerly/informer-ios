@@ -47,6 +47,9 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         email = Utilities.sharedInstance.getStringForKey(EMAIL)!
         userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
         
+        // Intercom Register User
+        Intercom.registerUserWithUserId(userID)
+        
         SVProgressHUD.showWithMaskType(SVProgressHUDMaskType.Gradient)
         if Utilities.sharedInstance.getBoolForKey(PUSH_ALLOWED) == false {
             var appLaunchCounter = Utilities.sharedInstance.getIntForKey(APP_LAUNCH_COUNTER)
@@ -851,7 +854,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
     
     
     func onUpdateYourInterest(){
-        self.performSegueWithIdentifier("UpdateInterestsVC", sender: self)
+//        self.performSegueWithIdentifier("UpdateInterestsVC", sender: self)
+        Intercom.presentMessageComposer()
     }
     
     // Notication selectors

@@ -935,6 +935,7 @@
 				18DEC7611AE7AE8500F8F661 /* Run Script */,
 				18DEC7621AE7BB5B00F8F661 /* ShellScript */,
 				240E942F227A90B1791855B1 /* Copy Pods Resources */,
+				90560DBAD253B608579C884E /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -973,6 +974,7 @@
 				186BD5371A9711FE0044C86B /* Frameworks */,
 				186BD5381A9711FE0044C86B /* Resources */,
 				11738394D6A833456F36608E /* Copy Pods Resources */,
+				93F6070643B96EA0FE01DB2D /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1098,7 +1100,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Informerly Widget/Pods-Informerly Widget-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		18DEC7611AE7AE8500F8F661 /* Run Script */ = {
@@ -1171,6 +1173,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		90560DBAD253B608579C884E /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Informerly/Pods-Informerly-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		93F6070643B96EA0FE01DB2D /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Informerly Widget/Pods-Informerly Widget-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
