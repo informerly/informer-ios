@@ -48,7 +48,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
         
         // Intercom Register User
-        Intercom.registerUserWithUserId(userID)
+        Intercom.registerUserWithUserId(userID, email: email)
         
         SVProgressHUD.showWithMaskType(SVProgressHUDMaskType.Gradient)
         if Utilities.sharedInstance.getBoolForKey(PUSH_ALLOWED) == false {
