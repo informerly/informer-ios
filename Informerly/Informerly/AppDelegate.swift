@@ -39,6 +39,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Utilities.sharedInstance.setStringForKey(appVersion, key: APP_VERSION)
             Mixpanel.sharedInstance().track("App Download")
         } else {
+            
+            if Utilities.sharedInstance.getStringForKey(USER_ID) != nil {
+                let userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
+                
+                // MixPanel tracking
+                Mixpanel.sharedInstance().identify(String(userID))
+            }
+            
             Mixpanel.sharedInstance().track("App Launch")
         }
         

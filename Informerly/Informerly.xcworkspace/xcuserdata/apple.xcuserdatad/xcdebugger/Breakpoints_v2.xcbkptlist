@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Informerly/AppDelegate.swift"
-            timestampString = "475745494.909122"
+            timestampString = "476122221.320474"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "557"
-            endingLineNumber = "557"
+            startingLineNumber = "565"
+            endingLineNumber = "565"
             landmarkName = "application(_:continueUserActivity:restorationHandler:)"
             landmarkType = "5">
          </BreakpointContent>

@@ -29,7 +29,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
     private var categoryName : String = ""
     private var feedData : InformerlyFeed!
     private var bookmarkBtn : MGSwipeButton!
-    private var readBtn : MGSwipeButton!
+//    private var readBtn : MGSwipeButton!
+    private var crossBtn : MGSwipeButton!
     private var customSegmentedControl : UISegmentedControl!
     private var isLinkIDMatched = false
     private var isFromFeeds = true
@@ -46,6 +47,9 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         
         email = Utilities.sharedInstance.getStringForKey(EMAIL)!
         userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
+        
+        // MixPanel tracking
+        Mixpanel.sharedInstance().identify(String(userID))
         
         // Intercom Register User
         Intercom.registerUserWithUserId(userID, email: email)
@@ -489,7 +493,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         cell.separatorInset = UIEdgeInsetsZero
         
         var imgName = ICON_BOOKMARK
-        var tickImgName = ICON_CHECK_CIRCLE_GREY
+//        var tickImgName = ICON_CHECK_CIRCLE_GREY
+        let crossImgName = ICON_CROSS
         
         let source = cell.viewWithTag(1) as! UILabel
         let title = cell.viewWithTag(2) as! UILabel
@@ -516,7 +521,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                 title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                 readingTime.text = "Read"
                 tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
-                tickImgName = ICON_CHECK_CIRCLE
+//                tickImgName = ICON_CHECK_CIRCLE
             }
             
             if feed.bookmarked == true {
@@ -541,7 +546,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                 title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                 readingTime.text = "Read"
                 tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
-                tickImgName = ICON_CHECK_CIRCLE
+//                tickImgName = ICON_CHECK_CIRCLE
             }
             
             if feed.bookmarked == true {
@@ -567,7 +572,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                 title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                 readingTime.text = "Read"
                 tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
-                tickImgName = ICON_CHECK_CIRCLE
+//                tickImgName = ICON_CHECK_CIRCLE
             }
             
             if feed.bookmarked == true {
@@ -592,7 +597,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                 title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                 readingTime.text = "Read"
                 tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
-                tickImgName = ICON_CHECK_CIRCLE
+//                tickImgName = ICON_CHECK_CIRCLE
             }
             
             if feed.bookmarked == true {
@@ -618,7 +623,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                 title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
                 readingTime.text = "Read"
                 tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
-                tickImgName = ICON_CHECK_CIRCLE
+//                tickImgName = ICON_CHECK_CIRCLE
             }
             
             if feed.bookmarked == true {
@@ -629,17 +634,21 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         
         // Create Cell Swipe view
         let bookmarkimage = UIImage(named: imgName)
-        let tickImage = UIImage(named: tickImgName)
+        let crossImage = UIImage(named: crossImgName)
+//        let tickImage = UIImage(named: tickImgName)
         self.bookmarkBtn = MGSwipeButton(title: "",icon: bookmarkimage,backgroundColor:UIColor(rgba:SWIPE_CELL_BACKGROUND),callback:nil)
         bookmarkBtn.buttonWidth = self.view.frame.size.width/3
         
-        self.readBtn = MGSwipeButton(title: "",icon: tickImage, backgroundColor: UIColor(rgba:SWIPE_CELL_BACKGROUND), callback: nil)
-        self.readBtn.buttonWidth = self.view.frame.size.width/3
+//        self.readBtn = MGSwipeButton(title: "",icon: tickImage, backgroundColor: UIColor(rgba:SWIPE_CELL_BACKGROUND), callback: nil)
+//        self.readBtn.buttonWidth = self.view.frame.size.width/3
+        
+        self.crossBtn = MGSwipeButton(title: "",icon: crossImage, backgroundColor: UIColor(rgba:SWIPE_CELL_BACKGROUND), callback: nil)
+        self.crossBtn.buttonWidth = self.view.frame.size.width/3
         
         let shareBtn = MGSwipeButton(title: "", icon: UIImage(named: ICON_SHARE)!, backgroundColor: UIColor(rgba:SWIPE_CELL_BACKGROUND),callback: nil)
         shareBtn.buttonWidth = self.view.frame.size.width/3
         
-        cell.rightButtons = [shareBtn,bookmarkBtn,readBtn]
+        cell.rightButtons = [shareBtn,bookmarkBtn,crossBtn]
         cell.rightSwipeSettings.transition = MGSwipeTransition.Border
 
         return cell
@@ -1237,127 +1246,239 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         }
     }
     
-    func onMarkReadPressed(indexPath:NSIndexPath,readBtn:MGSwipeButton) {
+//    func onMarkReadPressed(indexPath:NSIndexPath,readBtn:MGSwipeButton) {
+    
+//        let cell : MGSwipeTableCell = self.tableView.cellForRowAtIndexPath(indexPath) as! MGSwipeTableCell
+//        let title = cell.viewWithTag(2) as! UILabel
+//        let readingTime = cell.viewWithTag(3) as! UILabel
+//        let tick = cell.viewWithTag(4) as! UIImageView
+//        
+//        if isBookmarked == true {
+//            if isUnreadTab == true {
+//                readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
+//                markAsRead(indexPath)
+//                
+//                var counter = 0
+//                for feed in self.bookmarks {
+//                    if feed.id == unreadBookmarkFeeds[indexPath.row].id {
+//                        self.bookmarks[counter].read = true
+//                    }
+//                    counter++
+//                }
+//                
+//                unreadBookmarkFeeds.removeAtIndex(indexPath.row)
+//                self.tableView.beginUpdates()
+//                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+//                self.tableView.endUpdates()
+//                
+//            } else {
+//                if self.bookmarks[indexPath.row].read == true {
+//                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE_GREY), forState: UIControlState.Normal)
+//                    markAsUnread(indexPath)
+//                    
+//                    title.textColor = UIColor.blackColor()
+//                    readingTime.text = "\(String(self.bookmarks[indexPath.row].readingTime!)) min read"
+//                    tick.image = UIImage(named: ICON_CLOCK)
+//                    
+//                } else {
+//                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
+//                    markAsRead(indexPath)
+//                    
+//                    readingTime.text = "Read"
+//                    title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
+//                    tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
+//                }
+//            }
+//            
+//        } else if isCategoryFeeds == true {
+//            
+//            if isUnreadTab == true {
+//                readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
+//                markAsRead(indexPath)
+//                
+//                var counter = 0
+//                for feed in self.categoryFeeds! {
+//                    if feed.id == unreadFeeds[indexPath.row].id {
+//                        self.categoryFeeds![counter].read = true
+//                    }
+//                    counter++
+//                }
+//                
+//                unreadFeeds.removeAtIndex(indexPath.row)
+//                self.tableView.beginUpdates()
+//                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+//                self.tableView.endUpdates()
+//            
+//            } else {
+//                if self.categoryFeeds![indexPath.row].read == true {
+//                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE_GREY), forState: UIControlState.Normal)
+//                    markAsUnread(indexPath)
+//                    
+//                    title.textColor = UIColor.blackColor()
+//                    readingTime.text = "\(String(self.categoryFeeds![indexPath.row].readingTime!)) min read"
+//                    tick.image = UIImage(named: ICON_CLOCK)
+//                    
+//                } else {
+//                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
+//                    markAsRead(indexPath)
+//                    
+//                    title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
+//                    readingTime.text = "Read"
+//                    tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
+//                }
+//            }
+//            
+//        } else {
+//            
+//            if isUnreadTab == true {
+//                readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
+//                markAsRead(indexPath)
+//                
+//                var counter = 0
+//                for feed in self.feeds {
+//                    if feed.id == unreadFeeds[indexPath.row].id {
+//                        self.feeds[counter].read = true
+//                    }
+//                    counter++
+//                }
+//                
+//                self.unreadFeeds.removeAtIndex(indexPath.row)
+//                self.tableView.beginUpdates()
+//                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+//                self.tableView.endUpdates()
+//            } else {
+//                if self.feeds[indexPath.row].read == true {
+//                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE_GREY), forState: UIControlState.Normal)
+//                    markAsUnread(indexPath)
+//                    
+//                    title.textColor = UIColor.blackColor()
+//                    readingTime.text = "\(String(self.feeds[indexPath.row].readingTime!)) min read"
+//                    tick.image = UIImage(named: ICON_CLOCK)
+//                    
+//                } else {
+//                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
+//                    markAsRead(indexPath)
+//                    
+//                    title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
+//                    readingTime.text = "Read"
+//                    tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
+//                    
+//                }
+//            }
+//        }
+//    }
+    
+    func onCrossPressed(indexPath:NSIndexPath,crossBtn:MGSwipeButton) {
         
-        let cell : MGSwipeTableCell = self.tableView.cellForRowAtIndexPath(indexPath) as! MGSwipeTableCell
-        let title = cell.viewWithTag(2) as! UILabel
-        let readingTime = cell.viewWithTag(3) as! UILabel
-        let tick = cell.viewWithTag(4) as! UIImageView
+        var articleID : Int!
+        var parameters : [String:AnyObject]!
+        let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+        let path = "users/\(self.userID)/ignore_link"
         
         if isBookmarked == true {
+            
             if isUnreadTab == true {
-                readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
-                markAsRead(indexPath)
-                
-                var counter = 0
-                for feed in self.bookmarks {
-                    if feed.id == unreadBookmarkFeeds[indexPath.row].id {
-                        self.bookmarks[counter].read = true
-                    }
-                    counter++
-                }
-                
-                unreadBookmarkFeeds.removeAtIndex(indexPath.row)
-                self.tableView.beginUpdates()
-                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                self.tableView.endUpdates()
-                
+                articleID = unreadBookmarkFeeds[indexPath.row].id!
             } else {
-                if self.bookmarks[indexPath.row].read == true {
-                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE_GREY), forState: UIControlState.Normal)
-                    markAsUnread(indexPath)
-                    
-                    title.textColor = UIColor.blackColor()
-                    readingTime.text = "\(String(self.bookmarks[indexPath.row].readingTime!)) min read"
-                    tick.image = UIImage(named: ICON_CLOCK)
-                    
-                } else {
-                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
-                    markAsRead(indexPath)
-                    
-                    readingTime.text = "Read"
-                    title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
-                    tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
-                }
+                articleID = bookmarks[indexPath.row].id!
             }
             
         } else if isCategoryFeeds == true {
             
             if isUnreadTab == true {
-                readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
-                markAsRead(indexPath)
-                
-                var counter = 0
-                for feed in self.categoryFeeds! {
-                    if feed.id == unreadFeeds[indexPath.row].id {
-                        self.categoryFeeds![counter].read = true
-                    }
-                    counter++
-                }
-                
-                unreadFeeds.removeAtIndex(indexPath.row)
-                self.tableView.beginUpdates()
-                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                self.tableView.endUpdates()
-            
+                articleID = unreadFeeds[indexPath.row].id!
             } else {
-                if self.categoryFeeds![indexPath.row].read == true {
-                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE_GREY), forState: UIControlState.Normal)
-                    markAsUnread(indexPath)
-                    
-                    title.textColor = UIColor.blackColor()
-                    readingTime.text = "\(String(self.categoryFeeds![indexPath.row].readingTime!)) min read"
-                    tick.image = UIImage(named: ICON_CLOCK)
-                    
-                } else {
-                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
-                    markAsRead(indexPath)
-                    
-                    title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
-                    readingTime.text = "Read"
-                    tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
-                }
+                articleID = categoryFeeds![indexPath.row].id!
             }
             
         } else {
             
             if isUnreadTab == true {
-                readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
-                markAsRead(indexPath)
+                articleID = unreadFeeds[indexPath.row].id!
+            } else {
+                articleID = feeds[indexPath.row].id!
+            }
+        }
+        
+        parameters = ["auth_token":auth_token,
+            "link_id":articleID]
+        
+        NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
+            parameter: parameters,
+            success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                print("Successfully removed.")
                 
-                var counter = 0
-                for feed in self.feeds {
-                    if feed.id == unreadFeeds[indexPath.row].id {
-                        self.feeds[counter].read = true
+                if self.isBookmarked == true {
+                    
+                    if self.isUnreadTab == true {
+                        var counter : Int = 0
+                        for feed in self.bookmarks {
+                            if feed.id == self.unreadBookmarkFeeds[indexPath.row].id {
+                                self.bookmarks.removeAtIndex(counter)
+                                break
+                            }
+                            counter++
+                        }
+                        self.unreadBookmarkFeeds.removeAtIndex(indexPath.row)
+                    } else {
+                        self.bookmarks.removeAtIndex(indexPath.row)
                     }
-                    counter++
+                    
+                } else if self.isCategoryFeeds == true {
+                    
+                    if self.isUnreadTab == true {
+                        var counter : Int = 0
+                        for feed in self.categoryFeeds! {
+                            if feed.id == self.unreadFeeds[indexPath.row].id {
+                                self.categoryFeeds!.removeAtIndex(counter)
+                                break
+                            }
+                            counter++
+                        }
+                        self.unreadFeeds.removeAtIndex(indexPath.row)
+                        self.unreadFeeds.removeAtIndex(indexPath.row)
+                    } else {
+                        self.categoryFeeds!.removeAtIndex(indexPath.row)
+                    }
+                    
+                } else {
+                    
+                    if self.isUnreadTab == true {
+                        var counter : Int = 0
+                        for feed in self.feeds {
+                            if feed.id == self.unreadFeeds[indexPath.row].id {
+                                self.feeds.removeAtIndex(counter)
+                                break
+                            }
+                            counter++
+                        }
+                        self.unreadFeeds.removeAtIndex(indexPath.row)
+                    } else {
+                        self.feeds.removeAtIndex(indexPath.row)
+                    }
                 }
                 
-                self.unreadFeeds.removeAtIndex(indexPath.row)
+//                self.tableView.reloadData()
                 self.tableView.beginUpdates()
                 self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                 self.tableView.endUpdates()
-            } else {
-                if self.feeds[indexPath.row].read == true {
-                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE_GREY), forState: UIControlState.Normal)
-                    markAsUnread(indexPath)
-                    
-                    title.textColor = UIColor.blackColor()
-                    readingTime.text = "\(String(self.feeds[indexPath.row].readingTime!)) min read"
-                    tick.image = UIImage(named: ICON_CLOCK)
-                    
-                } else {
-                    readBtn.setImage(UIImage(named: ICON_CHECK_CIRCLE), forState: UIControlState.Normal)
-                    markAsRead(indexPath)
-                    
-                    title.textColor = UIColor(rgba: CELL_TITLE_COLOR)
-                    readingTime.text = "Read"
-                    tick.image = UIImage(named: ICON_CHECK_CIRCLE_GREY)
-                    
+                
+                //Mixpanel track
+                let properties : [String:String] = ["userID":self.userID,"Email":self.email]
+                Mixpanel.sharedInstance().track("Swipe In-Feed - Remove",properties: properties)
+                
+            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                print("Failure removing article")
+                
+                if extraInfo != nil {
+                    var error : [String:AnyObject] = extraInfo as! Dictionary
+                    let message : String = error["error"] as! String
+                    let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                    self.presentViewController(alert, animated: true, completion: nil)
                 }
-            }
         }
     }
+    
     
     func markAsRead(indexPath:NSIndexPath){
         var path : String!
@@ -1527,7 +1648,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
             return true
         } else {
             let btn = cell.rightButtons[2] as! MGSwipeButton
-            self.onMarkReadPressed(indexPath, readBtn: btn)
+            self.onCrossPressed(indexPath, crossBtn: btn)
+//            self.onMarkReadPressed(indexPath, readBtn: btn)
             return true
         }
     }

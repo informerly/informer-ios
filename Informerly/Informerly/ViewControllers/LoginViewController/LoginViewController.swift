@@ -193,9 +193,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                             parseInstallation["id"] = User.sharedInstance.id
                             parseInstallation.saveInBackgroundWithBlock(nil)
                             
-                            // MixPanel tracking
-                            Mixpanel.sharedInstance().identify(String(User.sharedInstance.id))
-                            
                             let appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                             appDelegate.loadFeedVC()
                         }
@@ -209,10 +206,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
                     self.passwordTextField.alpha = 0.3
                     self.signInBtn.enabled = false
                     self.signInBtn.alpha = 0.3
-                    
-                    var error : [String:AnyObject] = extraInfo as! Dictionary
-                    let message : String = error["message"] as! String
-                    self.showAlert("Error !", msg: message)
+                    if extraInfo != nil {
+                        var error : [String:AnyObject] = extraInfo as! Dictionary
+                        let message : String = error["message"] as! String
+                        self.showAlert("Error !", msg: message)
+                    }
             }
         } else {
             self.showAlert("No Signal?  Don't worry!", msg: "You can still read your Saved Articles from the side menu.")

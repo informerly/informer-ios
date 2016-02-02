@@ -58,6 +58,8 @@ let BORDER_COLOR = "#64ACFF"
 // Image names 
 let ICON_CHECK_CIRCLE_GREY = "icon_check_circle_grey"
 let ICON_CHECK_CIRCLE = "icon_check_circle"
+let ICON_CROSS = "icon_cross"
+let ICON_CROSS_FILLED = "icon_cross_filled"
 let ICON_BOOKMARK = "icon_bookmark"
 let ICON_BOOKMARK_BLUE = "icon_bookmark_blue"
 let ICON_BOOKMARK_FILLED = "icon_bookmark_filled"
@@ -65,6 +67,7 @@ let ICON_CLOCK = "clock_icon"
 let ICON_MENU = "menu_btn"
 let ICON_INTERESTS = "icon_interests"
 let ICON_SHARE = "share_btn"
+
 
 // Cell colors
 let CELL_TITLE_COLOR = "#9B9B9B"
