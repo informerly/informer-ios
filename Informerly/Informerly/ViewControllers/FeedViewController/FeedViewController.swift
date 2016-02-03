@@ -134,7 +134,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         
         email = Utilities.sharedInstance.getStringForKey(EMAIL)!
         userID = Utilities.sharedInstance.getStringForKey(USER_ID)!
-        isBookmarked = Utilities.sharedInstance.getBoolForKey(IS_FROM_SPOTLIGHT)
+//        isBookmarked = Utilities.sharedInstance.getBoolForKey(IS_FROM_SPOTLIGHT)
+        let isFromSpotlight = Utilities.sharedInstance.getBoolForKey(IS_FROM_SPOTLIGHT)
         Utilities.sharedInstance.setBoolForKey(false, key: IS_FROM_SPOTLIGHT)
         
         if Utilities.sharedInstance.getBoolForKey(FROM_PUSH_AND_FROM_ARTICLE_VIEW) {
@@ -146,7 +147,7 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
             
             Utilities.sharedInstance.setBoolForKey(false, key: FROM_PUSH_AND_FROM_ARTICLE_VIEW)
         } else {
-            if isBookmarked == true || Utilities.sharedInstance.getBoolForKey(IS_FROM_SPOTLIGHT) {
+            if isBookmarked == true || isFromSpotlight {
                 createNavTitle()
                 self.bookmarks = CoreDataManager.getBookmarkFeeds()
                 loadArticle()
