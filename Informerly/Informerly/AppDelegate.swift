@@ -173,6 +173,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let currentInstallation: PFInstallation = PFInstallation.currentInstallation()
         currentInstallation.setDeviceTokenFromData(deviceToken)
         
+        // Set Intercom device token
+        Intercom.setDeviceToken(deviceToken)
+        
         currentInstallation.saveInBackground()
         print("Success")
     }
