@@ -53,7 +53,6 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         let informMenuItem : UIMenuItem = UIMenuItem(title: "Inform", action: Selector("onInformSelected"))
         UIMenuController.sharedMenuController().menuItems = [informMenuItem]
         UIMenuController.sharedMenuController().setMenuVisible(true, animated: true)
-        
     }
     
     
@@ -72,6 +71,10 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         
         // Application did become active
         NSNotificationCenter.defaultCenter().addObserver(self, selector:"appDidBecomeActiveCalled", name:UIApplicationDidBecomeActiveNotification, object: nil)
+        
+        // Side menu set swipe gesture
+        self.mm_drawerController.openDrawerGestureModeMask = MMOpenDrawerGestureMode.None
+        self.mm_drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.None
         
         // Setting up Nav bar
         self.navigationController?.navigationBar.translucent = false
@@ -166,6 +169,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
         let rect : CGRect = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - resultantHeight)
         self.zenModeScrollView = UIScrollView(frame: rect)
         self.zenModeScrollView.contentSize = CGSizeMake(self.view.frame.width * CGFloat(count) , self.view.frame.height - resultantHeight)
+        self.zenModeScrollView.scrollEnabled = false
         self.zenModeScrollView.pagingEnabled = true
         self.zenModeScrollView.delegate = self
         self.zenModeScrollView.alpha = 0.0
@@ -515,47 +519,44 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
     
     // UIScrollView Delegate
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        lastContentOffset = scrollView.contentOffset.y
-        lastContentOffsetX = scrollView.contentOffset.x
-        if scrollView.contentOffset.y == 0.0 {
-            lastContentOffset = 1.0
-        }
-        
-    }
+//    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+//        lastContentOffset = scrollView.contentOffset.y
+//        lastContentOffsetX = scrollView.contentOffset.x
+//        if scrollView.contentOffset.y == 0.0 {
+//            lastContentOffset = 1.0
+//        }
+//        
+//    }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        if lastContentOffset < scrollView.contentOffset.y {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                self.toolbar.frame = CGRectMake(0, self.view.frame.size.height + 44, self.view.frame.size.width, 44)
-            })
-            
-        } else {
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                self.toolbar.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44)
-            })
-        }
-    }
+//    func scrollViewDidScroll(scrollView: UIScrollView) {
+//        
+//        if lastContentOffset < scrollView.contentOffset.y {
+//            UIView.animateWithDuration(0.3, animations: { () -> Void in
+//                self.toolbar.frame = CGRectMake(0, self.view.frame.size.height + 44, self.view.frame.size.width, 44)
+//            })
+//            
+//        } else {
+//            UIView.animateWithDuration(0.3, animations: { () -> Void in
+//                self.toolbar.frame = CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44)
+//            })
+//        }
+//    }
     
-    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
-        if isZenMode == true {
-            isFromNextORPrev = false
-            if lastContentOffsetX < scrollView.contentOffset.x || lastContentOffsetX > scrollView.contentOffset.x  {
-                
-                if lastContentOffsetX < scrollView.contentOffset.x {
-                    onNext()
-                    isFromNextORPrev = true
-                } else {
-                    onPrev()
-                    isFromNextORPrev = true
-                }
-            }
-        }
-    }
-    
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-    }
+//    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
+//        if isZenMode == true {
+//            isFromNextORPrev = false
+//            if lastContentOffsetX < scrollView.contentOffset.x || lastContentOffsetX > scrollView.contentOffset.x  {
+//                
+//                if lastContentOffsetX < scrollView.contentOffset.x {
+//                    onNext()
+//                    isFromNextORPrev = true
+//                } else {
+//                    onPrev()
+//                    isFromNextORPrev = true
+//                }
+//            }
+//        }
+//    }
     
     func onZenModeBtnPress(sender:UIButton){
         isZenMode = true

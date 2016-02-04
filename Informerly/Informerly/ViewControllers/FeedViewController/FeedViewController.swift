@@ -130,6 +130,11 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
         
         UIApplication.sharedApplication().statusBarHidden = false
         self.navigationController?.navigationBar.hidden = false
+        
+        // Side menu set swipe gesture
+        self.mm_drawerController.openDrawerGestureModeMask = MMOpenDrawerGestureMode.PanningCenterView
+        self.mm_drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.PanningDrawerView
+        
         self.isFromFeeds = true
         
         email = Utilities.sharedInstance.getStringForKey(EMAIL)!

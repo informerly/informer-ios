@@ -347,8 +347,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let container = MMDrawerController(centerViewController: navigationVC, leftDrawerViewController: leftSideMenuViewController)
         container.restorationIdentifier = "MMDrawer"
-        container.openDrawerGestureModeMask = MMOpenDrawerGestureMode.PanningCenterView
-        container.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.PanningDrawerView
         container.showsStatusBarBackgroundView = true
         container.statusBarViewBackgroundColor = UIColor.whiteColor()
         container.maximumLeftDrawerWidth = 220

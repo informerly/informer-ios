@@ -1608,8 +1608,8 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Informer WatchKit 1 Extension/Informer WatchKit 1 Extension.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Informer WatchKit 1 Extension/Info.plist";
@@ -1617,7 +1617,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "c4b5056c-33ca-4f4b-9fe4-6a2e0b7b9ee4";
+				PROVISIONING_PROFILE = "55d9d7a2-cd3b-4b35-9853-d2aef8a3a35e";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Informer WatchKit 1 Extension/Informer WatchKit 1 Extension-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1629,8 +1629,8 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Informer WatchKit 1 Extension/Informer WatchKit 1 Extension.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1639,7 +1639,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE = "c4b5056c-33ca-4f4b-9fe4-6a2e0b7b9ee4";
+				PROVISIONING_PROFILE = "55d9d7a2-cd3b-4b35-9853-d2aef8a3a35e";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Informer WatchKit 1 Extension/Informer WatchKit 1 Extension-Bridging-Header.h";
 			};
@@ -1649,8 +1649,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_NO_COMMON_BLOCKS = YES;
 				IBSC_MODULE = Informer_WatchKit_1_Extension;
@@ -1658,7 +1658,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8442e123-ae1d-4f41-93d4-d2ce306e7548";
+				PROVISIONING_PROFILE = "eb17f799-c860-4135-a87a-f7417599077d";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
 				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
@@ -1669,8 +1669,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1679,7 +1679,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8442e123-ae1d-4f41-93d4-d2ce306e7548";
+				PROVISIONING_PROFILE = "eb17f799-c860-4135-a87a-f7417599077d";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
 				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
@@ -1771,8 +1771,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Informerly/Informerly.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1785,7 +1785,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "b7f6925b-9ab3-452c-9278-02565eee7c88";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Debug;
@@ -1797,8 +1797,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Informerly/Informerly.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1811,7 +1811,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.informerly.informer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "b7f6925b-9ab3-452c-9278-02565eee7c88";
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly/Bridging-header/bridging-header.h";
 			};
 			name = Release;
@@ -1861,8 +1861,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "Informerly Widget/Informerly Widget.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1877,7 +1877,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.informerly.informer.Informerly-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d0c9d2f7-3f2e-4570-a6d7-db8da7d5b78e";
+				PROVISIONING_PROFILE = "c6fd1774-fed0-4d88-b8a6-7f9883b71a96";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly Widget/Bridging-Header.h";
 			};
@@ -1890,8 +1890,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = "Informerly Widget/Informerly Widget.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: INFORMERLY, INC. (A57A24JB8M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Muhammad Junaid (FA2J947L6W)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1906,7 +1906,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.informerly.informer.Informerly-Widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d0c9d2f7-3f2e-4570-a6d7-db8da7d5b78e";
+				PROVISIONING_PROFILE = "c6fd1774-fed0-4d88-b8a6-7f9883b71a96";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Informerly Widget/Bridging-Header.h";
 			};
