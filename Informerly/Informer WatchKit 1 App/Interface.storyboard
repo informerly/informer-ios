@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Dn-5d-cj2">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="9019"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+            <string>OpenSans</string>
+        </mutableArray>
+    </customFonts>
+    <scenes>
+        <!--Informerly-->
+        <scene sceneID="aou-V4-d1y">
+            <objects>
+                <controller title="Informerly" id="AgC-eL-Hgc" customClass="InterfaceController" customModule="Informer_WatchKit_1_App" customModuleProvider="target">
+                    <items>
+                        <table alignment="left" id="OwO-L2-Off">
+                            <items>
+                                <tableRow identifier="FeedRow" id="cxC-q8-l8l" customClass="FeedRowController" customModule="Informer_WatchKit_Extension">
+                                    <group key="rootItem" width="1" height="0.0" alignment="left" layout="vertical" id="5NO-lD-tdv">
+                                        <items>
+                                            <label width="133" alignment="left" text="Label" numberOfLines="0" id="RPP-IV-CFs">
+                                                <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                                            </label>
+                                            <label width="131" alignment="left" text="Label" id="lRl-zl-1YM">
+                                                <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                                            </label>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <outlet property="feedSource" destination="lRl-zl-1YM" id="KZB-YW-cEK"/>
+                                        <outlet property="feedTitle" destination="RPP-IV-CFs" id="VB6-s3-ofN"/>
+                                    </connections>
+                                </tableRow>
+                            </items>
+                        </table>
+                        <label alignment="center" verticalAlignment="center" text="Loading ..." textAlignment="center" numberOfLines="0" id="fKy-Fx-N9W"/>
+                    </items>
+                    <connections>
+                        <outlet property="feedsTable" destination="OwO-L2-Off" id="9N2-gE-34o"/>
+                        <outlet property="loadingLabel" destination="fKy-Fx-N9W" id="yiR-0z-0nX"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="34" y="345"/>
+        </scene>
+        <!--Informerly-->
+        <scene sceneID="rZI-Bp-fg8">
+            <objects>
+                <controller identifier="FirstController" title="Informerly" id="6Dn-5d-cj2" customClass="FirstInterfaceController" customModule="Informer_WatchKit_1_Extension">
+                    <items>
+                        <label width="135" alignment="left" text="Label" id="G6B-RU-0YN">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="DvX-ua-DxH">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                        <separator alignment="left" id="pAJ-yi-VlI"/>
+                        <label width="133" alignment="left" text="Label" numberOfLines="0" id="6bD-nb-bbr">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="6bD-nb-bbr" id="crh-4D-LkQ"/>
+                        <outlet property="separator" destination="pAJ-yi-VlI" id="fN6-Ht-4RF"/>
+                        <outlet property="sourceLabel" destination="G6B-RU-0YN" id="kij-ds-cZK"/>
+                        <outlet property="titleLabel" destination="DvX-ua-DxH" id="9Xy-wx-lWN"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="35" y="590"/>
+        </scene>
+        <!--Back-->
+        <scene sceneID="Oaf-Hk-1vT">
+            <objects>
+                <controller identifier="showArticle" title="Back" id="bwg-DE-Xjb" customClass="ArticleInterfaceController" customModule="Informer_WatchKit_1_Extension">
+                    <items>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="sZy-n7-pi7">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="articleDescriptionLabel" destination="sZy-n7-pi7" id="vlg-c2-Kgy"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="225" y="345"/>
+        </scene>
+        <!--Glance Interface Controller-->
+        <scene sceneID="BOz-TT-tkC">
+            <objects>
+                <glanceController spacing="0.0" id="0uZ-2p-rRc" customClass="GlanceController" customModule="Informer_WatchKit_1_App" customModuleProvider="target">
+                    <items>
+                        <group alignment="left" layout="vertical" id="t8f-Gd-c4y"/>
+                        <group alignment="left" id="uCw-4Q-Ouw">
+                            <items>
+                                <label alignment="center" text="Label" textAlignment="left" numberOfLines="0" id="CtI-cb-yw8">
+                                    <fontDescription key="font" type="system" pointSize="15"/>
+                                </label>
+                            </items>
+                        </group>
+                    </items>
+                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
+                    <connections>
+                        <outlet property="lblTitle" destination="CtI-cb-yw8" id="nTx-Az-ict"/>
+                    </connections>
+                </glanceController>
+            </objects>
+            <point key="canvasLocation" x="235" y="897"/>
+        </scene>
+        <!--Static Notification Interface Controller-->
+        <scene sceneID="AEw-b0-oYE">
+            <objects>
+                <notificationController id="YCC-NB-fut">
+                    <items>
+                        <label alignment="left" text="Alert Label" id="XkS-y5-khE"/>
+                    </items>
+                    <notificationCategory key="notificationCategory" identifier="notification" id="JfB-70-Muf"/>
+                    <connections>
+                        <outlet property="notificationAlertLabel" destination="XkS-y5-khE" id="49B-RR-99y"/>
+                        <segue destination="gdX-wl-uQE" kind="relationship" relationship="dynamicNotificationInterface" id="fKh-qV-3T2"/>
+                    </connections>
+                </notificationController>
+            </objects>
+            <point key="canvasLocation" x="78" y="1144"/>
+        </scene>
+        <!--Notification Controller-->
+        <scene sceneID="KIl-fV-djm">
+            <objects>
+                <controller id="gdX-wl-uQE" customClass="NotificationController" customModule="Informer_WatchKit_1_App" customModuleProvider="target">
+                    <items>
+                        <label width="135" alignment="left" text="Title" textAlignment="left" numberOfLines="0" id="kVH-5f-QoZ"/>
+                    </items>
+                    <connections>
+                        <outlet property="titleLabel" destination="kVH-5f-QoZ" id="OSd-G0-zvK"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="380" y="1144"/>
+        </scene>
+        <!--Informerly-->
+        <scene sceneID="d9r-bH-Tfc">
+            <objects>
+                <controller identifier="SecondController" title="Informerly" id="4Id-8r-ICb" customClass="SecondInterfaceController" customModule="Informer_WatchKit_1_Extension">
+                    <items>
+                        <label width="135" alignment="left" text="Label" id="Q3Z-Qu-Pid">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="pHO-NY-H45">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                        <separator alignment="left" id="ehV-pu-epu"/>
+                        <label width="133" alignment="left" text="Label" numberOfLines="0" id="Atu-bM-Ewn">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="Atu-bM-Ewn" id="beJ-nS-Gms"/>
+                        <outlet property="sourceLabel" destination="Q3Z-Qu-Pid" id="j4e-IU-kXh"/>
+                        <outlet property="titleLabel" destination="pHO-NY-H45" id="TRL-Ii-6V4"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="212" y="590"/>
+        </scene>
+        <!--Informerly-->
+        <scene sceneID="f9t-8d-eL4">
+            <objects>
+                <controller identifier="ThirdController" title="Informerly" id="Ypi-bS-eTL" customClass="ThirdInterfaceController" customModule="Informer_WatchKit_1_Extension">
+                    <items>
+                        <label width="135" alignment="left" text="Label" id="aBn-YK-SlE">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="ZVb-oy-kPl">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                        <separator alignment="left" id="D1Z-cw-bb7"/>
+                        <label width="133" alignment="left" text="Label" numberOfLines="0" id="Pyf-DT-e7y">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="Pyf-DT-e7y" id="vN6-l9-OKZ"/>
+                        <outlet property="sourceLabel" destination="aBn-YK-SlE" id="O7K-zT-Yro"/>
+                        <outlet property="titleLabel" destination="ZVb-oy-kPl" id="Rsm-3U-1cW"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="380" y="590"/>
+        </scene>
+        <!--Informerly-->
+        <scene sceneID="7ht-sg-1xy">
+            <objects>
+                <controller identifier="FourthController" title="Informerly" id="kpf-U5-x7a" customClass="FourthInterfaceController" customModule="Informer_WatchKit_1_Extension">
+                    <items>
+                        <label width="135" alignment="left" text="Label" id="76X-y6-r3f">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="N9x-XT-iFK">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                        <separator alignment="left" id="nC0-cX-B2N"/>
+                        <label width="133" alignment="left" text="Label" numberOfLines="0" id="WVC-Ij-D32">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="WVC-Ij-D32" id="AfA-Jo-TAL"/>
+                        <outlet property="sourceLabel" destination="76X-y6-r3f" id="5p4-Fd-EUi"/>
+                        <outlet property="titleLabel" destination="N9x-XT-iFK" id="hxb-ab-8I7"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="561" y="590"/>
+        </scene>
+        <!--Informerly-->
+        <scene sceneID="XCQ-fS-Z13">
+            <objects>
+                <controller identifier="FifthController" title="Informerly" id="rAW-b5-mhs" customClass="FifthInterfaceController" customModule="Informer_WatchKit_1_Extension">
+                    <items>
+                        <label width="135" alignment="left" text="Label" id="UXG-EI-qks">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="CVf-vU-qsP">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                        <separator alignment="left" id="Q1g-E8-YJg"/>
+                        <label width="133" alignment="left" text="Label" numberOfLines="0" id="51g-zL-kCS">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="51g-zL-kCS" id="Svg-YM-IBI"/>
+                        <outlet property="sourceLabel" destination="UXG-EI-qks" id="Slg-3H-54U"/>
+                        <outlet property="titleLabel" destination="CVf-vU-qsP" id="3jo-jp-fZe"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="737" y="590"/>
+        </scene>
+        <!--Informerly-->
+        <scene sceneID="cpg-Rp-Ray">
+            <objects>
+                <controller identifier="SixthController" title="Informerly" id="NP2-8v-v4O" customClass="SixthInterfaceController" customModule="Informer_WatchKit_1_Extension">
+                    <items>
+                        <label width="135" alignment="left" text="Label" id="Xlb-Gg-Gzi">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="gKq-Je-xWS">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                        <separator alignment="left" id="Yip-mq-SYz"/>
+                        <label width="133" alignment="left" text="Label" numberOfLines="0" id="gbN-R5-FxO">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="gbN-R5-FxO" id="LsV-BI-DpB"/>
+                        <outlet property="sourceLabel" destination="Xlb-Gg-Gzi" id="3pd-Ia-Kd1"/>
+                        <outlet property="titleLabel" destination="gKq-Je-xWS" id="kew-UI-f1O"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="923" y="590"/>
+        </scene>
+        <!--Informerly-->
+        <scene sceneID="keu-2J-mdD">
+            <objects>
+                <controller identifier="SeventhController" title="Informerly" id="HVE-KO-Ff2" customClass="SeventhInterfaceController" customModule="Informer_WatchKit_1_Extension">
+                    <items>
+                        <label width="135" alignment="left" text="Label" id="dBP-VK-59s">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="Soy-8k-ztZ">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                        <separator alignment="left" id="aRH-uB-n8h"/>
+                        <label width="133" alignment="left" text="Label" numberOfLines="0" id="ant-ac-VzO">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="ant-ac-VzO" id="cIf-dM-AHi"/>
+                        <outlet property="sourceLabel" destination="dBP-VK-59s" id="etU-DL-ZkE"/>
+                        <outlet property="titleLabel" destination="Soy-8k-ztZ" id="uk2-g5-S5G"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="1093" y="590"/>
+        </scene>
+        <!--Informerly-->
+        <scene sceneID="q7G-eF-ckg">
+            <objects>
+                <controller identifier="EighthController" title="Informerly" id="Ic9-e3-O8k" customClass="EighthInterfaceController" customModule="Informer_WatchKit_1_Extension">
+                    <items>
+                        <label width="135" alignment="left" text="Label" id="WLZ-aF-mcb">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="PxW-ow-2gQ">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                        <separator alignment="left" id="aGq-yQ-AKx"/>
+                        <label width="133" alignment="left" text="Label" numberOfLines="0" id="X8J-HU-Lr1">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="X8J-HU-Lr1" id="IBh-kA-sET"/>
+                        <outlet property="sourceLabel" destination="WLZ-aF-mcb" id="hdt-jN-gvm"/>
+                        <outlet property="titleLabel" destination="PxW-ow-2gQ" id="IH6-lw-IB5"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="1270" y="590"/>
+        </scene>
+        <!--Informerly-->
+        <scene sceneID="lzh-Q0-Gjc">
+            <objects>
+                <controller identifier="NinthController" title="Informerly" id="xej-RH-p3m" customClass="NinthInterfaceController" customModule="Informer_WatchKit_1_Extension">
+                    <items>
+                        <label width="135" alignment="left" text="Label" id="voK-qH-BtT">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="oQj-9A-8hH">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                        <separator alignment="left" id="lOd-zD-fRb"/>
+                        <label width="133" alignment="left" text="Label" numberOfLines="0" id="sZX-9A-rbn">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="sZX-9A-rbn" id="Lf5-tV-wN4"/>
+                        <outlet property="sourceLabel" destination="voK-qH-BtT" id="5r2-aV-pMi"/>
+                        <outlet property="titleLabel" destination="oQj-9A-8hH" id="4Ms-hx-pye"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="1446" y="590"/>
+        </scene>
+        <!--Informerly-->
+        <scene sceneID="IAR-C5-Smt">
+            <objects>
+                <controller identifier="TenthController" title="Informerly" id="cs6-xP-OIb" customClass="TenthInferfaceController" customModule="Informer_WatchKit_1_Extension">
+                    <items>
+                        <label width="135" alignment="left" text="Label" id="x4g-Ew-KNb">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="12"/>
+                        </label>
+                        <label width="136" alignment="left" text="Label" numberOfLines="0" id="vEd-LT-Wfd">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                        <separator alignment="left" id="9ua-x7-Yxr"/>
+                        <label width="133" alignment="left" text="Label" numberOfLines="0" id="MbE-Go-1Dw">
+                            <fontDescription key="font" name="OpenSans" family="Open Sans" pointSize="17"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="MbE-Go-1Dw" id="xe5-EA-BAc"/>
+                        <outlet property="sourceLabel" destination="x4g-Ew-KNb" id="yhH-4R-g73"/>
+                        <outlet property="titleLabel" destination="vEd-LT-Wfd" id="5ey-RH-lUl"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="1622" y="590"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+</document>
