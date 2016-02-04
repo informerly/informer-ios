@@ -84,8 +84,8 @@ let MIXPANEL_PROD_TOKEN = "acbb0e9d474075ef19c759196e6ddeb4"
 // Intercome token
 let INTERCOM_DEV_APP_ID = "uqxafee0"
 let INTERCOM_DEV_SECRET_KEY = "ios_sdk-2a162d2f7848bbbead804833850a34573b1cadc0"
-let INTERCOM_PROD_APP_ID = ""
-let INTERCOM_PROD_SECRET_KEY = ""
+let INTERCOM_PROD_APP_ID = "q40jctsu"
+let INTERCOM_PROD_SECRET_KEY = "-bQy5uiklvPzNA8tRfL08BhqZfoBbAvuGyqsCjqX"
 
 //Others
 let USER_ACTIVITY_TYPE = "com.informerly.informer.articles"
