@@ -307,4 +307,32 @@ class CoreDataManager
         
         return false
     }
+    
+    class func unbookmarkFeed(feedID: Int, syncStatus:Bool) {
+        //create the object of AppDelegate
+        let appDelegate : AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //get the context from AppDelegate
+        let managedContext = appDelegate.managedObjectContext!
+        
+        let request: NSFetchRequest = NSFetchRequest()
+        request.entity = NSEntityDescription.entityForName("BookmarkEntity", inManagedObjectContext: managedContext)
+        request.predicate = NSPredicate(format: "id=\(feedID)", argumentArray: nil)
+        
+        let error: NSError? = nil
+        var result: Array = (try! managedContext.executeFetchRequest(request)) as! [BookmarkEntity]
+        
+        if(error == nil) {
+            let bookmarkFeed: BookmarkEntity = result[0] as BookmarkEntity
+            bookmarkFeed.isSynced = syncStatus
+            bookmarkFeed.bookmarked = false
+            do {
+                try managedContext.save()
+            } catch _ {
+            }
+        }
+        else {
+            print("Error in fetching Bookmarks \(error), \(error?.userInfo)")
+        }
+    }
 }

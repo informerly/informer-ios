@@ -314,10 +314,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
                 
                 if requestStatus == 200 {
+                    
+                    let message = processedData.objectForKey("message") as! String
                     var bookmarkDictionary : [String:AnyObject] = processedData.objectForKey("bookmark") as! Dictionary
                     let linkID = bookmarkDictionary["link_id"] as! Int
-                    CoreDataManager.updateSyncStatusForFeedID(linkID, syncStatus: true)
-                    print("Marked ...")
+                    if message == "Bookmark Created" {
+                        CoreDataManager.updateSyncStatusForFeedID(linkID, syncStatus: true)
+                        print("Bookmarked ...")
+                    } else {
+                        CoreDataManager.removeBookmarkFeedOfID(linkID)
+                        print("UnBookmarked ...")
+                    }
                 }
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 print("Failed to bookmark ...")

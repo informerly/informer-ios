@@ -825,8 +825,8 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                         }
                         counter++
                     }
-                    
-                    CoreDataManager.removeBookmarkFeedOfID(bookmarkedFeeds[articleIndex].id!)
+                    CoreDataManager.unbookmarkFeed(bookmarkedFeeds[articleIndex].id!, syncStatus: false)
+//                    CoreDataManager.removeBookmarkFeedOfID(bookmarkedFeeds[articleIndex].id!)
                 } else {
                     self.bookmark.image = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
                     self.bookmarkedFeeds[articleIndex].bookmarked = true
@@ -850,6 +850,7 @@ class ArticleViewController : UIViewController,WKNavigationDelegate,UIScrollView
                     self.bookmark.image = UIImage(named: ICON_BOOKMARK)
                     self.feeds[self.articleIndex].bookmarked = false
                     bookmarkedFeeds = CoreDataManager.getBookmarkFeeds()
+                    
                     CoreDataManager.removeBookmarkFeedOfID(bookmarkedFeeds[articleIndex].id!)
                 } else {
                     self.bookmark.image = UIImage(named: ICON_BOOKMARK_FILLED)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)

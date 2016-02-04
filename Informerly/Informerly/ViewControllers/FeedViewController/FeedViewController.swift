@@ -1069,8 +1069,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     bookmarkImg.alpha = 0.0
                     self.unreadBookmarkFeeds[indexPath.row].bookmarked = false
                     self.markAsBookmarked(self.unreadBookmarkFeeds[indexPath.row].id!,feed: self.unreadBookmarkFeeds[indexPath.row],indexPath: indexPath)
-                    CoreDataManager.removeBookmarkFeedOfID(self.unreadBookmarkFeeds[indexPath.row].id!)
-                    self.bookmarks = CoreDataManager.getBookmarkFeeds()
+//                    CoreDataManager.removeBookmarkFeedOfID(self.unreadBookmarkFeeds[indexPath.row].id!)
+//                    self.bookmarks = CoreDataManager.getBookmarkFeeds()
                     self.unreadBookmarkFeeds.removeAll(keepCapacity: false)
                     
                     for feed in self.bookmarks {
@@ -1095,8 +1095,8 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                     self.bookmarks[indexPath.row].bookmarked = false
                     bookmarkImg.alpha = 0.0
                     self.markAsBookmarked(self.bookmarks[indexPath.row].id!,feed: self.bookmarks[indexPath.row],indexPath: indexPath)
-                    CoreDataManager.removeBookmarkFeedOfID(self.bookmarks[indexPath.row].id!)
-                    self.bookmarks = CoreDataManager.getBookmarkFeeds()
+//                    CoreDataManager.removeBookmarkFeedOfID(self.bookmarks[indexPath.row].id!)
+//                    self.bookmarks = CoreDataManager.getBookmarkFeeds()
                     self.tableView.beginUpdates()
                     self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                     self.tableView.endUpdates()
@@ -1246,8 +1246,17 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
                 }
                 self.bookmarks = CoreDataManager.getBookmarkFeeds()
             } else {
-                CoreDataManager.removeBookmarkFeedOfID(indexPath.row)
-                self.bookmarks = CoreDataManager.getBookmarkFeeds()
+//                CoreDataManager.removeBookmarkFeedOfID(indexPath.row)
+                CoreDataManager.unbookmarkFeed(articleID, syncStatus: false)
+                
+                var allBookmarks : [BookmarkFeed] = []
+                allBookmarks = CoreDataManager.getBookmarkFeeds()
+                self.bookmarks.removeAll()
+                for feed in allBookmarks {
+                    if feed.isSynced == true {
+                        self.bookmarks.append(feed)
+                    }
+                }
             }
         }
     }
