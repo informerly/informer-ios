@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     private var reachability:Reachability?
     var readArticles : [Int]!
+    var removedArticles:[Int]!
     var isFromBackground : Bool = false
  
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -268,6 +269,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
                 
+                if (NSUserDefaults.standardUserDefaults().objectForKey(REMOVED_ARTICLES) != nil) {
+                    self.removedArticles = NSUserDefaults.standardUserDefaults().objectForKey(REMOVED_ARTICLES) as! Array
+                    if (removedArticles.isEmpty == false) {
+                        for articleID in removedArticles {
+                            self.removeArticle(articleID)
+                        }
+                    }
+                }
+                
                 NSNotificationCenter.defaultCenter().postNotificationName("GetMenuItemsNotification", object: nil)
             }
         }
@@ -298,6 +308,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
                 print("Failure marking article as read")
+        }
+    }
+    
+    // Method to remove articles on server.
+    func removeArticle(articleID:Int) {
+        let auth_token = Utilities.sharedInstance.getAuthToken(AUTH_TOKEN)
+        let parameters : [String:AnyObject]! = ["auth_token":auth_token,
+            "link_id":articleID]
+        let path = "users/\(Utilities.sharedInstance.getStringForKey(USER_ID))/ignore_link"
+        
+        NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
+            parameter: parameters,
+            success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                print("Successfully removed.")
+                self.removedArticles.removeAtIndex(self.removedArticles.indexOf(articleID)!)
+                NSUserDefaults.standardUserDefaults().setObject(self.removedArticles, forKey: REMOVED_ARTICLES)
+                NSUserDefaults.standardUserDefaults().synchronize()
+                
+            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                print("Failure removing article")
         }
     }
     

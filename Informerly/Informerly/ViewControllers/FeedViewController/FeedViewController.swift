@@ -1394,103 +1394,96 @@ class FeedViewController : UITableViewController, MGSwipeTableCellDelegate {
             
             if isUnreadTab == true {
                 articleID = unreadBookmarkFeeds[indexPath.row].id!
+                var counter : Int = 0
+                for feed in self.bookmarks {
+                    if feed.id == self.unreadBookmarkFeeds[indexPath.row].id {
+                        self.bookmarks.removeAtIndex(counter)
+                        break
+                    }
+                    counter++
+                }
+                self.unreadBookmarkFeeds.removeAtIndex(indexPath.row)
             } else {
                 articleID = bookmarks[indexPath.row].id!
+                self.bookmarks.removeAtIndex(indexPath.row)
             }
+            CoreDataManager.removeBookmarkFeedOfID(articleID)
             
         } else if isCategoryFeeds == true {
             
             if isUnreadTab == true {
                 articleID = unreadFeeds[indexPath.row].id!
+                var counter : Int = 0
+                for feed in self.categoryFeeds! {
+                    if feed.id == self.unreadFeeds[indexPath.row].id {
+                        self.categoryFeeds!.removeAtIndex(counter)
+                        break
+                    }
+                    counter++
+                }
+                self.unreadFeeds.removeAtIndex(indexPath.row)
             } else {
                 articleID = categoryFeeds![indexPath.row].id!
+                self.categoryFeeds!.removeAtIndex(indexPath.row)
             }
             
         } else {
             
             if isUnreadTab == true {
                 articleID = unreadFeeds[indexPath.row].id!
+                var counter : Int = 0
+                for feed in self.feeds {
+                    if feed.id == self.unreadFeeds[indexPath.row].id {
+                        self.feeds.removeAtIndex(counter)
+                        break
+                    }
+                    counter++
+                }
+                self.unreadFeeds.removeAtIndex(indexPath.row)
             } else {
                 articleID = feeds[indexPath.row].id!
+                self.feeds.removeAtIndex(indexPath.row)
             }
         }
         
-        parameters = ["auth_token":auth_token,
-            "link_id":articleID]
+        self.tableView.beginUpdates()
+        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        self.tableView.endUpdates()
         
-        NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
-            parameter: parameters,
-            success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
-                print("Successfully removed.")
-                
-                if self.isBookmarked == true {
+        if Utilities.sharedInstance.isConnectedToNetwork() {
+            parameters = ["auth_token":auth_token,
+                "link_id":articleID]
+            
+            NetworkManager.sharedNetworkClient().processPostRequestWithPath(path,
+                parameter: parameters,
+                success: { (requestStatus:Int32, processedData:AnyObject!, extraInfo:AnyObject!) -> Void in
+                    print("Successfully removed.")
                     
-                    if self.isUnreadTab == true {
-                        var counter : Int = 0
-                        for feed in self.bookmarks {
-                            if feed.id == self.unreadBookmarkFeeds[indexPath.row].id {
-                                self.bookmarks.removeAtIndex(counter)
-                                break
-                            }
-                            counter++
-                        }
-                        self.unreadBookmarkFeeds.removeAtIndex(indexPath.row)
-                    } else {
-                        self.bookmarks.removeAtIndex(indexPath.row)
+                    //Mixpanel track
+                    let properties : [String:String] = ["userID":self.userID,"Email":self.email]
+                    Mixpanel.sharedInstance().track("Swipe In-Feed - Remove",properties: properties)
+                    
+                }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
+                    print("Failure removing article")
+                    
+                    if extraInfo != nil {
+                        var error : [String:AnyObject] = extraInfo as! Dictionary
+                        let message : String = error["error"] as! String
+                        let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                        self.presentViewController(alert, animated: true, completion: nil)
                     }
-                    
-                } else if self.isCategoryFeeds == true {
-                    
-                    if self.isUnreadTab == true {
-                        var counter : Int = 0
-                        for feed in self.categoryFeeds! {
-                            if feed.id == self.unreadFeeds[indexPath.row].id {
-                                self.categoryFeeds!.removeAtIndex(counter)
-                                break
-                            }
-                            counter++
-                        }
-                        self.unreadFeeds.removeAtIndex(indexPath.row)
-                        self.unreadFeeds.removeAtIndex(indexPath.row)
-                    } else {
-                        self.categoryFeeds!.removeAtIndex(indexPath.row)
-                    }
-                    
-                } else {
-                    
-                    if self.isUnreadTab == true {
-                        var counter : Int = 0
-                        for feed in self.feeds {
-                            if feed.id == self.unreadFeeds[indexPath.row].id {
-                                self.feeds.removeAtIndex(counter)
-                                break
-                            }
-                            counter++
-                        }
-                        self.unreadFeeds.removeAtIndex(indexPath.row)
-                    } else {
-                        self.feeds.removeAtIndex(indexPath.row)
-                    }
-                }
-                
-//                self.tableView.reloadData()
-                self.tableView.beginUpdates()
-                self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                self.tableView.endUpdates()
-                
-                //Mixpanel track
-                let properties : [String:String] = ["userID":self.userID,"Email":self.email]
-                Mixpanel.sharedInstance().track("Swipe In-Feed - Remove",properties: properties)
-                
-            }) { (requestStatus:Int32, error:NSError!, extraInfo:AnyObject!) -> Void in
-                print("Failure removing article")
-                
-                if extraInfo != nil {
-                    var error : [String:AnyObject] = extraInfo as! Dictionary
-                    let message : String = error["error"] as! String
-                    let alert = UIAlertController(title: "Error !", message: message, preferredStyle: UIAlertControllerStyle.Alert)
-                    self.presentViewController(alert, animated: true, completion: nil)
-                }
+            }
+        } else {
+            var removedArticles:[Int]!
+            if NSUserDefaults.standardUserDefaults().objectForKey(REMOVED_ARTICLES) == nil {
+                removedArticles = [Int]()
+            } else {
+                removedArticles = NSUserDefaults.standardUserDefaults().objectForKey(REMOVED_ARTICLES) as! Array
+            }
+            removedArticles.append(articleID)
+            
+            NSUserDefaults.standardUserDefaults().setObject(removedArticles, forKey: REMOVED_ARTICLES)
+            NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
     
